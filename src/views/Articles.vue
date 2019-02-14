@@ -1,5 +1,5 @@
 <template>
-  <div class="articles">{{lorem}}</div>
+  <div class="articles">{{articles[0].title}}</div>
 </template>
 
 <script lang="ts">
@@ -14,12 +14,20 @@ import { ArticleModel } from "@/models/ArticleModel";
   }
 })
 export default class Articles extends Vue {
-  @Prop() private lorem!: string;
+  private articlesService!: ArticlesService;
+  private articles!: ArticleModel[];
+
+  constructor() {
+    super();
+    this.articlesService = new ArticlesService();
+  }
 
   async mounted() {
-    var asd = new ArticlesService();
-    var test = await asd.getAllArticles();
-    this.lorem = test[0].title;
+    this.articles = await this.articlesService.getAllArticles();
+  }
+
+  public data() {
+    return { articles: this.articles };
   }
 }
 </script>
