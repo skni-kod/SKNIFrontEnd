@@ -5,11 +5,11 @@
     </ul>
 
     <paginate
-      :page-count="20"
-      :click-handler="paginationClicked"
-      :prev-text="'Prev'"
-      :next-text="'Next'"
-      :container-class="'className'"
+      :page-count="pagination.pageCount"
+      :page-range="3"
+      :margin-pages="2"
+      :prev-text="'Poprzednia strona'"
+      :next-text="'Następna strona'"
     ></paginate>
   </div>
 </template>
@@ -19,6 +19,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import HelloWorld from "@/components/HelloWorld.vue";
 import { ArticlesService } from "@/services/ArticlesService";
 import { ArticleModel } from "@/models/ArticleModel";
+import { PaginationModel } from "@/models/PaginationModel";
 
 @Component({
   components: {
@@ -28,10 +29,14 @@ import { ArticleModel } from "@/models/ArticleModel";
 export default class Articles extends Vue {
   private articlesService!: ArticlesService;
   private articles!: ArticleModel[];
+  @Prop() private pagination!: PaginationModel;
 
   constructor() {
     super();
+
     this.articlesService = new ArticlesService();
+    this.pagination = new PaginationModel();
+    this.pagination.pageCount = 123;
   }
 
   async mounted() {
@@ -39,7 +44,9 @@ export default class Articles extends Vue {
   }
 
   public data() {
-    return { articles: this.articles };
+    return {
+      articles: this.articles
+    };
   }
 
   public paginationClicked(pageNumber: number) {
