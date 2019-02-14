@@ -3,6 +3,14 @@
     <ul id="example-1">
       <li v-for="(article, index) in articles" :key="index">{{index}} - {{ article.title }}</li>
     </ul>
+
+    <paginate
+      :page-count="20"
+      :click-handler="paginationClicked"
+      :prev-text="'Prev'"
+      :next-text="'Next'"
+      :container-class="'className'"
+    ></paginate>
   </div>
 </template>
 
@@ -32,6 +40,10 @@ export default class Articles extends Vue {
 
   public data() {
     return { articles: this.articles };
+  }
+
+  public paginationClicked(pageNumber: number) {
+    console.log("Pagination number: " + pageNumber);
   }
 }
 </script>
