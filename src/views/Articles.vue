@@ -1,5 +1,9 @@
 <template>
-  <div class="articles">{{articles[0].title}}</div>
+  <div class="articles">
+    <ul id="example-1">
+      <li v-for="(article, index) in articles" :key="index">{{index}} - {{ article.title }}</li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts">
@@ -31,4 +35,3 @@ export default class Articles extends Vue {
   }
 }
 </script>
-
