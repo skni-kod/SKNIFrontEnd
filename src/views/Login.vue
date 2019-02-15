@@ -17,8 +17,7 @@
                 v-model="password"
               ></v-text-field>
               <v-card-actions>
-                <v-btn primary large block @click="test()">Login</v-btn>
-
+                <v-btn primary large block @click="loginUser()">Login</v-btn>
               </v-card-actions>
             </v-form>
           </v-card>
@@ -29,16 +28,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
+import Vue from "vue";
+import Component from "vue-class-component";
+import { login } from "../helpers/auth";
 
 @Component
 export default class Login extends Vue {
-  login: string = '';
-  password: string = '';
+  login: string = "";
+  password: string = "";
 
-  test(): void {
-    alert(this.login);
+  loginUser(): void {
+    login(this.login, this.password);
   }
 }
 </script>
