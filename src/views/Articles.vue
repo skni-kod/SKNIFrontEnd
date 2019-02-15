@@ -1,13 +1,18 @@
 <template>
   <div class="articles">
     <ul id="example-1">
-      <li v-for="(article, index) in articles" :key="index">{{index}} - {{ article.title }}</li>
+      <li
+        v-for="(article, index) in paginatedArticles"
+        :key="article.title"
+      >{{index}} - {{ article.title }}</li>
     </ul>
 
     <paginate
+      v-if="pagination != undefined"
       :page-count="pagination.pageCount"
       :page-range="3"
       :margin-pages="2"
+      :click-handler="paginationClicked"
       :prev-text="'Poprzednia strona'"
       :next-text="'Następna strona'"
     ></paginate>
@@ -28,29 +33,41 @@ import { PaginationModel } from "@/models/PaginationModel";
 })
 export default class Articles extends Vue {
   private articlesService!: ArticlesService;
-  private articles!: ArticleModel[];
-  @Prop() private pagination!: PaginationModel;
+  private allArticles!: ArticleModel[];
+  private paginatedArticles!: ArticleModel[];
+  private pagination!: PaginationModel;
+
+  private articlesPerPage: number = 4;
 
   constructor() {
     super();
-
-    this.articlesService = new ArticlesService();
-    this.pagination = new PaginationModel();
-    this.pagination.pageCount = 123;
   }
 
-  async mounted() {
-    this.articles = await this.articlesService.getAllArticles();
+  beforeCreate() {
+    this.articlesService = new ArticlesService();
+    this.articlesService.getAllArticles().then(articles => {
+      this.allArticles = articles;
+      this.pagination = new PaginationModel(
+        articles.length,
+        this.articlesPerPage
+      );
+
+      this.paginationClicked(1);
+    });
   }
 
   public data() {
     return {
-      articles: this.articles
+      pagination: this.pagination,
+      paginatedArticles: this.paginatedArticles
     };
   }
 
   public paginationClicked(pageNumber: number) {
-    console.log("Pagination number: " + pageNumber);
+    this.paginatedArticles = this.allArticles.slice(
+      (pageNumber - 1) * this.articlesPerPage,
+      pageNumber * this.articlesPerPage
+    );
   }
 }
 </script>
