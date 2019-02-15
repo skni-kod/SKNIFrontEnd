@@ -1,11 +1,10 @@
 <template>
   <div class="articles">
-    <ul id="example-1">
-      <li
-        v-for="(article, index) in paginatedArticles"
-        :key="article.title"
-      >{{index}} - {{ article.title }}</li>
-    </ul>
+    <div v-for="article in paginatedArticles" :key="article.title" style="border: 1px solid gray">
+      <p>Tytuł: {{ article.title }}</p>
+      <p>Autor: {{article.creator}}, Data: {{article.creation_date}}</p>
+      <p>Treść: {{article.text}}</p>
+    </div>
 
     <paginate
       v-if="pagination != undefined"
@@ -15,6 +14,7 @@
       :click-handler="paginationClicked"
       :prev-text="'Poprzednia strona'"
       :next-text="'Następna strona'"
+      :container-class="'paginationContainer'"
     ></paginate>
   </div>
 </template>
@@ -71,3 +71,14 @@ export default class Articles extends Vue {
   }
 }
 </script>
+
+<style>
+.paginationContainer {
+  display: inline-block;
+}
+
+.paginationContainer > li {
+  display: inline-block;
+  border: 1px solid rgb(200, 200, 200);
+}
+</style>
