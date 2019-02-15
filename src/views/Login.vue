@@ -19,7 +19,13 @@
               <v-card-actions>
                 <v-btn primary large block @click="loginUser()">Login</v-btn>
               </v-card-actions>
+              <v-card-actions>
+                <v-btn primary large block @click="logout()">Logout</v-btn>
+              </v-card-actions>
             </v-form>
+
+            <div v-if="isLogged()"> Kappa </div>
+
           </v-card>
         </v-container>
       </v-flex>
@@ -30,7 +36,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { login } from "../helpers/auth";
+import { login, logout, isLoggedIn } from "../helpers/auth";
 
 @Component
 export default class Login extends Vue {
@@ -39,6 +45,14 @@ export default class Login extends Vue {
 
   loginUser(): void {
     login(this.login, this.password);
+  }
+
+  logout(): void {
+    logout();
+  }
+
+  isLogged() : boolean {
+    return isLoggedIn();
   }
 }
 </script>
