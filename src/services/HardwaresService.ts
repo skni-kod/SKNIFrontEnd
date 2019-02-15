@@ -1,4 +1,4 @@
-import {HardwareModel} from "@/models/HardwareModel"
+import {HardwareModel} from '@/models/HardwareModel';
 
 export class HardwaresService {
     private axios = require('axios');

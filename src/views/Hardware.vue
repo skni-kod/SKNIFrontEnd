@@ -9,14 +9,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from "@/components/HelloWorld.vue";
-import { HardwaresService } from "@/services/HardwaresService";
-import { HardwareModel } from "@/models/HardwareModel";
+import HelloWorld from '@/components/HelloWorld.vue';
+import { HardwaresService } from '@/services/HardwaresService';
+import { HardwareModel } from '@/models/HardwareModel';
 
 @Component({
   components: {
-    HelloWorld
-  }
+    HelloWorld,
+  },
 })
 export default class Hardware extends Vue {
   private hardwaresService!: HardwaresService;
@@ -27,7 +27,7 @@ export default class Hardware extends Vue {
     this.hardwaresService = new HardwaresService();
   }
 
-  async mounted() {
+  public async mounted() {
     this.hardwares = await this.hardwaresService.getAllHardware();
   }
 
