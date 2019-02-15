@@ -1,9 +1,10 @@
+import { CreatorModel } from "@/models/CreatorModel"
+
 export class ArticleModel {
-    public url?: string;
+    public id?: number;
     public title?: string;
     public text?: string;
-    public creationd_date?: Date;
-    public article_type?: string;
-    public repository_link?: string;
-    public creator?: string;
+    public creation_date?: Date;
+    public publication_date?: Date;
+    public creator?: CreatorModel;
 }
