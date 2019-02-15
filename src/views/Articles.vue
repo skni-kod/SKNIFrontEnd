@@ -3,6 +3,13 @@
     <div v-for="article in paginatedArticles" :key="article.title" style="border: 1px solid gray">
       <p>Tytuł: {{ article.title }}</p>
       <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date}}</p>
+      <p>
+        Tagi:
+        <span
+          v-for="articleTag in article.tags"
+          :key="articleTag.tag.name"
+        >#{{ articleTag.tag.name }}</span>
+      </p>
       <p>Treść:
         <vue-markdown>{{article.text}}</vue-markdown>
       </p>
