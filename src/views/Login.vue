@@ -31,13 +31,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import Vuetify from 'vuetify';
-import 'vuetify/dist/vuetify.min.css';
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
-
-Vue.use(Vuetify, {
-  iconfont: 'md'
-});
 
 @Component
 export default class Login extends Vue {
