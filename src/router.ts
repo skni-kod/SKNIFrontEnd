@@ -21,5 +21,10 @@ export default new Router({
       name: 'articles',
       component: () => import('./views/Articles.vue'),
     },
+    {
+      path: '/article/:id',
+      name: 'article',
+      component: () => import('./views/Article.vue'),
+    },
   ],
 });
