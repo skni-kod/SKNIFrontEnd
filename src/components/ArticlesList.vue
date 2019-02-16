@@ -48,6 +48,11 @@ export default class ArticlesList extends Vue {
       (pageNumber - 1) * this.pagination.itemsPerPage,
       pageNumber * this.pagination.itemsPerPage
     );
+
+    this.$router.replace({
+      name: "articles",
+      params: { page: "" + pageNumber }
+    });
   }
 
   public data() {
