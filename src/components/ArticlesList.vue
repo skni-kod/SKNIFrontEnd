@@ -1,7 +1,10 @@
 <template>
   <div>
     <div v-for="article in paginatedArticles" :key="article.title" style="border: 1px solid gray">
-      <p>Tytuł: {{ article.title }}</p>
+      <p>
+        Tytuł:
+        <a v-bind:href="'/#/article/'+ article.id">{{ article.title }}</a>
+      </p>
       <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date}}</p>
       <p>
         Tagi:
