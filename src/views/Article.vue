@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="article != undefined">
     <p>Dane artykułu {{$route.params.id}}</p>
     <p>Tytuł: {{ article.title }}</p>
     <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date}}</p>
