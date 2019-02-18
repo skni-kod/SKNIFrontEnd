@@ -2,7 +2,7 @@
   <div class="hardware">
     <h1>Our hardware</h1>
     <ul id="example-1">
-      <li v-for="hardware in hardwares">{{ hardware.name }}</li>
+      <li v-for="hardware in hardwares">{{ hardware.name + " " + hardware.is_rented}}</li>
     </ul>
   </div>
 </template>
