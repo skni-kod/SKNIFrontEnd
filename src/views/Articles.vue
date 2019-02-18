@@ -57,10 +57,12 @@ export default class Articles extends Vue {
         this.pagination.itemCount = paginationContainer.count;
       });
 
-    this.$router.replace({
-      name: "articles",
-      params: { page: "" + pageNumber }
-    });
+    if (pageNumber != 1) {
+      this.$router.replace({
+        name: "articles",
+        params: { page: "" + pageNumber }
+      });
+    }
   }
 
   public data() {
