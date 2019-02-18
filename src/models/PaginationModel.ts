@@ -3,6 +3,6 @@ export class PaginationModel {
         return Math.ceil(this.itemCount / this.itemsPerPage);
     }
 
-    constructor(public itemCount: number, public itemsPerPage: number) {
+    constructor(public currentPage: number, public itemCount: number, public itemsPerPage: number) {
     }
 }
