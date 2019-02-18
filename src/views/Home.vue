@@ -1,6 +1,9 @@
 <template>
   <div class="home">
     <img src="../assets/czarnakaczka.jpg">
+    <img src="../assets/czarnakaczka.jpg">
+    <img src="../assets/czarnakaczka.jpg">
+
   </div>
 </template>
 
