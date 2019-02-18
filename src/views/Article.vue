@@ -5,10 +5,9 @@
     <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date}}</p>
     <p>
       Tagi:
-      <span
-        v-for="articleTag in article.tags"
-        :key="articleTag.tag.name"
-      >#{{ articleTag.tag.name }}</span>
+      <span v-for="articleTag in article.tags" :key="articleTag.tag.name">#
+        <a v-bind:href="'/#/tag/'+ articleTag.tag.name">{{ articleTag.tag.name }}</a>
+      </span>
     </p>
     <p>Treść:
       <vue-markdown>{{article.text}}</vue-markdown>
