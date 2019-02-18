@@ -1,4 +1,4 @@
-import { TagModel } from "@/models/TagModel"
+import { TagModel } from '@/models/TagModel';
 
 export class ArticleTagsModel {
     public id!: number;
