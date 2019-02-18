@@ -27,6 +27,11 @@ export default class Article extends Vue {
 
     this.articlesService.getArticle(+this.$route.params.id).then(article => {
       this.article = article;
+
+      this.$router.replace({
+        name: "article",
+        params: { alias: article.alias }
+      });
     });
 
     this.commentsService

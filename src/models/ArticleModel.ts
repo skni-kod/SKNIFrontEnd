@@ -4,6 +4,7 @@ import { ArticleTagsModel } from '@/models/ArticleTagsModel';
 export class ArticleModel {
     public id!: number;
     public title!: string;
+    public alias!: string;
     public text!: string;
 
     // tslint:disable-next-line:variable-name

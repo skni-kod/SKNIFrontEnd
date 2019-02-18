@@ -3,7 +3,7 @@
     <div v-for="article in articles" :key="article.title" style="border: 1px solid gray">
       <p>
         Tytuł:
-        <a v-bind:href="'/#/article/'+ article.id">{{ article.title }}</a>
+        <a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a>
       </p>
       <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date}}</p>
       <p>
