@@ -4,6 +4,7 @@ import router from './router';
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import HardwaresList from '@/components/HardwaresList.vue'
 
 Vue.config.productionTip = false;
 
@@ -15,3 +16,5 @@ new Vue({
 Vue.use(Vuetify, {
   iconfont: 'md'
 });
+
+Vue.component('hardwares-list', HardwaresList);

@@ -1,15 +1,13 @@
 <template>
-  <div class="hardware">
-    <h1>Our hardware</h1>
-    <ul id="example-1">
-      <li v-for="hardware in hardwares">{{ hardware.name + " " + hardware.is_rented}}</li>
-    </ul>
+  <div>
+    <hardwares-list v-bind:hardwares="hardwares"></hardwares-list>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue';
+import HardwaresList from '@/components/HardwaresList.vue';
 import { HardwaresService } from '@/services/HardwaresService';
 import { HardwareModel } from '@/models/HardwareModel';
 
