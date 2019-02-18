@@ -7,7 +7,8 @@
             <v-card-title primary-title>
               <h4>Register</h4>
             </v-card-title>
-            <v-form>
+
+            <v-form v-model="formValid" ref="form">
               <!-- EMAIL -->
               <v-text-field
                 prepend-icon="email"
@@ -88,6 +89,8 @@ export default class Register extends Vue {
   private firstName: string = "";
   private lastName: string = "";
 
+  private formValid: boolean = false;
+
   requiredRule = (v: string) => v.length > 0 || "Required.";
 
   emailRule = (value: string) => {
@@ -106,7 +109,11 @@ export default class Register extends Vue {
   }
 
   private async registerUser() {
-    alert(this.password + "  " + this.confirmPassword);
+    const form = this.$refs.form as any;
+    if (!form.validate()) {
+      return;
+    }
+
     const res = await registerUser({
       username: this.login,
       email: this.email,
