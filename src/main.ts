@@ -5,6 +5,7 @@ import Vuetify from 'vuetify';
 import Paginate from 'vuejs-paginate';
 import VueMarkdown from 'vue-markdown';
 import ArticlesList from '@/components/ArticlesList.vue';
+import CommentsList from '@/components/CommentsList.vue';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
@@ -22,3 +23,4 @@ Vue.use(Vuetify, {
 Vue.component('paginate', Paginate);
 Vue.component('vue-markdown', VueMarkdown);
 Vue.component('articles-list', ArticlesList);
+Vue.component('comments-list', CommentsList);
