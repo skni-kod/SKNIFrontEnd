@@ -14,11 +14,19 @@
       </v-toolbar-items>
       <v-spacer/>
       <v-btn icon to="/login">
-        <v-icon> person </v-icon>
+        <v-icon>person</v-icon>
       </v-btn>
     </v-toolbar>
     <div id="nav"></div>
+    
     <router-view/>
+
+    <v-footer height="auto" color="primary" style="position: absolute; bottom: 0; width: 100%">
+      <v-layout justify-center row wrap>
+          &copy;2019 —
+          <strong>SKNI KOD. Wszystkie kaczki zastrzeżone</strong>
+      </v-layout>
+    </v-footer>
   </div>
 </template>
 
