@@ -14,8 +14,9 @@ export class ArticlesService {
             '&limit=' + pageSize)).data;
     }
 
+    // tslint:disable-next-line:max-line-length
     public async getArticlesWithTag(tag: string, pageNumber: number, pageSize: number): Promise<PaginationContainer<ArticleModel>> {
-        return (await this.axios('http://localhost:8000/articles/?tag=1' +
+        return (await this.axios('http://localhost:8000/articles/?tagname=' + tag +
             '&format=json&' +
             '&offset=' + (pageNumber - 1) * pageSize +
             '&limit=' + pageSize)).data;

@@ -31,10 +31,6 @@ export default class Article extends Vue {
   private articlesService!: ArticlesService;
   private article!: ArticleModel;
 
-  constructor() {
-    super();
-  }
-
   beforeCreate() {
     this.articlesService = new ArticlesService();
     this.articlesService.getArticle(+this.$route.params.id).then(article => {
