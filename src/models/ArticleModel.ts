@@ -14,4 +14,7 @@ export class ArticleModel {
 
     public creator!: CreatorModel;
     public tags!: ArticleTagsModel[];
+
+    // tslint:disable-next-line:variable-name
+    public comments_number!: number;
 }

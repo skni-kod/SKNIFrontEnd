@@ -16,6 +16,7 @@
       <p>Treść:
         <vue-markdown>{{article.text}}</vue-markdown>
       </p>
+      <p>Liczba komentarzy: {{article.comments_number}}</p>
     </div>
   </div>
 </template>
