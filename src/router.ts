@@ -26,5 +26,10 @@ export default new Router({
       name: 'article',
       component: () => import('./views/Article.vue'),
     },
+    {
+      path: '/tag/:tag/:page?',
+      name: 'tag',
+      component: () => import('./views/Tag.vue'),
+    },
   ],
 });

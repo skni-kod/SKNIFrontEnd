@@ -14,6 +14,13 @@ export class ArticlesService {
             '&limit=' + pageSize)).data;
     }
 
+    public async getArticlesWithTag(tag: string, pageNumber: number, pageSize: number): Promise<PaginationContainer<ArticleModel>> {
+        return (await this.axios('http://localhost:8000/articles/?tag=1' +
+            '&format=json&' +
+            '&offset=' + (pageNumber - 1) * pageSize +
+            '&limit=' + pageSize)).data;
+    }
+
     public async getArticle(id: number): Promise<ArticleModel> {
         return (await this.axios('http://localhost:8000/articles/' + id + '?format=json')).data;
     }
