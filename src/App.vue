@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="main-container">
     <v-toolbar dark color="primary">
       <v-toolbar-items>
         <v-btn to="/">Home</v-btn>
@@ -18,13 +18,13 @@
       </v-btn>
     </v-toolbar>
     <div id="nav"></div>
-    
+
     <router-view/>
 
     <v-footer height="auto" color="primary" style="position: absolute; bottom: 0; width: 100%">
       <v-layout justify-center row wrap>
-          &copy;2019 —
-          <strong>SKNI KOD. Wszystkie kaczki zastrzeżone</strong>
+        &copy;2019 —
+        <strong>SKNI KOD. Wszystkie kaczki zastrzeżone</strong>
       </v-layout>
     </v-footer>
   </div>
@@ -49,5 +49,25 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+* {
+  box-sizing: border-box;
+}
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  position: relative;
+}
+.main-container {
+  min-height: 100vh; /* will cover the 100% of viewport */
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 100px; /* height of your footer */
 }
 </style>
