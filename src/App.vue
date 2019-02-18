@@ -1,14 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>|
-      <router-link to="/articles">Articles</router-link>
-      <router-link to="/sections">Sekcje</router-link>|
-      <router-link to="/hardware">Hardware</router-link>|
-      <router-link to="/login">Login</router-link>|
-      <router-link to="/register">Register</router-link>|
-    </div>
+    <v-toolbar dark color="primary">
+      <v-toolbar-items>
+        <v-btn to="/">Home</v-btn>
+
+        <v-btn to="/about">About</v-btn>
+
+        <v-btn to="/articles">Articles</v-btn>
+
+        <v-btn to="/sections">Sekcje</v-btn>
+
+        <v-btn to="/hardware">Hardware</v-btn>
+      </v-toolbar-items>
+      <v-spacer/>
+      <v-btn icon to="/login">
+        <v-icon> person </v-icon>
+      </v-btn>
+    </v-toolbar>
+    <div id="nav"></div>
     <router-view/>
   </div>
 </template>

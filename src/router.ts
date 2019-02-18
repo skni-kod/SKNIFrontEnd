@@ -4,6 +4,15 @@ import Home from './views/Home.vue';
 
 Vue.use(Router);
 
+//It's here for now because after refreshing F5
+//browser doesn't see vuetify for some reason
+//move it for to better place 
+import Vuetify from 'vuetify';
+Vue.use(Vuetify, {
+  iconfont: 'md',
+});
+
+
 export default new Router({
   routes: [
     {
