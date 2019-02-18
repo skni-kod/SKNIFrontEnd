@@ -1,21 +1,5 @@
 <template>
-  <div v-if="article != undefined">
-    <p>Dane artykułu {{$route.params.id}}</p>
-    <p>Tytuł: {{ article.title }}</p>
-    <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date}}</p>
-    <p>
-      Tagi:
-      <span v-for="articleTag in article.tags" :key="articleTag.tag.name">
-        #
-        <a v-bind:href="'/#/tag/'+ articleTag.tag.name">{{ articleTag.tag.name }}</a>
-      </span>
-    </p>
-    <p>Treść:
-      <vue-markdown>{{article.text}}</vue-markdown>
-    </p>
-
-    <comments-list v-bind:comments="comments"></comments-list>
-  </div>
+  <single-article v-bind:article="article" v-bind:comments="comments"></single-article>
 </template>
 
 <script lang="ts">
