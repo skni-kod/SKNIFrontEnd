@@ -32,7 +32,14 @@ export default new Router({
       // this generates a separate chunk (sections.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "sections" */ './views/Sections.vue'),
-
+    },
+    {
+      path: '/hardware',
+      name: 'hardware',
+      // route level code-splitting
+      // this generates a separate chunk (hardware.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
     },
   ],
 });
