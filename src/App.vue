@@ -7,6 +7,7 @@
       <router-link to="/sections">Sekcje</router-link>|
       <router-link to="/hardware">Hardware</router-link>|
       <router-link to="/login">Login</router-link>|
+      <router-link to="/register">Register</router-link>|
     </div>
     <router-view/>
   </div>
