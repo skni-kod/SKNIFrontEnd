@@ -1,5 +1,5 @@
-import { ArticleModel } from "@/models/ArticleModel"
-import { PaginationContainer } from "@/models/PaginationContainer"
+import { ArticleModel } from '@/models/ArticleModel';
+import { PaginationContainer } from '@/models/PaginationContainer';
 
 export class ArticlesService {
     private axios = require('axios');
