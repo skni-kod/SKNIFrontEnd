@@ -4,7 +4,7 @@
       <v-btn>submit</v-btn>
       <v-text-field label="Tytuł artykułu" v-model="article.title"></v-text-field>
       <v-text-field label="Alias" v-model="article.alias"></v-text-field>
-      <v-btn>Wygeneruj alias</v-btn>
+      <v-btn @click="generateAlias">Wygeneruj alias</v-btn>
       <v-text-field label="Data utworzenia" v-model="article.creation_date"></v-text-field>
       <v-text-field label="Data publikacji" v-model="article.publication_date"></v-text-field>
       <v-text-field label="Tagi" v-model="article.tags"></v-text-field>
@@ -34,6 +34,13 @@ export default class EditArticle extends Vue {
         this.article = article;
       });
     }
+  }
+
+  public generateAlias() {
+    this.article.alias = this.articlesService.generateAliasForTitle(
+      this.article.title
+    );
+    this.$forceUpdate();
   }
 
   public data() {

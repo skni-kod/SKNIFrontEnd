@@ -62,4 +62,12 @@ export class ArticlesService {
 
         return article;
     }
+
+    public generateAliasForTitle(title: string) {
+        if (title === undefined) {
+            return '';
+        }
+
+        return title.trim().toLowerCase().replace(/ /g, '-');
+    }
 }
