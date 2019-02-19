@@ -18,4 +18,6 @@ export class ArticleModel {
 
     // tslint:disable-next-line:variable-name
     public comments_number!: number;
+
+    public readMore!: boolean;
 }

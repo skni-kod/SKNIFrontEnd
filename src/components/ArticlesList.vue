@@ -17,6 +17,9 @@
         <vue-markdown>{{article.text}}</vue-markdown>
       </p>
       <p>Liczba komentarzy: {{article.comments_number}}</p>
+      <p v-if="article.readMore">
+        <a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">Czytaj więcej...</a>
+      </p>
     </div>
   </div>
 </template>

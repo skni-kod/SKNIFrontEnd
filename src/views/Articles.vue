@@ -45,7 +45,7 @@ export default class Articles extends Vue {
 
   public paginationClicked(pageNumber: number) {
     this.articlesService
-      .getArticles(pageNumber, this.pagination.itemsPerPage)
+      .getArticles(pageNumber, this.pagination.itemsPerPage, false)
       .then((paginationContainer: PaginationContainer<ArticleModel>) => {
         this.articles = paginationContainer.results;
         this.pagination.itemCount = paginationContainer.count;
