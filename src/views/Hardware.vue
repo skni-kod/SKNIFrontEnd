@@ -11,11 +11,7 @@ import HardwaresList from '@/components/HardwaresList.vue';
 import { HardwaresService } from '@/services/HardwaresService';
 import { HardwareModel } from '@/models/HardwareModel';
 
-@Component({
-  components: {
-    HelloWorld,
-  },
-})
+@Component()
 export default class Hardware extends Vue {
   private hardwaresService!: HardwaresService;
   private hardwares!: HardwareModel[];

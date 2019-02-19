@@ -31,7 +31,7 @@ export default new Router({
       component: () => import('./views/Articles.vue'),
     },
     {
-      path: '/article/:id',
+      path: '/article/:id-:alias',
       name: 'article',
       component: () => import('./views/Article.vue'),
     },
