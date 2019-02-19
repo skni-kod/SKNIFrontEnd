@@ -1,17 +1,23 @@
 <template>
   <div id="app" class="main-container">
-    <v-toolbar dark color="primary">
-      <v-toolbar-items>
-        <v-btn to="/">Home</v-btn>
-
-        <v-btn to="/about">About</v-btn>
-
-        <v-btn to="/articles">Articles</v-btn>
-
-        <v-btn to="/sections">Sekcje</v-btn>
-
-        <v-btn to="/hardware">Hardware</v-btn>
+    <v-toolbar dark app color="primary">
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link"> 
+          {{item.title}}
+        </v-btn>
       </v-toolbar-items>
+
+      <v-menu class="hidden-md-and-up">
+        <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
+        <v-list>
+          <v-list-tile v-for="item in toolbarItems" :key="item.link">
+            <v-list-tile-content>
+              <v-btn flat :to="item.link">{{ item.title }}</v-btn>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+
       <v-spacer/>
       <v-btn icon to="/login">
         <v-icon>person</v-icon>
@@ -29,6 +35,23 @@
     </v-footer>
   </div>
 </template>
+
+<script lang="ts">
+import Vue from "vue";
+import Component from "vue-class-component";
+
+@Component
+export default class App extends Vue {
+  toolbarItems = [
+    { link: "/", title: "Home" },
+    { link: "/about", title: "About" },
+    { link: "/articles", title: "Articles" },
+    { link: "/sections", title: "Sekcje" },
+    { link: "/hardware", title: "Hardware" }
+  ];
+}
+</script>
+
 
 <style>
 #app {
