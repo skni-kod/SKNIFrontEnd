@@ -5,13 +5,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue';
-import HardwaresList from '@/components/HardwaresList.vue';
-import { HardwaresService } from '@/services/HardwaresService';
-import { HardwareModel } from '@/models/HardwareModel';
+import { Component, Vue } from "vue-property-decorator";
+import HelloWorld from "@/components/HelloWorld.vue";
+import HardwaresList from "@/components/HardwaresList.vue";
+import { HardwaresService } from "@/services/HardwaresService";
+import { HardwareModel } from "@/models/HardwareModel";
 
-@Component()
+@Component
 export default class Hardware extends Vue {
   private hardwaresService!: HardwaresService;
   private hardwares!: HardwareModel[];
