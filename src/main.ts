@@ -2,7 +2,6 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import Vuetify from 'vuetify';
-import Paginate from 'vuejs-paginate';
 import VueMarkdown from 'vue-markdown';
 import ArticlesList from '@/components/ArticlesList.vue';
 import CommentsList from '@/components/CommentsList.vue';
@@ -21,7 +20,6 @@ Vue.use(Vuetify, {
   iconfont: 'md',
 });
 
-Vue.component('paginate', Paginate);
 Vue.component('vue-markdown', VueMarkdown);
 Vue.component('articles-list', ArticlesList);
 Vue.component('comments-list', CommentsList);

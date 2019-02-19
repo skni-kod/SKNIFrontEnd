@@ -16,7 +16,6 @@
     "vue-markdown": "^2.2.4",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
-    "vuejs-paginate": "^2.1.0",
     "vuetify": "^1.5.1"
   },
   "devDependencies": {

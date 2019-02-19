@@ -1,17 +1,11 @@
 <template>
   <div>
     <articles-list v-bind:articles="articles"></articles-list>
-    <paginate
-      v-if="pagination != undefined"
+    <v-pagination
       v-model="pagination.currentPage"
-      :page-count="pagination.pageCount"
-      :page-range="3"
-      :margin-pages="2"
-      :prev-text="'Poprzednia strona'"
-      :next-text="'Następna strona'"
-      :container-class="'paginationContainer'"
-      :click-handler="paginationClicked"
-    ></paginate>
+      :length="pagination.pageCount"
+      @input="paginationClicked"
+    ></v-pagination>
   </div>
 </template>
 
@@ -75,16 +69,7 @@ export default class Articles extends Vue {
 </script>
 
 <style>
-.paginationContainer {
-  display: inline-block;
-}
-
-.paginationContainer > li {
-  display: inline-block;
-  border: 1px solid rgb(200, 200, 200);
-}
-
-.active {
-  font-weight: bold;
+.primary {
+  background-color: rgb(65, 65, 255) !important;
 }
 </style>
