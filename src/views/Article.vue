@@ -10,11 +10,7 @@ import { CommentsService } from "@/services/CommentsService";
 import { ArticleModel } from "@/models/ArticleModel";
 import { CommentModel } from "@/models/CommentModel";
 
-@Component({
-  components: {
-    HelloWorld
-  }
-})
+@Component()
 export default class Article extends Vue {
   private articlesService!: ArticlesService;
   private commentsService!: CommentsService;

@@ -18,11 +18,7 @@ import { ArticleModel } from "@/models/ArticleModel";
 import { PaginationModel } from "@/models/PaginationModel";
 import { PaginationContainer } from "@/models/PaginationContainer";
 
-@Component({
-  components: {
-    HelloWorld
-  }
-})
+@Component()
 export default class Articles extends Vue {
   private articlesService!: ArticlesService;
   private pagination!: PaginationModel;
