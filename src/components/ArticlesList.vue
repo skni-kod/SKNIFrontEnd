@@ -5,7 +5,7 @@
         Tytuł:
         <a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a>
       </p>
-      <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date}}</p>
+      <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date | moment("DD-MM-YYYY")}} o godzinie {{article.creation_date | moment("HH:mm:SS")}} </p>
       <p>
         Tagi:
         <span v-for="articleTag in article.tags" :key="articleTag.tag.name">

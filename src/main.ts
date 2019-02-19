@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import Vuetify from 'vuetify';
 import VueMarkdown from 'vue-markdown';
+import VueMoment from 'vue-moment';
 import ArticlesList from '@/components/ArticlesList.vue';
 import CommentsList from '@/components/CommentsList.vue';
 import SingleArticle from '@/components/SingleArticle.vue';
@@ -21,6 +22,8 @@ new Vue({
 Vue.use(Vuetify, {
   iconfont: 'md',
 });
+
+Vue.use(VueMoment, 'vue-moment');
 
 Vue.component('vue-markdown', VueMarkdown);
 Vue.component('articles-list', ArticlesList);

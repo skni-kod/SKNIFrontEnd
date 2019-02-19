@@ -2,7 +2,7 @@
   <div v-if="article != undefined">
     <p>Dane artykułu {{$route.params.id}}</p>
     <p>Tytuł: {{ article.title }}</p>
-    <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date}}</p>
+    <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date | moment("DD-MM-YYYY")}} o godzinie {{article.creation_date | moment("HH:mm:SS")}}</p>
     <p>
       Tagi:
       <span v-for="articleTag in article.tags" :key="articleTag.tag.name">
