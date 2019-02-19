@@ -62,12 +62,10 @@ export default class Tag extends Vue {
         this.pagination.itemCount = paginationContainer.count;
       });
 
-    if (pageNumber != 1) {
-      this.$router.replace({
-        name: "tag",
-        params: { page: "" + pageNumber }
-      });
-    }
+    this.$router.replace({
+      name: "tag",
+      params: { page: "" + pageNumber }
+    });
   }
 
   public data() {
