@@ -49,3 +49,9 @@ export function createAuthHeader() {
         'Authorization': 'Bearer ' + token,
     };
 }
+
+export async function registerUser(userData: any) {
+    let response = await axios.post('http://localhost:8000/users/', userData);
+    
+    return response;
+}

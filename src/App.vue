@@ -1,16 +1,57 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>|
-      <router-link to="/articles">Articles</router-link>
-      <router-link to="/sections">Sekcje</router-link>|
-      <router-link to="/hardware">Hardware</router-link>|
-      <router-link to="/login">Login</router-link>|
-    </div>
+  <div id="app" class="main-container">
+    <v-toolbar dark app color="primary">
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link"> 
+          {{item.title}}
+        </v-btn>
+      </v-toolbar-items>
+
+      <v-menu class="hidden-md-and-up">
+        <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
+        <v-list>
+          <v-list-tile v-for="item in toolbarItems" :key="item.link">
+            <v-list-tile-content>
+              <v-btn flat :to="item.link">{{ item.title }}</v-btn>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+
+      <v-spacer/>
+      <v-btn icon to="/login">
+        <v-icon>person</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <div id="nav"></div>
+
     <router-view/>
+
+    <v-footer height="auto" color="primary" style="position: absolute; bottom: 0; width: 100%">
+      <v-layout justify-center row wrap>
+        &copy;2019 —
+        <strong>SKNI KOD. Wszystkie kaczki zastrzeżone</strong>
+      </v-layout>
+    </v-footer>
   </div>
 </template>
+
+<script lang="ts">
+import Vue from "vue";
+import Component from "vue-class-component";
+
+@Component
+export default class App extends Vue {
+  toolbarItems = [
+    { link: "/", title: "Home" },
+    { link: "/about", title: "About" },
+    { link: "/articles", title: "Articles" },
+    { link: "/sections", title: "Sekcje" },
+    { link: "/hardware", title: "Hardware" }
+  ];
+}
+</script>
+
 
 <style>
 #app {
@@ -31,5 +72,25 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+* {
+  box-sizing: border-box;
+}
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  position: relative;
+}
+.main-container {
+  min-height: 100vh; /* will cover the 100% of viewport */
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 100px; /* height of your footer */
 }
 </style>

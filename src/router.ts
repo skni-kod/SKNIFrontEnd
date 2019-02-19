@@ -1,9 +1,17 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
-import Login from './views/Login.vue'
 
 Vue.use(Router);
+
+//It's here for now because after refreshing F5
+//browser doesn't see vuetify for some reason
+//move it for to better place 
+import Vuetify from 'vuetify';
+Vue.use(Vuetify, {
+  iconfont: 'md',
+});
+
 
 export default new Router({
   routes: [
@@ -36,6 +44,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import(/* webpackChunkName: "about" */ './views/Login.vue'),
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import(/* webpackChunkName: "about" */ './views/Register.vue'),
     },
     {
       path: '/sections',
