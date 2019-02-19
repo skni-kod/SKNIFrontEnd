@@ -24,7 +24,9 @@ export default class Article extends Vue {
   beforeCreate() {
     this.articlesService = new ArticlesService();
     this.commentsService = new CommentsService();
+  }
 
+  mounted() {
     this.articlesService.getArticle(+this.$route.params.id).then(article => {
       this.article = article;
 
