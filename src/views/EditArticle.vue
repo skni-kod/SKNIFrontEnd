@@ -17,6 +17,9 @@
         multiple
       ></v-select>
       <v-textarea label="Treść" v-model="article.text"></v-textarea>
+      <div>Podgląd:
+        <vue-markdown :source="article.text" html></vue-markdown>
+      </div>
     </v-form>
   </div>
 </template>
@@ -46,12 +49,13 @@ export default class EditArticle extends Vue {
     if (this.$route.params.id != undefined) {
       this.articlesService.getArticle(+this.$route.params.id).then(article => {
         this.article = article;
+
+        this.tagsService.getAllTags().then(tags => {
+          this.allTags = tags;
+          this.selectedTags = this.article.tags.map(p => p.tag.name);
+        });
       });
     }
-
-    this.tagsService.getAllTags().then(tags => {
-      this.allTags = tags;
-    });
   }
 
   public generateAlias() {
@@ -65,7 +69,8 @@ export default class EditArticle extends Vue {
     return {
       article: this.article,
       allTags: this.allTags,
-      selectedTags: this.selectedTags
+      selectedTags: this.selectedTags,
+      html: true
     };
   }
 
