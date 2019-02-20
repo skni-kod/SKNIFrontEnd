@@ -81,5 +81,10 @@ export default new Router({
       name: 'projects',
       component: () => import(/* webpackChunkName: "projects" */ './views/Projects.vue'),
     },
+    {
+      path: '/project/:id',
+      name: 'project',
+      component: () => import(/* webpackChunkName: "project" */ './views/Project.vue'),
+    },
   ],
 });
