@@ -25,8 +25,7 @@
     </v-toolbar>
     <div id="nav"></div>
 
-    <router-view/>
-
+    <router-view style="margin-top: 10px;"/>
     <v-footer height="auto" color="primary" style="position: absolute; bottom: 0; width: 100%">
       <v-layout justify-center row wrap>
         &copy;2019 —

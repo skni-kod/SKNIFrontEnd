@@ -1,26 +1,36 @@
 <template>
   <div>
-    <div v-for="article in articles" :key="article.title" style="border: 1px solid gray">
-      <p>
-        Tytuł:
-        <a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a>
-      </p>
-      <p>Autor: {{article.creator.user.username}}, Data: {{article.creation_date | moment("DD-MM-YYYY")}} o godzinie {{article.creation_date | moment("HH:mm:SS")}} </p>
-      <p>
-        Tagi:
-        <span v-for="articleTag in article.tags" :key="articleTag.tag.name">
-          #
-          <a v-bind:href="'/#/tag/'+ articleTag.tag.name">{{ articleTag.tag.name }}</a>
-        </span>
-      </p>
-      <p>Treść:
-        <vue-markdown>{{article.text}}</vue-markdown>
-      </p>
-      <p>Liczba komentarzy: {{article.comments_number}}</p>
-      <p v-if="article.readMore">
-        <a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">Czytaj więcej...</a>
-      </p>
-    </div>
+    <v-layout>
+      <v-flex xs12 sm6 offset-sm3>
+        <div v-for="article in articles" :key="article.title">
+          <v-card>
+            <v-card-title primary-title>
+              <div>
+                <h3 class="headline mb-0 text-xs-left">
+                  <a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a>
+                </h3>
+                <div class="text-xs-left">
+                  <v-icon>person</v-icon>{{article.creator.user.username}}
+                  <v-icon>calendar_today</v-icon>{{article.creation_date | moment("DD-MM-YYYY")}}
+                  <span v-if="article.tags.length != 0">
+                    <v-icon>note</v-icon>
+                    <span v-for="(articleTag, index) in article.tags" :key="articleTag.tag.name">
+                      <a v-bind:href="'/#/tag/'+ articleTag.tag.name">{{ '#' + articleTag.tag.name }}</a>
+                      <span v-if="index != (article.tags.length - 1)">, </span>
+                    </span>
+                  </span>
+                  <v-icon>comment</v-icon>{{article.comments_number}}
+                </div>
+                <vue-markdown class="text-xs-left" style="margin-top: 10px;">{{article.text}}</vue-markdown>
+              </div>
+            </v-card-title>
+            <v-card-actions v-if="article.readMore" style="margin-top: -20px;">
+              <v-btn v-bind:href="'/#/article/'+ article.id + '-' + article.alias" flat color="orange">Czytaj więcej...</v-btn>
+            </v-card-actions>
+          </v-card>
+        </div>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
