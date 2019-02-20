@@ -1,26 +1,33 @@
 <template>
   <div>
-    <v-form>
-      <v-btn>submit</v-btn>
-      <v-text-field label="Tytuł artykułu" v-model="article.title"></v-text-field>
-      <v-text-field label="Alias" v-model="article.alias"></v-text-field>
-      <v-btn @click="generateAlias">Wygeneruj alias</v-btn>
-      <v-text-field label="Data utworzenia" v-model="article.creation_date"></v-text-field>
-      <v-text-field label="Data publikacji" v-model="article.publication_date"></v-text-field>
-      <v-select
-        v-model="selectedTags"
-        :items="allTags"
-        :item-text="tagTextSelector"
-        attach
-        chips
-        label="Tags"
-        multiple
-      ></v-select>
-      <v-textarea label="Treść" v-model="article.text"></v-textarea>
-      <div>Podgląd:
-        <vue-markdown :source="article.text" html></vue-markdown>
-      </div>
-    </v-form>
+    <v-container grid-list-md text-xs-centxer>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-text-field label="Tytuł artykułu" v-model="article.title"></v-text-field>
+        </v-flex>
+        <v-flex xs10>
+          <v-text-field label="Alias" v-model="article.alias"></v-text-field>
+        </v-flex>
+        <v-flex xs2>
+          <v-btn @click="generateAlias">Wygeneruj</v-btn>
+        </v-flex>
+        <v-flex xs6>
+          <v-text-field label="Data utworzenia" v-model="article.creation_date"></v-text-field>
+        </v-flex>
+        <v-flex xs6>
+          <v-text-field label="Data publikacji" v-model="article.publication_date"></v-text-field>
+        </v-flex>
+        <v-flex xs12>
+          <v-select v-model="selectedTags" :items="allTags" :item-text="tagTextSelector" attach chips label="Tags" multiple></v-select>
+        </v-flex>
+        <v-flex xs6 class="text-xs-left full-height">
+          <v-textarea id="test" v-model="article.text" class="content-textarea" v-scroll:#test="onScroll"></v-textarea>
+        </v-flex>
+        <v-flex xs6 class="text-xs-left">
+          <vue-markdown :source="article.text" class="content-preview" html ref="qwe"></vue-markdown>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 
@@ -77,5 +84,35 @@ export default class EditArticle extends Vue {
   public tagTextSelector(item: TagModel) {
     return item.name;
   }
+
+  public onScroll(offset: any) {
+    var contentPreview = this.$el.querySelector(".content-preview");
+    if (contentPreview != undefined) {
+      contentPreview.scrollTop = offset.target.scrollTop;
+    }
+  }
 }
 </script>
+
+<style scope>
+.content-textarea {
+  padding-top: 0;
+}
+
+.content-textarea textarea {
+  overflow: auto;
+  height: 500px;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  line-height: 18.5714px;
+  font-size: 13px;
+  padding-top: 0;
+  resize: none;
+}
+
+.content-preview {
+  overflow: auto;
+  height: 500px;
+  line-height: 22px;
+  resize: none;
+}
+</style>
