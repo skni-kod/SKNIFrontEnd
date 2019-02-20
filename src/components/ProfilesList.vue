@@ -8,9 +8,9 @@
             {{ profile.user.last_name }}
         </p>
         <p>
-            {{ profile.user.username }}
+          <a v-bind:href="'/#/profile/'+ profile.id">{{ profile.user.username }}</a>
         </p>
-            <p>
+        <p>
             {{ profile.user.email }}
         </p>
     </div>
