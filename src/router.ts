@@ -76,5 +76,15 @@ export default new Router({
       name: 'profile',
       component: () => import(/* webpackChunkName: "profile" */ './views/Profile.vue'),
     },
+    {
+      path: '/projects/:page?',
+      name: 'projects',
+      component: () => import(/* webpackChunkName: "projects" */ './views/Projects.vue'),
+    },
+    {
+      path: '/project/:id',
+      name: 'project',
+      component: () => import(/* webpackChunkName: "project" */ './views/Project.vue'),
+    },
   ],
 });
