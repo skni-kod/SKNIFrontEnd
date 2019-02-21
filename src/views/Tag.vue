@@ -19,7 +19,7 @@ import { ArticleModel } from "@/models/ArticleModel";
 import { PaginationModel } from "@/models/PaginationModel";
 import { PaginationContainer } from "@/models/PaginationContainer";
 
-@Component()
+@Component
 export default class Tag extends Vue {
   private articlesService!: ArticlesService;
   private pagination!: PaginationModel;
@@ -45,7 +45,8 @@ export default class Tag extends Vue {
       .getArticlesWithTag(
         this.$route.params.tag,
         pageNumber,
-        this.pagination.itemsPerPage
+        this.pagination.itemsPerPage,
+        false
       )
       .then((paginationContainer: PaginationContainer<ArticleModel>) => {
         this.articles = paginationContainer.results;

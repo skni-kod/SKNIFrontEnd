@@ -10,6 +10,13 @@
 </template>
 
 <script lang="ts">
+<<<<<<< HEAD
+import { Component, Vue } from "vue-property-decorator";
+import HelloWorld from "@/components/HelloWorld.vue";
+import HardwaresList from "@/components/HardwaresList.vue";
+import { HardwaresService } from "@/services/HardwaresService";
+import { HardwareModel } from "@/models/HardwareModel";
+=======
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue';
 import HardwaresList from '@/components/HardwaresList.vue';
@@ -17,8 +24,9 @@ import { HardwaresService } from '@/services/HardwaresService';
 import { HardwareModel } from '@/models/HardwareModel';
 import { PaginationModel } from "@/models/PaginationModel";
 import { PaginationContainer } from "@/models/PaginationContainer";
+>>>>>>> master
 
-@Component()
+@Component
 export default class Hardware extends Vue {
   private hardwaresService!: HardwaresService;
   private pagination!: PaginationModel;
