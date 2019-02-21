@@ -64,12 +64,32 @@ export default new Router({
       component: () => import(/* webpackChunkName: "sections" */ './views/Sections.vue'),
     },
     {
-      path: '/hardware',
+      path: '/hardware/:page?',
       name: 'hardware',
       // route level code-splitting
       // this generates a separate chunk (hardware.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
+    },
+    {
+      path: '/profiles/:page?',
+      name: 'profiles',
+      component: () => import(/* webpackChunkName: "profiles" */ './views/Profiles.vue'),
+    },
+    {
+      path: '/profile/:id',
+      name: 'profile',
+      component: () => import(/* webpackChunkName: "profile" */ './views/Profile.vue'),
+    },
+    {
+      path: '/projects/:page?',
+      name: 'projects',
+      component: () => import(/* webpackChunkName: "projects" */ './views/Projects.vue'),
+    },
+    {
+      path: '/project/:id',
+      name: 'project',
+      component: () => import(/* webpackChunkName: "project" */ './views/Project.vue'),
     },
   ],
 });
