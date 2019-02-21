@@ -18,7 +18,7 @@ import { ProfileModel } from '@/models/ProfileModel';
 import { PaginationModel } from "@/models/PaginationModel";
 import { PaginationContainer } from "@/models/PaginationContainer";
 
-@Component()
+@Component
 export default class Profiles extends Vue {
   private profilesService!: ProfilesService;
   private pagination!: PaginationModel;

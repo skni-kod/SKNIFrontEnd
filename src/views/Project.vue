@@ -8,7 +8,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
 import { ProjectsService } from "@/services/ProjectsService";
 import { ProjectModel } from "@/models/ProjectModel";
 
-@Component()
+@Component
 export default class Project extends Vue {
     private projectsService!: ProjectsService;
     private project!: ProjectModel;

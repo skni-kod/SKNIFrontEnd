@@ -8,7 +8,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
 import { ProfilesService } from "@/services/ProfilesService";
 import { ProfileModel } from "@/models/ProfileModel";
 
-@Component()
+@Component
 export default class Profile extends Vue {
     private profilesService!: ProfilesService;
     private profile!: ProfileModel;
