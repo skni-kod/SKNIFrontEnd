@@ -17,6 +17,6 @@ import { PaginationModel } from '@/models/PaginationModel';
 
 @Component
 export default class ArticlesList extends Vue {
-  @Prop() articles!: ArticleModel[];
+  @Prop() public articles!: ArticleModel[];
 }
 </script>

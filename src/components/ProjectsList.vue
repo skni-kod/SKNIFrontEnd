@@ -19,6 +19,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { ProjectModel } from '@/models/ProjectModel';
 @Component
 export default class ProjectsList extends Vue {
-  @Prop() projects!: ProjectModel[];
+  @Prop() public projects!: ProjectModel[];
 }
 </script> 

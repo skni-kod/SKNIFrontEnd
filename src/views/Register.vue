@@ -91,18 +91,19 @@ export default class Register extends Vue {
 
   private formValid: boolean = false;
 
-  requiredRule = (v: string) => v.length > 0 || 'Required.';
+  private requiredRule = (v: string) => v.length > 0 || 'Required.';
 
-  emailRule = (value: string) => {
+  private emailRule = (value: string) => {
+    // tslint:disable-next-line
     const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return pattern.test(value) || 'Invalid e-mail.';
-  };
+  }
 
-  //ugly hack, because rules don't have access to members so
-  //you need another fuction to return proper value
-  passwordMatchRule = () => {
+  // ugly hack, because rules don't have access to members so
+  // you need another fuction to return proper value
+  private passwordMatchRule = () => {
     return this.checkPasswords();
-  };
+  }
 
   private checkPasswords() {
     return this.password === this.confirmPassword || 'Password must match';
@@ -119,7 +120,7 @@ export default class Register extends Vue {
       email: this.email,
       password: this.password,
       first_name: this.firstName,
-      last_name: this.lastName
+      last_name: this.lastName,
     });
 
     if (res.status === 201) {

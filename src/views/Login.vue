@@ -35,10 +35,6 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import {
   login,
-  logout,
-  isLoggedIn,
-  refreshToken,
-  createAuthHeader
 } from '../helpers/auth';
 import Axios from 'axios';
 
@@ -52,10 +48,6 @@ export default class Login extends Vue {
     if (res.status === 200) {
       this.$forceUpdate();
     }
-  }
-
-  private goToRegister() {
-    this.$router.push('/register');
   }
 }
 </script>

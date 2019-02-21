@@ -24,14 +24,14 @@ export default class Projects extends Vue {
   private pagination!: PaginationModel;
   private projects!: ProjectModel[];
 
-  beforeCreate() {
+  private beforeCreate() {
     this.projectsService = new ProjectsService();
     this.pagination = new PaginationModel(1, 3, 3);
   }
 
-  public mounted() {
-    var pageNumber = +this.$route.params.page;
-    if (pageNumber == undefined || isNaN(pageNumber)) {
+  private mounted() {
+    let pageNumber = +this.$route.params.page;
+    if (pageNumber === undefined || isNaN(pageNumber)) {
       pageNumber = 1;
     }
 
@@ -39,7 +39,7 @@ export default class Projects extends Vue {
     this.paginationClicked(pageNumber);
   }
 
-  public paginationClicked(pageNumber: number) {
+  private paginationClicked(pageNumber: number) {
     this.projectsService
       .getProjectsByPage(pageNumber, this.pagination.itemsPerPage)
       .then((paginationContainer: PaginationContainer<ProjectModel>) => {
@@ -49,11 +49,11 @@ export default class Projects extends Vue {
 
     this.$router.replace({
       name: 'projects',
-      params: { page: '' + pageNumber }
+      params: { page: '' + pageNumber },
     });
   }
 
-  public data() {
+  private data() {
     return { projects: this.projects };
   }
 }

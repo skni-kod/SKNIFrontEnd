@@ -10,27 +10,27 @@ import { ProjectModel } from '@/models/ProjectModel';
 
 @Component
 export default class Project extends Vue {
-    private projectsService!: ProjectsService;
-    private project!: ProjectModel;
+  private projectsService!: ProjectsService;
+  private project!: ProjectModel;
 
-    beforeCreate() {
+  private beforeCreate() {
     this.projectsService = new ProjectsService();
   }
 
-   mounted() {
-    this.projectsService.getProject(+this.$route.params.id).then(project => {
+  private mounted() {
+    this.projectsService.getProject(+this.$route.params.id).then((project) => {
       this.project = project;
 
       this.$router.replace({
         name: 'project',
-        params: { id: '' + project.id }
+        params: { id: '' + project.id },
       });
     });
-   }
+  }
 
-    public data() {
+  private data() {
     return {
-      project: this.project
+      project: this.project,
     };
   }
 }

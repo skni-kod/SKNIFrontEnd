@@ -29,6 +29,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { HardwareModel } from '@/models/HardwareModel';
 @Component
 export default class HardwaresList extends Vue {
-  @Prop() hardwares!: HardwareModel[];
+  @Prop() public hardwares!: HardwareModel[];
 }
 </script> 

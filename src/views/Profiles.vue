@@ -24,14 +24,14 @@ export default class Profiles extends Vue {
   private pagination!: PaginationModel;
   private profiles!: ProfileModel[];
 
-  beforeCreate() {
+  private beforeCreate() {
     this.profilesService = new ProfilesService();
     this.pagination = new PaginationModel(1, 3, 3);
   }
 
-  public mounted() {
-    var pageNumber = +this.$route.params.page;
-    if (pageNumber == undefined || isNaN(pageNumber)) {
+  private mounted() {
+    let pageNumber = +this.$route.params.page;
+    if (pageNumber === undefined || isNaN(pageNumber)) {
       pageNumber = 1;
     }
 
@@ -39,7 +39,7 @@ export default class Profiles extends Vue {
     this.paginationClicked(pageNumber);
   }
 
-  public paginationClicked(pageNumber: number) {
+  private paginationClicked(pageNumber: number) {
     this.profilesService
       .getProfilesByPage(pageNumber, this.pagination.itemsPerPage)
       .then((paginationContainer: PaginationContainer<ProfileModel>) => {
@@ -49,11 +49,11 @@ export default class Profiles extends Vue {
 
     this.$router.replace({
       name: 'profiles',
-      params: { page: '' + pageNumber }
+      params: { page: '' + pageNumber },
     });
   }
 
-  public data() {
+  private data() {
     return { profiles: this.profiles };
   }
 }

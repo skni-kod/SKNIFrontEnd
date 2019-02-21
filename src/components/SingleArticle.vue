@@ -37,7 +37,7 @@ import { CommentModel } from '@/models/CommentModel';
 
 @Component
 export default class SingleArticle extends Vue {
-  @Prop() article!: ArticleModel;
-  @Prop() comments!: CommentModel[];
+  @Prop() public article!: ArticleModel;
+  @Prop() public comments!: CommentModel[];
 }
 </script>

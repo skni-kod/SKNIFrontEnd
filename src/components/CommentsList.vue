@@ -25,6 +25,6 @@ import { CommentModel } from '@/models/CommentModel';
 
 @Component
 export default class CommentsList extends Vue {
-  @Prop() comments!: CommentModel[];
+  @Prop() public comments!: CommentModel[];
 }
 </script>

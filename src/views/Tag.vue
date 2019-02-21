@@ -25,14 +25,14 @@ export default class Tag extends Vue {
   private pagination!: PaginationModel;
   private articles!: ArticleModel[];
 
-  beforeCreate() {
+  private beforeCreate() {
     this.articlesService = new ArticlesService();
     this.pagination = new PaginationModel(1, 3, 3);
   }
 
-  mounted() {
-    var pageNumber = +this.$route.params.page;
-    if (pageNumber == undefined || isNaN(pageNumber)) {
+  private mounted() {
+    let pageNumber = +this.$route.params.page;
+    if (pageNumber === undefined || isNaN(pageNumber)) {
       pageNumber = 1;
     }
 
@@ -40,7 +40,7 @@ export default class Tag extends Vue {
     this.paginationClicked(pageNumber);
   }
 
-  public paginationClicked(pageNumber: number) {
+  private paginationClicked(pageNumber: number) {
     this.articlesService
       .getArticlesWithTag(
         this.$route.params.tag,
@@ -59,7 +59,7 @@ export default class Tag extends Vue {
     });
   }
 
-  public data() {
+  private data() {
     return {
       articles: this.articles,
       pagination: this.pagination,

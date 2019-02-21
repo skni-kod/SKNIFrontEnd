@@ -41,14 +41,14 @@ import Component from 'vue-class-component';
 
 @Component
 export default class App extends Vue {
-  toolbarItems = [
+  private toolbarItems = [
     { link: '/', title: 'Home' },
     { link: '/about', title: 'About' },
     { link: '/articles', title: 'Articles' },
     { link: '/sections', title: 'Sekcje' },
     { link: '/projects', title: 'Projekty' },
     { link: '/hardware', title: 'Hardware' },
-    { link: '/profiles', title: 'Profile' }
+    { link: '/profiles', title: 'Profile' },
   ];
 }
 </script>

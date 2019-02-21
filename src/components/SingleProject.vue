@@ -13,6 +13,6 @@ import { ProjectModel } from '@/models/ProjectModel';
 
 @Component
 export default class SingleProject extends Vue {
-  @Prop() project!: ProjectModel;
+  @Prop() public project!: ProjectModel;
 }
 </script>

@@ -14,6 +14,6 @@ import { ProfileModel } from '@/models/ProfileModel';
 
 @Component
 export default class SingleProfile extends Vue {
-  @Prop() profile!: ProfileModel;
+  @Prop() public profile!: ProfileModel;
 }
 </script>

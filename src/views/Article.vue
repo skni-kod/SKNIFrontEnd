@@ -21,32 +21,32 @@ export default class Article extends Vue {
   private article!: ArticleModel;
   private comments!: CommentModel[];
 
-  beforeCreate() {
+  private beforeCreate() {
     this.articlesService = new ArticlesService();
     this.commentsService = new CommentsService();
   }
 
-  mounted() {
-    this.articlesService.getArticle(+this.$route.params.id).then(article => {
+  private mounted() {
+    this.articlesService.getArticle(+this.$route.params.id).then((article) => {
       this.article = article;
 
       this.$router.replace({
         name: 'article',
-        params: { alias: article.alias }
+        params: { alias: article.alias },
       });
     });
 
     this.commentsService
       .getCommentsForArticle(+this.$route.params.id)
-      .then(comments => {
+      .then((comments) => {
         this.comments = comments;
       });
   }
 
-  public data() {
+  private data() {
     return {
       article: this.article,
-      comments: this.comments
+      comments: this.comments,
     };
   }
 }

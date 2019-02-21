@@ -16,6 +16,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { SectionModel } from '@/models/SectionModel';
 @Component
 export default class SectionsList extends Vue {
-  @Prop() sections!: SectionModel[];
+  @Prop() public sections!: SectionModel[];
 }
 </script>

@@ -20,7 +20,7 @@ export default class Section extends Vue {
     this.sectionsService = new SectionsService();
   }
   public mounted() {
-    this.sectionsService.getAllSections().then(p => {
+    this.sectionsService.getAllSections().then((p) => {
       this.sections = p;
       for (let i = 0; i < this.sections.length; ) {
         if (this.sections[i].isVisible === false) {
