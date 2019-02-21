@@ -18,7 +18,7 @@ import { ProjectModel } from '@/models/ProjectModel';
 import { PaginationModel } from "@/models/PaginationModel";
 import { PaginationContainer } from "@/models/PaginationContainer";
 
-@Component()
+@Component
 export default class Projects extends Vue {
   private projectsService!: ProjectsService;
   private pagination!: PaginationModel;
