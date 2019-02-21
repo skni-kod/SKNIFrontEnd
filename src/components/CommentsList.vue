@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="comments != undefined">
     <h3 class="text-xs-left" style="margin-top: 20px;">Komentarze:</h3>
     <div v-for="comment in comments" :key="comment.id">
       <v-card style="margin-top: 5px">
