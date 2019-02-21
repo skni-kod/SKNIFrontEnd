@@ -5,7 +5,7 @@ const accessTokenName: string = 'access_token';
 const refreshTokenName: string = 'refresh_token';
 
 export async function login(username: string, password: string) {
-    let response = await axios.post('http://localhost:8000/obtain-token/', { "username": username, "password": password, });
+    let response = await axios.post('http://localhost:8000/obtain-token/', { 'username': username, 'password': password, });
     if (response.status === 200) {
         localStorage.setItem(accessTokenName, response.data.access);
         localStorage.setItem(refreshTokenName, response.data.refresh);
@@ -22,7 +22,7 @@ export function logout() {
 export async function refreshToken() {
     const token = localStorage.getItem(refreshTokenName);
 
-    let response = await axios.post('http://localhost:8000/refresh-token/', { "refresh": token });
+    let response = await axios.post('http://localhost:8000/refresh-token/', { 'refresh': token });
     if (response.status === 200) {
         localStorage.setItem(accessTokenName, response.data.access);
     }
@@ -36,7 +36,7 @@ export async function isLoggedIn(): Promise<boolean> {
         return false;
     }
 
-    const res = await axios.post('http://localhost:8000/verify-token/', {"token": token});
+    const res = await axios.post('http://localhost:8000/verify-token/', {'token': token});
     if(res.status === 200) {
         return true;
     }

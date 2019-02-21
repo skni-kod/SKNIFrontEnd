@@ -1,15 +1,15 @@
 <template>
   <div>
-    <sections-list v-bind:sections="sections"></sections-list>
+    <sections-list v-bind:sections='sections'></sections-list>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "@/components/HelloWorld.vue";
-import SectionsList from "@/components/SectionsList.vue";
-import { SectionsService } from "@/services/SectionsService";
-import { SectionModel } from "@/models/SectionModel";
+<script lang='ts'>
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from '@/components/HelloWorld.vue';
+import SectionsList from '@/components/SectionsList.vue';
+import { SectionsService } from '@/services/SectionsService';
+import { SectionModel } from '@/models/SectionModel';
 
 @Component
 export default class Section extends Vue {

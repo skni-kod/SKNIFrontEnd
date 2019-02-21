@@ -1,12 +1,12 @@
 <template>
-  <single-project v-bind:project="project"></single-project>
+  <single-project v-bind:project='project'></single-project>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "@/components/HelloWorld.vue";
-import { ProjectsService } from "@/services/ProjectsService";
-import { ProjectModel } from "@/models/ProjectModel";
+<script lang='ts'>
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from '@/components/HelloWorld.vue';
+import { ProjectsService } from '@/services/ProjectsService';
+import { ProjectModel } from '@/models/ProjectModel';
 
 @Component
 export default class Project extends Vue {
@@ -22,8 +22,8 @@ export default class Project extends Vue {
       this.project = project;
 
       this.$router.replace({
-        name: "project",
-        params: { id: "" + project.id }
+        name: 'project',
+        params: { id: '' + project.id }
       });
     });
    }

@@ -1,22 +1,22 @@
 <template>
   <div>
-    <hardwares-list v-bind:hardwares="hardwares"></hardwares-list>
+    <hardwares-list v-bind:hardwares='hardwares'></hardwares-list>
       <v-pagination
-        v-model="pagination.currentPage"
-        :length="pagination.pageCount"
-        @input="paginationClicked"
+        v-model='pagination.currentPage'
+        :length='pagination.pageCount'
+        @input='paginationClicked'
       ></v-pagination>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue';
 import HardwaresList from '@/components/HardwaresList.vue';
 import { HardwaresService } from '@/services/HardwaresService';
 import { HardwareModel } from '@/models/HardwareModel';
-import { PaginationModel } from "@/models/PaginationModel";
-import { PaginationContainer } from "@/models/PaginationContainer";
+import { PaginationModel } from '@/models/PaginationModel';
+import { PaginationContainer } from '@/models/PaginationContainer';
 
 @Component
 export default class Hardware extends Vue {
@@ -48,8 +48,8 @@ export default class Hardware extends Vue {
       });
 
     this.$router.replace({
-      name: "hardware",
-      params: { page: "" + pageNumber }
+      name: 'hardware',
+      params: { page: '' + pageNumber }
     });
   }
 

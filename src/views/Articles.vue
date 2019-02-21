@@ -1,22 +1,22 @@
 <template>
   <div>
-    <articles-list v-bind:articles="articles"></articles-list>
+    <articles-list v-bind:articles='articles'></articles-list>
     <v-pagination
-      v-model="pagination.currentPage"
-      :length="pagination.pageCount"
-      @input="paginationClicked"
+      v-model='pagination.currentPage'
+      :length='pagination.pageCount'
+      @input='paginationClicked'
     ></v-pagination>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import HelloWorld from "@/components/HelloWorld.vue";
-import ArticlesList from "@/components/ArticlesList.vue";
-import { ArticlesService } from "@/services/ArticlesService";
-import { ArticleModel } from "@/models/ArticleModel";
-import { PaginationModel } from "@/models/PaginationModel";
-import { PaginationContainer } from "@/models/PaginationContainer";
+<script lang='ts'>
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import HelloWorld from '@/components/HelloWorld.vue';
+import ArticlesList from '@/components/ArticlesList.vue';
+import { ArticlesService } from '@/services/ArticlesService';
+import { ArticleModel } from '@/models/ArticleModel';
+import { PaginationModel } from '@/models/PaginationModel';
+import { PaginationContainer } from '@/models/PaginationContainer';
 
 @Component
 export default class Articles extends Vue {
@@ -48,8 +48,8 @@ export default class Articles extends Vue {
       });
 
     this.$router.replace({
-      name: "articles",
-      params: { page: "" + pageNumber }
+      name: 'articles',
+      params: { page: '' + pageNumber }
     });
   }
 

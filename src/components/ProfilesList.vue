@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="profile in profiles" :key="profile.id" style="border: 1px solid gray">
+    <div v-for='profile in profiles' :key='profile.id' style='border: 1px solid gray'>
         <p>
             {{ profile.user.first_name }}
         </p>
@@ -17,9 +17,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { ProfileModel } from "@/models/ProfileModel";
+<script lang='ts'>
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { ProfileModel } from '@/models/ProfileModel';
 @Component
 export default class ProfilesList extends Vue {
   @Prop() profiles!: ProfileModel[];

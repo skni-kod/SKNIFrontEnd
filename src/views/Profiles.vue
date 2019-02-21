@@ -1,22 +1,22 @@
 <template>
   <div>
-    <profiles-list v-bind:profiles="profiles"></profiles-list>
+    <profiles-list v-bind:profiles='profiles'></profiles-list>
       <v-pagination
-        v-model="pagination.currentPage"
-        :length="pagination.pageCount"
-        @input="paginationClicked"
+        v-model='pagination.currentPage'
+        :length='pagination.pageCount'
+        @input='paginationClicked'
       ></v-pagination>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue';
 import ProfilesList from '@/components/ProfilesList.vue';
 import { ProfilesService } from '@/services/ProfilesService';
 import { ProfileModel } from '@/models/ProfileModel';
-import { PaginationModel } from "@/models/PaginationModel";
-import { PaginationContainer } from "@/models/PaginationContainer";
+import { PaginationModel } from '@/models/PaginationModel';
+import { PaginationContainer } from '@/models/PaginationContainer';
 
 @Component
 export default class Profiles extends Vue {
@@ -48,8 +48,8 @@ export default class Profiles extends Vue {
       });
 
     this.$router.replace({
-      name: "profiles",
-      params: { page: "" + pageNumber }
+      name: 'profiles',
+      params: { page: '' + pageNumber }
     });
   }
 

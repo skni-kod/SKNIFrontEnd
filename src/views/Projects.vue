@@ -1,22 +1,22 @@
 <template>
   <div>
-    <projects-list v-bind:projects="projects"></projects-list>
+    <projects-list v-bind:projects='projects'></projects-list>
       <v-pagination
-        v-model="pagination.currentPage"
-        :length="pagination.pageCount"
-        @input="paginationClicked"
+        v-model='pagination.currentPage'
+        :length='pagination.pageCount'
+        @input='paginationClicked'
       ></v-pagination>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue';
 import ProjectsList from '@/components/ProjectsList.vue';
 import { ProjectsService } from '@/services/ProjectsService';
 import { ProjectModel } from '@/models/ProjectModel';
-import { PaginationModel } from "@/models/PaginationModel";
-import { PaginationContainer } from "@/models/PaginationContainer";
+import { PaginationModel } from '@/models/PaginationModel';
+import { PaginationContainer } from '@/models/PaginationContainer';
 
 @Component
 export default class Projects extends Vue {
@@ -48,8 +48,8 @@ export default class Projects extends Vue {
       });
 
     this.$router.replace({
-      name: "projects",
-      params: { page: "" + pageNumber }
+      name: 'projects',
+      params: { page: '' + pageNumber }
     });
   }
 
