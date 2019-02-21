@@ -54,11 +54,6 @@ export default class Login extends Vue {
     }
   }
 
-  private isLogged(): boolean {
-    const a = isLoggedIn();
-    return a;
-  }
-
   private goToRegister() {
     this.$router.push("/register");
   }
