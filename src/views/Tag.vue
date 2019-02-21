@@ -46,7 +46,7 @@ export default class Tag extends Vue {
         this.$route.params.tag,
         pageNumber,
         this.pagination.itemsPerPage,
-        false
+        false,
       )
       .then((paginationContainer: PaginationContainer<ArticleModel>) => {
         this.articles = paginationContainer.results;
@@ -55,14 +55,14 @@ export default class Tag extends Vue {
 
     this.$router.replace({
       name: "tag",
-      params: { page: "" + pageNumber }
+      params: { page: "" + pageNumber },
     });
   }
 
   public data() {
     return {
       articles: this.articles,
-      pagination: this.pagination
+      pagination: this.pagination,
     };
   }
 }
