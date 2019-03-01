@@ -12,10 +12,10 @@
           <v-btn @click="generateAlias">Wygeneruj alias</v-btn>
         </v-flex>
         <v-flex xs6>
-          <v-text-field label="Data utworzenia" v-model="formattedCreationDate" mask="##-##-#### ##:##:##" :rules="[requiredRule]"></v-text-field>
+          <v-text-field label="Data utworzenia" v-model="formattedCreationDate" mask="##-##-#### ##:##:##" :rules="[requiredRule]" return-masked-value></v-text-field>
         </v-flex>
         <v-flex xs6>
-          <v-text-field label="Data publikacji" v-model="formattedPublicationDate" mask="##-##-#### ##:##:##" :rules="[requiredRule]"></v-text-field>
+          <v-text-field label="Data publikacji" v-model="formattedPublicationDate" mask="##-##-#### ##:##:##" :rules="[requiredRule]" return-masked-value></v-text-field>
         </v-flex>
         <v-flex xs12>
           <v-select v-model="selectedTags" :items="allTags" :item-text="tagTextSelector" attach chips label="Tags" multiple :rules="[requiredRule]"></v-select>
@@ -43,6 +43,7 @@ import { TagsService } from "@/services/TagsService";
 import { ArticleModel } from "@/models/ArticleModel";
 import { TagModel } from "@/models/TagModel";
 import moment from "moment";
+import { CreatorModel } from '@/models/CreatorModel';
 
 @Component
 export default class EditArticle extends Vue {
@@ -55,8 +56,6 @@ export default class EditArticle extends Vue {
   private formattedPublicationDate!: string;
   private valid!: boolean;
   
-  requiredRule = (v: string) => v.length > 0 || "To pole jest wymagane.";
-
   beforeCreate() {
     this.articlesService = new ArticlesService();
     this.tagsService = new TagsService();
@@ -67,6 +66,10 @@ export default class EditArticle extends Vue {
   }
 
   mounted() {
+    this.tagsService.getAllTags().then(tags => {
+      this.allTags = tags;
+    });
+      
     if (this.$route.params.id != undefined) {
       this.articlesService.getArticle(+this.$route.params.id).then(article => {
         this.article = article;
@@ -79,10 +82,6 @@ export default class EditArticle extends Vue {
         this.formattedPublicationDate = moment(
           this.article.publication_date
         ).format("DD-MM-YYYY HH:mm:SS");
-
-        this.tagsService.getAllTags().then(tags => {
-          this.allTags = tags;
-        });
       });
     }
   }
@@ -118,12 +117,34 @@ export default class EditArticle extends Vue {
   
   public onSaveButtonClick() {
     if (this.$refs.form.validate()) {
-      this.articlesService.createArticle(this.article).then((value: ArticleModel) => {
+      this.article.creation_date = new Date(this.formattedCreationDate);
+      this.article.publication_date = new Date(this.formattedPublicationDate);
+      
+      if(this.article.creator == undefined) {
+        this.article.creator = new CreatorModel();
+        this.article.creator.id = 1;
+      }
+      
+      this.articlesService.createArticle(this.article).then((response: ArticleModel) => {
+        this.article.id = response.id;
+        this.$router.replace({
+          name: "editarticle",
+          params: { id: "" + response.id }
+        });
+    
         alert("Artykuł dodany");
       }).catch((reason: any) => {
         alert("Nie udało się dodać artykułu");
       });
     }
+  }
+  
+  public requiredRule(v: string) {
+    if(v !== undefined) {
+      return v.length > 0 || "To pole jest wymagane.";
+    }
+    
+    return false;
   }
 }
 </script>

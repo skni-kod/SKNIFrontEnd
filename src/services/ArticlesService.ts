@@ -74,7 +74,6 @@ export class ArticlesService {
                 text: article.text,
                 creation_date: article.creation_date,
                 publication_date: article.publication_date,
-                creator_id: article.creator.id,
                 alias: article.alias,
                 creator: article.creator.id,
                 params: {
