@@ -36,9 +36,9 @@ export default new Router({
       component: () => import('./views/Article.vue'),
     },
     {
-      path: '/editarticle/:id?',
+      path: '/panel/editarticle/:id?',
       name: 'editarticle',
-      component: () => import('./views/EditArticle.vue'),
+      component: () => import('./views/Panel/EditArticle.vue'),
     },
     {
       path: '/tag/:tag/:page?',
