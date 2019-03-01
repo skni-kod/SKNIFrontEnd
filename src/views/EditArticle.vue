@@ -1,39 +1,39 @@
 <template>
-  <div>
+  <v-form ref="form" v-model="valid" lazy-validation>
     <v-container grid-list-md text-xs-centxer>
       <v-layout row wrap>
         <v-flex xs12>
-          <v-text-field label="Tytuł artykułu" v-model="article.title"></v-text-field>
+          <v-text-field label="Tytuł artykułu" v-model="article.title" :rules="[requiredRule]"></v-text-field>
         </v-flex>
         <v-flex xs10>
-          <v-text-field label="Alias" v-model="article.alias"></v-text-field>
+          <v-text-field label="Alias" v-model="article.alias" :rules="[requiredRule]"></v-text-field>
         </v-flex>
         <v-flex xs2>
           <v-btn @click="generateAlias">Wygeneruj alias</v-btn>
         </v-flex>
         <v-flex xs6>
-          <v-text-field label="Data utworzenia" v-model="formattedCreationDate" mask="##-##-#### ##:##:##"></v-text-field>
+          <v-text-field label="Data utworzenia" v-model="formattedCreationDate" mask="##-##-#### ##:##:##" :rules="[requiredRule]"></v-text-field>
         </v-flex>
         <v-flex xs6>
-          <v-text-field label="Data publikacji" v-model="formattedPublicationDate" mask="##-##-#### ##:##:##"></v-text-field>
+          <v-text-field label="Data publikacji" v-model="formattedPublicationDate" mask="##-##-#### ##:##:##" :rules="[requiredRule]"></v-text-field>
         </v-flex>
         <v-flex xs12>
-          <v-select v-model="selectedTags" :items="allTags" :item-text="tagTextSelector" attach chips label="Tags" multiple></v-select>
+          <v-select v-model="selectedTags" :items="allTags" :item-text="tagTextSelector" attach chips label="Tags" multiple :rules="[requiredRule]"></v-select>
         </v-flex>
         <v-flex xs6 class="text-xs-left full-height">
-          <v-textarea id="content-textarea" v-model="article.text" v-scroll:#content-textarea="onContentScroll"></v-textarea>
+          <v-textarea id="content-textarea" v-model="article.text" v-scroll:#content-textarea="onContentScroll" :rules="[requiredRule]"></v-textarea>
         </v-flex>
         <v-flex xs6 class="text-xs-left">
-          <vue-markdown id="content-preview" :source="article.text" html></vue-markdown>
+          <vue-markdown id="content-preview" :source="article.text" html :rules="[requiredRule]"></vue-markdown>
         </v-flex>
         <v-flex xs12>
           <v-btn>Anuluj</v-btn>
-          <v-btn>Zapisz i wróć do listy</v-btn>
-          <v-btn @click="onSaveButtonClick">Zapisz</v-btn>
+          <v-btn :disabled="!valid">Zapisz i wróć do listy</v-btn>
+          <v-btn @click="onSaveButtonClick" :disabled="!valid">Zapisz</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
-  </div>
+  </v-form>
 </template>
 
 <script lang="ts">
@@ -53,6 +53,9 @@ export default class EditArticle extends Vue {
   private selectedTags!: string[];
   private formattedCreationDate!: string;
   private formattedPublicationDate!: string;
+  private valid!: boolean;
+  
+  requiredRule = (v: string) => v.length > 0 || "To pole jest wymagane.";
 
   beforeCreate() {
     this.articlesService = new ArticlesService();
@@ -60,6 +63,7 @@ export default class EditArticle extends Vue {
     this.article = new ArticleModel();
     this.formattedCreationDate = "";
     this.formattedPublicationDate = "";
+    this.valid = false;
   }
 
   mounted() {
@@ -96,7 +100,8 @@ export default class EditArticle extends Vue {
       allTags: this.allTags,
       selectedTags: this.selectedTags,
       formattedPublicationDate: this.formattedPublicationDate,
-      formattedCreationDate: this.formattedCreationDate
+      formattedCreationDate: this.formattedCreationDate,
+      valid: this.valid
     };
   }
 
@@ -112,7 +117,13 @@ export default class EditArticle extends Vue {
   }
   
   public onSaveButtonClick() {
-    this.articlesService.createArticle(this.article);
+    if (this.$refs.form.validate()) {
+      this.articlesService.createArticle(this.article).then((value: ArticleModel) => {
+        alert("Artykuł dodany");
+      }).catch((reason: any) => {
+        alert("Nie udało się dodać artykułu");
+      });
+    }
   }
 }
 </script>
