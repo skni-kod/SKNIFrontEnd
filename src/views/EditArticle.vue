@@ -125,17 +125,26 @@ export default class EditArticle extends Vue {
         this.article.creator.id = 1;
       }
       
-      this.articlesService.createArticle(this.article).then((response: ArticleModel) => {
-        this.article.id = response.id;
-        this.$router.replace({
-          name: "editarticle",
-          params: { id: "" + response.id }
-        });
+      if(this.article.id === undefined) {
+        this.articlesService.createArticle(this.article).then((response: ArticleModel) => {
+          this.article.id = response.id;
+          this.$router.replace({
+            name: "editarticle",
+            params: { id: "" + response.id }
+          });
     
-        alert("Artykuł dodany");
-      }).catch((reason: any) => {
-        alert("Nie udało się dodać artykułu");
-      });
+          alert("Artykuł dodany");
+        }).catch((reason: any) => {
+          alert("Nie udało się dodać artykułu");
+        });
+      }
+      else {
+        this.articlesService.updateArticle(this.article).then((response: ArticleModel) => {
+          alert("Artykuł dodany");
+        }).catch((reason: any) => {
+          alert("Nie udało się dodać artykułu");
+        });
+      }
     }
   }
   

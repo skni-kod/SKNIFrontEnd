@@ -88,6 +88,28 @@ export class ArticlesService {
         throw new Error('Not logged in');
     }
 
+    public async updateArticle(article: ArticleModel): Promise<ArticleModel> {
+        const header = createAuthHeader();
+        if (header !== undefined) {
+            return (await this.axios.put('http://localhost:8000/articles/' + article.id + '/', {
+                title: article.title,
+                text: article.text,
+                creation_date: article.creation_date,
+                publication_date: article.publication_date,
+                alias: article.alias,
+                creator: article.creator.id,
+                params: {
+                    format: 'json',
+                }},
+                { headers: {
+                    'Authorization': header.Authorization
+                }
+            })).data;
+        }
+
+        throw new Error('Not logged in');
+    }
+
     public generateAliasForTitle(title: string) {
         if (title === undefined) {
             return '';
