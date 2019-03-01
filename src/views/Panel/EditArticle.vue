@@ -18,7 +18,7 @@
           <v-text-field label="Data publikacji" v-model="formattedPublicationDate" mask="##-##-#### ##:##:##" :rules="[requiredRule]" return-masked-value></v-text-field>
         </v-flex>
         <v-flex xs12>
-          <v-select v-model="selectedTags" :items="allTags" :item-text="tagTextSelector" attach chips label="Tags" multiple :rules="[requiredRule]"></v-select>
+          <v-select v-model="selectedTags" :items="allTags" :item-text="tagTextSelector" attach chips label="Tags" multiple></v-select>
         </v-flex>
         <v-flex xs6 class="text-xs-left full-height">
           <v-textarea id="content-textarea" v-model="article.text" v-scroll:#content-textarea="onContentScroll" :rules="[requiredRule]"></v-textarea>
@@ -71,7 +71,12 @@ export default class EditArticle extends Vue {
     });
       
     if (this.$route.params.id != undefined) {
-      this.articlesService.getArticle(+this.$route.params.id).then(article => {
+      this.loadArticleData();
+    }
+  }
+  
+  public loadArticleData() {
+    this.articlesService.getArticle(+this.$route.params.id).then(article => {
         this.article = article;
         this.selectedTags = this.article.tags.map(p => p.tag.name);
 
@@ -83,7 +88,6 @@ export default class EditArticle extends Vue {
           this.article.publication_date
         ).format("DD-MM-YYYY HH:mm:SS");
       });
-    }
   }
 
   public generateAlias() {
@@ -126,28 +130,50 @@ export default class EditArticle extends Vue {
       }
       
       if(this.article.id === undefined) {
-        this.articlesService.createArticle(this.article).then((response: ArticleModel) => {
+        this.articlesService.createArticle(this.article).then(async (response: ArticleModel) => {
           this.article.id = response.id;
           this.$router.replace({
-            name: "editarticle",
+            name: "panel-editarticle",
             params: { id: "" + response.id }
           });
     
-          alert("Artykuł dodany");
+          await this.addNewTags();
         }).catch((reason: any) => {
           alert("Nie udało się dodać artykułu");
         });
       }
       else {
-        this.articlesService.updateArticle(this.article).then((response: ArticleModel) => {
-          for(var articleTag of this.article.tags) {
-            this.tagsService.removeArticleTag(articleTag.id);
+        this.articlesService.updateArticle(this.article).then(async (response: ArticleModel) => {
+          if(this.tagsWereChanged()) {
+            await this.removeOldTags();
+            await this.addNewTags();
           }
-          
-          alert("Artykuł dodany");
+          this.loadArticleData();
         }).catch((reason: any) => {
           alert("Nie udało się dodać artykułu");
         });
+      }
+    }
+  }
+  
+  public tagsWereChanged() : boolean {
+    var firstArray = this.article.tags.map(p => p.tag.name);
+    var secondArray = this.selectedTags;
+    
+    return firstArray.join(',') != secondArray.join(',');
+  }
+  
+  public async removeOldTags() {
+    for(var articleTag of this.article.tags) {
+      await this.tagsService.removeArticleTag(articleTag.id);
+    }
+  }
+  
+  public async addNewTags() {
+    for(var tag of this.selectedTags) {
+      var tagToAdd = this.allTags.find(p => p.name == tag);
+      if(tagToAdd !== undefined) {
+        await this.tagsService.addArticleTag(this.article.id, tagToAdd.id);
       }
     }
   }

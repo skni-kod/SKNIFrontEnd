@@ -23,4 +23,20 @@ export class TagsService {
             });
         }
     }
+
+    public async addArticleTag(articleId: number, tagId: number) : Promise<void> {
+        const header = createAuthHeader();
+        if (header !== undefined) {
+            await this.axios.post('http://localhost:8000/article_tags/', {
+                article: articleId,
+                tag: tagId,
+                params: {
+                    format: 'json',
+                }},
+                { headers: {
+                    'Authorization': header.Authorization
+                }
+            });
+        }
+    }
 }
