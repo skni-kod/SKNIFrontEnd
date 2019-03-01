@@ -1,5 +1,8 @@
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
+import {
+  createAuthHeader
+} from "../helpers/auth";
 
 export class ArticlesService {
     private axios = require('axios');
@@ -61,6 +64,29 @@ export class ArticlesService {
         }
 
         return article;
+    }
+
+    public async createArticle(article: ArticleModel): Promise<ArticleModel> {
+        const header = createAuthHeader();
+        if (header !== undefined) {
+            return (await this.axios.post('http://localhost:8000/articles/', {
+                title: article.title,
+                text: article.text,
+                creation_date: article.creation_date,
+                publication_date: article.publication_date,
+                creator_id: article.creator.id,
+                alias: article.alias,
+                creator: article.creator.id,
+                params: {
+                    format: 'json',
+                }},
+                { headers: {
+                    'Authorization': header.Authorization
+                }
+            })).data;
+        }
+
+        throw new Error('Not logged in');
     }
 
     public generateAliasForTitle(title: string) {

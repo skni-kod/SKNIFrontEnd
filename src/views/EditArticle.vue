@@ -21,10 +21,15 @@
           <v-select v-model="selectedTags" :items="allTags" :item-text="tagTextSelector" attach chips label="Tags" multiple></v-select>
         </v-flex>
         <v-flex xs6 class="text-xs-left full-height">
-          <v-textarea id="content-textarea" v-model="article.text" v-scroll:#content-textarea="onScroll"></v-textarea>
+          <v-textarea id="content-textarea" v-model="article.text" v-scroll:#content-textarea="onContentScroll"></v-textarea>
         </v-flex>
         <v-flex xs6 class="text-xs-left">
           <vue-markdown id="content-preview" :source="article.text" html></vue-markdown>
+        </v-flex>
+        <v-flex xs12>
+          <v-btn>Anuluj</v-btn>
+          <v-btn>Zapisz i wróć do listy</v-btn>
+          <v-btn @click="onSaveButtonClick">Zapisz</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -99,11 +104,15 @@ export default class EditArticle extends Vue {
     return item.name;
   }
 
-  public onScroll(offset: any) {
+  public onContentScroll(offset: any) {
     var contentPreview = this.$el.querySelector("#content-preview");
     if (contentPreview != undefined) {
       contentPreview.scrollTop = offset.target.scrollTop;
     }
+  }
+  
+  public onSaveButtonClick() {
+    this.articlesService.createArticle(this.article);
   }
 }
 </script>
