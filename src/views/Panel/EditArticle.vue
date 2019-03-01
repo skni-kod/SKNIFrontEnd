@@ -140,6 +140,10 @@ export default class EditArticle extends Vue {
       }
       else {
         this.articlesService.updateArticle(this.article).then((response: ArticleModel) => {
+          for(var articleTag of this.article.tags) {
+            this.tagsService.removeArticleTag(articleTag.id);
+          }
+          
           alert("Artykuł dodany");
         }).catch((reason: any) => {
           alert("Nie udało się dodać artykułu");

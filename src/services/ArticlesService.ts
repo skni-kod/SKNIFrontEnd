@@ -1,8 +1,6 @@
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
-import {
-  createAuthHeader
-} from "../helpers/auth";
+import { createAuthHeader } from "../helpers/auth";
 
 export class ArticlesService {
     private axios = require('axios');
