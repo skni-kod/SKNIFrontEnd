@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a href="#/panel/editarticle">Dodaj artykuł</a>
     <panel-articles-list v-bind:articles="articles"></panel-articles-list>
     <v-pagination
       v-model="pagination.currentPage"
