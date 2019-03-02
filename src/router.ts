@@ -36,6 +36,11 @@ export default new Router({
       component: () => import('./views/Article.vue'),
     },
     {
+      path: '/panel/articles/',
+      name: 'panel-articles',
+      component: () => import('./views/Panel/PanelArticles.vue'),
+    },
+    {
       path: '/panel/editarticle/:id?',
       name: 'panel-editarticle',
       component: () => import('./views/Panel/EditArticle.vue'),

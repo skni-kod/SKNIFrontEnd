@@ -13,6 +13,7 @@ import SingleProfile from '@/components/SingleProfile.vue';
 import ProfilesList from '@/components/ProfilesList.vue';
 import ProjectsList from '@/components/ProjectsList.vue';
 import SingleProject from '@/components/SingleProject.vue';
+import PanelArticlesList from '@/components/Panel/PanelArticlesList.vue';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
@@ -39,3 +40,4 @@ Vue.component('single-profile', SingleProfile);
 Vue.component('profiles-list', ProfilesList);
 Vue.component('projects-list', ProjectsList);
 Vue.component('single-project', SingleProject);
+Vue.component('panel-articles-list', PanelArticlesList);
