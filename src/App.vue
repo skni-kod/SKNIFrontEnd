@@ -94,4 +94,8 @@ body {
   position: relative;
   padding-bottom: 100px; /* height of your footer */
 }
+
+.section-title{
+    font-size: 300%;
+}
 </style>

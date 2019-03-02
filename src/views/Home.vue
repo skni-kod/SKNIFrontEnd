@@ -1,6 +1,19 @@
 <template>
   <div class='home'>
-    <v-parallax :src="require('../assets/strona_bg.png')"></v-parallax>
+    <v-card>
+    <v-img :src="require('../assets/strona_bg.png')" class="hidden-sm-and-down" :asspect-ratio="3.55">
+      <v-container fluid>
+        <v-layout>
+          <v-flex xs12 align-end flexbox>
+            <v-img :src="require('../assets/logo_color.png')":width="'30%'" style="margin-left: 10vw; margin-top: 5vh"></v-img>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-img>
+    </v-card>
+    <div class="hidden-md-and-up background" style="margin-top: -10px">
+      <v-img :src="require('../assets/logo_color.png')"></v-img>
+    </div>
     <home-section-list v-bind:sections="sections"></home-section-list>
   </div>
 </template>
@@ -34,3 +47,10 @@ export default class Home extends Vue {
     }
 }
 </script>
+
+<style scoped>
+  .background {
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 70% , rgba(255, 255, 255, 1) 100%), url("../assets/bg.png") repeat;
+    background-position: center top;
+  }
+</style>
