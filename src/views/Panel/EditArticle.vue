@@ -12,10 +12,10 @@
           <v-btn @click="generateAlias">Wygeneruj alias</v-btn>
         </v-flex>
         <v-flex xs6>
-          <v-text-field label="Data utworzenia" v-model="formattedCreationDate" mask="##-##-#### ##:##:##" :rules="[requiredRule]" return-masked-value></v-text-field>
+          <v-text-field label="Data utworzenia" v-model="formattedCreationDate" mask="####-##-## ##:##:##" :rules="[requiredRule]" return-masked-value></v-text-field>
         </v-flex>
         <v-flex xs6>
-          <v-text-field label="Data publikacji" v-model="formattedPublicationDate" mask="##-##-#### ##:##:##" :rules="[requiredRule]" return-masked-value></v-text-field>
+          <v-text-field label="Data publikacji" v-model="formattedPublicationDate" mask="####-##-## ##:##:##" :rules="[requiredRule]" return-masked-value></v-text-field>
         </v-flex>
         <v-flex xs12>
           <v-select v-model="selectedTags" :items="allTags" :item-text="tagTextSelector" attach chips label="Tags" multiple></v-select>
@@ -81,12 +81,12 @@ export default class EditArticle extends Vue {
         this.selectedTags = this.article.tags.map(p => p.tag.name);
 
         this.formattedCreationDate = moment(this.article.creation_date).format(
-          "DD-MM-YYYY HH:mm:SS"
+          "YYYY-MM-DD HH:mm:SS"
         );
 
         this.formattedPublicationDate = moment(
           this.article.publication_date
-        ).format("DD-MM-YYYY HH:mm:SS");
+        ).format("YYYY-MM-DD HH:mm:SS");
       });
   }
 
