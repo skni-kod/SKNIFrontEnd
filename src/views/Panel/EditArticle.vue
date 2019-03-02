@@ -27,8 +27,8 @@
           <vue-markdown id="content-preview" :source="article.text" html :rules="[requiredRule]"></vue-markdown>
         </v-flex>
         <v-flex xs12>
-          <v-btn>Anuluj</v-btn>
-          <v-btn :disabled="!valid">Zapisz i wróć do listy</v-btn>
+          <v-btn @click="onReturnButtonClick">Anuluj</v-btn>
+          <v-btn @click="onSaveAndReturnButtonClick" :disabled="!valid">Zapisz i wróć do listy</v-btn>
           <v-btn @click="onSaveButtonClick" :disabled="!valid">Zapisz</v-btn>
         </v-flex>
       </v-layout>
@@ -119,7 +119,27 @@ export default class EditArticle extends Vue {
     }
   }
   
+  public onReturnButtonClick() {
+    if (confirm("Jesteś pewny że chcesz wyjśc bez zapisania artykułu?"))
+    {
+      this.$router.replace({
+        name: "panel-articles"
+      });
+    }
+  }
+  
+  public onSaveAndReturnButtonClick() {
+    this.saveArticle();
+    this.$router.replace({
+        name: "panel-articles"
+      });
+  }
+  
   public onSaveButtonClick() {
+    this.saveArticle();
+  }
+  
+  public saveArticle() {
     if (this.$refs.form.validate()) {
       this.article.creation_date = new Date(this.formattedCreationDate);
       this.article.publication_date = new Date(this.formattedPublicationDate);
@@ -138,6 +158,7 @@ export default class EditArticle extends Vue {
           });
     
           await this.addNewTags();
+          this.loadArticleData();
         }).catch((reason: any) => {
           alert("Nie udało się dodać artykułu");
         });
