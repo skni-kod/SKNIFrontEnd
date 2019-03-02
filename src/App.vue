@@ -2,7 +2,7 @@
   <div id='app' class='main-container'>
     <v-toolbar dark app color='primary'>
       <v-toolbar-items class='hidden-sm-and-down'>
-        <v-btn v-for='item in toolbarItems' :key='item.link' :to='item.link'> 
+        <v-btn v-for='item in toolbarItems' :key='item.link' :to='item.link'>
           {{item.title}}
         </v-btn>
       </v-toolbar-items>
@@ -25,7 +25,7 @@
     </v-toolbar>
     <div id='nav'></div>
 
-    <router-view style='margin-top: 30px;'/>
+    <router-view/>
     <v-footer height='auto' color='primary' style='position: absolute; bottom: 0; width: 100%'>
       <v-layout justify-center row wrap>
         &copy;2019 —
