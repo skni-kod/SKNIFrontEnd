@@ -8,7 +8,7 @@
       </v-toolbar-items>
 
       <v-menu class='hidden-md-and-up'>
-        <v-toolbar-side-icon slot='activator'></v-toolbar-side-icon>
+        <v-icon slot='activator'>mdi-menu</v-icon>
         <v-list>
           <v-list-tile v-for='item in toolbarItems' :key='item.link'>
             <v-list-tile-content>
@@ -20,7 +20,7 @@
 
       <v-spacer/>
       <v-btn icon to='/login'>
-        <v-icon>person</v-icon>
+        <v-icon>mdi-account</v-icon>
       </v-btn>
     </v-toolbar>
     <div id='nav'></div>
