@@ -6,6 +6,7 @@
           :headers="headers"
           :items="articles"
           class="elevation-1"
+          hide-actions
         >
           <template v-slot:items="props">
             <td class="text-xs-left">{{ props.item.id }}</td>

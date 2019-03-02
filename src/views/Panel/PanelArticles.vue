@@ -27,7 +27,7 @@ export default class PanelArticles extends Vue {
 
   beforeCreate() {
     this.articlesService = new ArticlesService();
-    this.pagination = new PaginationModel(1, 3, 3);
+    this.pagination = new PaginationModel(1, 0, 10);
   }
 
   mounted() {
