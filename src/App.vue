@@ -1,32 +1,32 @@
 <template>
-  <div id="app" class="main-container">
-    <v-toolbar dark app color="primary">
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link"> 
+  <div id='app' class='main-container'>
+    <v-toolbar dark app color='primary'>
+      <v-toolbar-items class='hidden-sm-and-down'>
+        <v-btn v-for='item in toolbarItems' :key='item.link' :to='item.link'> 
           {{item.title}}
         </v-btn>
       </v-toolbar-items>
 
-      <v-menu class="hidden-md-and-up">
-        <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
+      <v-menu class='hidden-md-and-up'>
+        <v-toolbar-side-icon slot='activator'></v-toolbar-side-icon>
         <v-list>
-          <v-list-tile v-for="item in toolbarItems" :key="item.link">
+          <v-list-tile v-for='item in toolbarItems' :key='item.link'>
             <v-list-tile-content>
-              <v-btn flat :to="item.link">{{ item.title }}</v-btn>
+              <v-btn flat :to='item.link'>{{ item.title }}</v-btn>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-menu>
 
       <v-spacer/>
-      <v-btn icon to="/login">
+      <v-btn icon to='/login'>
         <v-icon>person</v-icon>
       </v-btn>
     </v-toolbar>
-    <div id="nav"></div>
+    <div id='nav'></div>
 
-    <router-view style="margin-top: 30px;"/>
-    <v-footer height="auto" color="primary" style="position: absolute; bottom: 0; width: 100%">
+    <router-view style='margin-top: 30px;'/>
+    <v-footer height='auto' color='primary' style='position: absolute; bottom: 0; width: 100%'>
       <v-layout justify-center row wrap>
         &copy;2019 —
         <strong>SKNI KOD. Wszystkie kaczki zastrzeżone</strong>
@@ -35,20 +35,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
+<script lang='ts'>
+import Vue from 'vue';
+import Component from 'vue-class-component';
 
 @Component
 export default class App extends Vue {
-  toolbarItems = [
-    { link: "/", title: "Home" },
-    { link: "/about", title: "About" },
-    { link: "/articles", title: "Articles" },
-    { link: "/sections", title: "Sekcje" },
-    { link: "/projects", title: "Projekty" },
-    { link: "/hardware", title: "Hardware" },
-    { link: "/profiles", title: "Profile" }
+  private toolbarItems = [
+    { link: '/', title: 'Home' },
+    { link: '/about', title: 'About' },
+    { link: '/articles', title: 'Articles' },
+    { link: '/sections', title: 'Sekcje' },
+    { link: '/projects', title: 'Projekty' },
+    { link: '/hardware', title: 'Hardware' },
+    { link: '/profiles', title: 'Profile' },
   ];
 }
 </script>
@@ -56,7 +56,7 @@ export default class App extends Vue {
 
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
