@@ -3,4 +3,5 @@ export class SectionModel {
     public name!: string;
     public description!: string;
     public isVisible!: boolean;
+    public icon!: string;
 }

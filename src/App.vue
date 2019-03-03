@@ -2,13 +2,13 @@
   <div id='app' class='main-container'>
     <v-toolbar dark app color='primary'>
       <v-toolbar-items class='hidden-sm-and-down'>
-        <v-btn v-for='item in toolbarItems' :key='item.link' :to='item.link'> 
+        <v-btn v-for='item in toolbarItems' :key='item.link' :to='item.link'>
           {{item.title}}
         </v-btn>
       </v-toolbar-items>
 
       <v-menu class='hidden-md-and-up'>
-        <v-toolbar-side-icon slot='activator'></v-toolbar-side-icon>
+        <v-icon slot='activator'>mdi-menu</v-icon>
         <v-list>
           <v-list-tile v-for='item in toolbarItems' :key='item.link'>
             <v-list-tile-content>
@@ -20,12 +20,12 @@
 
       <v-spacer/>
       <v-btn icon to='/login'>
-        <v-icon>person</v-icon>
+        <v-icon>mdi-account</v-icon>
       </v-btn>
     </v-toolbar>
     <div id='nav'></div>
 
-    <router-view style='margin-top: 30px;'/>
+    <router-view/>
     <v-footer height='auto' color='primary' style='position: absolute; bottom: 0; width: 100%'>
       <v-layout justify-center row wrap>
         &copy;2019 —
@@ -93,5 +93,9 @@ body {
   display: block;
   position: relative;
   padding-bottom: 100px; /* height of your footer */
+}
+
+.section-title{
+    font-size: 300%;
 }
 </style>
