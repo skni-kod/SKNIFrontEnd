@@ -23,15 +23,20 @@ import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import { SectionsService } from '@/services/SectionsService';
 import { SectionModel } from '@/models/SectionModel';
+import {ArticleModel} from '../models/ArticleModel';
+import {ArticlesService} from '../services/ArticlesService';
 
 @Component
 export default class Home extends Vue {
     private sectionsService!: SectionsService;
+    private articleService!: ArticlesService;
     private sections!: SectionModel[];
+    private articles!: ArticleModel[];
     constructor() {
         super();
         this.sectionsService = new SectionsService();
         this.sections = [];
+        this.articles = [];
     }
     public mounted() {
         this.sectionsService.getAllSections().then((p) => {
@@ -43,6 +48,10 @@ export default class Home extends Vue {
                     i++;
                 }
             }
+        });
+
+        this.articleService.getArticles(0, 3, false).then((a) => {
+            this.articles = a.results;
         });
     }
 }
