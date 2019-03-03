@@ -15,6 +15,7 @@
       <v-img :src="require('../assets/logo_color.png')"></v-img>
     </div>
     <home-section-list v-bind:sections="sections"></home-section-list>
+    <home-article-list :articles="articles"></home-article-list>
   </div>
 </template>
 
@@ -35,6 +36,7 @@ export default class Home extends Vue {
     constructor() {
         super();
         this.sectionsService = new SectionsService();
+        this.articleService = new ArticlesService();
         this.sections = [];
         this.articles = [];
     }

@@ -14,6 +14,7 @@ import ProfilesList from '@/components/ProfilesList.vue';
 import ProjectsList from '@/components/ProjectsList.vue';
 import SingleProject from '@/components/SingleProject.vue';
 import HomeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
+import HomeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 
@@ -41,3 +42,4 @@ Vue.component('profiles-list', ProfilesList);
 Vue.component('projects-list', ProjectsList);
 Vue.component('single-project', SingleProject);
 Vue.component('home-section-list', HomeSectionList);
+Vue.component('home-article-list', HomeArticleList);
