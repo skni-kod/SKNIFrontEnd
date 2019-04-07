@@ -15,7 +15,7 @@ export class ArticleModel {
     public publication_date!: Date;
 
     public creator!: CreatorModel;
-    public gallery!: GalleryModel;
+    public gallery!: GalleryModel[];
     public tags!: ArticleTagsModel[];
 
     // tslint:disable-next-line:variable-name
