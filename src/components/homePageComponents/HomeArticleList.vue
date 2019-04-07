@@ -1,7 +1,7 @@
 <template>
     <v-container grid-list-md text-xs-center>
         <h2 class="display-2">Najnowsze artykuły</h2>
-        <v-layout align-space-between justify-center row fill-height wrap>
+        <v-layout align-space-between justify-center row fill-height wrap style="margin-top: 20px">
             <v-flex sm12 v-for='(article, index) in articles' :key='article.title'
                     :md12="index === 0"
                     :lg12="index === 0"
