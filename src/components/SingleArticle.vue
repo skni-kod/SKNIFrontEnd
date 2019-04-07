@@ -1,24 +1,24 @@
 <template>
-    <div v-if='article != undefined'>
-      <v-card>
+    <div  v-if='article != undefined'>
+      <v-card class="article-background">
         <v-card-title primary-title>
-          <div>
+          <div class="article">
             <h3 class='headline mb-0 text-xs-left'>
               <a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a>
             </h3>
-            <div class='text-xs-left'>
-              <v-icon>mdi-account</v-icon>{{article.creator.user.username}}
-              <v-icon>mdi-calendar-today</v-icon>{{article.creation_date | moment('DD-MM-YYYY')}}
-              <span v-if='article.tags.length != 0'>
-                <v-icon>mdi-note</v-icon>
-                <span v-for='(articleTag, index) in article.tags' :key='articleTag.tag.name'>
+            <div class='text-xs-left info'>
+              <div><v-icon class='icon'>mdi-account</v-icon><p>{{article.creator.user.username}}</p></div>
+             <div><v-icon class='icon'>mdi-calendar-today</v-icon><p>{{article.creation_date | moment('DD-MM-YYYY')}}</p></div>
+              <div><span class='tags' v-if='article.tags.length != 0'>
+                <v-icon class='icon'>mdi-note</v-icon>
+                <p><span v-for='(articleTag, index) in article.tags' :key='articleTag.tag.name'>
                   <a v-bind:href="'/#/tag/'+ articleTag.tag.name">{{ '#' + articleTag.tag.name }}</a>
                   <span v-if='index != (article.tags.length - 1)'>, </span>
-                </span>
-              </span>
-              <v-icon>mdi-comment</v-icon>{{article.comments_number}}
+                </span></p>
+              </span></div>
+              <div><v-icon class='icon'>mdi-comment</v-icon><p>{{article.comments_number}}</p></div>
             </div>
-            <vue-markdown class='text-xs-left' style='margin-top: 10px;'>{{article.text}}</vue-markdown>
+            <vue-markdown class='text-xs-left description' style='margin-top: 10px;'>{{article.text}}</vue-markdown>
           </div>
         </v-card-title>
         <v-card-actions v-if='article.readMore' style='margin-top: -20px;'>
@@ -41,3 +41,59 @@ export default class SingleArticle extends Vue {
   @Prop() public comments!: CommentModel[];
 }
 </script>
+
+<style lang="scss" scoped>
+.article{
+  margin-top: 100px;
+  width: 90%;
+  margin: auto;
+  h3{
+    display: flex;
+    justify-content: center;
+    a{
+      color: #418F9F;
+      text-decoration: none;
+      font-size: 35px;
+      text-align: center;
+      text-shadow: 1.1px 1.1px #65929b;
+    }
+    padding: 0 0 20px 0;
+  }
+  .info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    div{
+      display: flex;
+      flex-direction: row;
+      span{
+        a{
+          color:#455154;
+          text-decoration: none;
+          font-weight: 500;
+          letter-spacing: 1px;
+        }
+      }
+      p{
+        padding: 20px 0 0 10px;
+        letter-spacing: 1px;
+        color: #455154;
+        font-weight: 500;
+      }
+      .tags{
+        display: flex;
+      }
+    }
+    .icon{
+      color: #3f849a;
+    }
+  }
+  .description{
+    font-size: 16px;
+  }
+}
+.article-background:hover{
+  background-color:#f9f9f9;
+}
+</style>
+
