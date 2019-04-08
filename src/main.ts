@@ -14,8 +14,10 @@ import ProfilesList from '@/components/ProfilesList.vue';
 import ProjectsList from '@/components/ProjectsList.vue';
 import SingleProject from '@/components/SingleProject.vue';
 import PanelArticlesList from '@/components/Panel/PanelArticlesList.vue';
+import HomeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
+import HomeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
 import 'vuetify/dist/vuetify.min.css';
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
+import '@mdi/font/css/materialdesignicons.css';
 
 Vue.config.productionTip = false;
 
@@ -25,7 +27,7 @@ new Vue({
 }).$mount('#app');
 
 Vue.use(Vuetify, {
-  iconfont: 'md',
+  iconfont: 'mdi',
 });
 
 Vue.use(VueMoment, 'vue-moment');
@@ -41,3 +43,5 @@ Vue.component('profiles-list', ProfilesList);
 Vue.component('projects-list', ProjectsList);
 Vue.component('single-project', SingleProject);
 Vue.component('panel-articles-list', PanelArticlesList);
+Vue.component('home-section-list', HomeSectionList);
+Vue.component('home-article-list', HomeArticleList);

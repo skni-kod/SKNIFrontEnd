@@ -1,12 +1,13 @@
 import { TagModel } from '@/models/TagModel';
 import { ArticleTagsModel } from '@/models/ArticleTagsModel';
 import { createAuthHeader } from "../helpers/auth";
+import { API_MAIN_URL_BASE } from '@/parameters';
 
 export class TagsService {
     private axios = require('axios');
 
     public async getAllTags(): Promise<TagModel[]> {
-        return (await this.axios('http://localhost:8000/tags/')).data;
+        return (await this.axios(API_MAIN_URL_BASE + '/tags/')).data;
     }
 
     public async removeArticleTag(articleTagId: number) : Promise<void> {

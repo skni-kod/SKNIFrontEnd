@@ -1,13 +1,14 @@
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
 import { createAuthHeader } from "../helpers/auth";
+import { API_MAIN_URL_BASE } from '@/parameters';
 
 export class ArticlesService {
     private axios = require('axios');
     private readMoreGuard = '---readmore---';
 
     public async getAllArticles(): Promise<ArticleModel[]> {
-        return (await this.axios('http://localhost:8000/articles/', {
+        return (await this.axios(API_MAIN_URL_BASE + '/articles/', {
             params: {
                 format: 'json',
             },
@@ -16,7 +17,7 @@ export class ArticlesService {
 
     // tslint:disable-next-line:max-line-length
     public async getArticles(pageNumber: number, pageSize: number, fullText: boolean): Promise<PaginationContainer<ArticleModel>> {
-        const data = (await this.axios('http://localhost:8000/articles/', {
+        const data = (await this.axios(API_MAIN_URL_BASE + '/articles/', {
             params: {
                 format: 'json',
                 offset: (pageNumber - 1) * pageSize,
@@ -33,7 +34,7 @@ export class ArticlesService {
 
     // tslint:disable-next-line:max-line-length
     public async getArticlesWithTag(tag: string, pageNumber: number, pageSize: number, fullText: boolean): Promise<PaginationContainer<ArticleModel>> {
-        const data = (await this.axios('http://localhost:8000/articles/', {
+        const data = (await this.axios(API_MAIN_URL_BASE + '/articles/', {
             params: {
                 tagname: tag,
                 format: 'json',
@@ -50,7 +51,7 @@ export class ArticlesService {
     }
 
     public async getArticle(id: number): Promise<ArticleModel> {
-        const article = (await this.axios('http://localhost:8000/articles/' + id, {
+        const article = (await this.axios(API_MAIN_URL_BASE + '/articles/' + id, {
             params: {
                 format: 'json',
             },
