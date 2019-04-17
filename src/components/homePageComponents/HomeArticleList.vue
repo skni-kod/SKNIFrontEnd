@@ -8,7 +8,7 @@
                     :xl12="index === 0"
                     :md6="index !== 0"
                     :lg6="index !== 0">
-                <single-article :article="article"></single-article>
+                <article-card :article="article"></article-card>
             </v-flex>
         </v-layout>
     </v-container>
