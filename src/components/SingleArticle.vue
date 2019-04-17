@@ -1,7 +1,7 @@
 <template>
-    <div  v-if='article != undefined'>
+    <div v-if='article != undefined' class="page-container">
       <v-card class="article-background">
-        <v-card-title primary-title>
+        <!--<v-card-title primary-title>-->
           <div class="article">
             <h3 class='headline mb-0 text-xs-left'>
               <a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a>
@@ -40,6 +40,9 @@ export default class SingleArticle extends Vue {
 </script>
 
 <style lang="scss" scoped>
+    .page-container{
+        margin-top: 20px;
+    }
 .article{
   margin-top: 100px;
   width: 90%;
@@ -88,6 +91,9 @@ export default class SingleArticle extends Vue {
   .description{
     font-size: 16px;
   }
+}
+.article-background{
+    padding: 20px;
 }
 .article-background:hover{
   background-color:#f9f9f9;
