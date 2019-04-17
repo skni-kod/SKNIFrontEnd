@@ -1,26 +1,24 @@
 <template>
-    <div v-if='article != undefined'>
-      <v-card>
-        <v-img
-                class="white--text"
-                height="300px"
-                :src="article.gallery ? (article.gallery[0] ? article.gallery[0].image : require('../assets/strona_bg.png')) : require('../assets/strona_bg.png')"
-        >
-          <div style="height: 100%; width: 100%; display: flex; flex-direction: column">
-          <v-container style="flex: 1 100%">
-            <v-layout fill-height>
-            </v-layout>
-          </v-container>
-
-          <v-container style="background-image: linear-gradient(rgba(12, 12, 12, 0), rgba(12, 12, 12, 0.8)); height: 50%; flex: 1 100%; width: 100%">
-            <v-flex style="text-align: left">
-              <span class="headline text-xs-left"><a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a></span>
-              <vue-markdown class='text-xs-left text-shadow-paragraph' style='margin-top: 10px;'>{{article.text}}</vue-markdown>
-              <div style="display: flex; width: 100%; justify-content: end">
-                  <v-btn v-bind:href="'/#/article/'+ article.id + '-' + article.alias" flat style="background-color: #64b5f6; color: white;" class="elevation-2">Czytaj więcej...</v-btn>
-              </div>
-            </v-flex>
-          </v-container>
+    <div  v-if='article != undefined'>
+      <v-card class="article-background">
+        <v-card-title primary-title>
+          <div class="article">
+            <h3 class='headline mb-0 text-xs-left'>
+              <a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a>
+            </h3>
+            <div class='text-xs-left info'>
+              <div><v-icon class='icon'>mdi-account</v-icon><p>{{article.creator.user.username}}</p></div>
+             <div><v-icon class='icon'>mdi-calendar-today</v-icon><p>{{article.creation_date | moment('DD-MM-YYYY')}}</p></div>
+              <div><span class='tags' v-if='article.tags.length != 0'>
+                <v-icon class='icon'>mdi-note</v-icon>
+                <p><span v-for='(articleTag, index) in article.tags' :key='articleTag.tag.name'>
+                  <a v-bind:href="'/#/tag/'+ articleTag.tag.name">{{ '#' + articleTag.tag.name }}</a>
+                  <span v-if='index != (article.tags.length - 1)'>, </span>
+                </span></p>
+              </span></div>
+              <div><v-icon class='icon'>mdi-comment</v-icon><p>{{article.comments_number}}</p></div>
+            </div>
+            <vue-markdown class='text-xs-left description' style='margin-top: 10px;'>{{article.text}}</vue-markdown>
           </div>
         </v-img>
       </v-card>
@@ -41,25 +39,57 @@ export default class SingleArticle extends Vue {
 }
 </script>
 
-<style scoped>
-  a{
-    color: white;
-    text-decoration: none;
-    text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+<style lang="scss" scoped>
+.article{
+  margin-top: 100px;
+  width: 90%;
+  margin: auto;
+  h3{
+    display: flex;
+    justify-content: center;
+    a{
+      color: #418F9F;
+      text-decoration: none;
+      font-size: 35px;
+      text-align: center;
+      text-shadow: 1.1px 1.1px #65929b;
+    }
+    padding: 0 0 20px 0;
   }
-  a:link{
-    color: white;
-    text-decoration: none;
+  .info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    div{
+      display: flex;
+      flex-direction: row;
+      span{
+        a{
+          color:#455154;
+          text-decoration: none;
+          font-weight: 500;
+          letter-spacing: 1px;
+        }
+      }
+      p{
+        padding: 20px 0 0 10px;
+        letter-spacing: 1px;
+        color: #455154;
+        font-weight: 500;
+      }
+      .tags{
+        display: flex;
+      }
+    }
+    .icon{
+      color: #3f849a;
+    }
   }
-  a:hover{
-    color: white;
-    text-decoration: underline;
+  .description{
+    font-size: 16px;
   }
-  a:active{
-    color: white;
-    text-decoration: none;
-  }
-  .text-shadow-paragraph{
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
-  }
+}
+.article-background:hover{
+  background-color:#f9f9f9;
+}
 </style>
