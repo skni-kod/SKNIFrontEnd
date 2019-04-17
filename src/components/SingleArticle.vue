@@ -20,10 +20,7 @@
             </div>
             <vue-markdown class='text-xs-left description' style='margin-top: 10px;'>{{article.text}}</vue-markdown>
           </div>
-        </v-card-title>
-        <v-card-actions v-if='article.readMore' style='margin-top: -20px;'>
-          <v-btn v-bind:href="'/#/article/'+ article.id + '-' + article.alias" flat color='orange'>Czytaj więcej...</v-btn>
-        </v-card-actions>
+        </v-img>
       </v-card>
 
       <comments-list v-bind:comments='comments'></comments-list>
@@ -96,4 +93,3 @@ export default class SingleArticle extends Vue {
   background-color:#f9f9f9;
 }
 </style>
-
