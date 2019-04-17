@@ -22,8 +22,15 @@
           </div>
         </v-img>
       </v-card>
-
-      <comments-list v-bind:comments='comments'></comments-list>
+        <vue-gallery :images="gallery" :index="galleryIndex" @close="galleryIndex = null"></vue-gallery>
+        <div
+                class="image"
+                v-for="(image, imageIndex) in article.gallery"
+                :key="imageIndex"
+                @click="galleryIndex = imageIndex, gallery = getImageUrls()"
+                :style="{ backgroundImage: 'url(' + image.image + ')', width: '300px', height: '200px' }"
+        ></div>
+      <comments-list v-bind:comments='comments' style="clear: both"></comments-list>
     </div>
 </template>
 
@@ -36,6 +43,27 @@ import { CommentModel } from '@/models/CommentModel';
 export default class SingleArticle extends Vue {
   @Prop() public article!: ArticleModel;
   @Prop() public comments!: CommentModel[];
+  // @Prop() public galleryIndex: number | null = null;
+    public data() {
+        return {
+            galleryIndex: null,
+            gallery: [],
+        };
+    }
+
+    public methods() {
+        return {
+            getImageUrls: this.getImageUrls,
+        };
+    }
+
+    public getImageUrls() {
+        const imageUrls: string[] = [];
+        for (const galleryItem of this.article.gallery) {
+            imageUrls.push(galleryItem.image);
+        }
+        return imageUrls;
+    }
 }
 </script>
 
@@ -97,4 +125,12 @@ export default class SingleArticle extends Vue {
 .article-background:hover{
   background-color:#f9f9f9;
 }
+    .image {
+        float: left;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        border: 1px solid #ebebeb;
+        margin: 5px;
+    }
 </style>
