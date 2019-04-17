@@ -44,7 +44,6 @@ export default class SingleArticle extends Vue {
         margin-top: 20px;
     }
 .article{
-  margin-top: 100px;
   width: 90%;
   margin: auto;
   h3{
