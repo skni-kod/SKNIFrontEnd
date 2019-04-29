@@ -16,6 +16,7 @@ import SingleProject from '@/components/SingleProject.vue';
 import HomeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
 import HomeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
+import Footer from '@/components/Footer.vue'
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 
@@ -45,3 +46,4 @@ Vue.component('single-project', SingleProject);
 Vue.component('home-section-list', HomeSectionList);
 Vue.component('home-article-list', HomeArticleList);
 Vue.component('article-card', ArticleCard);
+Vue.component('footer-main', Footer);
