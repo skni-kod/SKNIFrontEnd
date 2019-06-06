@@ -19,9 +19,9 @@
       </v-menu>
 
       <v-spacer/>
-      <v-btn icon to='/login'>
+      <!--<v-btn icon to='/login'>
         <v-icon>mdi-account</v-icon>
-      </v-btn>
+      </v-btn>-->
     </v-toolbar>
     <div id='nav'></div>
 
@@ -37,13 +37,13 @@ import Component from 'vue-class-component';
 @Component
 export default class App extends Vue {
   private toolbarItems = [
-    { link: '/', title: 'Home' },
-    { link: '/about', title: 'About' },
-    { link: '/articles', title: 'Articles' },
+    { link: '/', title: 'Strona główna' },
+    { link: '/about', title: 'O nas' },
+    { link: '/articles', title: 'Artykuły' },
     { link: '/sections', title: 'Sekcje' },
     { link: '/projects', title: 'Projekty' },
-    { link: '/hardware', title: 'Hardware' },
-    { link: '/profiles', title: 'Profile' },
+    // { link: '/hardware', title: 'Hardware' },
+    // { link: '/profiles', title: 'Profile' },
   ];
 }
 </script>
