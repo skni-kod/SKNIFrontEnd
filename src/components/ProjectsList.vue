@@ -12,7 +12,8 @@
 
         <div class="cardFooter">
           <div class="sectionContainer">
-            <img :src="project.section.icon" class="sectionIcon" />
+            <v-icon x-large class="blue--text text--lighten-2">{{project.section.icon}}</v-icon>
+            <!--<img :src="project.section.icon" class="sectionIcon" />-->
             <p class="sectionName">{{ project.section.name }}</p>
           </div>
 
@@ -32,7 +33,7 @@ import { ProjectModel } from '@/models/ProjectModel';
 export default class ProjectsList extends Vue {
   @Prop() public projects!: ProjectModel[];
 }
-</script> 
+</script>
 
 <style scoped>
 .project {
