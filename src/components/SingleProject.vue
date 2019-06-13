@@ -24,13 +24,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { ProjectModel } from "@/models/ProjectModel";
+<script lang='ts'>
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { ProjectModel } from '@/models/ProjectModel';
 
 @Component
 export default class SingleProject extends Vue {
-  @Prop() project!: ProjectModel;
+  @Prop() public project!: ProjectModel;
 }
 </script>
 

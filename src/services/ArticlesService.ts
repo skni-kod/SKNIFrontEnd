@@ -1,12 +1,13 @@
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
+import { API_MAIN_URL_BASE } from '@/parameters';
 
 export class ArticlesService {
     private axios = require('axios');
     private readMoreGuard = '---readmore---';
 
     public async getAllArticles(): Promise<ArticleModel[]> {
-        return (await this.axios('http://localhost:8000/articles/', {
+        return (await this.axios(API_MAIN_URL_BASE + '/articles/', {
             params: {
                 format: 'json',
             },
@@ -15,7 +16,7 @@ export class ArticlesService {
 
     // tslint:disable-next-line:max-line-length
     public async getArticles(pageNumber: number, pageSize: number, fullText: boolean): Promise<PaginationContainer<ArticleModel>> {
-        const data = (await this.axios('http://localhost:8000/articles/', {
+        const data = (await this.axios(API_MAIN_URL_BASE + '/articles/', {
             params: {
                 format: 'json',
                 offset: (pageNumber - 1) * pageSize,
@@ -24,32 +25,32 @@ export class ArticlesService {
         })).data as PaginationContainer<ArticleModel>;
 
         if (!fullText) {
-            for (const article of data.results) {
-                const readMoreIndex = article.text.indexOf(this.readMoreGuard);
-                if (readMoreIndex !== -1) {
-                    article.text = article.text.slice(0, readMoreIndex);
-                    article.readMore = true;
-                }
-            }
+            this.cutTextAfterReadMore(data.results);
         }
 
         return data;
     }
 
     // tslint:disable-next-line:max-line-length
-    public async getArticlesWithTag(tag: string, pageNumber: number, pageSize: number): Promise<PaginationContainer<ArticleModel>> {
-        return (await this.axios('http://localhost:8000/articles/', {
+    public async getArticlesWithTag(tag: string, pageNumber: number, pageSize: number, fullText: boolean): Promise<PaginationContainer<ArticleModel>> {
+        const data = (await this.axios(API_MAIN_URL_BASE + '/articles/', {
             params: {
                 tagname: tag,
                 format: 'json',
                 offset: (pageNumber - 1) * pageSize,
                 limit: pageSize,
             },
-        })).data;
+        })).data as PaginationContainer<ArticleModel>;
+
+        if (!fullText) {
+            this.cutTextAfterReadMore(data.results);
+        }
+
+        return data;
     }
 
     public async getArticle(id: number): Promise<ArticleModel> {
-        const article = (await this.axios('http://localhost:8000/articles/' + id, {
+        const article = (await this.axios(API_MAIN_URL_BASE + '/articles/' + id, {
             params: {
                 format: 'json',
             },
@@ -61,5 +62,23 @@ export class ArticlesService {
         }
 
         return article;
+    }
+
+    public generateAliasForTitle(title: string) {
+        if (title === undefined) {
+            return '';
+        }
+
+        return title.trim().toLowerCase().replace(/ /g, '-');
+    }
+
+    private cutTextAfterReadMore(articles: ArticleModel[]) {
+        for (const article of articles) {
+            const readMoreIndex = article.text.indexOf(this.readMoreGuard);
+            if (readMoreIndex !== -1) {
+                article.text = article.text.slice(0, readMoreIndex);
+                article.readMore = true;
+            }
+        }
     }
 }

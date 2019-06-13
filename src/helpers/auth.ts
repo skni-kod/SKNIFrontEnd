@@ -5,7 +5,7 @@ const accessTokenName: string = 'access_token';
 const refreshTokenName: string = 'refresh_token';
 
 export async function login(username: string, password: string) {
-    let response = await axios.post('http://localhost:8000/obtain-token/', { "username": username, "password": password, });
+    const response = await axios.post('http://localhost:8000/obtain-token/', { 'username': username, 'password': password, }); // tslint:disable-line
     if (response.status === 200) {
         localStorage.setItem(accessTokenName, response.data.access);
         localStorage.setItem(refreshTokenName, response.data.refresh);
@@ -16,16 +16,13 @@ export async function login(username: string, password: string) {
 
 export function logout() {
     localStorage.removeItem(accessTokenName);
+    localStorage.removeItem(refreshTokenName);
 }
 
 export async function refreshToken() {
     const token = localStorage.getItem(refreshTokenName);
 
-    if (token == null) {
-        return;
-    }
-
-    let response = await axios.post('http://localhost:8000/refresh-token/', { "refresh": token });
+    let response = await axios.post('http://localhost:8000/refresh-token/', { 'refresh': token }); // tslint:disable-line
     if (response.status === 200) {
         localStorage.setItem(accessTokenName, response.data.access);
     }
@@ -33,8 +30,27 @@ export async function refreshToken() {
     return response;
 }
 
-export function isLoggedIn(): boolean {
-    let token = localStorage.getItem(accessTokenName);
+export async function isLoggedIn(): Promise<boolean> {
+    const token = localStorage.getItem(accessTokenName);
+    if (token === null) {
+        return false;
+    }
+
+    const res = await axios.post('http://localhost:8000/verify-token/', {'token': token}); // tslint:disable-line
+    if (res.status === 200) {
+        return true;
+    }
+
+    const refresh = await refreshToken();
+    if (refresh.status === 200) {
+        return true;
+    }
+
+    return false;
+}
+
+export function tokenExists(): boolean {
+    const token = localStorage.getItem(accessTokenName);
     return token !== null;
 }
 
@@ -46,12 +62,12 @@ export function createAuthHeader() {
     }
 
     return {
-        'Authorization': 'Bearer ' + token,
+        'Authorization': 'Bearer ' + token, // tslint:disable-line
     };
 }
 
 export async function registerUser(userData: any) {
-    let response = await axios.post('http://localhost:8000/users/', userData);
-    
+    const response = await axios.post('http://localhost:8000/users/', userData);
+
     return response;
 }

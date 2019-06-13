@@ -1,55 +1,49 @@
 <template>
-  <div id="app" class="main-container">
-    <v-toolbar dark app color="primary">
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link"> 
+  <div id='app' class='main-container'>
+    <v-toolbar dark app color='primary'>
+      <v-toolbar-items class='hidden-sm-and-down'>
+        <v-btn v-for='item in toolbarItems' :key='item.link' :to='item.link'>
           {{item.title}}
         </v-btn>
       </v-toolbar-items>
 
-      <v-menu class="hidden-md-and-up">
-        <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
+      <v-menu class='hidden-md-and-up'>
+        <v-icon slot='activator'>mdi-menu</v-icon>
         <v-list>
-          <v-list-tile v-for="item in toolbarItems" :key="item.link">
+          <v-list-tile v-for='item in toolbarItems' :key='item.link'>
             <v-list-tile-content>
-              <v-btn flat :to="item.link">{{ item.title }}</v-btn>
+              <v-btn flat :to='item.link'>{{ item.title }}</v-btn>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-menu>
 
       <v-spacer/>
-      <v-btn icon to="/login">
-        <v-icon>person</v-icon>
-      </v-btn>
+      <!--<v-btn icon to='/login'>
+        <v-icon>mdi-account</v-icon>
+      </v-btn>-->
     </v-toolbar>
-    <div id="nav"></div>
+    <div id='nav'></div>
 
     <router-view/>
-
-    <v-footer height="auto" color="primary" style="position: absolute; bottom: 0; width: 100%">
-      <v-layout justify-center row wrap>
-        &copy;2019 —
-        <strong>SKNI KOD. Wszystkie kaczki zastrzeżone</strong>
-      </v-layout>
-    </v-footer>
+    <footer-main/>
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
+<script lang='ts'>
+import Vue from 'vue';
+import Component from 'vue-class-component';
 
 @Component
 export default class App extends Vue {
-  toolbarItems = [
-    { link: "/", title: "Home" },
-    { link: "/about", title: "About" },
-    { link: "/articles", title: "Articles" },
-    { link: "/sections", title: "Sekcje" },
-    { link: "/projects", title: "Projekty" },
-    { link: "/hardware", title: "Hardware" },
-    { link: "/profiles", title: "Profile" }
+  private toolbarItems = [
+    { link: '/', title: 'Strona główna' },
+    { link: '/about', title: 'O nas' },
+    { link: '/articles', title: 'Artykuły' },
+    { link: '/sections', title: 'Sekcje' },
+    { link: '/projects', title: 'Projekty' },
+    // { link: '/hardware', title: 'Hardware' },
+    // { link: '/profiles', title: 'Profile' },
   ];
 }
 </script>
@@ -57,7 +51,7 @@ export default class App extends Vue {
 
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -94,5 +88,9 @@ body {
   display: block;
   position: relative;
   padding-bottom: 100px; /* height of your footer */
+}
+
+.section-title{
+    font-size: 300%;
 }
 </style>
