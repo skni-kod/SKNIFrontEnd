@@ -16,7 +16,7 @@ import SingleProject from '@/components/SingleProject.vue';
 import HomeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
 import HomeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
-import Footer from '@/components/Footer.vue'
+import Footer from '@/components/Footer.vue';
 // @ts-ignore
 import VueGallery from 'vue-gallery';
 import 'vuetify/dist/vuetify.min.css';
