@@ -1,6 +1,6 @@
 <template>
   <div id='app' class='main-container'>
-    <v-toolbar dark app color='primary'>
+    <v-toolbar dark color='primary'>
       <v-toolbar-items class='hidden-sm-and-down'>
         <v-btn v-for='item in toolbarItems' :key='item.link' :to='item.link'>
           {{item.title}}
