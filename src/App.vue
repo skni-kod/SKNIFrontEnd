@@ -1,30 +1,6 @@
 <template>
   <div id='app' class='main-container'>
-    <v-toolbar dark color='primary'>
-      <v-toolbar-items class='hidden-sm-and-down'>
-        <v-btn v-for='item in toolbarItems' :key='item.link' :to='item.link'>
-          {{item.title}}
-        </v-btn>
-      </v-toolbar-items>
-
-      <v-menu class='hidden-md-and-up'>
-        <template v-slot:activator="{ on }">
-          <v-icon v-on="on">mdi-menu</v-icon>
-        </template>
-        <v-list>
-          <v-list-item v-for='item in toolbarItems' :key='item.link'>
-            <v-list-item-content>
-              <v-btn text :to='item.link'>{{ item.title }}</v-btn>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-
-      <v-spacer/>
-      <!--<v-btn icon to='/login'>
-        <v-icon>mdi-account</v-icon>
-      </v-btn>-->
-    </v-toolbar>
+    <Navbar/>
     <div id='nav'></div>
 
     <router-view/>
@@ -36,18 +12,13 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
-@Component
-export default class App extends Vue {
-  private toolbarItems = [
-    { link: '/', title: 'Strona główna' },
-    { link: '/about', title: 'O nas' },
-    { link: '/articles', title: 'Artykuły' },
-    { link: '/sections', title: 'Sekcje' },
-    { link: '/projects', title: 'Projekty' },
-    // { link: '/hardware', title: 'Hardware' },
-    // { link: '/profiles', title: 'Profile' },
-  ];
-}
+import Navbar from '@/components/Navbar.vue';
+
+@Component({
+  components: {Navbar},
+})
+
+export default class App extends Vue {}
 </script>
 
 

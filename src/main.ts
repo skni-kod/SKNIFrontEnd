@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import Vuetify from './plugins/vuetify';
+import vuetify from './plugins/vuetify';
 import VueMarkdown from 'vue-markdown';
 import VueMoment from 'vue-moment';
 import ArticlesList from '@/components/ArticlesList.vue';
@@ -16,6 +16,7 @@ import SingleProject from '@/components/SingleProject.vue';
 import HomeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
 import HomeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
+// import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 // @ts-ignore
 import VueGallery from 'vue-gallery';
@@ -26,12 +27,9 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  vuetify,
   render: (h) => h(App),
 }).$mount('#app');
-
-Vue.use(Vuetify, {
-  iconfont: 'mdi',
-});
 
 Vue.use(VueMoment, 'vue-moment');
 
@@ -48,5 +46,6 @@ Vue.component('single-project', SingleProject);
 Vue.component('home-section-list', HomeSectionList);
 Vue.component('home-article-list', HomeArticleList);
 Vue.component('article-card', ArticleCard);
+// Vue.component('navbar', Navbar);
 Vue.component('footer-main', Footer);
 Vue.component('vue-gallery', VueGallery);
