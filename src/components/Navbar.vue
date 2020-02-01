@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-toolbar dark color="primary">
-      <v-toolbar-items>
+    <v-toolbar dark color="primary" >
+      <v-toolbar-items v-if="$vuetify.breakpoint.smAndUp">
         <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link">{{item.title}}</v-btn>
       </v-toolbar-items>
 
-      <v-menu v-if="$vuetify.breakpoint.smAndDown">
+      <v-menu v-else>
         <template v-slot:activator="{ on }">
           <v-icon v-on="on">mdi-menu</v-icon>
         </template>

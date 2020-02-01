@@ -5,7 +5,7 @@
     class="main-footer"
     style="position: absolute; bottom: 0; width: 100%"
   >
-    <img class="img" src="http://localhost:8081/img/logo_color.d4be6244.png" />
+    <img class="img" src="http://localhost:8080/img/logo_color.d4be6244.png" />
     <v-layout class="rights" justify-center row wrap>
       <strong>SKNI KOD</strong> &nbsp;
       &copy; 2019

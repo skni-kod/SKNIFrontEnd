@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <v-card>
+    <v-card v-if="$vuetify.breakpoint.mdAndUp">
       <v-img
         :src="require('../assets/strona_bg.png')"
         class="hidden-sm-and-down"
@@ -19,7 +19,7 @@
         </v-container>
       </v-img>
     </v-card>
-    <div class="hidden-md-and-up background" style="margin-top: -10px">
+    <div class="background" style="margin-top: -10px" v-else>
       <v-img :src="require('../assets/logo_color.png')"></v-img>
     </div>
     <home-section-list v-bind:sections="sections"></home-section-list>
@@ -34,7 +34,13 @@ import { SectionModel } from '@/models/SectionModel';
 import { ArticleModel } from '../models/ArticleModel';
 import { ArticlesService } from '../services/ArticlesService';
 
-@Component
+import homeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
+import homeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
+
+@Component({
+  components: { homeArticleList, homeSectionList },
+})
+
 export default class Home extends Vue {
   private sectionsService!: SectionsService;
   private articleService!: ArticlesService;
