@@ -18,7 +18,7 @@
           </div>
 
           <v-card-actions>
-            <v-btn flat color="orange" :to="'/project/'+ project.id">Zobacz</v-btn>
+            <v-btn text color="orange" :to="'/project/'+ project.id">Zobacz</v-btn>
           </v-card-actions>
         </div>
       </v-card>

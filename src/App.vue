@@ -8,13 +8,15 @@
       </v-toolbar-items>
 
       <v-menu class='hidden-md-and-up'>
-        <v-icon slot='activator'>mdi-menu</v-icon>
+        <template v-slot:activator="{ on }">
+          <v-icon v-on="on">mdi-menu</v-icon>
+        </template>
         <v-list>
-          <v-list-tile v-for='item in toolbarItems' :key='item.link'>
-            <v-list-tile-content>
-              <v-btn flat :to='item.link'>{{ item.title }}</v-btn>
-            </v-list-tile-content>
-          </v-list-tile>
+          <v-list-item v-for='item in toolbarItems' :key='item.link'>
+            <v-list-item-content>
+              <v-btn text :to='item.link'>{{ item.title }}</v-btn>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-menu>
 

@@ -3,7 +3,7 @@
     <v-layout row class='text-xs-center'>
       <v-flex xs4 class='grey lighten-4'>
         <v-container class='text-xs-center'>
-          <v-card flat>
+          <v-card text>
             <v-card-title primary-title>
               <h4>Login</h4>
             </v-card-title>

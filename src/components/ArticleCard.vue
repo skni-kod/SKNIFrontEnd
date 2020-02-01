@@ -17,7 +17,7 @@
                             <span class="headline text-xs-left"><a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a></span>
                             <vue-markdown class='text-xs-left text-shadow-paragraph' style='margin-top: 10px;'>{{article.text}}</vue-markdown>
                             <div style="display: flex; width: 100%; justify-content: space-between;">
-                                <v-btn v-bind:href="'/#/article/'+ article.id + '-' + article.alias" flat style="background-color: #64b5f6; color: white; margin-left: auto" class="elevation-2">Czytaj więcej...</v-btn>
+                                <v-btn v-bind:href="'/#/article/'+ article.id + '-' + article.alias" text style="background-color: #64b5f6; color: white; margin-left: auto" class="elevation-2">Czytaj więcej...</v-btn>
                             </div>
                         </v-flex>
                     </v-container>

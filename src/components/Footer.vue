@@ -6,16 +6,16 @@
         &copy; 2019 
       </v-layout>
       <v-layout>
-          <v-btn  flat small color="#64b5f6" class="font-weight-bold" >
+          <v-btn  text small color="#64b5f6" class="font-weight-bold" >
               strona główna
           </v-btn>
-          <v-btn  flat small color="#64b5f6" class="font-weight-bold">
+          <v-btn  text small color="#64b5f6" class="font-weight-bold">
               o nas
           </v-btn>
-          <v-btn  flat small color="#64b5f6" class="font-weight-bold" >
+          <v-btn text small color="#64b5f6" class="font-weight-bold" >
               kontakt
           </v-btn>
-          <v-btn href="https://www.facebook.com/skni.kod/" small icon flat color="#64b5f6" class="font-weight-bold" >
+          <v-btn href="https://www.facebook.com/skni.kod/" small icon text color="#64b5f6" class="font-weight-bold" >
               <v-icon>mdi-facebook</v-icon>
           </v-btn>
       </v-layout>

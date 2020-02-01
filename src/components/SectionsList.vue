@@ -10,7 +10,7 @@
             </div>
         </v-card-text>
         <div class="section-button">
-         <!-- <v-btn  flat small color="#64b5f6" class="font-weight-bold button" >
+         <!-- <v-btn  text small color="#64b5f6" class="font-weight-bold button" >
               Czytaj wiecej...
           </v-btn> -->
         </div>
