@@ -1,11 +1,6 @@
 <template>
-  <v-footer
-    height="auto"
-    color="#EEF4F9"
-    class="main-footer"
-    style="position: absolute; bottom: 0; width: 100%"
-  >
-    <img class="img" src="http://localhost:8080/img/logo_color.d4be6244.png" />
+  <v-footer elevation="5" height="auto" color="#EEF4F9" class="main-footer">
+    <v-img class="img" src="../assets/logo_color.png" />
     <v-layout class="rights" justify-center row wrap>
       <strong>SKNI KOD</strong> &nbsp;
       &copy; 2019
@@ -37,8 +32,6 @@ export default class Footer extends Vue {}
 
 <style lang="scss" scoped>
 .main-footer {
-  padding: 5px 0 5px 0;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   display: flex;
   justify-content: center;
   flex-direction: column;
