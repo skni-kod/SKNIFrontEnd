@@ -2,8 +2,8 @@
   <div class="home">
     <v-card v-if="$vuetify.breakpoint.mdAndUp">
       <v-img
+        v-if="$vuetify.breakpoint.smAndUp"
         :src="require('../assets/strona_bg.png')"
-        class="hidden-sm-and-down"
         :asspect-ratio="3.55"
       >
         <v-container fluid>

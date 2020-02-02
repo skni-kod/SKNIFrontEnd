@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar dark color="primary">
+    <v-toolbar dark>
       <v-toolbar-items v-if="$vuetify.breakpoint.smAndUp">
         <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link">{{item.title}}</v-btn>
       </v-toolbar-items>

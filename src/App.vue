@@ -1,5 +1,5 @@
 <template>
-  <v-app id='app' class='main-container'>
+  <v-app id='app'>
     <Navbar/>
     <v-content>
       <router-view/>
@@ -22,7 +22,6 @@ import Footer from '@/components/Footer.vue';
 export default class App extends Vue {}
 </script>
 
-
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -43,13 +42,6 @@ html,
 body {
   height: 100%;
   position: relative;
-}
-.main-container {
-  min-height: 100vh; /* will cover the 100% of viewport */
-  overflow: hidden;
-  display: block;
-  position: relative;
-  padding-bottom: 100px; /* height of your footer */
 }
 
 .section-title{
