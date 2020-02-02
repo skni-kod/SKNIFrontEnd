@@ -1,10 +1,10 @@
 <template>
-  <div id='app' class='main-container'>
+  <v-app id='app' class='main-container'>
     <Navbar/>
 
     <router-view/>
     <Footer/>
-  </div>
+  </v-app>
 </template>
 
 <script lang='ts'>

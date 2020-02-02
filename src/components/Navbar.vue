@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-toolbar dark color="primary" >
+    <v-toolbar dark color="primary">
       <v-toolbar-items v-if="$vuetify.breakpoint.smAndUp">
         <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link">{{item.title}}</v-btn>
       </v-toolbar-items>
 
       <v-menu v-else>
         <template v-slot:activator="{ on }">
-          <v-icon v-on="on">mdi-menu</v-icon>
+          <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
         </template>
         <v-list>
           <v-list-item v-for="item in toolbarItems" :key="item.link">
@@ -29,7 +29,7 @@ import Vue from 'vue';
 
 @Component
 export default class extends Vue {
-      private toolbarItems = [
+  private toolbarItems = [
     { link: '/', title: 'Strona główna' },
     { link: '/about', title: 'O nas' },
     { link: '/articles', title: 'Artykuły' },
@@ -39,5 +39,4 @@ export default class extends Vue {
     // { link: '/profiles', title: 'Profile' },
   ];
 }
-
 </script>
