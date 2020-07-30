@@ -1,53 +1,26 @@
 <template>
-  <div id='app' class='main-container'>
-    <v-toolbar dark app color='primary'>
-      <v-toolbar-items class='hidden-sm-and-down'>
-        <v-btn v-for='item in toolbarItems' :key='item.link' :to='item.link'>
-          {{item.title}}
-        </v-btn>
-      </v-toolbar-items>
-
-      <v-menu class='hidden-md-and-up'>
-        <v-icon slot='activator'>mdi-menu</v-icon>
-        <v-list>
-          <v-list-tile v-for='item in toolbarItems' :key='item.link'>
-            <v-list-tile-content>
-              <v-btn flat :to='item.link'>{{ item.title }}</v-btn>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
-
-      <v-spacer/>
-      <!--<v-btn icon to='/login'>
-        <v-icon>mdi-account</v-icon>
-      </v-btn>-->
-    </v-toolbar>
-    <div id='nav'></div>
-
-    <router-view/>
-    <footer-main/>
-  </div>
+  <v-app id='app'>
+    <Navbar/>
+    <v-content>
+      <router-view/>
+    </v-content>
+    <Footer/>
+  </v-app>
 </template>
 
 <script lang='ts'>
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
-@Component
-export default class App extends Vue {
-  private toolbarItems = [
-    { link: '/', title: 'Strona główna' },
-    { link: '/about', title: 'O nas' },
-    { link: '/articles', title: 'Artykuły' },
-    { link: '/sections', title: 'Sekcje' },
-    { link: '/projects', title: 'Projekty' },
-    // { link: '/hardware', title: 'Hardware' },
-    // { link: '/profiles', title: 'Profile' },
-  ];
-}
-</script>
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
 
+@Component({
+  components: { Navbar, Footer },
+})
+
+export default class App extends Vue {}
+</script>
 
 <style>
 #app {
@@ -56,18 +29,6 @@ export default class App extends Vue {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 
 * {
@@ -81,13 +42,6 @@ html,
 body {
   height: 100%;
   position: relative;
-}
-.main-container {
-  min-height: 100vh; /* will cover the 100% of viewport */
-  overflow: hidden;
-  display: block;
-  position: relative;
-  padding-bottom: 100px; /* height of your footer */
 }
 
 .section-title{
