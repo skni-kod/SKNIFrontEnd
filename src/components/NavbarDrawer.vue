@@ -1,0 +1,48 @@
+<template>
+  <v-navigation-drawer
+    app
+    left
+    disable-resize-watcher
+    v-model="drawer"
+    width="300px"
+  >
+    <v-toolbar text dark class="px-3" height="64px">
+      <v-btn large block text outlined @click="drawer = !drawer">
+        Zamknij
+        <v-icon large>mdi-close</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <!-- Menu -->
+    <v-list class="pa-3">
+      <v-list-item
+        v-for="item in items"
+        :key="item.title"
+        router
+        :to="item.link"
+        @click="drawer = !drawer"
+      >
+        
+        <v-list-item-action>
+          <v-icon large class="primary--text">{{ item.icon }}</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+@Component
+export default class NavbarDrawer extends Vue{
+  @Prop({ type: Array }) readonly items!: Object[];
+  get drawer(): boolean {
+    return this.$store.getters.navDrawer;
+  }
+  set drawer(value: boolean) {
+    this.$store.dispatch("setNavDrawerState", value);
+  }
+};
+</script>
