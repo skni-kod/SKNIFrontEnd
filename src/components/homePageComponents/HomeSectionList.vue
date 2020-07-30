@@ -8,7 +8,7 @@
                         <v-icon x-large class="blue--text text--lighten-2">{{section.icon}}</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
-                        <div class="headline text-xs-center">{{section.name}}</div>
+                        <div class="headline text-xs-center" style="word-break: break-word;">{{section.name}}</div>
                     </v-card-title>
                     <v-card-text class="text-xs-justify">
                         {{section.description}}
