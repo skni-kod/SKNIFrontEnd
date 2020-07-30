@@ -87,8 +87,4 @@ export default class Tag extends Vue {
   .header-margin{
     margin: 20px auto;
   }
-
-.v-pagination .primary {
-  background-color: rgb(65, 65, 255) !important;
-}
 </style>

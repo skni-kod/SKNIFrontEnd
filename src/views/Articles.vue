@@ -63,9 +63,3 @@ export default class Articles extends Vue {
   }
 }
 </script>
-
-<style>
-.v-pagination .primary {
-  background-color: rgb(65, 65, 255) !important;
-}
-</style>

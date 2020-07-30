@@ -37,7 +37,3 @@ export default class Section extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  
-</style>
