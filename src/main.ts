@@ -20,7 +20,7 @@ import ArticleCard from '@/components/ArticleCard.vue';
 import VueGallery from 'vue-gallery';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
-import store from './store'
+import store from './store';
 
 Vue.config.productionTip = false;
 
@@ -28,7 +28,7 @@ new Vue({
   router,
   vuetify,
   store,
-  render: (h) => h(App)
+  render: (h) => h(App),
 }).$mount('#app');
 
 Vue.use(VueMoment, 'vue-moment');

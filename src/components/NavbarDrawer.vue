@@ -1,11 +1,5 @@
 <template>
-  <v-navigation-drawer
-    app
-    left
-    disable-resize-watcher
-    v-model="drawer"
-    width="300px"
-  >
+  <v-navigation-drawer app left disable-resize-watcher v-model="drawer" width="300px">
     <v-toolbar text dark class="px-3" height="64px">
       <v-btn large block text outlined @click="drawer = !drawer">
         Zamknij
@@ -21,7 +15,6 @@
         :to="item.link"
         @click="drawer = !drawer"
       >
-        
         <v-list-item-action>
           <v-icon large class="primary--text">{{ item.icon }}</v-icon>
         </v-list-item-action>
@@ -36,13 +29,13 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
-export default class NavbarDrawer extends Vue{
-  @Prop({ type: Array }) readonly items!: Object[];
+export default class NavbarDrawer extends Vue {
+  @Prop({ type: Array }) public readonly items!: object[];
   get drawer(): boolean {
     return this.$store.getters.navDrawer;
   }
   set drawer(value: boolean) {
-    this.$store.dispatch("setNavDrawerState", value);
+    this.$store.dispatch('setNavDrawerState', value);
   }
-};
+}
 </script>
