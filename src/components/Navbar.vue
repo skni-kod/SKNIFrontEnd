@@ -9,7 +9,7 @@
           }}
         </v-btn>
       </v-toolbar-items>
-      <v-spacer />
+      <v-toolbar-title v-else class="text-center">SKNI KOD</v-toolbar-title>
     </v-toolbar>
     <nav-drawer :items="toolbarItems" />
   </v-main>
