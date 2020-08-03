@@ -15,6 +15,7 @@ import SingleProject from '@/components/SingleProject.vue';
 import HomeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
 import HomeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
+import Gallery from '@/components/Gallery.vue';
 // @ts-ignore
 import VueGallery from 'vue-gallery';
 import '@mdi/font/css/materialdesignicons.css';
@@ -43,3 +44,4 @@ Vue.component('home-section-list', HomeSectionList);
 Vue.component('home-article-list', HomeArticleList);
 Vue.component('article-card', ArticleCard);
 Vue.component('vue-gallery', VueGallery);
+Vue.component('vetro-gallery', Gallery);
