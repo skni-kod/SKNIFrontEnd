@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-card :dark="dark" :color="color" class="elevation-0">
-      <v-card v-if="title"> <!--<v-card v-if="title || categories == true">-->
+      <v-card v-if="title">
+        <!--<v-card v-if="title || categories == true">-->
         <div v-if="title">
           <h1 block class="text-center">{{ title }}</h1>
           <v-divider class="VueDivider"></v-divider>
@@ -25,17 +26,17 @@
               </v-flex>
             </v-layout>
           </v-container>
-        </div> -->
+        </div>-->
       </v-card>
       <v-container grid-list-sm fluid>
         <v-layout row wrap justify-center>
-          <v-flex v-for="(img, n) in imgs" :key="n" xs6 sm4 md3 lg2 xl1>
+          <v-flex v-for="(img, n) in imgs" :key="n" :class="breakpoints">
             <v-card flat tile class="d-flex elevation-2">
               <v-img
                 class="clickable"
                 :src="img"
                 aspect-ratio="1"
-                @click.native="dialog = true; dialogSrc = img;"
+                @click.native="dialog = true; img_num = n;"
               >
                 <template v-slot:placeholder>
                   <v-layout fill-height align-center justify-center ma-0>
@@ -48,25 +49,24 @@
         </v-layout>
       </v-container>
     </v-card>
-    <v-dialog width="800px" v-model="dialog">
+    <v-dialog max-width="100%" v-model="dialog">
       <v-card>
-        <v-img :src="dialogSrc" class="grey lighten-2"></v-img>
-        <v-hover>
-          <v-btn
-            :large="hover ? true : false"
-            slot-scope="{ hover }"
-            :color="`${hover ? 'red' : categoryColor}`"
-            :outlined="hover ? false : true"
-            fab
-            fixed
-            top
-            right
-            @click="dialog = false"
-          >
-            <v-icon large>mdi-close</v-icon>
-          </v-btn>
-        </v-hover>
+        <!-- <v-img :src="dialogSrc" class="grey lighten-2"></v-img> -->
+        <v-carousel hide-delimiters height="75vh" v-model="img_num">
+          <v-carousel-item v-for="(img, i) in imgs" :key="i">
+            <v-img
+              contain
+              :src="img"
+              aspect-ratio="1.7778"
+              style="backbackground-color:rgba(0, 0, 0, 0.5);"
+              height="75vh"
+            ></v-img>
+          </v-carousel-item>
+        </v-carousel>
       </v-card>
+      <v-btn large color="red" @click="dialog = false" class="mt-2">
+        <v-icon large>mdi-close</v-icon>Zamknij
+      </v-btn>
     </v-dialog>
   </div>
 </template>
@@ -82,13 +82,16 @@ export default class Gallery extends Vue {
   @Prop({ default: '' }) public readonly color!: string;
   @Prop({ default: false }) public readonly dark!: boolean;
   @Prop({ default: [] }) public readonly imgs!: string[];
-//   @Prop({ default: [] }) public readonly categories!: object[];
+  //   @Prop({ default: [] }) public readonly categories!: object[];
+  @Prop({ default: 'xs6 md4 sm3 lg2 xl1' })
+  public readonly breakpoints!: string;
 
   public data() {
     return {
       category: null,
       dialog: false,
       dialogSrc: null,
+      img_num: 0,
     };
   }
 }
