@@ -15,7 +15,7 @@
                     <v-container style="background-image: linear-gradient(rgba(12, 12, 12, 0), rgba(12, 12, 12, 0.8)); flex: 1 100%; width: 100%">
                         <v-flex style="text-align: left;">
                             <span class="headline text-xs-left"><a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a></span>
-                            <markdown-it-vue class="md-body" :content="article.text" />
+                            <p>{{ article.text }}</p>
                             <div style="display: flex; width: 100%; justify-content: space-between;">
                                 <v-btn v-bind:href="'/#/article/'+ article.id + '-' + article.alias" text style="background-color: #64b5f6; color: white; margin-left: auto" class="elevation-2">Czytaj więcej...</v-btn>
                             </div>
