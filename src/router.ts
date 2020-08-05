@@ -4,15 +4,6 @@ import Home from './views/Home.vue';
 
 Vue.use(Router);
 
-// It's here for now because after refreshing F5
-// browser doesn't see vuetify for some reason
-// move it for to better place
-import Vuetify from 'vuetify';
-Vue.use(Vuetify, {
-  iconfont: 'md',
-});
-
-
 export default new Router({
   routes: [
     {
@@ -58,17 +49,11 @@ export default new Router({
     {
       path: '/sections',
       name: 'sections',
-      // route level code-splitting
-      // this generates a separate chunk (sections.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "sections" */ './views/Sections.vue'),
     },
     {
       path: '/hardware/:page?',
       name: 'hardware',
-      // route level code-splitting
-      // this generates a separate chunk (hardware.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
     },
     {
