@@ -3,7 +3,7 @@
     <v-flex xs12 sm6 offset-sm3>
       <v-card class="project" v-for="project in projects" :key="project.id">
         <v-card-title primary-title>
-          <h3 class="headline mb-0 projectTitle">{{ project.title }}</h3>
+          <h3 class="headline mb-0">{{ project.title }}</h3>
         </v-card-title>
 
         <v-card-text class="projectText">
@@ -40,12 +40,6 @@ export default class ProjectsList extends Vue {
   margin-top: 40px;
   margin-bottom: 40px;
   text-align: left;
-}
-
-.projectTitle {
-  /* margin: 0;
-  font-size: 2.5em;
-  color: #565656; */
 }
 
 .projectText {
