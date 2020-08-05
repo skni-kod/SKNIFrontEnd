@@ -7,7 +7,7 @@
         </v-card-title>
 
         <v-card-text class="projectText">
-          <vue-markdown>{{ project.text.substring(0, 200) }}...</vue-markdown>
+          <markdown-it-vue class="md-body" :content="project.text.substring(0, 200)" />
         </v-card-text>
 
         <div class="cardFooter">

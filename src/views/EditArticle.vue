@@ -44,7 +44,7 @@
           ></v-textarea>
         </v-flex>
         <v-flex xs6 class='text-xs-left'>
-          <vue-markdown id='content-preview' :source='article.text' html></vue-markdown>
+          <markdown-it-vue id='content-preview' class="md-body" :content="article.text" />
         </v-flex>
       </v-layout>
     </v-container>

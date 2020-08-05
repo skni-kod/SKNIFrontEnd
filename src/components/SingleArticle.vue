@@ -27,7 +27,7 @@
             </span>
           </div>
         </div>
-        <vue-markdown class="text-xs-left description" style="margin-top: 10px;">{{article.text}}</vue-markdown>
+        <markdown-it-vue class="md-body" :content="article.text" />
       </div>
     </v-card>
     <vue-gallery :images="gallery" :index="galleryIndex" @close="galleryIndex = null"></vue-gallery>

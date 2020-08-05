@@ -12,7 +12,7 @@
       <a :href="project.repository_link">{{ project.repository_link }}</a>
     </div>
 
-    <vue-markdown class='text-shadow-paragraph projectText'>{{project.text}}</vue-markdown>
+    <markdown-it-vue class="md-body" :content="project.text" />
     
     <div class="sectionContainer">
       <p class="sectionName">
