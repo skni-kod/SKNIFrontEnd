@@ -1,13 +1,13 @@
 <template>
   <div>
-    <profiles-list v-bind:profiles='profiles'></profiles-list>
-      <v-pagination
-        v-model='pagination.currentPage'
-        :length='pagination.pageCount'
-        @input='paginationClicked'
-        :prev-icon='"mdi-chevron-left"'
-        :next-icon='"mdi-chevron-right"'
-      ></v-pagination>
+    <profiles-list v-bind:profiles="profiles"></profiles-list>
+    <v-pagination
+      v-model="pagination.currentPage"
+      :length="pagination.pageCount"
+      @input="paginationClicked"
+      prev-icon="mdi-chevron-left"
+      next-icon="mdi-chevron-right"
+    ></v-pagination>
   </div>
 </template>
 

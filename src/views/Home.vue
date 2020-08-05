@@ -40,7 +40,6 @@ import homeSectionList from '@/components/homePageComponents/HomeSectionList.vue
 @Component({
   components: { homeArticleList, homeSectionList },
 })
-
 export default class Home extends Vue {
   private sectionsService!: SectionsService;
   private articleService!: ArticlesService;

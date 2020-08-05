@@ -1,5 +1,5 @@
 <template>
-  <single-profile v-bind:profile='profile'></single-profile>
+  <single-profile v-bind:profile="profile"></single-profile>
 </template>
 
 <script lang='ts'>

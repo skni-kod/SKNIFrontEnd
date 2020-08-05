@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex xs12 sm6 offset-sm3>
-      <single-article v-bind:article='article' v-bind:comments='comments'></single-article>
+      <single-article v-bind:article="article" v-bind:comments="comments"></single-article>
     </v-flex>
   </v-layout>
 </template>

@@ -2,8 +2,8 @@
   <div>
     <v-layout>
       <v-flex xs12 sm6 offset-sm3>
-        <div class="ma-2" v-for='article in articles' :key='article.title'>
-          <article-card v-bind:article='article'></article-card>
+        <div class="ma-2" v-for="article in articles" :key="article.title">
+          <article-card v-bind:article="article"></article-card>
         </div>
       </v-flex>
     </v-layout>

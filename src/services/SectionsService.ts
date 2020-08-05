@@ -1,4 +1,4 @@
-import {SectionModel} from '@/models/SectionModel';
+import { SectionModel } from '@/models/SectionModel';
 import { API_MAIN_URL_BASE } from '@/parameters';
 
 export class SectionsService {

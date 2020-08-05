@@ -1,7 +1,7 @@
 <template>
   <v-footer elevation="5" height="auto" color="#EEF4F9" class="pa-0">
     <v-col class="pa-0">
-      <v-img width="120" src="../assets/logo_color.png" class="ma-auto"/>
+      <v-img width="120" src="../assets/logo_color.png" class="ma-auto" />
       <v-layout justify-center row wrap>
         <p class="grey--text ma-0">
           <strong>SKNI KOD</strong>

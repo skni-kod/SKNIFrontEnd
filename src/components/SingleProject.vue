@@ -3,9 +3,12 @@
     <h3 class="display-2">{{ project.title }}</h3>
 
     <div class="projectDate">
-      <p>Data wykonania: <b>{{ project.publication_date.split('Z')[0].replace('T', ' ') }}</b></p>
+      <p>
+        Data wykonania:
+        <b>{{ project.publication_date.split('Z')[0].replace('T', ' ') }}</b>
+      </p>
     </div>
-    
+
     <div v-if="project.repository_link" class="projectRepo">
       <p style="margin-right: 10px;">Repozytorium:</p>
       <img class="github" src="../assets/github.png" />
@@ -13,12 +16,13 @@
     </div>
 
     <markdown-it-vue class="md-body" :content="project.text" />
-    
+
     <div class="sectionContainer">
       <p class="sectionName">
-        Made with <span class="heart">❤</span> by 
-        <b>{{ project.creator.user.first_name }} {{ project.creator.user.last_name }}
-        </b> at <b>{{ project.section.name }}</b>
+        Made with
+        <span class="heart">❤</span> by
+        <b>{{ project.creator.user.first_name }} {{ project.creator.user.last_name }}</b> at
+        <b>{{ project.section.name }}</b>
       </p>
     </div>
   </div>

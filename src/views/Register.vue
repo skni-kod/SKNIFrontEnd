@@ -1,70 +1,70 @@
 <template>
   <v-container>
-    <v-layout row class='text-xs-center'>
-      <v-flex xs4 class='grey lighten-4'>
-        <v-container class='text-xs-center'>
+    <v-layout row class="text-xs-center">
+      <v-flex xs4 class="grey lighten-4">
+        <v-container class="text-xs-center">
           <v-card text>
             <v-card-title primary-title>
               <h4>Register</h4>
             </v-card-title>
 
-            <v-form v-model='formValid' ref='form'>
+            <v-form v-model="formValid" ref="form">
               <!-- EMAIL -->
               <v-text-field
-                prepend-icon='email'
-                name='Email'
-                label='E-mail'
-                v-model='email'
-                :rules='[requiredRule, emailRule]'
+                prepend-icon="email"
+                name="Email"
+                label="E-mail"
+                v-model="email"
+                :rules="[requiredRule, emailRule]"
               ></v-text-field>
 
               <!-- LOGIN -->
               <v-text-field
-                prepend-icon='person'
-                name='Username'
-                label='Username'
-                v-model='login'
-                :rules='[requiredRule]'
+                prepend-icon="person"
+                name="Username"
+                label="Username"
+                v-model="login"
+                :rules="[requiredRule]"
               ></v-text-field>
 
               <!-- PASSWORD -->
               <v-text-field
-                prepend-icon='lock'
-                name='Password'
-                label='Password'
-                type='password'
-                v-model='password'
-                :rules='[requiredRule]'
+                prepend-icon="lock"
+                name="Password"
+                label="Password"
+                type="password"
+                v-model="password"
+                :rules="[requiredRule]"
               ></v-text-field>
 
               <!-- CONFIRM PASSWORD -->
               <v-text-field
-                prepend-icon='lock'
-                name='ConfirmPassword'
-                label='Confirm Password'
-                type='password'
-                :rules='[requiredRule, passwordMatchRule]'
-                v-model='confirmPassword'
+                prepend-icon="lock"
+                name="ConfirmPassword"
+                label="Confirm Password"
+                type="password"
+                :rules="[requiredRule, passwordMatchRule]"
+                v-model="confirmPassword"
               ></v-text-field>
 
               <!-- FIRST NAME -->
               <v-text-field
-                prepend-icon='person'
-                name='firstName'
-                label='First Name'
-                v-model='firstName'
+                prepend-icon="person"
+                name="firstName"
+                label="First Name"
+                v-model="firstName"
               ></v-text-field>
 
               <!-- LAST NAME -->
               <v-text-field
-                prepend-icon='person'
-                name='lastName'
-                label='Last Name'
-                v-model='lastName'
+                prepend-icon="person"
+                name="lastName"
+                label="Last Name"
+                v-model="lastName"
               ></v-text-field>
 
               <v-card-actions>
-                <v-btn primary large block @click='registerUser()'>Register</v-btn>
+                <v-btn primary large block @click="registerUser()">Register</v-btn>
               </v-card-actions>
             </v-form>
           </v-card>

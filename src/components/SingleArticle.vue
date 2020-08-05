@@ -40,7 +40,7 @@
         :style="{ backgroundImage: 'url(' + image.image + ')', width: '300px', height: '200px'}"
       ></div>
     </div>
-    <vetro-gallery :imgs="gallery"/>
+    <vetro-gallery :imgs="gallery" />
   </div>
 </template>
 

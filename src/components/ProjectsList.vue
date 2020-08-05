@@ -70,6 +70,4 @@ export default class ProjectsList extends Vue {
   flex-direction: row;
   justify-content: space-between;
 }
-
-
 </style>

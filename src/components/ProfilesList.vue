@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for='profile in profiles' :key='profile.id' style='border: 1px solid gray'>
+    <div v-for="profile in profiles" :key="profile.id" style="border: 1px solid gray">
       <p>{{ profile.user.first_name }}</p>
       <p>{{ profile.user.last_name }}</p>
       <p>

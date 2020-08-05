@@ -1,4 +1,4 @@
-import {HardwareModel} from '@/models/HardwareModel';
+import { HardwareModel } from '@/models/HardwareModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
 import { API_MAIN_URL_BASE } from '@/parameters';
 

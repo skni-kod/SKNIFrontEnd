@@ -1,5 +1,5 @@
 <template>
-  <single-project v-bind:project='project'></single-project>
+  <single-project v-bind:project="project"></single-project>
 </template>
 
 <script lang='ts'>
