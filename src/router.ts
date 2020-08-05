@@ -14,37 +14,37 @@ export default new Router({
     {
       path: '/about',
       name: 'about',
-      component: () => import('./views/About.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
     {
       path: '/articles/:page?',
       name: 'articles',
-      component: () => import('./views/Articles.vue'),
+      component: () => import(/* webpackChunkName: "article" */ './views/Articles.vue'),
     },
     {
       path: '/article/:id-:alias',
       name: 'article',
-      component: () => import('./views/Article.vue'),
+      component: () => import(/* webpackChunkName: "article" */ './views/Article.vue'),
     },
     {
       path: '/editarticle/:id?',
       name: 'editarticle',
-      component: () => import('./views/EditArticle.vue'),
+      component: () => import(/* webpackChunkName: "article-editor" */ './views/EditArticle.vue'),
     },
     {
       path: '/tag/:tag/:page?',
       name: 'tag',
-      component: () => import('./views/Tag.vue'),
+      component: () => import(/* webpackChunkName: "article" */ './views/Tag.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "about" */ './views/Login.vue'),
+      component: () => import(/* webpackChunkName: "user" */ './views/Login.vue'),
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import(/* webpackChunkName: "about" */ './views/Register.vue'),
+      component: () => import(/* webpackChunkName: "user-register" */ './views/Register.vue'),
     },
     {
       path: '/sections',
@@ -59,7 +59,7 @@ export default new Router({
     {
       path: '/profiles/:page?',
       name: 'profiles',
-      component: () => import(/* webpackChunkName: "profiles" */ './views/Profiles.vue'),
+      component: () => import(/* webpackChunkName: "profile" */ './views/Profiles.vue'),
     },
     {
       path: '/profile/:id',
@@ -69,7 +69,7 @@ export default new Router({
     {
       path: '/projects/:page?',
       name: 'projects',
-      component: () => import(/* webpackChunkName: "projects" */ './views/Projects.vue'),
+      component: () => import(/* webpackChunkName: "project" */ './views/Projects.vue'),
     },
     {
       path: '/project/:id',
