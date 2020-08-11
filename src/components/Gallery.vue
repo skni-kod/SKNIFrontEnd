@@ -9,11 +9,11 @@
       </v-card>
       <v-container grid-list-sm fluid>
         <v-layout row wrap justify-center>
-          <v-flex v-for="(img, n) in filteredImgs" :key="n" :class="breakpoints">
+          <v-flex v-for="(img, n) in imgs" :key="n" :class="breakpoints">
             <v-card flat tile class="d-flex elevation-2">
               <v-img
                 class="clickable"
-                :src="img.image"
+                :src="img.thumbnail"
                 aspect-ratio="1"
                 @click.native="dialog = true; img_num = n;"
               >
