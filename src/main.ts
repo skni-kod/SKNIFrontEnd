@@ -2,8 +2,8 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import vuetify from './plugins/vuetify';
-import MarkdownItVue from 'markdown-it-vue';
-import 'markdown-it-vue/dist/markdown-it-vue.css';
+import VueMarkdown from 'vue-markdown';
+import VueMoment from 'vue-moment';
 import ArticlesList from '@/components/ArticlesList.vue';
 import CommentsList from '@/components/CommentsList.vue';
 import SingleArticle from '@/components/SingleArticle.vue';
@@ -19,6 +19,7 @@ import ArticleCard from '@/components/ArticleCard.vue';
 import Gallery from '@/components/Gallery.vue';
 // @ts-ignore
 import VueGallery from 'vue-gallery';
+import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 import store from './store';
 
@@ -33,6 +34,9 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
+Vue.use(VueMoment, 'vue-moment');
+
+Vue.component('vue-markdown', VueMarkdown);
 Vue.component('articles-list', ArticlesList);
 Vue.component('comments-list', CommentsList);
 Vue.component('single-article', SingleArticle);
