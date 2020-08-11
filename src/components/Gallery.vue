@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div v-if="imgs.length > 0">
     <v-card :dark="dark" :color="color" class="elevation-0">
-      <v-card v-if="title">
+      <v-card v-if="title || categories" :color="color">
         <!--<v-card v-if="title || categories == true">-->
         <div v-if="title">
           <h1 block class="text-center">{{ title }}</h1>
           <v-divider class="VueDivider"></v-divider>
         </div>
-        <!-- <div v-if="categories == true">
+        <div v-if="categories">
           <v-container class="pa-1">
             <v-layout my-3 mx-0 row wrap justify-space-between>
               <v-flex class="mx-1 py-1" v-for="cat in categories" :key="cat.name">
@@ -19,14 +19,14 @@
                     :color="`${hover ? categoryColorHovered : category === cat.name ? categoryColorSelected : categoryColor}`"
                     @click="category=cat.name"
                   >
-                    <v-icon large left>{{ cat.icon }}</v-icon>
+                    <v-icon left>{{ cat.icon }}</v-icon>
                     <span>{{ cat.name }}</span>
                   </v-btn>
                 </v-hover>
               </v-flex>
             </v-layout>
           </v-container>
-        </div>-->
+        </div>
       </v-card>
       <v-container grid-list-sm fluid>
         <v-layout row wrap justify-center>
@@ -64,7 +64,7 @@
           </v-carousel-item>
         </v-carousel>
       </v-card>
-      <v-btn large color="red" @click="dialog = false" class="mt-2">
+      <v-btn large dark color="red" @click="dialog = false" class="mt-2">
         <v-icon large>mdi-close</v-icon>Zamknij
       </v-btn>
     </v-dialog>
@@ -73,16 +73,17 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { GalleryCategoryModel } from '@/models/GalleryCategoryModel';
 @Component
 export default class Gallery extends Vue {
-  @Prop({ default: '' }) public readonly title!: string;
+  @Prop({ default: '' }) public readonly title!: undefined;
   @Prop({ default: 'secondary' }) public readonly categoryColor!: string;
   @Prop({ default: 'accent' }) public readonly categoryColorHovered!: string;
   @Prop({ default: 'primary' }) public readonly categoryColorSelected!: string;
   @Prop({ default: '' }) public readonly color!: string;
   @Prop({ default: false }) public readonly dark!: boolean;
   @Prop({ default: [] }) public readonly imgs!: string[];
-  //   @Prop({ default: [] }) public readonly categories!: object[];
+  @Prop({ default: undefined }) public readonly categories!: GalleryCategoryModel[];
   @Prop({ default: 'xs6 md4 sm3 lg2 xl1' })
   public readonly breakpoints!: string;
 
@@ -93,6 +94,17 @@ export default class Gallery extends Vue {
       dialogSrc: null,
       img_num: 0,
     };
+  }
+
+  public mounted() {
+    if (this.categories) {
+      for (const i of this.categories) {
+        if (i.selected === true) {
+          this.$data.category = i.name;
+          break;
+        }
+      }
+    }
   }
 }
 </script>
