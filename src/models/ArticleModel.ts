@@ -1,6 +1,6 @@
 import { CreatorModel } from '@/models/CreatorModel';
 import { ArticleTagsModel } from '@/models/ArticleTagsModel';
-import { GalleryModel } from '@/models/GalleryModel';
+import { GalleryModel } from '@/models/GalleryModel.old';
 /* tslint:disable */
 export class ArticleModel {
     public id!: number;
