@@ -2,7 +2,8 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import vuetify from './plugins/vuetify';
-import VueMarkdown from 'vue-markdown';
+import MarkdownItVue from 'markdown-it-vue';
+import 'markdown-it-vue/dist/markdown-it-vue.css';
 import VueMoment from 'vue-moment';
 import ArticlesList from '@/components/ArticlesList.vue';
 import CommentsList from '@/components/CommentsList.vue';
@@ -26,6 +27,7 @@ import store from './store';
 Vue.config.productionTip = false;
 
 Vue.use(MarkdownItVue);
+Vue.use(VueMoment, 'vue-moment');
 
 new Vue({
   router,
@@ -34,9 +36,6 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
-Vue.use(VueMoment, 'vue-moment');
-
-Vue.component('vue-markdown', VueMarkdown);
 Vue.component('articles-list', ArticlesList);
 Vue.component('comments-list', CommentsList);
 Vue.component('single-article', SingleArticle);
