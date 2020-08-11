@@ -40,7 +40,7 @@
         :style="{ backgroundImage: 'url(' + image.image + ')', width: '300px', height: '200px'}"
       ></div>
     </div>
-    <vetro-gallery breakpoints="xs6" :imgs="gallery" :categories="categories" title="Galeryjka XD"/>
+    <vetro-gallery breakpoints="xs6" :imgs="article.gallery"/>
   </div>
 </template>
 

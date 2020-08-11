@@ -1,31 +1,10 @@
 <template>
   <div v-if="imgs.length > 0">
     <v-card :dark="dark" :color="color" class="elevation-0">
-      <v-card v-if="title || categories" :color="color">
-        <!--<v-card v-if="title || categories == true">-->
+      <v-card v-if="title" :color="color">
         <div v-if="title">
           <h1 block class="text-center">{{ title }}</h1>
           <v-divider class="VueDivider"></v-divider>
-        </div>
-        <div v-if="categories">
-          <v-container class="pa-1">
-            <v-layout my-3 mx-0 row wrap justify-space-between>
-              <v-flex class="mx-1 py-1" v-for="cat in categories" :key="cat.name">
-                <v-hover>
-                  <v-btn
-                    block
-                    rounded
-                    slot-scope="{ hover }"
-                    :color="`${hover ? categoryColorHovered : category === cat.name ? categoryColorSelected : categoryColor}`"
-                    @click="category=cat.name"
-                  >
-                    <v-icon left>{{ cat.icon }}</v-icon>
-                    <span>{{ cat.name }}</span>
-                  </v-btn>
-                </v-hover>
-              </v-flex>
-            </v-layout>
-          </v-container>
         </div>
       </v-card>
       <v-container grid-list-sm fluid>
@@ -72,7 +51,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { GalleryModelCategory } from '@/models/GalleryModelCategory';
 import { GalleryModelImage } from '@/models/GalleryModelImage';
 @Component
 export default class Gallery extends Vue {
@@ -83,7 +61,6 @@ export default class Gallery extends Vue {
   @Prop({ default: '' }) public readonly color!: string;
   @Prop({ default: false }) public readonly dark!: boolean;
   @Prop({ default: [] }) public readonly imgs!: GalleryModelImage[];
-  @Prop({ default: undefined }) public readonly categories!: GalleryModelCategory[];
   @Prop({ default: 'xs6 md4 sm3 lg2 xl1' })
   public readonly breakpoints!: string;
 
@@ -94,27 +71,6 @@ export default class Gallery extends Vue {
       dialogSrc: null,
       img_num: 0,
     };
-  }
-
-  public mounted() {
-    if (this.categories) {
-      for (const i of this.categories) {
-        if (i.selected === true) {
-          this.$data.category = i.name;
-          break;
-        }
-      }
-    }
-  }
-
-  get filteredImgs() {
-    if (this.$data.category) {
-      return this.imgs.filter((Img) => {
-        const temp = Img.category;
-        return temp.match(this.$data.category);
-      });
-    }
-    else return this.imgs;
   }
 }
 </script>
