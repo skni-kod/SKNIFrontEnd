@@ -30,17 +30,7 @@
         <markdown-it-vue class="md-body" :content="article.text" />
       </div>
     </v-card>
-    <vue-gallery :images="gallery" :index="galleryIndex" @close="galleryIndex = null"></vue-gallery>
-    <div class="flex-container">
-      <div
-        class="image"
-        v-for="(image, imageIndex) in article.gallery"
-        :key="imageIndex"
-        @click="galleryIndex = imageIndex, gallery = getImageUrls()"
-        :style="{ backgroundImage: 'url(' + image.image + ')', width: '300px', height: '200px'}"
-      ></div>
-    </div>
-    <vetro-gallery breakpoints="xs6" :imgs="article.gallery"/>
+    <gallery breakpoints="xs6" :imgs="article.gallery"/>
   </div>
 </template>
 
