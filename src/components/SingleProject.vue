@@ -33,7 +33,7 @@
       <v-flex xs12 md10 offset-md1>
         <p>
           Made with
-          <v-icon color="red">mdi-heart</v-icon>by
+          <v-icon color="red">mdi-heart</v-icon> by
           <b>{{ project.creator.user.first_name }} {{ project.creator.user.last_name }}</b> at
           <b>{{ project.section.name }}</b>
         </p>
