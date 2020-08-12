@@ -1,5 +1,5 @@
 <template>
-  <div v-if="imgs.length > 0">
+  <div v-if="imgs.length > 0" class="my-1">
     <v-card :dark="dark" :color="color" class="elevation-0">
       <v-card v-if="title" :color="color">
         <div v-if="title">
@@ -7,7 +7,7 @@
           <v-divider class="VueDivider"></v-divider>
         </div>
       </v-card>
-      <v-container grid-list-sm fluid>
+      <v-container grid-list-sm fluid class="pa-1">
         <v-layout row wrap justify-center>
           <v-flex v-for="(img, n) in imgs" :key="n" :class="breakpoints">
             <v-card flat tile class="d-flex elevation-2">
