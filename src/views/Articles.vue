@@ -1,6 +1,6 @@
 <template>
   <div>
-    <articles-list v-bind:articles="articles"></articles-list>
+    <articles-list :articles="articles"></articles-list>
     <v-pagination
       v-model="pagination.currentPage"
       :length="pagination.pageCount"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sections-list v-bind:sections="sections"></sections-list>
+    <sections-list :sections="sections"></sections-list>
   </div>
 </template>
 

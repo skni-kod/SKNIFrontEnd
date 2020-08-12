@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hardwares-list v-bind:hardwares="hardwares"></hardwares-list>
+    <hardwares-list :hardwares="hardwares"></hardwares-list>
     <v-pagination
       v-model="pagination.currentPage"
       :length="pagination.pageCount"

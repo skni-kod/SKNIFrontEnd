@@ -16,12 +16,12 @@
           >
             <v-flex style="text-align: left;">
               <span class="headline text-xs-left">
-                <a v-bind:href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a>
+                <a :href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a>
               </span>
               <p>{{ article.text }}</p>
               <div style="display: flex; width: 100%; justify-content: space-between;">
                 <v-btn
-                  v-bind:href="'/#/article/'+ article.id + '-' + article.alias"
+                  :href="'/#/article/'+ article.id + '-' + article.alias"
                   text
                   style="background-color: #64b5f6; color: white; margin-left: auto"
                   class="elevation-2"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <profiles-list v-bind:profiles="profiles"></profiles-list>
+    <profiles-list :profiles="profiles"></profiles-list>
     <v-pagination
       v-model="pagination.currentPage"
       :length="pagination.pageCount"

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="header-margin">Artykuły dla tagu #{{$route.params.tag}}</h2>
-    <articles-list v-bind:articles="articles"></articles-list>
+    <articles-list :articles="articles"></articles-list>
     <v-pagination
       v-model="pagination.currentPage"
       :length="pagination.pageCount"

@@ -24,7 +24,7 @@
               class="grey"
             >
               <a
-                v-bind:href="'/#/tag/'+ articleTag.tag.name"
+                :href="'/#/tag/'+ articleTag.tag.name"
                 class="white--text text-decoration-none"
               >{{ '#' + articleTag.tag.name }}</a>
             </v-chip>

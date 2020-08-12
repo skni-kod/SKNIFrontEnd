@@ -22,7 +22,7 @@
     <div v-else class="background">
       <v-img :src="require('../assets/logo_color.png')"></v-img>
     </div>
-    <home-section-list v-bind:sections="sections"></home-section-list>
+    <home-section-list :sections="sections"></home-section-list>
     <home-article-list :articles="articles"></home-article-list>
   </div>
 </template>

@@ -4,7 +4,7 @@
       <p>{{ profile.user.first_name }}</p>
       <p>{{ profile.user.last_name }}</p>
       <p>
-        <a v-bind:href="'/#/profile/'+ profile.id">{{ profile.user.username }}</a>
+        <a :href="'/#/profile/'+ profile.id">{{ profile.user.username }}</a>
       </p>
       <p>{{ profile.user.email }}</p>
     </div>
