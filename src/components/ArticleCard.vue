@@ -21,7 +21,7 @@
               <p>{{ article.text }}</p>
               <div style="display: flex; width: 100%; justify-content: space-between;">
                 <v-btn
-                  :href="'/#/article/'+ article.id + '-' + article.alias"
+                  :to="'/article/'+ article.id + '-' + article.alias"
                   text
                   style="background-color: #64b5f6; color: white; margin-left: auto"
                   class="elevation-2"
