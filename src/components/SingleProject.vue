@@ -6,26 +6,26 @@
           <v-card-title style="word-break: break-word;">
             <p class="text-h2 text-left mb-0">{{ project.title }}</p>
           </v-card-title>
-          <v-card-subtitle class="text-left">
+          <v-card-subtitle class="text-left pb-0">
             <p class="mb-0">
               Data wykonania:
               <b>{{ project.publication_date | moment("YYYY-MM-DD HH:mm:ss") }}</b>
             </p>
           </v-card-subtitle>
-          <v-card-text>
-            <markdown-it-vue class="md-body text-left" :content="project.text" />
-          </v-card-text>
-          <v-card-actions v-if="project.repository_link">
-            <v-spacer />
+          <v-card-actions v-if="project.repository_link" class="py-0 ml-2">
             <v-btn
               class="purple darken-2 white--text"
               :href="project.repository_link"
               target="_blank"
             >
+              <v-icon left class>mdi-github</v-icon>
               <span>Repozytorium</span>
-              <v-icon right class>mdi-github</v-icon>
             </v-btn>
+            <v-spacer />
           </v-card-actions>
+          <v-card-text>
+            <markdown-it-vue class="md-body text-left" :content="project.text" />
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
