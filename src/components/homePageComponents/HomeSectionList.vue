@@ -3,12 +3,22 @@
     <h2 class="display-2">Nasze sekcje</h2>
     <v-layout align-space-between justify-center row fill-height wrap>
       <v-flex xs12 md6 lg4 v-for="section in sections" :key="section.title">
-        <v-card class="elevation-0 transparent">
-          <v-card-text class="text-xs-center" style="padding-bottom: 0px!important">
-            <v-icon x-large class="blue--text text--lighten-2">{{section.icon}}</v-icon>
-          </v-card-text>
-          <v-card-title primary-title class="layout justify-center">
-            <div class="headline text-xs-center" style="word-break: break-word;">{{section.name}}</div>
+        <v-card class="elevation-0 tile">
+          <v-card-title>
+            <v-row class="mx-auto">
+              <v-col cols="auto" class="text-center py-0">
+                <v-row justify="center" class="flex-column ma-0 fill-height">
+                  <v-icon x-large left color="primary">{{section.icon}}</v-icon>
+                </v-row>
+              </v-col>
+              <v-col class="pa-0">
+                <v-row justify="center" class="flex-column ma-0 fill-height">
+                  <p
+                    class="text-left text-h6 font-weight-thin my-auto" style="word-break: break-word;"
+                  >{{ section.name }}</p>
+                </v-row>
+              </v-col>
+            </v-row>
           </v-card-title>
           <v-card-text class="text-xs-justify">{{section.description}}</v-card-text>
         </v-card>
