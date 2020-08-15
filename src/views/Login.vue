@@ -1,26 +1,26 @@
 <template>
   <v-container>
-    <v-layout row class='text-xs-center'>
-      <v-flex xs4 class='grey lighten-4'>
-        <v-container class='text-xs-center'>
+    <v-layout row class="text-xs-center">
+      <v-flex xs4 class="grey lighten-4">
+        <v-container class="text-xs-center">
           <v-card text>
             <v-card-title primary-title>
               <h4>Login</h4>
             </v-card-title>
             <v-form>
-              <v-text-field prepend-icon='person' name='Username' label='Username' v-model='login'></v-text-field>
+              <v-text-field prepend-icon="person" name="Username" label="Username" v-model="login"></v-text-field>
               <v-text-field
-                prepend-icon='lock'
-                name='Password'
-                label='Password'
-                type='password'
-                v-model='password'
+                prepend-icon="lock"
+                name="Password"
+                label="Password"
+                type="password"
+                v-model="password"
               ></v-text-field>
               <v-card-actions>
-                <v-btn primary large block @click='loginUser()'>Login</v-btn>
+                <v-btn primary large block @click="loginUser()">Login</v-btn>
               </v-card-actions>
               <v-card-actions>
-                <v-btn primary large block @click='goToRegister()'>Register</v-btn>
+                <v-btn primary large block @click="goToRegister()">Register</v-btn>
               </v-card-actions>
             </v-form>
           </v-card>
@@ -33,9 +33,7 @@
 <script lang='ts'>
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import {
-  login,
-} from '../helpers/auth';
+import { login } from '../helpers/auth';
 import Axios from 'axios';
 
 @Component

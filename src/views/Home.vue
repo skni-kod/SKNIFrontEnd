@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <v-card v-if="$vuetify.breakpoint.mdAndUp">
       <v-img
         v-if="$vuetify.breakpoint.smAndUp"
@@ -19,10 +19,10 @@
         </v-container>
       </v-img>
     </v-card>
-    <div class="background" style="margin-top: -10px" v-else>
+    <div v-else class="background">
       <v-img :src="require('../assets/logo_color.png')"></v-img>
     </div>
-    <home-section-list v-bind:sections="sections"></home-section-list>
+    <home-section-list :sections="sections"></home-section-list>
     <home-article-list :articles="articles"></home-article-list>
   </div>
 </template>
@@ -40,7 +40,6 @@ import homeSectionList from '@/components/homePageComponents/HomeSectionList.vue
 @Component({
   components: { homeArticleList, homeSectionList },
 })
-
 export default class Home extends Vue {
   private sectionsService!: SectionsService;
   private articleService!: ArticlesService;

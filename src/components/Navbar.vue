@@ -1,42 +1,42 @@
 <template>
   <div>
-    <v-toolbar dark>
-      <v-toolbar-items v-if="$vuetify.breakpoint.smAndUp">
-        <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link">{{item.title}}</v-btn>
+    <v-app-bar dark app hide-on-scroll>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
+        <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link">{{ item.title }}</v-btn>
       </v-toolbar-items>
-
-      <v-menu v-else>
-        <template v-slot:activator="{ on }">
-          <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
-        </template>
-        <v-list>
-          <v-list-item v-for="item in toolbarItems" :key="item.link">
-            <v-list-item-content>
-              <v-btn text :to="item.link">{{ item.title }}</v-btn>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-
-      <v-spacer />
-    </v-toolbar>
+      <v-toolbar-title v-else class="text-center">SKNI KOD</v-toolbar-title>
+    </v-app-bar>
+    <nav-drawer :items="toolbarItems" />
   </div>
 </template>
 
 <script lang="ts">
 import Component from 'vue-class-component';
+import NavDrawer from './NavbarDrawer.vue';
+import store from '@/store';
 import Vue from 'vue';
 
-@Component
-export default class extends Vue {
+@Component({
+  components: {
+    NavDrawer,
+  },
+})
+export default class Navbar extends Vue {
   private toolbarItems = [
-    { link: '/', title: 'Strona główna' },
-    { link: '/about', title: 'O nas' },
-    { link: '/articles', title: 'Artykuły' },
-    { link: '/sections', title: 'Sekcje' },
-    { link: '/projects', title: 'Projekty' },
-    // { link: '/hardware', title: 'Hardware' },
-    // { link: '/profiles', title: 'Profile' },
+    { link: '/', title: 'Strona główna', icon: 'mdi-home' },
+    { link: '/about', title: 'O nas', icon: 'mdi-account-group' },
+    { link: '/articles/1', title: 'Artykuły', icon: 'mdi-text-box-multiple' },
+    { link: '/sections', title: 'Sekcje', icon: 'mdi-vector-intersection' },
+    { link: '/projects', title: 'Projekty', icon: 'mdi-cog' },
+    // { link: '/hardware', title: 'Hardware', icon: "mdi-expansion-card" },
+    // { link: '/profiles', title: 'Profile', icon: "mdi-account" },
   ];
+  get drawer(): boolean {
+    return this.$store.getters.navDrawer;
+  }
+  set drawer(value: boolean) {
+    this.$store.dispatch('setNavDrawerState', value);
+  }
 }
 </script>

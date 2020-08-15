@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sections-list v-bind:sections='sections'></sections-list>
+    <sections-list :sections="sections"></sections-list>
   </div>
 </template>
 
@@ -37,7 +37,3 @@ export default class Section extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  
-</style>

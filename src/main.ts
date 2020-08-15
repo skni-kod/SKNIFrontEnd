@@ -2,7 +2,8 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import vuetify from './plugins/vuetify';
-import VueMarkdown from 'vue-markdown';
+import MarkdownItVue from 'markdown-it-vue';
+import 'markdown-it-vue/dist/markdown-it-vue.css';
 import VueMoment from 'vue-moment';
 import ArticlesList from '@/components/ArticlesList.vue';
 import CommentsList from '@/components/CommentsList.vue';
@@ -16,22 +17,23 @@ import SingleProject from '@/components/SingleProject.vue';
 import HomeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
 import HomeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
-// @ts-ignore
-import VueGallery from 'vue-gallery';
+import Gallery from '@/components/Gallery.vue';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
+import store from './store';
 
 Vue.config.productionTip = false;
+
+Vue.use(MarkdownItVue);
+Vue.use(VueMoment, 'vue-moment');
 
 new Vue({
   router,
   vuetify,
+  store,
   render: (h) => h(App),
 }).$mount('#app');
 
-Vue.use(VueMoment, 'vue-moment');
-
-Vue.component('vue-markdown', VueMarkdown);
 Vue.component('articles-list', ArticlesList);
 Vue.component('comments-list', CommentsList);
 Vue.component('single-article', SingleArticle);
@@ -44,4 +46,4 @@ Vue.component('single-project', SingleProject);
 Vue.component('home-section-list', HomeSectionList);
 Vue.component('home-article-list', HomeArticleList);
 Vue.component('article-card', ArticleCard);
-Vue.component('vue-gallery', VueGallery);
+Vue.component('gallery', Gallery);

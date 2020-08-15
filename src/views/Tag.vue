@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h2 class="header-margin">Artykuły dla tagu #{{$route.params.tag}}</h2>
-    <articles-list v-bind:articles='articles'></articles-list>
+    <p class="text-h5 font-weight-bold ma-5">Artykuły dla tagu #{{$route.params.tag}}</p>
+    <articles-list :articles="articles"></articles-list>
     <v-pagination
-      v-model='pagination.currentPage'
-      :length='pagination.pageCount'
-      @input='paginationClicked'
-      :prev-icon='"mdi-chevron-left"'
-      :next-icon='"mdi-chevron-right"'
+      v-model="pagination.currentPage"
+      :length="pagination.pageCount"
+      @input="paginationClicked"
+      prev-icon="mdi-chevron-left"
+      next-icon="mdi-chevron-right"
     ></v-pagination>
   </div>
 </template>
@@ -69,26 +69,3 @@ export default class Tag extends Vue {
   }
 }
 </script>
-
-<style>
-.paginationContainer {
-  display: inline-block;
-}
-
-.paginationContainer > li {
-  display: inline-block;
-  border: 1px solid rgb(200, 200, 200);
-}
-
-.active {
-  font-weight: bold;
-}
-
-  .header-margin{
-    margin: 20px auto;
-  }
-
-.v-pagination .primary {
-  background-color: rgb(65, 65, 255) !important;
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
   <v-layout>
-    <v-flex xs12 sm6 offset-sm3>
-      <single-article v-bind:article='article' v-bind:comments='comments'></single-article>
+    <v-flex xs12 sm10 md8 lg6 offset-sm1 offset-md2 offset-lg3>
+      <single-article :article="article" :comments="comments" class="mx-1"></single-article>
     </v-flex>
   </v-layout>
 </template>
@@ -29,11 +29,6 @@ export default class Article extends Vue {
   private mounted() {
     this.articlesService.getArticle(+this.$route.params.id).then((article) => {
       this.article = article;
-
-      this.$router.replace({
-        name: 'article',
-        params: { alias: article.alias },
-      });
     });
 
     this.commentsService

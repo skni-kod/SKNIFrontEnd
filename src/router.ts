@@ -4,15 +4,6 @@ import Home from './views/Home.vue';
 
 Vue.use(Router);
 
-// It's here for now because after refreshing F5
-// browser doesn't see vuetify for some reason
-// move it for to better place
-import Vuetify from 'vuetify';
-Vue.use(Vuetify, {
-  iconfont: 'md',
-});
-
-
 export default new Router({
   routes: [
     {
@@ -23,58 +14,52 @@ export default new Router({
     {
       path: '/about',
       name: 'about',
-      component: () => import('./views/About.vue'),
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
     {
       path: '/articles/:page?',
       name: 'articles',
-      component: () => import('./views/Articles.vue'),
+      component: () => import(/* webpackChunkName: "article" */ './views/Articles.vue'),
     },
     {
       path: '/article/:id-:alias',
       name: 'article',
-      component: () => import('./views/Article.vue'),
+      component: () => import(/* webpackChunkName: "article" */ './views/Article.vue'),
     },
     {
       path: '/editarticle/:id?',
       name: 'editarticle',
-      component: () => import('./views/EditArticle.vue'),
+      component: () => import(/* webpackChunkName: "article-editor" */ './views/EditArticle.vue'),
     },
     {
       path: '/tag/:tag/:page?',
       name: 'tag',
-      component: () => import('./views/Tag.vue'),
+      component: () => import(/* webpackChunkName: "article" */ './views/Tag.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "about" */ './views/Login.vue'),
+      component: () => import(/* webpackChunkName: "user" */ './views/Login.vue'),
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import(/* webpackChunkName: "about" */ './views/Register.vue'),
+      component: () => import(/* webpackChunkName: "user-register" */ './views/Register.vue'),
     },
     {
       path: '/sections',
       name: 'sections',
-      // route level code-splitting
-      // this generates a separate chunk (sections.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "sections" */ './views/Sections.vue'),
     },
     {
       path: '/hardware/:page?',
       name: 'hardware',
-      // route level code-splitting
-      // this generates a separate chunk (hardware.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
     },
     {
       path: '/profiles/:page?',
       name: 'profiles',
-      component: () => import(/* webpackChunkName: "profiles" */ './views/Profiles.vue'),
+      component: () => import(/* webpackChunkName: "profile" */ './views/Profiles.vue'),
     },
     {
       path: '/profile/:id',
@@ -84,12 +69,18 @@ export default new Router({
     {
       path: '/projects/:page?',
       name: 'projects',
-      component: () => import(/* webpackChunkName: "projects" */ './views/Projects.vue'),
+      component: () => import(/* webpackChunkName: "project" */ './views/Projects.vue'),
     },
     {
       path: '/project/:id',
       name: 'project',
       component: () => import(/* webpackChunkName: "project" */ './views/Project.vue'),
     },
+    {
+      path: '/404',
+      name: '404',
+      component: () => import(/* webpackChunkName: "404" */ './views/404.vue'),
+    },
+    { path: '*', redirect: '/404' },
   ],
 });

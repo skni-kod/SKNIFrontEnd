@@ -1,26 +1,44 @@
 <template>
-  <div v-if="project != undefined" class="projectContainer">
-    <h3 class="display-2">{{ project.title }}</h3>
-
-    <div class="projectDate">
-      <p>Data wykonania: <b>{{ project.publication_date.split('Z')[0].replace('T', ' ') }}</b></p>
-    </div>
-    
-    <div v-if="project.repository_link" class="projectRepo">
-      <p style="margin-right: 10px;">Repozytorium:</p>
-      <img class="github" src="../assets/github.png" />
-      <a :href="project.repository_link">{{ project.repository_link }}</a>
-    </div>
-
-    <vue-markdown class='text-shadow-paragraph projectText'>{{project.text}}</vue-markdown>
-    
-    <div class="sectionContainer">
-      <p class="sectionName">
-        Made with <span class="heart">❤</span> by 
-        <b>{{ project.creator.user.first_name }} {{ project.creator.user.last_name }}
-        </b> at <b>{{ project.section.name }}</b>
-      </p>
-    </div>
+  <div v-if="project != undefined">
+    <v-layout class="ma-2">
+      <v-flex xs12 sm10 md8 lg6 offset-sm1 offset-md2 offset-lg3>
+        <v-card tile elevation="0">
+          <v-card-title style="word-break: break-word;">
+            <p class="text-h2 text-left mb-0">{{ project.title }}</p>
+          </v-card-title>
+          <v-card-subtitle class="text-left pb-0">
+            <p class="mb-0">
+              Data wykonania:
+              <b>{{ project.publication_date | moment("YYYY-MM-DD HH:mm:ss") }}</b>
+            </p>
+          </v-card-subtitle>
+          <v-card-actions v-if="project.repository_link" class="py-0 ml-2">
+            <v-btn
+              class="purple darken-2 white--text"
+              :href="project.repository_link"
+              target="_blank"
+            >
+              <v-icon left class>mdi-github</v-icon>
+              <span>Repozytorium</span>
+            </v-btn>
+            <v-spacer />
+          </v-card-actions>
+          <v-card-text>
+            <markdown-it-vue class="md-body text-left" :content="project.text" />
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-layout>
+      <v-flex xs12 md10 offset-md1>
+        <p>
+          Made with
+          <v-icon color="red">mdi-heart</v-icon> by
+          <b>{{ project.creator.user.first_name }} {{ project.creator.user.last_name }}</b> at
+          <b>{{ project.section.name }}</b>
+        </p>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
@@ -33,64 +51,3 @@ export default class SingleProject extends Vue {
   @Prop() public project!: ProjectModel;
 }
 </script>
-
-<style scoped>
-.projectContainer {
-  width: 80%;
-  margin: 50px auto 0 auto;
-  text-align: left;
-}
-
-.projectText {
-  margin: 40px 0 20px 0;
-  width: 100%;
-  font-size: 1.2em;
-  line-height: 1.7em;
-  text-align: justify;
-  display: flex;
-  flex-direction: column;
-}
-
-.github {
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
-}
-
-.projectDate {
-  font-size: 1.2em;
-  margin-top: 20px;
-}
-
-.sectionContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px;
-  padding-left: 0;
-  margin-top: 40px;
-  justify-content: center;
-}
-
-.sectionIcon {
-  width: 30px;
-  height: 30px;
-}
-
-.sectionName {
-  margin: 0;
-  font-size: 1em;
-}
-
-.heart {
-  color: red;
-  font-size: 1.5em;
-}
-
-.projectRepo {
-  display: flex;
-  flex-direction: row;
-  font-size: 1.2em;
-  margin-top: 20px;
-}
-</style>

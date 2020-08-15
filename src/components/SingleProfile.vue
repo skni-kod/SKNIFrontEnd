@@ -1,5 +1,5 @@
 <template>
-  <div v-if='profile != undefined'>
+  <div v-if="profile != undefined">
     <p>ID usera {{$route.params.id}}</p>
     <p>Imie: {{ profile.user.first_name }}</p>
     <p>Nazwisko: {{profile.user.last_name}}</p>

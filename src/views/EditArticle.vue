@@ -3,48 +3,48 @@
     <v-container grid-list-md text-xs-centxer>
       <v-layout row wrap>
         <v-flex xs12>
-          <v-text-field label='Tytuł artykułu' v-model='article.title'></v-text-field>
+          <v-text-field label="Tytuł artykułu" v-model="article.title"></v-text-field>
         </v-flex>
         <v-flex xs10>
-          <v-text-field label='Alias' v-model='article.alias'></v-text-field>
+          <v-text-field label="Alias" v-model="article.alias"></v-text-field>
         </v-flex>
         <v-flex xs2>
-          <v-btn @click='generateAlias'>Wygeneruj alias</v-btn>
+          <v-btn @click="generateAlias">Wygeneruj alias</v-btn>
         </v-flex>
         <v-flex xs6>
           <v-text-field
-            label='Data utworzenia'
-            v-model='formattedCreationDate'
-            mask='##-##-#### ##:##:##'
+            label="Data utworzenia"
+            v-model="formattedCreationDate"
+            mask="##-##-#### ##:##:##"
           ></v-text-field>
         </v-flex>
         <v-flex xs6>
           <v-text-field
-            label='Data publikacji'
-            v-model='formattedPublicationDate'
-            mask='##-##-#### ##:##:##'
+            label="Data publikacji"
+            v-model="formattedPublicationDate"
+            mask="##-##-#### ##:##:##"
           ></v-text-field>
         </v-flex>
         <v-flex xs12>
           <v-select
-            v-model='selectedTags'
-            :items='allTags'
-            :item-text='tagTextSelector'
+            v-model="selectedTags"
+            :items="allTags"
+            :item-text="tagTextSelector"
             attach
             chips
-            label='Tags'
+            label="Tags"
             multiple
           ></v-select>
         </v-flex>
-        <v-flex xs6 class='text-xs-left full-height'>
+        <v-flex xs6 class="text-xs-left full-height">
           <v-textarea
-            id='content-textarea'
-            v-model='article.text'
-            v-scroll:#content-textarea='onScroll'
+            id="content-textarea"
+            v-model="article.text"
+            v-scroll:#content-textarea="onScroll"
           ></v-textarea>
         </v-flex>
-        <v-flex xs6 class='text-xs-left'>
-          <vue-markdown id='content-preview' :source='article.text' html></vue-markdown>
+        <v-flex xs6 class="text-xs-left">
+          <markdown-it-vue id="content-preview" class="md-body" :content="article.text" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -133,7 +133,7 @@ export default class EditArticle extends Vue {
   padding-top: 0;
   overflow: auto;
   height: 500px;
-  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
   line-height: 18.5714px;
   font-size: 13px;
   padding-top: 0;

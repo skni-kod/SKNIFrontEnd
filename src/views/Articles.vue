@@ -1,12 +1,12 @@
 <template>
   <div>
-    <articles-list v-bind:articles='articles'></articles-list>
+    <articles-list :articles="articles"></articles-list>
     <v-pagination
-      v-model='pagination.currentPage'
-      :length='pagination.pageCount'
-      @input='paginationClicked'
-      :prev-icon='"mdi-chevron-left"'
-      :next-icon='"mdi-chevron-right"'
+      v-model="pagination.currentPage"
+      :length="pagination.pageCount"
+      @input="paginationClicked"
+      prev-icon="mdi-chevron-left"
+      next-icon="mdi-chevron-right"
     ></v-pagination>
   </div>
 </template>
@@ -32,27 +32,30 @@ export default class Articles extends Vue {
   }
 
   private mounted() {
+    this.getArticles();
+  }
+
+  private paginationClicked(pageNumber: number) {
+    this.$router.replace({
+      name: 'articles',
+      params: { page: '' + pageNumber },
+    });
+    this.getArticles();
+  }
+
+  private getArticles() {
     let pageNumber = +this.$route.params.page;
     if (pageNumber === undefined || isNaN(pageNumber)) {
       pageNumber = 1;
     }
 
     this.pagination.currentPage = pageNumber;
-    this.paginationClicked(pageNumber);
-  }
-
-  private paginationClicked(pageNumber: number) {
     this.articlesService
       .getArticles(pageNumber, this.pagination.itemsPerPage, false)
       .then((paginationContainer: PaginationContainer<ArticleModel>) => {
         this.articles = paginationContainer.results;
         this.pagination.itemCount = paginationContainer.count;
       });
-
-    this.$router.replace({
-      name: 'articles',
-      params: { page: '' + pageNumber },
-    });
   }
 
   private data() {
@@ -63,9 +66,3 @@ export default class Articles extends Vue {
   }
 }
 </script>
-
-<style>
-.v-pagination .primary {
-  background-color: rgb(65, 65, 255) !important;
-}
-</style>
