@@ -1,18 +1,14 @@
 <template>
-  <v-main>
-    <v-toolbar dark>
+  <div>
+    <v-app-bar dark app hide-on-scroll>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
-        <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link">
-          {{
-          item.title
-          }}
-        </v-btn>
+        <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link">{{ item.title }}</v-btn>
       </v-toolbar-items>
       <v-toolbar-title v-else class="text-center">SKNI KOD</v-toolbar-title>
-    </v-toolbar>
+    </v-app-bar>
     <nav-drawer :items="toolbarItems" />
-  </v-main>
+  </div>
 </template>
 
 <script lang="ts">
@@ -26,7 +22,7 @@ import Vue from 'vue';
     NavDrawer,
   },
 })
-export default class extends Vue {
+export default class Navbar extends Vue {
   private toolbarItems = [
     { link: '/', title: 'Strona główna', icon: 'mdi-home' },
     { link: '/about', title: 'O nas', icon: 'mdi-account-group' },
