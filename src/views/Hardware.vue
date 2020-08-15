@@ -32,27 +32,30 @@ export default class Hardware extends Vue {
   }
 
   private mounted() {
+    this.getHardware();
+  }
+
+  private paginationClicked(pageNumber: number) {
+    this.$router.replace({
+      name: 'hardware',
+      params: { page: '' + pageNumber },
+    });
+    this.getHardware();
+  }
+
+  private getHardware() {
     let pageNumber = +this.$route.params.page;
     if (pageNumber === undefined || isNaN(pageNumber)) {
       pageNumber = 1;
     }
 
     this.pagination.currentPage = pageNumber;
-    this.paginationClicked(pageNumber);
-  }
-
-  private paginationClicked(pageNumber: number) {
     this.hardwaresService
       .getHardwareByPage(pageNumber, this.pagination.itemsPerPage)
       .then((paginationContainer: PaginationContainer<HardwareModel>) => {
         this.hardwares = paginationContainer.results;
         this.pagination.itemCount = paginationContainer.count;
       });
-
-    this.$router.replace({
-      name: 'hardware',
-      params: { page: '' + pageNumber },
-    });
   }
 
   private data() {
