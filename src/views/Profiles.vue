@@ -32,27 +32,31 @@ export default class Profiles extends Vue {
   }
 
   private mounted() {
+    this.getProfiles();
+  }
+
+  private paginationClicked(pageNumber: number) {
+    this.$router.replace({
+      name: 'profiles',
+      params: { page: '' + pageNumber },
+    });
+
+    this.getProfiles();
+  }
+
+  private getProfiles() {
     let pageNumber = +this.$route.params.page;
     if (pageNumber === undefined || isNaN(pageNumber)) {
       pageNumber = 1;
     }
 
     this.pagination.currentPage = pageNumber;
-    this.paginationClicked(pageNumber);
-  }
-
-  private paginationClicked(pageNumber: number) {
     this.profilesService
       .getProfilesByPage(pageNumber, this.pagination.itemsPerPage)
       .then((paginationContainer: PaginationContainer<ProfileModel>) => {
         this.profiles = paginationContainer.results;
         this.pagination.itemCount = paginationContainer.count;
       });
-
-    this.$router.replace({
-      name: 'profiles',
-      params: { page: '' + pageNumber },
-    });
   }
 
   private data() {

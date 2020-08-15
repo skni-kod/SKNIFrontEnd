@@ -20,11 +20,6 @@ export default class Profile extends Vue {
   private mounted() {
     this.profilesService.getProfile(+this.$route.params.id).then((profile) => {
       this.profile = profile;
-
-      this.$router.replace({
-        name: 'profile',
-        params: { id: '' + profile.id },
-      });
     });
   }
 
