@@ -30,7 +30,7 @@ export default class extends Vue {
   private toolbarItems = [
     { link: '/', title: 'Strona główna', icon: 'mdi-home' },
     { link: '/about', title: 'O nas', icon: 'mdi-account-group' },
-    { link: '/articles', title: 'Artykuły', icon: 'mdi-text-box-multiple' },
+    { link: '/articles/1', title: 'Artykuły', icon: 'mdi-text-box-multiple' },
     { link: '/sections', title: 'Sekcje', icon: 'mdi-vector-intersection' },
     { link: '/projects', title: 'Projekty', icon: 'mdi-cog' },
     // { link: '/hardware', title: 'Hardware', icon: "mdi-expansion-card" },

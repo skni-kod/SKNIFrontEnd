@@ -32,27 +32,30 @@ export default class Articles extends Vue {
   }
 
   private mounted() {
+    this.getArticles();
+  }
+
+  private paginationClicked(pageNumber: number) {
+    this.$router.replace({
+      name: 'articles',
+      params: { page: '' + pageNumber },
+    });
+    this.getArticles();
+  }
+
+  private getArticles() {
     let pageNumber = +this.$route.params.page;
     if (pageNumber === undefined || isNaN(pageNumber)) {
       pageNumber = 1;
     }
 
     this.pagination.currentPage = pageNumber;
-    this.paginationClicked(pageNumber);
-  }
-
-  private paginationClicked(pageNumber: number) {
     this.articlesService
       .getArticles(pageNumber, this.pagination.itemsPerPage, false)
       .then((paginationContainer: PaginationContainer<ArticleModel>) => {
         this.articles = paginationContainer.results;
         this.pagination.itemCount = paginationContainer.count;
       });
-
-    this.$router.replace({
-      name: 'articles',
-      params: { page: '' + pageNumber },
-    });
   }
 
   private data() {
