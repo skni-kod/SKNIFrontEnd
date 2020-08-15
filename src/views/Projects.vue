@@ -32,27 +32,31 @@ export default class Projects extends Vue {
   }
 
   private mounted() {
+    this.getProjects();
+  }
+
+  private paginationClicked(pageNumber: number) {
+    this.$router.replace({
+      name: 'projects',
+      params: { page: '' + pageNumber },
+    });
+
+    this.getProjects();
+  }
+
+  private getProjects() {
     let pageNumber = +this.$route.params.page;
     if (pageNumber === undefined || isNaN(pageNumber)) {
       pageNumber = 1;
     }
 
     this.pagination.currentPage = pageNumber;
-    this.paginationClicked(pageNumber);
-  }
-
-  private paginationClicked(pageNumber: number) {
     this.projectsService
       .getProjectsByPage(pageNumber, this.pagination.itemsPerPage)
       .then((paginationContainer: PaginationContainer<ProjectModel>) => {
         this.projects = paginationContainer.results;
         this.pagination.itemCount = paginationContainer.count;
       });
-
-    this.$router.replace({
-      name: 'projects',
-      params: { page: '' + pageNumber },
-    });
   }
 
   private data() {

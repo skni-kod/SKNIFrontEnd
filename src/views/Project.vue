@@ -20,11 +20,6 @@ export default class Project extends Vue {
   private mounted() {
     this.projectsService.getProject(+this.$route.params.id).then((project) => {
       this.project = project;
-
-      this.$router.replace({
-        name: 'project',
-        params: { id: '' + project.id },
-      });
     });
   }
 
