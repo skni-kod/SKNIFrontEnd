@@ -6,29 +6,18 @@
         height="300px"
         :src="article.gallery ? (article.gallery[0] ? article.gallery[0].image : require('../assets/strona_bg.png')) : require('../assets/strona_bg.png')"
       >
-        <div style="height: 100%; width: 100%; display: flex; flex-direction: column">
-          <v-container style="flex: 1 100%">
-            <v-layout fill-height></v-layout>
-          </v-container>
-
-          <v-container
-            style="background-image: linear-gradient(rgba(12, 12, 12, 0), rgba(12, 12, 12, 0.8)); flex: 1 100%; width: 100%"
-          >
-            <v-flex style="text-align: left;">
-              <span class="headline text-xs-left">
-                <a :href="'/#/article/'+ article.id + '-' + article.alias">{{ article.title }}</a>
-              </span>
-              <p>{{ article.text }}</p>
-              <div style="display: flex; width: 100%; justify-content: space-between;">
-                <v-btn
-                  :to="'/article/'+ article.id + '-' + article.alias"
-                  text
-                  style="background-color: #64b5f6; color: white; margin-left: auto"
-                  class="elevation-2"
-                >Czytaj więcej...</v-btn>
-              </div>
-            </v-flex>
-          </v-container>
+        <div class="card-text pt-12 pb-2 px-2">
+          <v-card-title class="text-h5 white--text darken-2 font-weight-bold justify-left pb-0 px-0">{{ article.title }}</v-card-title>
+          <v-card-text class="px-0">
+            <p class="text-left mb-0">{{ article.text }}</p>
+          </v-card-text>
+          <v-card-actions class="pa-0">
+            <v-spacer />
+            <v-btn
+              :to="'/article/'+ article.id + '-' + article.alias"
+              color="primary"
+            >Czytaj więcej...</v-btn>
+          </v-card-actions>
         </div>
       </v-img>
     </v-card>
@@ -47,24 +36,10 @@ export default class ArticleCard extends Vue {
 </script>
 
 <style scoped>
-a {
-  color: white;
-  text-decoration: none;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
-}
-a:link {
-  color: white;
-  text-decoration: none;
-}
-a:hover {
-  color: white;
-  text-decoration: underline;
-}
-a:active {
-  color: white;
-  text-decoration: none;
-}
-.text-shadow-paragraph {
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+.card-text {
+  background-image: linear-gradient(rgba(12, 12, 12, 0), rgba(12, 12, 12, 0.8));
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
 }
 </style>
