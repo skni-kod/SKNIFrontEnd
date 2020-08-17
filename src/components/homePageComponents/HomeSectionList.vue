@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md text-xs-center>
-    <p class="text-h3">Nasze sekcje</p>
+    <p class="text-h3 text-center">Nasze sekcje</p>
     <v-layout align-space-between justify-center row fill-height wrap>
       <v-flex xs12 md6 lg4 v-for="section in sections" :key="section.title">
         <v-card class="elevation-0 tile">

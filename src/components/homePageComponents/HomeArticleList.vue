@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md text-xs-center>
-    <p class="text-h3">Najnowsze artykuły</p>
+    <p class="text-h3 text-center">Najnowsze artykuły</p>
     <v-layout align-space-between justify-center row fill-height wrap style="margin-top: 20px">
       <v-flex
         xs12
