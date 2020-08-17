@@ -44,7 +44,7 @@
           ></v-textarea>
         </v-flex>
         <v-flex xs6 class="text-xs-left">
-          <markdown-it-vue id="content-preview" class="md-body" :content="article.text" />
+          <markdown-it-vue id="content-preview" class="md-body" :content="article.text" :options="markdownOptions" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -112,6 +112,15 @@ export default class EditArticle extends Vue {
       selectedTags: this.selectedTags,
       formattedPublicationDate: this.formattedPublicationDate,
       formattedCreationDate: this.formattedCreationDate,
+      markdownOptions: {
+        markdownIt: {
+          html: true,
+          linkify: true,
+        },
+        githubToc: {
+          anchorLink: false,
+        },
+      },
     };
   }
 

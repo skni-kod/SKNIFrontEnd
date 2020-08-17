@@ -33,7 +33,11 @@
       </v-card-subtitle>
       <v-divider />
       <v-card-text>
-        <markdown-it-vue class="md-body" :content="article.text" />
+        <markdown-it-vue
+          class="md-body text-left"
+          :content="article.text"
+          :options="markdownOptions"
+        />
       </v-card-text>
     </v-card>
     <gallery breakpoints="xs6" :imgs="article.gallery" />
@@ -49,11 +53,19 @@ import { CommentModel } from '@/models/CommentModel';
 export default class SingleArticle extends Vue {
   @Prop() public article!: ArticleModel;
   @Prop() public comments!: CommentModel[];
-  // @Prop() public galleryIndex: number | null = null;
   public data() {
     return {
       galleryIndex: null,
       gallery: [],
+      markdownOptions: {
+        markdownIt: {
+          html: true,
+          linkify: true,
+        },
+        githubToc: {
+          anchorLink: false,
+        },
+      },
     };
   }
 

@@ -7,7 +7,7 @@
         </v-card-title>
         <v-divider />
         <v-card-text class="text-left">
-          <markdown-it-vue class="md-body" :content="project.text.substring(0, 300) + '...'" />
+          <markdown-it-vue class="md-body" :content="project.text.substring(0, 300) + '...'" :options="markdownOptions" />
         </v-card-text>
         <v-divider />
         <v-card-text class="pa-0 primary">
@@ -41,5 +41,14 @@ import { ProjectModel } from '@/models/ProjectModel';
 @Component
 export default class ProjectsList extends Vue {
   @Prop() public projects!: ProjectModel[];
+  public data() {
+    return {
+      markdownOptions: {
+        githubToc: {
+          anchorLink: false,
+        },
+      },
+    };
+  }
 }
 </script>

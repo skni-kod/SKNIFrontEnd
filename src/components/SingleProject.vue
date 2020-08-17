@@ -24,7 +24,7 @@
             <v-spacer />
           </v-card-actions>
           <v-card-text>
-            <markdown-it-vue class="md-body text-left" :content="project.text" />
+            <markdown-it-vue class="md-body text-left" :content="project.text" :options="markdownOptions" />
           </v-card-text>
         </v-card>
       </v-flex>
@@ -49,5 +49,18 @@ import { ProjectModel } from '@/models/ProjectModel';
 @Component
 export default class SingleProject extends Vue {
   @Prop() public project!: ProjectModel;
+  public data() {
+    return {
+      markdownOptions: {
+        markdownIt: {
+          html: true,
+          linkify: true,
+        },
+        githubToc: {
+          anchorLink: false,
+        },
+      },
+    };
+  }
 }
 </script>
