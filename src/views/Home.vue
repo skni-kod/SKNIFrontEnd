@@ -23,6 +23,7 @@
       <v-img :src="require('../assets/logo_color.png')"></v-img>
     </div>
     <home-section-list :sections="sections"></home-section-list>
+    <v-divider />
     <home-article-list :articles="articles"></home-article-list>
   </div>
 </template>
