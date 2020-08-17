@@ -1,53 +1,78 @@
 <template>
   <div>
-    <v-container grid-list-md text-xs-centxer>
-      <v-layout row wrap>
-        <v-flex xs12>
-          <v-text-field label="Tytuł artykułu" v-model="article.title"></v-text-field>
-        </v-flex>
-        <v-flex xs10>
-          <v-text-field label="Alias" v-model="article.alias"></v-text-field>
-        </v-flex>
-        <v-flex xs2>
-          <v-btn @click="generateAlias">Wygeneruj alias</v-btn>
-        </v-flex>
-        <v-flex xs6>
-          <v-text-field
-            label="Data utworzenia"
-            v-model="formattedCreationDate"
-            mask="##-##-#### ##:##:##"
-          ></v-text-field>
-        </v-flex>
-        <v-flex xs6>
-          <v-text-field
-            label="Data publikacji"
-            v-model="formattedPublicationDate"
-            mask="##-##-#### ##:##:##"
-          ></v-text-field>
-        </v-flex>
-        <v-flex xs12>
-          <v-select
-            v-model="selectedTags"
-            :items="allTags"
-            :item-text="tagTextSelector"
-            attach
-            chips
-            label="Tags"
-            multiple
-          ></v-select>
-        </v-flex>
-        <v-flex xs6 class="text-xs-left full-height">
-          <v-textarea
-            id="content-textarea"
-            v-model="article.text"
-            v-scroll:#content-textarea="onScroll"
-          ></v-textarea>
-        </v-flex>
-        <v-flex xs6 class="text-xs-left">
-          <markdown-it-vue id="content-preview" class="md-body" :content="article.text" :options="markdownOptions" />
-        </v-flex>
-      </v-layout>
-    </v-container>
+    <v-card outlined class="ma-2">
+      <v-card-title
+        class="text-h3 font-weight-bold justify-center"
+        style="word-break: break-word;"
+      >Edycja artykułu nr {{ this.$route.params.id }}</v-card-title>
+      <v-divider />
+      <v-card-text>
+        <v-layout wrap justify-space-between>
+          <v-flex xs12 sm6>
+            <p>Data utworzenia: {{ article.creation_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
+          </v-flex>
+          <v-flex xs12 sm6>
+            <p>Data publikacji: {{ article.publication_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
+          </v-flex>
+        </v-layout>
+        <v-divider />
+        <v-text-field clearable label="Tytuł artykułu" v-model="article.title"></v-text-field>
+        <v-row align="center">
+          <v-col class="py-0">
+            <v-text-field clearable label="Alias" v-model="article.alias"></v-text-field>
+          </v-col>
+          <v-col class="py-0" cols="auto">
+            <v-btn color="primary" @click="generateAlias()">Wygeneruj alias</v-btn>
+          </v-col>
+        </v-row>
+        <v-select
+          v-model="selectedTags"
+          :items="allTags"
+          :item-text="tagTextSelector"
+          attach
+          chips
+          label="Tagi artykułu"
+          multiple
+          clearable
+        ></v-select>
+        <v-divider class="mb-3" />
+        <v-alert dismissible type="info">Tagi html są aktywne jedynie w widoku pojedynczego atykułu!</v-alert>
+        <v-layout wrap justify-space-between>
+          <v-flex xs12 md6 class="text-xs-left pa-1">
+            <v-textarea auto-grow v-model="article.text" outlined hide-details label="Tekst"></v-textarea>
+          </v-flex>
+          <v-flex xs12 md6 class="text-xs-left pa-1">
+            <v-card outlined>
+              <v-card-title
+                class="primary text-h4 white--text font-weight-bold justify-center py-0"
+              >PODGLĄD</v-card-title>
+              <markdown-it-vue
+                class="md-body text-left mx-2"
+                :content="article.text"
+                :options="markdownOptions"
+              />
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-card-text>
+      <v-divider />
+      <v-card-actions>
+        <v-row>
+          <v-col class="py-1">
+            <v-btn block color="success">
+              <v-icon left>mdi-pencil</v-icon>
+              <span>Zatwierdź zmiany</span>
+            </v-btn>
+          </v-col>
+          <v-col class="py-1">
+            <v-btn block color="error">
+              <v-icon left>mdi-pencil-off</v-icon>
+              <span>Odrzuć zmiany</span>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
@@ -57,7 +82,6 @@ import { ArticlesService } from '@/services/ArticlesService';
 import { TagsService } from '@/services/TagsService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { TagModel } from '@/models/TagModel';
-import moment from 'moment';
 
 @Component
 export default class EditArticle extends Vue {
@@ -83,14 +107,6 @@ export default class EditArticle extends Vue {
         this.article = article;
         this.selectedTags = this.article.tags.map((p) => p.tag.name);
 
-        this.formattedCreationDate = moment(this.article.creation_date).format(
-          'DD-MM-YYYY HH:mm:SS',
-        );
-
-        this.formattedPublicationDate = moment(
-          this.article.publication_date,
-        ).format('DD-MM-YYYY HH:mm:SS');
-
         this.tagsService.getAllTags().then((tags) => {
           this.allTags = tags;
         });
@@ -107,7 +123,7 @@ export default class EditArticle extends Vue {
 
   private data() {
     return {
-      article: this.article,
+      article: { text: '' },
       allTags: this.allTags,
       selectedTags: this.selectedTags,
       formattedPublicationDate: this.formattedPublicationDate,
@@ -136,24 +152,3 @@ export default class EditArticle extends Vue {
   }
 }
 </script>
-
-<style scope>
-#content-textarea {
-  padding-top: 0;
-  overflow: auto;
-  height: 500px;
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  line-height: 18.5714px;
-  font-size: 13px;
-  padding-top: 0;
-  resize: none;
-  margin-top: -17px;
-}
-
-#content-preview {
-  overflow: auto;
-  height: 500px;
-  line-height: 22px;
-  resize: none;
-}
-</style>
