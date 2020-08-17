@@ -20,7 +20,7 @@
               </v-col>
             </v-row>
           </v-card-title>
-          <v-card-text class="text-xs-justify">{{section.description}}</v-card-text>
+          <v-card-text class="text-xs-justify text-left">{{section.description}}</v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
