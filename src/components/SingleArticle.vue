@@ -36,7 +36,7 @@
         <markdown-it-vue class="md-body" :content="article.text" />
       </v-card-text>
     </v-card>
-    <gallery title="Galeria" breakpoints="xs6" :imgs="article.gallery" />
+    <gallery breakpoints="xs6" :imgs="article.gallery" />
   </div>
 </template>
 

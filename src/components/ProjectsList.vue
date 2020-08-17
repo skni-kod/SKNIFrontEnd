@@ -1,8 +1,8 @@
 <template>
   <v-layout>
     <v-flex xs12 sm10 md8 lg6 offset-sm1 offset-md2 offset-lg3 class="my-2">
-      <v-card v-for="project in projects" :key="project.id" class="mx-1">
-        <v-card-title primary-title>
+      <v-card v-for="project in projects" :key="project.id" class="mx-1 my-2 elevation-3">
+        <v-card-title class="grey lighten-4">
           <h3 class="headline">{{ project.title }}</h3>
         </v-card-title>
         <v-divider />
