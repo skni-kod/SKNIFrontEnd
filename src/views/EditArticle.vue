@@ -9,10 +9,10 @@
       <v-card-text>
         <v-layout wrap justify-space-between>
           <v-flex xs12 sm6>
-            <p>Data utworzenia: {{ article.creation_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
+            <p class="text-center">Data utworzenia: {{ article.creation_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
           </v-flex>
           <v-flex xs12 sm6>
-            <p>Data publikacji: {{ article.publication_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
+            <p class="text-center">Data publikacji: {{ article.publication_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
           </v-flex>
         </v-layout>
         <v-divider />
