@@ -59,7 +59,7 @@
       <v-card-actions>
         <v-row>
           <v-col class="py-1">
-            <v-btn block color="success">
+            <v-btn block color="success" @click="editArticle">
               <v-icon left>mdi-pencil</v-icon>
               <span>Zatwierdź zmiany</span>
             </v-btn>
@@ -119,6 +119,10 @@ export default class EditArticle extends Vue {
       this.article.title,
     );
     this.$forceUpdate();
+  }
+
+  private editArticle() {
+    this.articlesService.editArticle(this.article.id, this.article.title, this.article.alias, this.article.text);
   }
 
   private data() {

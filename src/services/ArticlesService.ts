@@ -64,6 +64,14 @@ export class ArticlesService {
         return article;
     }
 
+    public async editArticle(id: number, title: string, alias: string, text: string) {
+        this.axios.patch(API_MAIN_URL_BASE + '/articles/' + id + '/', {
+            title: title,
+            alias: alias,
+            text: text,
+        });
+    }
+
     public generateAliasForTitle(title: string) {
         if (title === undefined) {
             return '';
