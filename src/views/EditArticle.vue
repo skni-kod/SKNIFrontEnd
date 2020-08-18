@@ -143,12 +143,5 @@ export default class EditArticle extends Vue {
   private tagTextSelector(item: TagModel) {
     return item.name;
   }
-
-  private onScroll(offset: any) {
-    const contentPreview = this.$el.querySelector('#content-preview');
-    if (contentPreview !== undefined && contentPreview !== null) {
-      contentPreview.scrollTop = offset.target.scrollTop;
-    }
-  }
 }
 </script>
