@@ -5,6 +5,7 @@
       <router-view />
     </v-main>
     <Footer />
+    <Snackbar />
   </v-app>
 </template>
 
@@ -14,9 +15,10 @@ import Component from 'vue-class-component';
 
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
+import Snackbar from '@/components/Snackbar.vue';
 
 @Component({
-  components: { Navbar, Footer },
+  components: { Navbar, Footer, Snackbar },
 })
 export default class App extends Vue {}
 </script>
