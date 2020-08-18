@@ -10,11 +10,9 @@
         <p class="text-body-1 my-auto pr-2">{{ $store.getters.snackbarMsg }}</p>
       </v-col>
       <v-col cols="auto" class="pa-0">
-        <v-progress-circular value="50" rotate="-90">
-          <v-btn text fab x-small @click="snackbar = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-progress-circular>
+        <v-btn outlined fab x-small @click="snackbar = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
   </v-snackbar>
