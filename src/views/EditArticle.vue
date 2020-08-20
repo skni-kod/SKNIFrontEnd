@@ -40,7 +40,15 @@
           clearable
         ></v-select>
         <v-divider class="mb-3" />
-        <v-alert dismissible type="info">Tagi html są aktywne jedynie w widoku pojedynczego atykułu!</v-alert>
+        <v-alert dismissible type="info">
+          <ul>
+            <li>Tagi html są aktywne jedynie w widoku pojedynczego atykułu!</li>
+            <li>
+              Do
+              <b>każdego</b> listingu należy dodać nazwę języka jaki został w nim użyty np. ```c++ - W przeciwnym razie cały markdown nie zostanie wyświetlony.
+            </li>
+          </ul>
+        </v-alert>
         <v-layout wrap justify-space-between>
           <v-flex xs12 md6 class="text-xs-left pa-1">
             <v-textarea auto-grow v-model="article.text" outlined hide-details label="Tekst"></v-textarea>
@@ -81,7 +89,9 @@
       <v-card>
         <v-card-title class="headline">Potwierdzenie</v-card-title>
         <v-divider />
-        <v-card-text class="px-4 pt-2 pb-0">Czy na pewno chcesz wyjść z edycji artykułu bez zapisywania zmian?</v-card-text>
+        <v-card-text
+          class="px-4 pt-2 pb-0"
+        >Czy na pewno chcesz wyjść z edycji artykułu bez zapisywania zmian?</v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn color="error" outlined @click="dialog = false">Nie</v-btn>
@@ -166,7 +176,9 @@ export default class EditArticle extends Vue {
   }
 
   private returnArticle() {
-    this.$router.replace('/article/' + this.article.id + '-' + this.article.alias);
+    this.$router.replace(
+      '/article/' + this.article.id + '-' + this.article.alias,
+    );
   }
 
   private data() {
