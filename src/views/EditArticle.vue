@@ -9,10 +9,14 @@
       <v-card-text>
         <v-layout wrap justify-space-between>
           <v-flex xs12 sm6>
-            <p class="text-center">Data utworzenia: {{ article.creation_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
+            <p
+              class="text-center"
+            >Data utworzenia: {{ article.creation_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
           </v-flex>
           <v-flex xs12 sm6>
-            <p class="text-center">Data publikacji: {{ article.publication_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
+            <p
+              class="text-center"
+            >Data publikacji: {{ article.publication_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
           </v-flex>
         </v-layout>
         <v-divider />
@@ -103,14 +107,16 @@ export default class EditArticle extends Vue {
 
   private mounted() {
     if (this.$route.params.id !== undefined) {
-      this.articlesService.getArticle(+this.$route.params.id, false).then((article) => {
-        this.article = article;
-        this.selectedTags = this.article.tags.map((p) => p.tag.name);
+      this.articlesService
+        .getArticle(+this.$route.params.id, false)
+        .then((article) => {
+          this.article = article;
+          this.selectedTags = this.article.tags.map((p) => p.tag.name);
 
-        this.tagsService.getAllTags().then((tags) => {
-          this.allTags = tags;
+          this.tagsService.getAllTags().then((tags) => {
+            this.allTags = tags;
+          });
         });
-      });
     }
   }
 
@@ -122,7 +128,31 @@ export default class EditArticle extends Vue {
   }
 
   private editArticle() {
-    this.articlesService.editArticle(this.article.id, this.article.title, this.article.alias, this.article.text);
+    if (
+      this.articlesService.editArticle(
+        this.article.id,
+        this.article.title,
+        this.article.alias,
+        this.article.text,
+      )
+    ) {
+      this.$store.dispatch('setSnackbarState', {
+        state: true,
+        msg: 'Artykuł został zaktualizowany',
+        color: 'success',
+        timeout: 7500,
+      });
+      this.$router.push(
+        '/article/' + this.article.id + '-' + this.article.alias,
+      );
+    } else {
+      this.$store.dispatch('setSnackbarState', {
+        state: true,
+        msg: 'Błąd poczas edycji artykułu!',
+        color: 'error',
+        timeout: 7500,
+      });
+    }
   }
 
   private data() {

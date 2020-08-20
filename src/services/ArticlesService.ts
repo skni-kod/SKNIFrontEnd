@@ -67,10 +67,18 @@ export class ArticlesService {
     }
 
     public async editArticle(id: number, title: string, alias: string, text: string) {
-        this.axios.patch(API_MAIN_URL_BASE + '/articles/' + id + '/', {
+        const edit = this.axios.patch(API_MAIN_URL_BASE + '/articles/' + id + '/', {
             title: title,
             alias: alias,
             text: text,
+        });
+
+        edit.then((res: any) => {
+            if (res.status === 200) {
+                return true;
+            } else {
+                return false;
+            }
         });
     }
 
