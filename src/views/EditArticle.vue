@@ -69,7 +69,7 @@
             </v-btn>
           </v-col>
           <v-col class="py-1">
-            <v-btn block color="error">
+            <v-btn block color="error" @click="dialog = true">
               <v-icon left>mdi-pencil-off</v-icon>
               <span>Odrzuć zmiany</span>
             </v-btn>
@@ -77,6 +77,18 @@
         </v-row>
       </v-card-actions>
     </v-card>
+    <v-dialog v-model="dialog" persistent max-width="300">
+      <v-card>
+        <v-card-title class="headline">Potwierdzenie</v-card-title>
+        <v-divider />
+        <v-card-text class="px-4 pt-2 pb-0">Czy na pewno chcesz wyjść z edycji artykułu bez zapisywania zmian?</v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="error" outlined @click="dialog = false">Nie</v-btn>
+          <v-btn color="success" outlined @click="returnArticle">Tak</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -142,9 +154,7 @@ export default class EditArticle extends Vue {
         color: 'success',
         timeout: 7500,
       });
-      this.$router.push(
-        '/article/' + this.article.id + '-' + this.article.alias,
-      );
+      this.returnArticle();
     } else {
       this.$store.dispatch('setSnackbarState', {
         state: true,
@@ -155,6 +165,10 @@ export default class EditArticle extends Vue {
     }
   }
 
+  private returnArticle() {
+    this.$router.replace('/article/' + this.article.id + '-' + this.article.alias);
+  }
+
   private data() {
     return {
       article: { text: '' },
@@ -162,6 +176,7 @@ export default class EditArticle extends Vue {
       selectedTags: this.selectedTags,
       formattedPublicationDate: this.formattedPublicationDate,
       formattedCreationDate: this.formattedCreationDate,
+      dialog: false,
       markdownOptions: {
         markdownIt: {
           html: true,
