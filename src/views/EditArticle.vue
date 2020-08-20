@@ -103,7 +103,7 @@ export default class EditArticle extends Vue {
 
   private mounted() {
     if (this.$route.params.id !== undefined) {
-      this.articlesService.getArticle(+this.$route.params.id).then((article) => {
+      this.articlesService.getArticle(+this.$route.params.id, false).then((article) => {
         this.article = article;
         this.selectedTags = this.article.tags.map((p) => p.tag.name);
 

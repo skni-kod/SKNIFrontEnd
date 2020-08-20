@@ -49,16 +49,18 @@ export class ArticlesService {
         return data;
     }
 
-    public async getArticle(id: number): Promise<ArticleModel> {
+    public async getArticle(id: number, removeReadMore: boolean = true): Promise<ArticleModel> {
         const article = (await this.axios(API_MAIN_URL_BASE + '/articles/' + id, {
             params: {
                 format: 'json',
             },
         })).data as ArticleModel;
 
-        const readMoreIndex = article.text.indexOf(this.readMoreGuard);
-        if (readMoreIndex !== -1) {
-            article.text = article.text.replace(this.readMoreGuard, '');
+        if (removeReadMore) {
+            const readMoreIndex = article.text.indexOf(this.readMoreGuard);
+            if (readMoreIndex !== -1) {
+                article.text = article.text.replace(this.readMoreGuard, '');
+            }
         }
 
         return article;
