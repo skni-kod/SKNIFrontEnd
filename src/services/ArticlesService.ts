@@ -2,6 +2,8 @@ import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
 import { API_MAIN_URL_BASE } from '@/parameters';
 
+// tslint:disable:object-literal-shorthand
+
 export class ArticlesService {
     private axios = require('axios');
     private readMoreGuard = '---readmore---';
