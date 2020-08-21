@@ -19,6 +19,7 @@
           text
           color="primary"
           class="font-weight-bold"
+          target="_blank"
         >
           <v-icon>mdi-facebook</v-icon>
         </v-btn>
