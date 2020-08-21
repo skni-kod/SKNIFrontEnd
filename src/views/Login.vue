@@ -7,12 +7,12 @@
             <v-toolbar-title class="white--text font-weight-bold">Zaloguj się</v-toolbar-title>
           </v-toolbar>
           <v-form v-model="inputValidated" @submit.prevent="loginUser()">
-            <v-card-text>
+            <v-card-text class="pb-0">
               <v-text-field
                 outlined
-                hide-details
                 v-model="login"
                 prepend-icon="mdi-account"
+                :rules="[rules.required, rules.counterLogin]"
                 label="Login"
                 color="primary"
                 type="text"
@@ -20,18 +20,18 @@
               ></v-text-field>
               <v-text-field
                 outlined
-                hide-details
                 v-model="password"
                 prepend-icon="mdi-lock"
                 :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="showPass = !showPass"
+                :rules="[rules.required, rules.counterPass]"
                 label="Hasło"
                 color="primary"
                 :type="showPass ? 'text' : 'password'"
                 class="my-2"
               ></v-text-field>
             </v-card-text>
-            <v-card-actions>
+            <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
               <v-btn
                 :disabled="!inputValidated || !login.length >= 3 || !password.length >= 8"
@@ -44,6 +44,17 @@
             </v-card-actions>
           </v-form>
         </v-card>
+      </v-row>
+      <v-row align="center" justify="center">
+        <v-col cols="auto">
+          <p class="my-auto">Nie masz konta?</p>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn outlined text color="primary" @click="$router.push('/register')">
+            <v-icon left>mdi-database-plus</v-icon>
+            <span>Zarejestruj się!</span>
+          </v-btn>
+        </v-col>
       </v-row>
     </v-col>
   </v-row>
@@ -73,6 +84,11 @@ export default class Login extends Vue {
       login: '',
       password: '',
       showPass: false,
+      rules: {
+        required: (value: string) => !!value || 'Pole wymagane',
+        counterLogin: (value: string) => value.length >= 3 || 'Minimum 3 znaki',
+        counterPass: (value: string) => value.length >= 8 || 'Minimum 8 znaków',
+      },
     };
   }
 }
