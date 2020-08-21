@@ -5,6 +5,7 @@ const refreshTokenName: string = 'refresh_token';
 
 export async function login(username: string, password: string) {
     const response = await axios.post('obtain-token/', { 'username': username, 'password': password, }); // tslint:disable-line
+    console.log(response);
     if (response.status === 200) {
         localStorage.setItem(accessTokenName, response.data.access);
         localStorage.setItem(refreshTokenName, response.data.refresh);
