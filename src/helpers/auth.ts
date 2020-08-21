@@ -1,11 +1,10 @@
-import axios from 'axios';
-
+import axios from '../axios';
 
 const accessTokenName: string = 'access_token';
 const refreshTokenName: string = 'refresh_token';
 
 export async function login(username: string, password: string) {
-    const response = await axios.post('http://localhost:8000/obtain-token/', { 'username': username, 'password': password, }); // tslint:disable-line
+    const response = await axios.post('obtain-token/', { 'username': username, 'password': password, }); // tslint:disable-line
     if (response.status === 200) {
         localStorage.setItem(accessTokenName, response.data.access);
         localStorage.setItem(refreshTokenName, response.data.refresh);
@@ -22,7 +21,7 @@ export function logout() {
 export async function refreshToken() {
     const token = localStorage.getItem(refreshTokenName);
 
-    let response = await axios.post('http://localhost:8000/refresh-token/', { 'refresh': token }); // tslint:disable-line
+    let response = await axios.post('refresh-token/', { 'refresh': token }); // tslint:disable-line
     if (response.status === 200) {
         localStorage.setItem(accessTokenName, response.data.access);
     }
@@ -36,7 +35,7 @@ export async function isLoggedIn(): Promise<boolean> {
         return false;
     }
 
-    const res = await axios.post('http://localhost:8000/verify-token/', {'token': token}); // tslint:disable-line
+    const res = await axios.post('verify-token/', {'token': token}); // tslint:disable-line
     if (res.status === 200) {
         return true;
     }
@@ -67,7 +66,7 @@ export function createAuthHeader() {
 }
 
 export async function registerUser(userData: any) {
-    const response = await axios.post('http://localhost:8000/users/', userData);
+    const response = await axios.post('users/', userData);
 
     return response;
 }

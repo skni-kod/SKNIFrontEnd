@@ -1,12 +1,10 @@
 import { ProfileModel } from '@/models/ProfileModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
-import { API_MAIN_URL_BASE } from '@/parameters';
+import axios from '../axios';
 
 export class ProfilesService {
-    private axios = require('axios');
-
     public async getAllProfiles(): Promise<ProfileModel[]> {
-        return (await this.axios(API_MAIN_URL_BASE + '/profiles/', {
+        return (await axios('/profiles/', {
             params: {
                 format: 'json',
             },
@@ -14,7 +12,7 @@ export class ProfilesService {
     }
 
     public async getProfile(profileNumber: number): Promise<ProfileModel> {
-        return (await this.axios(API_MAIN_URL_BASE + '/profiles/' + profileNumber, {
+        return (await axios('api/profiles/' + profileNumber, {
             params: {
                 format: 'json',
             },
@@ -22,7 +20,7 @@ export class ProfilesService {
     }
 
     public async getProfilesByPage(pageNumber: number, pageSize: number): Promise<PaginationContainer<ProfileModel>> {
-        const data = (await this.axios(API_MAIN_URL_BASE + '/profiles/', {
+        const data = (await axios('api/profiles/', {
             params: {
                 format: 'json',
                 offset: (pageNumber - 1) * pageSize,

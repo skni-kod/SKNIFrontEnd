@@ -1,15 +1,14 @@
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
-import { API_MAIN_URL_BASE } from '@/parameters';
+import axios from '../axios';
 
 // tslint:disable:object-literal-shorthand
 
 export class ArticlesService {
-    private axios = require('axios');
     private readMoreGuard = '---readmore---';
 
     public async getAllArticles(): Promise<ArticleModel[]> {
-        return (await this.axios(API_MAIN_URL_BASE + '/articles/', {
+        return (await axios('api/articles/', {
             params: {
                 format: 'json',
             },
@@ -18,7 +17,7 @@ export class ArticlesService {
 
     // tslint:disable-next-line:max-line-length
     public async getArticles(pageNumber: number, pageSize: number, fullText: boolean): Promise<PaginationContainer<ArticleModel>> {
-        const data = (await this.axios(API_MAIN_URL_BASE + '/articles/', {
+        const data = (await axios('api/articles/', {
             params: {
                 format: 'json',
                 offset: (pageNumber - 1) * pageSize,
@@ -35,7 +34,7 @@ export class ArticlesService {
 
     // tslint:disable-next-line:max-line-length
     public async getArticlesWithTag(tag: string, pageNumber: number, pageSize: number, fullText: boolean): Promise<PaginationContainer<ArticleModel>> {
-        const data = (await this.axios(API_MAIN_URL_BASE + '/articles/', {
+        const data = (await axios('api/articles/', {
             params: {
                 tagname: tag,
                 format: 'json',
@@ -52,7 +51,7 @@ export class ArticlesService {
     }
 
     public async getArticle(id: number, removeReadMore: boolean = true): Promise<ArticleModel> {
-        const article = (await this.axios(API_MAIN_URL_BASE + '/articles/' + id, {
+        const article = (await axios('api/articles/' + id, {
             params: {
                 format: 'json',
             },
@@ -69,7 +68,7 @@ export class ArticlesService {
     }
 
     public async editArticle(id: number, title: string, alias: string, text: string) {
-        const edit = this.axios.patch(API_MAIN_URL_BASE + '/articles/' + id + '/', {
+        const edit = axios.patch('api/articles/' + id + '/', {
             title: title,
             alias: alias,
             text: text,
