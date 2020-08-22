@@ -2,13 +2,12 @@ import { Module } from 'vuex';
 import axios from '../../axios';
 import router from '../../router';
 
-let timeout = null;
-
 const userModule: Module<any, any> = {
     state: {
         token: null,
         refreshToken: null,
         user: null,
+        timeout: null,
     },
 
     mutations: {
@@ -24,13 +23,17 @@ const userModule: Module<any, any> = {
             state.refreshToken = null;
             state.user = null;
         },
+        setTimeout(state, data) {
+            state.timeout = data;
+        },
     },
 
     actions: {
         setRefreshTimer({ commit, dispatch }) {
-            timeout = setTimeout(() => {
+            const to = setTimeout(() => {
                 dispatch('refreshToken');
             }, 3300000);
+            commit('setTimeout', to);
         },
         login({ commit, dispatch }, authData) {
             axios.post('obtain-token/', {
@@ -92,9 +95,11 @@ const userModule: Module<any, any> = {
                 color: 'info',
                 timeout: 5000,
             });
+            clearTimeout(state.timeout);
+            commit('setTimeout', null);
         },
         refreshToken({ dispatch, commit, state }) {
-            axios.post('refresh_token/', {
+            axios.post('refresh-token/', {
                 refresh: state.refreshToken,
             }).then((res) => {
                 const now = new Date();
