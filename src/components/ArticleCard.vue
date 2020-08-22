@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="article != undefined" width="800">
+  <v-card v-if="article != undefined">
     <v-img
       class="white--text"
       height="300px"
