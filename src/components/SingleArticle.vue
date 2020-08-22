@@ -39,6 +39,12 @@
           :options="markdownOptions"
         />
       </v-card-text>
+      <v-card-actions v-if="auth">
+        <v-btn block color="orange" :to="'/editarticle/'+ $route.params.id">
+          <v-icon left>mdi-pen</v-icon>
+          <span>Edytuj artykuł</span>
+        </v-btn>
+      </v-card-actions>
     </v-card>
     <gallery breakpoints="xs6" :imgs="article.gallery" />
   </div>
@@ -81,6 +87,10 @@ export default class SingleArticle extends Vue {
       imageUrls.push(galleryItem.image);
     }
     return imageUrls;
+  }
+
+  get auth(): boolean {
+    return this.$store.getters.isAuthenticated;
   }
 }
 </script>

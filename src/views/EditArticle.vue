@@ -95,7 +95,7 @@
         <v-card-actions>
           <v-spacer />
           <v-btn color="error" outlined @click="dialog = false">Nie</v-btn>
-          <v-btn color="success" outlined @click="returnArticle">Tak</v-btn>
+          <v-btn color="success" outlined @click="returnToArticle">Tak</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -150,32 +150,17 @@ export default class EditArticle extends Vue {
   }
 
   private editArticle() {
-    if (
-      this.articlesService.editArticle(
+    this.articlesService
+      .editArticle(
         this.article.id,
         this.article.title,
         this.article.alias,
         this.article.text,
-      )
-    ) {
-      this.$store.dispatch('setSnackbarState', {
-        state: true,
-        msg: 'Artykuł został zaktualizowany',
-        color: 'success',
-        timeout: 7500,
-      });
-      this.returnArticle();
-    } else {
-      this.$store.dispatch('setSnackbarState', {
-        state: true,
-        msg: 'Błąd poczas edycji artykułu!',
-        color: 'error',
-        timeout: 7500,
-      });
-    }
+        '/article/' + this.article.id + '-' + this.article.alias,
+      );
   }
 
-  private returnArticle() {
+  private returnToArticle() {
     this.$router.replace(
       '/article/' + this.article.id + '-' + this.article.alias,
     );
