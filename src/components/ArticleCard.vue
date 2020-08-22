@@ -5,8 +5,9 @@
       height="300px"
       :src="article.gallery ? (article.gallery[0] ? article.gallery[0].image : require('../assets/strona_bg.png')) : require('../assets/strona_bg.png')"
     >
-      <div class="card-text pt-12 pb-2 px-2">
-        <v-card-title
+      <v-row align="end" style="height: 100%" class="card-text ma-0">
+        <v-col cols="12">
+          <v-card-title
           class="text-h5 white--text darken-2 font-weight-bold justify-left pb-0 px-0"
         >{{ article.title }}</v-card-title>
         <v-card-text class="px-0">
@@ -22,7 +23,8 @@
             color="primary"
           >Czytaj więcej...</v-btn>
         </v-card-actions>
-      </div>
+        </v-col>
+      </v-row>
     </v-img>
   </v-card>
 </template>
