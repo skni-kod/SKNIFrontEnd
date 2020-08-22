@@ -1,20 +1,28 @@
 <template>
-  <div>
-    <articles-list :articles="articles"></articles-list>
-    <v-pagination
-      v-model="pagination.currentPage"
-      :length="pagination.pageCount"
-      @input="paginationClicked"
-      prev-icon="mdi-chevron-left"
-      next-icon="mdi-chevron-right"
-    ></v-pagination>
-  </div>
+  <v-row align="center">
+    <v-col class="py-0">
+      <v-row align="center" justify="center" class="mx-2">
+        <article-card
+          class="my-2"
+          v-for="article in articles"
+          :key="article.title"
+          :article="article"
+        ></article-card>
+      </v-row>
+      <v-pagination
+        v-model="pagination.currentPage"
+        :length="pagination.pageCount"
+        @input="paginationClicked"
+        prev-icon="mdi-chevron-left"
+        next-icon="mdi-chevron-right"
+      ></v-pagination>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue';
-import ArticlesList from '@/components/ArticlesList.vue';
 import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationModel } from '@/models/PaginationModel';

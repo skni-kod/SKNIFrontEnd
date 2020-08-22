@@ -5,7 +5,6 @@ import vuetify from './plugins/vuetify';
 import MarkdownItVue from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue.css';
 import VueMoment from 'vue-moment';
-import ArticlesList from '@/components/ArticlesList.vue';
 import CommentsList from '@/components/CommentsList.vue';
 import SingleArticle from '@/components/SingleArticle.vue';
 import SectionsList from '@/components/SectionsList.vue';
@@ -34,7 +33,6 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
-Vue.component('articles-list', ArticlesList);
 Vue.component('comments-list', CommentsList);
 Vue.component('single-article', SingleArticle);
 Vue.component('sections-list', SectionsList);
