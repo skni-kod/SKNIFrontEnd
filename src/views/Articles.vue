@@ -2,12 +2,14 @@
   <v-row align="center">
     <v-col class="py-0">
       <v-row align="center" justify="center" class="mx-2">
-        <article-card
-          class="my-2"
-          v-for="article in articles"
-          :key="article.title"
-          :article="article"
-        ></article-card>
+        <v-col cols="auto" class="pa-0">
+          <article-card
+            class="my-2"
+            v-for="article in articles"
+            :key="article.title"
+            :article="article"
+          ></article-card>
+        </v-col>
       </v-row>
       <v-pagination
         v-model="pagination.currentPage"
