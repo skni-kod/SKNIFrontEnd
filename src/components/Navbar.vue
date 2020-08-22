@@ -7,7 +7,7 @@
       </v-toolbar-items>
       <v-toolbar-title v-else>SKNI KOD</v-toolbar-title>
       <v-spacer />
-      <v-toolbar-items>
+      <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
         <v-btn text to="/login" v-if="!auth">Login</v-btn>
         <v-btn text to="/register" v-if="!auth">Rejestracja</v-btn>
         <v-btn text @click="logout" v-if="auth">Wyloguj</v-btn>
