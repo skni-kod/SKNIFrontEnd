@@ -138,6 +138,8 @@ export default class EditArticle extends Vue {
           this.tagsService.getAllTags().then((tags) => {
             this.allTags = tags;
           });
+        }).catch(() => {
+          this.$router.replace('/404');
         });
     }
   }

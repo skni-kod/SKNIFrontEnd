@@ -29,6 +29,13 @@ export default new Router({
     {
       path: '/editarticle/:id?',
       name: 'editarticle',
+      beforeEnter: (to, from, next) => {
+        if (!Number(to.params.id)) {
+          next('/404');
+        } else {
+          next();
+        }
+      },
       component: () => import(/* webpackChunkName: "article-editor" */ './views/EditArticle.vue'),
     },
     {
