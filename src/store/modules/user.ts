@@ -54,7 +54,7 @@ const userModule: Module<any, any> = {
                     dispatch('fetchUserData');
                     router.replace('/');
                 })
-                .catch((err) => {
+                .catch(() => {
                     dispatch('setSnackbarState', {
                         state: true,
                         msg: 'Nieprawidłowy login lub hasło!',

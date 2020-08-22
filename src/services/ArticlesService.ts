@@ -95,7 +95,7 @@ export class ArticlesService {
                     timeout: 7500,
                 });
             }
-        }).catch((err) => {
+        }).catch(() => {
             store.dispatch('setSnackbarState', {
                 state: true,
                 msg: 'Błąd poczas edycji artykułu!',
