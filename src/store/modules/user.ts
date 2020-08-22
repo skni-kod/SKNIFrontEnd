@@ -85,7 +85,13 @@ const userModule: Module<any, any> = {
         logout({ dispatch, commit, state }) {
             commit('clearAuthData');
             dispatch('clearLocalStorage');
-            router.replace('/');
+            if (router.currentRoute.name !== 'home') { router.replace('/'); }
+            dispatch('setSnackbarState', {
+                state: true,
+                msg: 'Wylogowano',
+                color: 'info',
+                timeout: 5000,
+            });
         },
         refreshToken({ dispatch, commit, state }) {
             axios.post('refresh_token/', {
@@ -156,7 +162,7 @@ const userModule: Module<any, any> = {
     getters: {
         user: (state) => state.user,
         token: (state) => state.token,
-        isAuthenticated: (state) => state.idToken !== null,
+        isAuthenticated: (state) => state.token !== null,
     },
 };
 
