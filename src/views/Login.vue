@@ -72,10 +72,10 @@ export default class Login extends Vue {
   private password: string = '';
 
   private async loginUser() {
-    const res = await login(this.login, this.password);
-    if (res.status === 200) {
-      this.$forceUpdate();
-    }
+    this.$store.dispatch('login', {
+      login: this.login,
+      password: this.password,
+    });
   }
 
   private data() {

@@ -1,44 +1,36 @@
 import { Module } from 'vuex';
-import axios from "../../axios";
+import axios from '../../axios';
 import router from '../../router';
+
+let timeout = null;
 
 const userModule: Module<any, any> = {
     state: {
-        idToken: null,
-        userId: null,
+        token: null,
+        refreshToken: null,
         user: null,
-        logoutTomeout: null,
     },
 
     mutations: {
-        authUser(state, userData) {
-            state.idToken = userData.token;
-            state.userId = userData.userId;
+        authUser(state, auth) {
+            state.token = auth.token;
+            state.refreshToken = auth.refreshToken;
         },
         storeUser(state, user) {
             state.user = user;
         },
         clearAuthData(state) {
-            state.idToken = null;
-            state.userId = null;
-        },
-        setLogoutTimeout(state, payload) {
-            state.logoutTomeout = payload;
+            state.token = null;
+            state.refreshToken = null;
+            state.user = null;
         },
     },
 
     actions: {
-        setLogoutTimer({ commit, dispatch }, expirationTime) {
-            const timeout = setTimeout(() => {
-                commit('clearAuthData');
-                if (router.currentRoute.path.includes("admin")) { router.replace({ name: "Index" }); }
-                dispatch("modifySnackbar", {
-                    state: true,
-                    msg: "Twoja sesja wygasła. Wylogowano z panelu administracyjnego.",
-                    color: "info",
-                });
-            }, expirationTime * 1000);
-            commit('setLogoutTimeout', timeout);
+        setRefreshTimer({ commit, dispatch }) {
+            timeout = setTimeout(() => {
+                dispatch('refreshToken');
+            }, 3300000);
         },
         login({ commit, dispatch }, authData) {
             axios.post('obtain-token/', {
@@ -47,96 +39,124 @@ const userModule: Module<any, any> = {
             })
                 .then((res) => {
                     const now = new Date();
-                    const expirationDate = new Date(now.getTime() + 3600000);
-                    localStorage.setItem('token', res.data.idToken);
-                    localStorage.setItem('userId', res.data.localId);
+                    const expirationDate = new Date(now.getTime() + 3300000);
+                    localStorage.setItem('token', res.data.access);
+                    localStorage.setItem('refreshToken', res.data.refresh);
                     localStorage.setItem('expirationDate', expirationDate.toString());
                     commit('authUser', {
-                        token: res.data.idToken,
-                        userId: res.data.localId,
+                        token: res.data.access,
+                        refreshToken: res.data.refresh,
                     });
-                    dispatch('setLogoutTimer', res.data.expiresIn);
+                    dispatch('setRefreshTimer');
                     dispatch('fetchUserData');
-                    router.replace({ name: "Admin" });
+                    router.replace('/');
                 })
                 .catch((err) => {
-                    dispatch("modifySnackbar", {
+                    dispatch('setSnackbarState', {
                         state: true,
-                        msg: "Wystąpił błąd podczas logowania!",
-                        color: "error",
+                        msg: 'Nieprawidłowy login lub hasło!',
+                        color: 'error',
+                        timeout: 7500,
                     });
                 });
         },
-        tryAutoLogin({ dispatch, commit }) {
-            const token = localStorage.getItem('token');
-            if (!token) { return; }
-            else {
-                const expirationDate = new Date(localStorage.getItem('expirationDate'));
-                const now = new Date();
-                if (now >= expirationDate) {
-                    dispatch('clearLocalStorage');
-                    return;
-                } else {
-                    const userId = localStorage.getItem('userId');
-                    commit('authUser', {
-                        token: token,
-                        userId: userId,
-                    });
-                    dispatch('setLogoutTimer', (expirationDate.getTime() - now.getTime()) / 1000);
-                    dispatch('fetchUserData');
-                }
-            }
-        },
+        // tryAutoLogin({ dispatch, commit }) {
+        //     const token = localStorage.getItem('token');
+        //     if (!token) {
+        //         return;
+        //     } else {
+        //         // const expirationDate = new Date(localStorage.getItem('expirationDate'));
+        //         const expirationDate = new Date();
+        //         const now = new Date();
+        //         if (now >= expirationDate) {
+        //             dispatch('clearLocalStorage');
+        //             return;
+        //         } else {
+        //             const userId = localStorage.getItem('userId');
+        //             commit('authUser', {
+        //                 '{token}': token,
+        //                 '{userId}': userId,
+        //             });
+        //             dispatch('setLogoutTimer', (expirationDate.getTime() - now.getTime()) / 1000);
+        //             dispatch('fetchUserData');
+        //         }
+        //     }
+        // },
         logout({ dispatch, commit, state }) {
             commit('clearAuthData');
             dispatch('clearLocalStorage');
-            clearTimeout(state.logoutTomeout);
-            commit('setLogoutTimeout', null);
             router.replace('/');
+        },
+        refreshToken({ dispatch, commit, state }) {
+            axios.post('refresh_token/', {
+                refresh: state.refreshToken,
+            }).then((res) => {
+                const now = new Date();
+                const expirationDate = new Date(now.getTime() + 3300000);
+                localStorage.setItem('token', res.data.access);
+                localStorage.setItem('refreshToken', res.data.refresh);
+                localStorage.setItem('expirationDate', expirationDate.toString());
+                commit('authUser', {
+                    token: res.data.access,
+                    refreshToken: res.data.refresh,
+                });
+                dispatch('setRefreshTimer');
+            });
         },
         clearLocalStorage() {
             localStorage.removeItem('expirationDate');
             localStorage.removeItem('token');
-            localStorage.removeItem('userId');
+            localStorage.removeItem('refreshToken');
         },
-        fetchUserData({ commit, state }) {
-            if (!state.idToken) { return; }
-            else {
-                axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup', { idToken: state.idToken })
+        fetchUserData({ dispatch, commit, state }) {
+            if (!state.token) {
+                return;
+            } else {
+                axios.get('rest-auth/user/', {
+                    headers: {
+                        Authorization: 'Bearer ' + state.token,
+                    },
+                })
                     .then((res) => {
                         commit('storeUser', res.data);
-                    })
-                    .catch((error) => console.log(error));
+                        dispatch('setSnackbarState', {
+                            state: true,
+                            msg: 'Witaj spowrotem, ' + state.user.username + '!',
+                            color: 'success',
+                            timeout: 7500,
+                        });
+                    });
             }
         },
-        changeUserPassword({ dispatch, state }, auth) {
-            axios.post('/accounts:update', {
-                idToken: state.idToken,
-                password: auth,
-                returnSecureToken: false,
-            }).then((res) => {
-                dispatch('logout');
-                router.replace('/adminlogin');
-                dispatch('modifySnackbar', {
-                    snackbarState: true,
-                    snackbarMsg: 'Hasło zostało zmienione',
-                    snackbarColor: 'info',
-                });
-            }).catch((error) => {
-                dispatch('modifySnackbar', {
-                    snackbarState: true,
-                    snackbarMsg: error,
-                    snackbarColor: 'error',
-                });
-            });
-        },
+        // changeUserPassword({ dispatch, state }, auth) {
+        //     axios.post('/accounts:update', {
+        //         idToken: state.idToken,
+        //         password: auth,
+        //         returnSecureToken: false,
+        //     }).then((res) => {
+        //         dispatch('logout');
+        //         router.replace('/adminlogin');
+        //         dispatch('setSnackbarState', {
+        //             snackbarState: true,
+        //             snackbarMsg: 'Hasło zostało zmienione',
+        //             snackbarColor: 'info',
+        //             timeout: 7500,
+        //         });
+        //     }).catch((error) => {
+        //         dispatch('setSnackbarState', {
+        //             snackbarState: true,
+        //             snackbarMsg: error,
+        //             snackbarColor: 'error',
+        //             timeout: 7500,
+        //         });
+        //     });
+        // },
     },
 
     getters: {
         user: (state) => state.user,
-        token: (state) => state.idToken,
+        token: (state) => state.token,
         isAuthenticated: (state) => state.idToken !== null,
-        loginError: (state) => state.loginError,
     },
 };
 
