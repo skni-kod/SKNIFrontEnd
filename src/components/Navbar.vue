@@ -3,11 +3,17 @@
     <v-app-bar dark app hide-on-scroll>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
-        <v-btn v-for="item in toolbarItems" :key="item.link" :to="item.link">{{ item.title }}</v-btn>
+        <v-btn text v-for="item in toolbarItems" :key="item.link" :to="item.link">{{ item.title }}</v-btn>
       </v-toolbar-items>
-      <v-toolbar-title v-else class="text-center">SKNI KOD</v-toolbar-title>
+      <v-toolbar-title v-else>SKNI KOD</v-toolbar-title>
+      <v-spacer />
+      <v-toolbar-items>
+        <v-btn text to="/login" v-if="!auth">Login</v-btn>
+        <v-btn text to="/register" v-if="!auth">Rejestracja</v-btn>
+        <v-btn text @click="logout" v-if="auth">Wyloguj</v-btn>
+      </v-toolbar-items>
     </v-app-bar>
-    <nav-drawer :items="toolbarItems" />
+    <nav-drawer :items="toolbarItems" :auth="auth" @logout="logout" />
   </div>
 </template>
 
@@ -37,6 +43,14 @@ export default class Navbar extends Vue {
   }
   set drawer(value: boolean) {
     this.$store.dispatch('setNavDrawerState', value);
+  }
+
+  get auth(): boolean {
+    return this.$store.getters.isAuthenticated;
+  }
+
+  private logout() {
+    this.$store.dispatch('logout');
   }
 }
 </script>
