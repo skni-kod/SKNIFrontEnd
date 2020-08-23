@@ -12,7 +12,7 @@
                 outlined
                 v-model="login"
                 prepend-icon="mdi-account"
-                :rules="[rules.required, rules.counterLogin]"
+                :rules="[rules.required, rules.counter(login, 3, 'i')]"
                 label="Login"
                 color="primary"
                 type="text"
@@ -24,7 +24,7 @@
                 prepend-icon="mdi-lock"
                 :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="showPass = !showPass"
-                :rules="[rules.required, rules.counterPass]"
+                :rules="[rules.required, rules.counter(password, 8, 'ów')]"
                 label="Hasło"
                 color="primary"
                 :type="showPass ? 'text' : 'password'"
@@ -34,7 +34,7 @@
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
               <v-btn
-                :disabled="!inputValidated || !login.length >= 3 || !password.length >= 8"
+                :disabled="!inputValidated"
                 color="primary"
                 type="submit"
               >
@@ -68,13 +68,11 @@ import Axios from 'axios';
 
 @Component
 export default class Login extends Vue {
-  private login: string = '';
-  private password: string = '';
 
   private async loginUser() {
     this.$store.dispatch('login', {
-      login: this.login,
-      password: this.password,
+      login: this.$data.login,
+      password: this.$data.password,
     });
   }
 
@@ -86,8 +84,7 @@ export default class Login extends Vue {
       showPass: false,
       rules: {
         required: (value: string) => !!value || 'Pole wymagane',
-        counterLogin: (value: string) => value.length >= 3 || 'Minimum 3 znaki',
-        counterPass: (value: string) => value.length >= 8 || 'Minimum 8 znaków',
+        counter: (value: string, num: number, end: string) => value.length >= num || 'Minimum ' + num + ' znak' + end,
       },
     };
   }
