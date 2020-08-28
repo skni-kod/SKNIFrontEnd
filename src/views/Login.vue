@@ -1,7 +1,7 @@
 <template>
   <v-row class="fill-height" align="center">
-    <v-col cols="12">
-      <v-row justify="center">
+    <v-col cols="12" class="pa-0">
+      <v-row justify="center" class="mx-2">
         <v-card class="elevation-12 ma-2" width="500">
           <v-toolbar color="primary">
             <v-toolbar-title class="white--text font-weight-bold">Zaloguj się</v-toolbar-title>
