@@ -7,11 +7,19 @@
           Do
           <b>każdego</b> listingu należy dodać nazwę języka jaki został w nim użyty np. ```c++ - W przeciwnym razie cały markdown nie zostanie wyświetlony.
         </li>
+        <li>Można stosować składnię markdowna przed znacznikiem ---readmore---. W podgladzie artykułów skladnia ta zostanie usunięta.</li>
       </ul>
     </v-alert>
     <v-layout wrap justify-space-between>
       <v-flex xs12 md6 class="text-xs-left pa-1">
-        <v-textarea auto-grow :value="value" @input="markdownEdited" outlined hide-details label="Tekst"></v-textarea>
+        <v-textarea
+          auto-grow
+          :value="value"
+          @input="markdownEdited"
+          outlined
+          hide-details
+          label="Tekst"
+        ></v-textarea>
       </v-flex>
       <v-flex xs12 md6 class="text-xs-left pa-1">
         <v-card outlined>
@@ -34,15 +42,15 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class MarkdownEditor extends Vue {
-@Prop() public readonly value!: string;
+  @Prop() public readonly value!: string;
 
-private markdownEdited(text: string) {
+  private markdownEdited(text: string) {
     this.$emit('input', text);
-}
+  }
 
-private data() {
+  private data() {
     return {
-        markdownOptions: {
+      markdownOptions: {
         markdownIt: {
           html: true,
           linkify: true,
@@ -52,7 +60,6 @@ private data() {
         },
       },
     };
-}
-
+  }
 }
 </script>
