@@ -4,7 +4,7 @@ import axios from '../axios';
 
 export class ProfilesService {
     public async getAllProfiles(): Promise<ProfileModel[]> {
-        return (await axios('/profiles/', {
+        return (await axios('api/profiles/', {
             params: {
                 format: 'json',
             },
