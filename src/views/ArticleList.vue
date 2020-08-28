@@ -31,7 +31,7 @@ import { PaginationModel } from '@/models/PaginationModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
 
 @Component
-export default class Articles extends Vue {
+export default class ArticleList extends Vue {
   private articlesService!: ArticlesService;
   private pagination!: PaginationModel;
   private articles!: ArticleModel[];
