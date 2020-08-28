@@ -31,7 +31,7 @@
     </v-layout>
     <v-layout>
       <v-flex xs12 md10 offset-md1>
-        <p>
+        <p class="text-center">
           Made with
           <v-icon color="red">mdi-heart</v-icon> by
           <b>{{ project.creator.user.first_name }} {{ project.creator.user.last_name }}</b> at
