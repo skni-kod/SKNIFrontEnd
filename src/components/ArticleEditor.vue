@@ -10,12 +10,12 @@
         <v-flex xs12 sm6>
           <p
             class="text-center"
-          >Data utworzenia: {{ Article.creation_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
+          >Data utworzenia: {{ Article.creation_date | moment("DD.MM.YYYY hh:mm:ss") }}</p>
         </v-flex>
         <v-flex xs12 sm6>
           <p
             class="text-center"
-          >Data publikacji: {{ Article.publication_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
+          >Data publikacji: {{ Article.publication_date | moment("DD.MM.YYYY hh:mm:ss") }}</p>
         </v-flex>
       </v-layout>
       <v-divider v-if="Article.creation_date && Article.publication_date" />
