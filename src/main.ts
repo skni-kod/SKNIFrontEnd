@@ -16,6 +16,7 @@ import SingleProject from '@/components/SingleProject.vue';
 import HomeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
 import HomeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
+import ArticleEditor from '@/components/ArticleEditor.vue';
 import MarkdownEditor from '@/components/MarkdownEditor.vue';
 import Gallery from '@/components/Gallery.vue';
 import 'vuetify/dist/vuetify.min.css';
@@ -34,6 +35,7 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
+Vue.component('article-editor', ArticleEditor);
 Vue.component('markdown-editor', MarkdownEditor);
 Vue.component('comments-list', CommentsList);
 Vue.component('single-article', SingleArticle);

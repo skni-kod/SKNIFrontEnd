@@ -1,65 +1,29 @@
 <template>
   <div>
-    <v-card outlined class="ma-2">
-      <v-card-title
-        class="text-h3 font-weight-bold justify-center"
-        style="word-break: break-word;"
-      >Edycja artykułu nr {{ this.$route.params.id }}</v-card-title>
-      <v-divider />
-      <v-card-text>
-        <v-layout wrap justify-space-between>
-          <v-flex xs12 sm6>
-            <p
-              class="text-center"
-            >Data utworzenia: {{ article.creation_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
-          </v-flex>
-          <v-flex xs12 sm6>
-            <p
-              class="text-center"
-            >Data publikacji: {{ article.publication_date | moment("DD-MM-YYYY hh:mm:ss") }}</p>
-          </v-flex>
-        </v-layout>
-        <v-divider />
-        <v-text-field clearable label="Tytuł artykułu" v-model="article.title"></v-text-field>
-        <v-row align="center">
-          <v-col class="py-0">
-            <v-text-field clearable label="Alias" v-model="article.alias"></v-text-field>
-          </v-col>
-          <v-col class="py-0" cols="auto">
-            <v-btn color="primary" @click="generateAlias()">Wygeneruj alias</v-btn>
-          </v-col>
-        </v-row>
-        <v-select
-          v-model="selectedTags"
-          :items="allTags"
-          :item-text="tagTextSelector"
-          attach
-          chips
-          label="Tagi artykułu"
-          multiple
-          clearable
-        ></v-select>
-        <v-divider class="mb-3" />
-        <markdown-editor v-model="article.text"></markdown-editor>
-      </v-card-text>
-      <v-divider />
-      <v-card-actions>
-        <v-row>
-          <v-col class="py-1">
-            <v-btn block color="success" @click="editArticle">
-              <v-icon left>mdi-pencil</v-icon>
-              <span>Zatwierdź zmiany</span>
-            </v-btn>
-          </v-col>
-          <v-col class="py-1">
-            <v-btn block color="error" @click="dialog = true">
-              <v-icon left>mdi-pencil-off</v-icon>
-              <span>Odrzuć zmiany</span>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card-actions>
-    </v-card>
+    <article-editor
+      :article="article"
+      @articleEdited="article = $event"
+      :tags="allTags"
+      @tagListEdited="allTags = $event"
+      :selTags="selectedTags"
+      @selectedTags="selectedTags = $event"
+    ></article-editor>
+
+    <v-row>
+      <v-col class="py-1">
+        <v-btn block color="success" @click="editArticle">
+          <v-icon left>mdi-pencil</v-icon>
+          <span>Zatwierdź zmiany</span>
+        </v-btn>
+      </v-col>
+      <v-col class="py-1">
+        <v-btn block color="error" @click="dialog = true">
+          <v-icon left>mdi-pencil-off</v-icon>
+          <span>Odrzuć zmiany</span>
+        </v-btn>
+      </v-col>
+    </v-row>
+
     <v-dialog v-model="dialog" persistent max-width="300">
       <v-card>
         <v-card-title class="headline">Potwierdzenie</v-card-title>
@@ -113,28 +77,21 @@ export default class EditArticle extends Vue {
           this.tagsService.getAllTags().then((tags) => {
             this.allTags = tags;
           });
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$router.replace('/404');
         });
     }
   }
 
-  private generateAlias() {
-    this.article.alias = this.articlesService.generateAliasForTitle(
-      this.article.title,
-    );
-    this.$forceUpdate();
-  }
-
   private editArticle() {
-    this.articlesService
-      .editArticle(
-        this.article.id,
-        this.article.title,
-        this.article.alias,
-        this.article.text,
-        '/article/' + this.article.id + '-' + this.article.alias,
-      );
+    this.articlesService.editArticle(
+      this.article.id,
+      this.article.title,
+      this.article.alias,
+      this.article.text,
+      '/article/' + this.article.id + '-' + this.article.alias,
+    );
   }
 
   private returnToArticle() {
@@ -152,10 +109,6 @@ export default class EditArticle extends Vue {
       formattedCreationDate: this.formattedCreationDate,
       dialog: false,
     };
-  }
-
-  private tagTextSelector(item: TagModel) {
-    return item.name;
   }
 }
 </script>
