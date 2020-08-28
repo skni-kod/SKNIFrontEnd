@@ -40,32 +40,7 @@
           clearable
         ></v-select>
         <v-divider class="mb-3" />
-        <v-alert dismissible type="info">
-          <ul>
-            <li>Tagi html są aktywne jedynie w widoku pojedynczego atykułu!</li>
-            <li>
-              Do
-              <b>każdego</b> listingu należy dodać nazwę języka jaki został w nim użyty np. ```c++ - W przeciwnym razie cały markdown nie zostanie wyświetlony.
-            </li>
-          </ul>
-        </v-alert>
-        <v-layout wrap justify-space-between>
-          <v-flex xs12 md6 class="text-xs-left pa-1">
-            <v-textarea auto-grow v-model="article.text" outlined hide-details label="Tekst"></v-textarea>
-          </v-flex>
-          <v-flex xs12 md6 class="text-xs-left pa-1">
-            <v-card outlined>
-              <v-card-title
-                class="primary text-h4 white--text font-weight-bold justify-center py-0"
-              >PODGLĄD</v-card-title>
-              <markdown-it-vue
-                class="md-body text-left mx-2"
-                :content="article.text"
-                :options="markdownOptions"
-              />
-            </v-card>
-          </v-flex>
-        </v-layout>
+        <markdown-editor v-model="article.text"></markdown-editor>
       </v-card-text>
       <v-divider />
       <v-card-actions>
@@ -176,15 +151,6 @@ export default class EditArticle extends Vue {
       formattedPublicationDate: this.formattedPublicationDate,
       formattedCreationDate: this.formattedCreationDate,
       dialog: false,
-      markdownOptions: {
-        markdownIt: {
-          html: true,
-          linkify: true,
-        },
-        githubToc: {
-          anchorLink: false,
-        },
-      },
     };
   }
 
