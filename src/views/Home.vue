@@ -67,6 +67,10 @@ export default class Home extends Vue {
 
     this.articleService.getArticles(0, 3, false).then((a) => {
       this.articles = a.results;
+      const removeMd = require('remove-markdown');
+      this.articles.forEach((art) => {
+        art.text = removeMd(art.text);
+      });
     });
   }
 }

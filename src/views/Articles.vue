@@ -65,6 +65,11 @@ export default class Articles extends Vue {
       .then((paginationContainer: PaginationContainer<ArticleModel>) => {
         this.articles = paginationContainer.results;
         this.pagination.itemCount = paginationContainer.count;
+
+        const removeMd = require('remove-markdown');
+        this.articles.forEach((art) => {
+          art.text = removeMd(art.text);
+        });
       });
   }
 
