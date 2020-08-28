@@ -11,7 +11,7 @@
     </v-alert>
     <v-layout wrap justify-space-between>
       <v-flex xs12 md6 class="text-xs-left pa-1">
-        <v-textarea auto-grow v-model="value" @input="markdownEdited" outlined hide-details label="Tekst"></v-textarea>
+        <v-textarea auto-grow :value="value" @input="markdownEdited" outlined hide-details label="Tekst"></v-textarea>
       </v-flex>
       <v-flex xs12 md6 class="text-xs-left pa-1">
         <v-card outlined>
@@ -34,7 +34,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class MarkdownEditor extends Vue {
-@Prop() public value!: string;
+@Prop() public readonly value!: string;
 
 private markdownEdited(text: string) {
     this.$emit('input', text);
