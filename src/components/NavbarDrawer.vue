@@ -43,6 +43,14 @@
           <v-list-item-title>Rejestracja</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item router @click="drawer = !drawer" to="/userpanel" v-if="auth">
+        <v-list-item-action>
+          <v-icon large class="primary--text">mdi-account</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Panel użytkownika</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
       <v-list-item @click="logout(); drawer = !drawer" v-if="auth">
         <v-list-item-action>
           <v-icon large class="primary--text">mdi-logout</v-icon>
