@@ -14,8 +14,7 @@
       <v-flex xs12 md6 class="text-xs-left pa-1">
         <v-textarea
           auto-grow
-          :value="value"
-          @input="markdownEdited"
+          v-model="markdown"
           outlined
           hide-details
           label="Tekst"
@@ -28,7 +27,7 @@
           >PODGLĄD</v-card-title>
           <markdown-it-vue
             class="md-body text-left mx-2"
-            :content="value"
+            :content="markdown"
             :options="markdownOptions"
           />
         </v-card>
@@ -44,7 +43,11 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class MarkdownEditor extends Vue {
   @Prop() public readonly value!: string;
 
-  private markdownEdited(text: string) {
+  get markdown() {
+    return this.value;
+  }
+
+  set markdown(text: string) {
     this.$emit('input', text);
   }
 
