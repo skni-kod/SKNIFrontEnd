@@ -1,14 +1,28 @@
 <template>
   <div>
-    <p class="text-h5 font-weight-bold ma-5">Artykuły dla tagu #{{$route.params.tag}}</p>
-    <articles-list :articles="articles"></articles-list>
-    <v-pagination
-      v-model="pagination.currentPage"
-      :length="pagination.pageCount"
-      @input="paginationClicked"
-      prev-icon="mdi-chevron-left"
-      next-icon="mdi-chevron-right"
-    ></v-pagination>
+    <p class="text-h5 font-weight-bold text-center ma-2">Artykuły dla tagu #{{$route.params.tag}}</p>
+    <v-row align="center">
+      <v-col class="py-0">
+        <v-row align="center" justify="center" class="mx-2">
+          <v-col cols="auto" class="pa-0">
+            <article-card
+              class="my-2"
+              v-for="article in articles"
+              :key="article.title"
+              :article="article"
+            ></article-card>
+          </v-col>
+        </v-row>
+        <v-pagination
+          class="ma-2"
+          v-model="pagination.currentPage"
+          :length="pagination.pageCount"
+          @input="paginationClicked"
+          prev-icon="mdi-chevron-left"
+          next-icon="mdi-chevron-right"
+        ></v-pagination>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
