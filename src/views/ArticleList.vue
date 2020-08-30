@@ -64,6 +64,10 @@ export default class ArticleList extends Vue {
       .getArticles(pageNumber, this.pagination.itemsPerPage, false)
       .then((paginationContainer: PaginationContainer<ArticleModel>) => {
         this.articles = paginationContainer.results;
+        if (!this.articles.length) {
+          this.paginationClicked(1);
+          return;
+        }
         this.pagination.itemCount = paginationContainer.count;
 
         const removeMd = require('remove-markdown');

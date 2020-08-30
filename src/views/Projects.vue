@@ -55,6 +55,10 @@ export default class Projects extends Vue {
       .getProjectsByPage(pageNumber, this.pagination.itemsPerPage)
       .then((paginationContainer: PaginationContainer<ProjectModel>) => {
         this.projects = paginationContainer.results;
+        if (!this.projects.length) {
+          this.paginationClicked(1);
+          return;
+        }
         this.pagination.itemCount = paginationContainer.count;
       });
   }
