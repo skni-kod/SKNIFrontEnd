@@ -39,12 +39,9 @@
           :options="markdownOptions"
         />
       </v-card-text>
-      <v-card-actions v-if="auth">
-        <v-btn block color="orange" :to="'/editarticle/'+ $route.params.id">
-          <v-icon left>mdi-pen</v-icon>
-          <span>Edytuj artykuł</span>
-        </v-btn>
-      </v-card-actions>
+      <v-btn fab fixed bottom right color="orange" v-if="auth" :to="'/editarticle/'+ $route.params.id">
+        <v-icon large>mdi-pen</v-icon>
+      </v-btn>
     </v-card>
     <gallery breakpoints="xs6" :imgs="article.gallery" />
   </div>
