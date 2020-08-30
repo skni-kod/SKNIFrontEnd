@@ -84,7 +84,7 @@ import { ArticleModel } from '@/models/ArticleModel';
 import { TagModel } from '@/models/TagModel';
 
 @Component
-export default class EditArticle extends Vue {
+export default class ArticleEdit extends Vue {
   private articlesService!: ArticlesService;
   private tagsService!: TagsService;
   private article!: ArticleModel;

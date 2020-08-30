@@ -38,7 +38,7 @@ export default new Router({
           next();
         }
       },
-      component: () => import(/* webpackChunkName: "article-editor" */ './views/EditArticle.vue'),
+      component: () => import(/* webpackChunkName: "article-editor" */ './views/ArticleEdit.vue'),
     },
     {
       path: '/tag/:tag/:page?',
@@ -90,7 +90,7 @@ export default new Router({
     {
       path: '/projects/:page?',
       name: 'projects',
-      component: () => import(/* webpackChunkName: "project" */ './views/Projects.vue'),
+      component: () => import(/* webpackChunkName: "project" */ './views/ProjectList.vue'),
     },
     {
       path: '/project/:id',
