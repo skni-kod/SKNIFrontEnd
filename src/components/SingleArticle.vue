@@ -21,7 +21,7 @@
               label
               v-for="articleTag in article.tags"
               :key="articleTag.tag.name"
-              class="grey"
+              class="grey mx-1"
             >
               <a
                 :href="'/#/tag/'+ articleTag.tag.name"
