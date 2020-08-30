@@ -29,6 +29,8 @@ export default class Article extends Vue {
   private mounted() {
     this.articlesService.getArticle(+this.$route.params.id).then((article) => {
       this.article = article;
+    }).catch(() => {
+      this.$router.replace('/404');
     });
 
     this.commentsService
