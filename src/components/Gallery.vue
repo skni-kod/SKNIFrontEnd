@@ -42,8 +42,8 @@
           </v-carousel-item>
         </v-carousel>
       </v-card>
-      <v-btn large dark color="red" @click="dialog = false" class="mt-2">
-        <v-icon large>mdi-close</v-icon>Zamknij
+      <v-btn fab fixed top right dark color="red" @click="dialog = false" class="mt-2">
+        <v-icon large>mdi-close</v-icon>
       </v-btn>
     </v-dialog>
   </div>
