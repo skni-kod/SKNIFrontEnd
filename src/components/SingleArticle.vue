@@ -19,14 +19,14 @@
             <v-chip
               small
               label
-              v-for="articleTag in article.tags"
-              :key="articleTag.tag.name"
+              v-for="tag in article.tags"
+              :key="tag.name"
               class="grey mx-1"
             >
               <a
-                :href="'/#/tag/'+ articleTag.tag.name"
+                :href="'/#/tag/'+ tag.name"
                 class="white--text text-decoration-none"
-              >{{ '#' + articleTag.tag.name }}</a>
+              >{{ '#' + tag.name }}</a>
             </v-chip>
           </div>
         </v-row>

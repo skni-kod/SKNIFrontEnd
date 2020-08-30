@@ -107,13 +107,11 @@ export default class ArticleEdit extends Vue {
         .getArticle(+this.$route.params.id, false)
         .then((article) => {
           this.article = article;
-          this.selectedTags = this.article.tags.map((p) => p.tag.name);
-
+          this.selectedTags = this.article.tags.map((p) => p.name);
           this.tagsService.getAllTags().then((tags) => {
             this.allTags = tags;
           });
-        })
-        .catch(() => {
+        }).catch(() => {
           this.$router.replace('/404');
         });
     }

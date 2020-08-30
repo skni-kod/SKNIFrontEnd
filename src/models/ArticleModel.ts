@@ -1,5 +1,5 @@
 import { CreatorModel } from '@/models/CreatorModel';
-import { ArticleTagsModel } from '@/models/ArticleTagsModel';
+import { TagModel } from '@/models/TagModel';
 import { GalleryModelImage } from '@/models/GalleryModelImage';
 /* tslint:disable */
 export class ArticleModel {
@@ -16,7 +16,7 @@ export class ArticleModel {
 
     public creator!: CreatorModel;
     public gallery!: GalleryModelImage[];
-    public tags!: ArticleTagsModel[];
+    public tags!: TagModel[];
 
     // tslint:disable-next-line:variable-name
     public comments_number!: number;
