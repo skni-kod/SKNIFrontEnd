@@ -47,16 +47,24 @@ export default class Tag extends Vue {
   }
 
   private mounted() {
+    this.getarticlesWithTag();
+  }
+
+  private paginationClicked(pageNumber: number) {
+    this.$router.replace({
+      name: 'tag',
+      params: { page: '' + pageNumber },
+    });
+    this.getarticlesWithTag();
+  }
+
+  private getarticlesWithTag() {
     let pageNumber = +this.$route.params.page;
     if (pageNumber === undefined || isNaN(pageNumber)) {
       pageNumber = 1;
     }
 
     this.pagination.currentPage = pageNumber;
-    this.paginationClicked(pageNumber);
-  }
-
-  private paginationClicked(pageNumber: number) {
     this.articlesService
       .getArticlesWithTag(
         this.$route.params.tag,
@@ -68,11 +76,6 @@ export default class Tag extends Vue {
         this.articles = paginationContainer.results;
         this.pagination.itemCount = paginationContainer.count;
       });
-
-    this.$router.replace({
-      name: 'tag',
-      params: { page: '' + pageNumber },
-    });
   }
 
   private data() {
