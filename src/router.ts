@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 
+import store from './store';
+
 Vue.use(Router);
 
 export default new Router({
@@ -31,7 +33,7 @@ export default new Router({
       name: 'editarticle',
       beforeEnter: (to, from, next) => {
         if (!Number(to.params.id)) {
-          next('/404');
+          next('/403');
         } else {
           next();
         }
@@ -77,6 +79,13 @@ export default new Router({
       path: '/userpanel',
       name: 'userpanel',
       component: () => import(/* webpackChunkName: "userpanel" */ './views/UserPanel.vue'),
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAuthenticated) {
+          next();
+        } else {
+          next('/403');
+        }
+      },
     },
     {
       path: '/projects/:page?',
@@ -87,6 +96,11 @@ export default new Router({
       path: '/project/:id',
       name: 'project',
       component: () => import(/* webpackChunkName: "project" */ './views/Project.vue'),
+    },
+    {
+      path: '/403',
+      name: '403',
+      component: () => import(/* webpackChunkName: "403" */ './views/403.vue'),
     },
     {
       path: '/404',
