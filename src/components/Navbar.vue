@@ -10,7 +10,28 @@
       <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
         <v-btn text to="/login" v-if="!auth">Login</v-btn>
         <v-btn text to="/register" v-if="!auth">Rejestracja</v-btn>
-        <v-btn text @click="logout" v-if="auth">Wyloguj</v-btn>
+        <v-menu dark offset-y v-if="auth">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn text v-bind="attrs" v-on="on">
+              <v-icon left>mdi-account-circle</v-icon>
+              <span>Profil</span>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="$router.push('/user/panel')">
+              <v-list-item-action>
+                <v-icon>mdi-cog</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Panel użytkownika</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="logout">
+              <v-list-item-action>
+                <v-icon>mdi-logout</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Wyloguj</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-toolbar-items>
     </v-app-bar>
     <nav-drawer :items="toolbarItems" :auth="auth" @logout="logout" />

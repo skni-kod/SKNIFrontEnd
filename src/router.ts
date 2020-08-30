@@ -76,9 +76,21 @@ export default new Router({
       component: () => import(/* webpackChunkName: "profile" */ './views/Profile.vue'),
     },
     {
-      path: '/userpanel',
+      path: '/user/panel',
       name: 'userpanel',
       component: () => import(/* webpackChunkName: "userpanel" */ './views/UserPanel.vue'),
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAuthenticated) {
+          next();
+        } else {
+          next('/403');
+        }
+      },
+    },
+    {
+      path: '/user/passwordchange',
+      name: 'userpasswordchange',
+      component: () => import(/* webpackChunkName: "userpasswordchange" */ './views/UserPasswordChange.vue'),
       beforeEnter: (to, from, next) => {
         if (store.getters.isAuthenticated) {
           next();

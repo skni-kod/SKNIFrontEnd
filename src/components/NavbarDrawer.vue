@@ -43,7 +43,7 @@
           <v-list-item-title>Rejestracja</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item router @click="drawer = !drawer" to="/userpanel" v-if="auth">
+      <v-list-item router @click="drawer = !drawer" to="/user/panel" v-if="auth">
         <v-list-item-action>
           <v-icon large class="primary--text">mdi-account</v-icon>
         </v-list-item-action>

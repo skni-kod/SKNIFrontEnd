@@ -12,7 +12,7 @@
       </v-row>
       <p class="text-subtitle-1 font-weight-bold text-center ma-1">Opcje profilu</p>
       <v-row wrap class="mx-2" justify="center">
-        <v-btn color="primary" class="ma-2">
+        <v-btn color="primary" class="ma-2" to="/user/passwordchange">
           <v-icon left>mdi-lock-reset</v-icon>
           <span>Zmień hasło</span>
         </v-btn>
