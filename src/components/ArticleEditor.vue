@@ -28,16 +28,19 @@
           <v-btn color="primary" @click="generateAlias()">Wygeneruj alias</v-btn>
         </v-col>
       </v-row>
-      <v-select
-        v-model="selectedTags"
-        :items="allTags"
-        :item-text="tagTextSelector"
-        attach
-        chips
-        label="Tagi artykułu"
-        multiple
-        clearable
-      ></v-select>
+        <v-select
+          v-model="selectedTags"
+          :items="allTags"
+          :item-text="tagTextSelector"
+          hide-selected
+          small-chips
+          deletable-chips
+          label="Tagi artykułu"
+          multiple
+        ><template v-slot:no-data>
+          <v-alert type="info" class="ma-0">Wszystkie tagi wykorzystane!</v-alert>
+        </template></v-select>
+        
       <v-divider class="mb-3" />
       <markdown-editor v-model="Article.text"></markdown-editor>
     </v-card-text>
