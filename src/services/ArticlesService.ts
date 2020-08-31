@@ -2,7 +2,6 @@ import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
 import axios from '../axios';
 import store from '../store';
-import router from '../router';
 
 // tslint:disable:object-literal-shorthand
 
@@ -69,40 +68,14 @@ export class ArticlesService {
         return article;
     }
 
-    public async editArticle(id: number, title: string, alias: string, text: string, returnPath: string) {
-        const edit = await axios.patch('api/articles/' + id + '/', {
-            title: title,
-            alias: alias,
-            text: text,
-        }, {
+    public async editArticle(id: number, data: object): Promise<any> {
+        const edit = await axios.patch('api/articles/' + id + '/', data, {
             headers: {
                 Authorization: 'Bearer ' + store.getters.token,
             },
-        }).then((res: any) => {
-            if (res.status === 200) {
-                store.dispatch('setSnackbarState', {
-                    state: true,
-                    msg: 'Artykuł został zaktualizowany',
-                    color: 'success',
-                    timeout: 7500,
-                });
-                router.replace({ path: returnPath });
-            } else {
-                store.dispatch('setSnackbarState', {
-                    state: true,
-                    msg: 'Błąd poczas edycji artykułu!',
-                    color: 'error',
-                    timeout: 7500,
-                });
-            }
-        }).catch(() => {
-            store.dispatch('setSnackbarState', {
-                state: true,
-                msg: 'Błąd poczas edycji artykułu!',
-                color: 'error',
-                timeout: 7500,
-            });
         });
+
+        return edit;
     }
 
     public generateAliasForTitle(title: string) {

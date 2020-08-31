@@ -111,20 +111,52 @@ export default class ArticleEdit extends Vue {
           this.tagsService.getAllTags().then((tags) => {
             this.allTags = tags;
           });
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$router.replace('/404');
         });
     }
   }
 
   private editArticle() {
-    this.articlesService.editArticle(
-      this.article.id,
-      this.article.title,
-      this.article.alias,
-      this.article.text,
-      '/article/' + this.article.id + '-' + this.article.alias,
-    );
+    const tags = this.$data.allTags
+      .filter((tag: TagModel) => {
+        return this.$data.selectedTags.includes(tag.name);
+      })
+      .map((el: TagModel) => el.id);
+    this.articlesService
+      .editArticle(this.article.id, {
+        title: this.article.title,
+        alias: this.article.alias,
+        text: this.article.text,
+        tags,
+      })
+      .then((res: any) => {
+        if (res.status === 200) {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Artykuł został zaktualizowany',
+            color: 'success',
+            timeout: 7500,
+          });
+          this.returnToArticle();
+        } else {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas edycji artykułu!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+      .catch(() => {
+        this.$store.dispatch('setSnackbarState', {
+          state: true,
+          msg: 'Błąd poczas edycji artykułu!',
+          color: 'error',
+          timeout: 7500,
+        });
+      });
   }
 
   private returnToArticle() {
