@@ -32,8 +32,10 @@ export default new Router({
       path: '/editarticle/:id?',
       name: 'editarticle',
       beforeEnter: (to, from, next) => {
-        if (!Number(to.params.id)) {
+        if (!store.getters.isAuthenticated) {
           next('/403');
+        } else if (!Number(to.params.id)) {
+          next('/404');
         } else {
           next();
         }
