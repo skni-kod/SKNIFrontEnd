@@ -1,7 +1,7 @@
 <template>
   <v-row align="center" style="height: 100%;">
     <v-col cols="12">
-      <p class="text-h1 text-center font-weight-black">404</p>
+      <v-img width="1000px" class="mx-auto" :src="require('../assets/lama_404.png')"></v-img>
       <p class="text-h2 text-center font-weight-bold">Strona nie istnieje!</p>
       <v-row align="center" justify="space-around" class="my-5">
         <v-btn class="primary my-2" router :to="{name: 'home'}">
