@@ -1,5 +1,5 @@
 <template>
-  <v-row class="fill-height" align="center" justify="center">
+  <v-row class="fill-height ma-2" align="center" justify="center">
     <v-card width="600">
       <v-card-title class="white--text primary pb-2">Witaj {{user.first_name}} {{user.last_name}}!</v-card-title>
       <v-card-subtitle class="white--text primary">{{user.username}}</v-card-subtitle>
