@@ -59,7 +59,7 @@
                     prepend-icon="mdi-lock"
                     :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="showPass = !showPass"
-                    :rules="[rules.required, isPasswordValid]"
+                    :rules="[rules.required, passwdValid]"
                     label="Hasło"
                     color="primary"
                     :type="showPass ? 'text' : 'password'"
@@ -83,7 +83,7 @@
                 </v-col>
               </v-row>
               <div v-if="passwdFocus">
-                <password-validator :password="password1"></password-validator>
+                <password-validator :password="password1" @validation="passwdValid = $event"></password-validator>
               </div>
             </v-card-text>
             <v-card-actions class="pt-0">
@@ -127,6 +127,18 @@ export default class Register extends Vue {
       password2: '',
       showPass: false,
       passwdFocus: false,
+      passwdValid: false,
+      rules: {
+        required: (value: string) => !!value || 'Pole wymagane',
+        identical: (value1: string, value2: string) =>
+          value1 === value2 || 'Hasła nie są identyczne',
+        counter: (value: string, num: number, end: string) =>
+          value.length >= num || 'Minimum ' + num + ' znak' + end,
+        email: (value: string) => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || 'Adres e-mail nie jest poprawny';
+        },
+      },
     };
   }
 

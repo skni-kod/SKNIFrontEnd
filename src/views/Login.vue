@@ -33,11 +33,7 @@
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
-              <v-btn
-                :disabled="!inputValidated"
-                color="primary"
-                type="submit"
-              >
+              <v-btn :disabled="!inputValidated" color="primary" type="submit">
                 <span class="font-weight-bold">Zaloguj</span>
                 <v-icon right>mdi-key</v-icon>
               </v-btn>
@@ -68,12 +64,13 @@ import Axios from 'axios';
 
 @Component
 export default class Login extends Vue {
-
   private async loginUser() {
-    this.$store.dispatch('login', {
-      login: this.$data.login,
-      password: this.$data.password,
-    });
+    if (this.$data.inputValidated) {
+      this.$store.dispatch('login', {
+        login: this.$data.login,
+        password: this.$data.password,
+      });
+    }
   }
 
   private data() {
@@ -84,7 +81,8 @@ export default class Login extends Vue {
       showPass: false,
       rules: {
         required: (value: string) => !!value || 'Pole wymagane',
-        counter: (value: string, num: number, end: string) => value.length >= num || 'Minimum ' + num + ' znak' + end,
+        counter: (value: string, num: number, end: string) =>
+          value.length >= num || 'Minimum ' + num + ' znak' + end,
       },
     };
   }

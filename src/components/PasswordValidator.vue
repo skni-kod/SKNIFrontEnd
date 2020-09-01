@@ -55,21 +55,10 @@ export default class PasswordValidator extends Vue {
       passwdHasLowercase: false,
       passwdHasNumber: false,
       passwdHasSpecialChar: false,
-      rules: {
-        required: (value: string) => !!value || 'Pole wymagane',
-        identical: (value1: string, value2: string) =>
-          value1 === value2 || 'Hasła nie są identyczne',
-        counter: (value: string, num: number, end: string) =>
-          value.length >= num || 'Minimum ' + num + ' znak' + end,
-        email: (value: string) => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return pattern.test(value) || 'Adres e-mail nie jest poprawny';
-        },
-      },
     };
   }
 
-  @Watch('this.password')
+  @Watch('password')
   private passwdChanged(newPass: string) {
     const special = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 
@@ -88,6 +77,8 @@ export default class PasswordValidator extends Vue {
     special.test(newPass)
       ? (this.$data.passwdHasSpecialChar = true)
       : (this.$data.passwdHasSpecialChar = false);
+
+    this.$emit('validation', this.isPasswordValid);
   }
 
   get isPasswordValid() {
