@@ -65,7 +65,6 @@
 <script lang='ts'>
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { login } from '../helpers/auth';
 import Axios from 'axios';
 
 @Component
