@@ -96,6 +96,12 @@
           </v-form>
         </v-card>
       </v-row>
+      <v-row justify="center">
+        <v-btn class="white--text mt-2 mx-2" color="purple">
+          <v-icon left>mdi-github</v-icon>
+          <span>Zarejestruj się poprzez GitHub</span>
+        </v-btn>
+      </v-row>
       <v-row align="center" justify="center">
         <v-col cols="auto">
           <p class="my-auto">Masz już konto?</p>
