@@ -7,6 +7,7 @@
       @tagListEdited="allTags = $event"
       :selTags="selectedTags"
       @selectedTags="selectedTags = $event"
+      @validation="inputValidated = $event"
     ></article-editor>
 
     <v-speed-dial fixed right bottom direction="top" v-model="fab">
@@ -119,44 +120,53 @@ export default class ArticleEdit extends Vue {
   }
 
   private editArticle() {
-    const tags = this.$data.allTags
-      .filter((tag: TagModel) => {
-        return this.$data.selectedTags.includes(tag.name);
-      })
-      .map((el: TagModel) => el.id);
-    this.articlesService
-      .editArticle(this.article.id, {
-        title: this.article.title,
-        alias: this.article.alias,
-        text: this.article.text,
-        tags,
-      })
-      .then((res: any) => {
-        if (res.status === 200) {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Artykuł został zaktualizowany',
-            color: 'success',
-            timeout: 7500,
-          });
-          this.returnToArticle();
-        } else {
+    if (this.$data.inputValidated) {
+      const tags = this.$data.allTags
+        .filter((tag: TagModel) => {
+          return this.$data.selectedTags.includes(tag.name);
+        })
+        .map((el: TagModel) => el.id);
+      this.articlesService
+        .editArticle(this.article.id, {
+          title: this.article.title,
+          alias: this.article.alias,
+          text: this.article.text,
+          tags,
+        })
+        .then((res: any) => {
+          if (res.status === 200) {
+            this.$store.dispatch('setSnackbarState', {
+              state: true,
+              msg: 'Artykuł został zaktualizowany',
+              color: 'success',
+              timeout: 7500,
+            });
+            this.returnToArticle();
+          } else {
+            this.$store.dispatch('setSnackbarState', {
+              state: true,
+              msg: 'Błąd poczas edycji artykułu!',
+              color: 'error',
+              timeout: 7500,
+            });
+          }
+        })
+        .catch(() => {
           this.$store.dispatch('setSnackbarState', {
             state: true,
             msg: 'Błąd poczas edycji artykułu!',
             color: 'error',
             timeout: 7500,
           });
-        }
-      })
-      .catch(() => {
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Błąd poczas edycji artykułu!',
-          color: 'error',
-          timeout: 7500,
         });
+    } else {
+      this.$store.dispatch('setSnackbarState', {
+        state: true,
+        msg: 'Formularz nie zostal poprawnie wypełniony!',
+        color: 'warning',
+        timeout: 7500,
       });
+    }
   }
 
   private returnToArticle() {
@@ -167,6 +177,7 @@ export default class ArticleEdit extends Vue {
 
   private data() {
     return {
+      inputValidated: false,
       article: { text: '' },
       allTags: this.allTags,
       selectedTags: this.selectedTags,

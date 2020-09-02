@@ -6,28 +6,33 @@
     >Edycja artykułu nr {{ this.$route.params.id }}</v-card-title>
     <v-divider />
     <v-card-text>
-      <v-layout v-if="Article.creation_date && Article.publication_date" wrap justify-space-between>
-        <v-flex xs12 sm6>
-          <p
-            class="text-center"
-          >Data utworzenia: {{ Article.creation_date | moment("DD.MM.YYYY hh:mm:ss") }}</p>
-        </v-flex>
-        <v-flex xs12 sm6>
-          <p
-            class="text-center"
-          >Data publikacji: {{ Article.publication_date | moment("DD.MM.YYYY hh:mm:ss") }}</p>
-        </v-flex>
-      </v-layout>
-      <v-divider v-if="Article.creation_date && Article.publication_date" />
-      <v-text-field clearable label="Tytuł artykułu" v-model="Article.title"></v-text-field>
-      <v-row align="center">
-        <v-col class="py-0">
-          <v-text-field clearable label="Alias" v-model="Article.alias"></v-text-field>
-        </v-col>
-        <v-col class="py-0" cols="auto">
-          <v-btn color="primary" @click="generateAlias()">Wygeneruj alias</v-btn>
-        </v-col>
-      </v-row>
+      <v-form v-model="inputValidated">
+        <v-layout
+          v-if="Article.creation_date && Article.publication_date"
+          wrap
+          justify-space-between
+        >
+          <v-flex xs12 sm6>
+            <p
+              class="text-center"
+            >Data utworzenia: {{ Article.creation_date | moment("DD.MM.YYYY hh:mm:ss") }}</p>
+          </v-flex>
+          <v-flex xs12 sm6>
+            <p
+              class="text-center"
+            >Data publikacji: {{ Article.publication_date | moment("DD.MM.YYYY hh:mm:ss") }}</p>
+          </v-flex>
+        </v-layout>
+        <v-divider v-if="Article.creation_date && Article.publication_date" />
+        <v-text-field clearable label="Tytuł artykułu" v-model="Article.title" :rules="[required]"></v-text-field>
+        <v-row align="center">
+          <v-col class="py-0">
+            <v-text-field clearable label="Alias" v-model="Article.alias" :rules="[required]"></v-text-field>
+          </v-col>
+          <v-col class="py-0" cols="auto">
+            <v-btn color="primary" @click="generateAlias()">Wygeneruj alias</v-btn>
+          </v-col>
+        </v-row>
         <v-select
           v-model="selectedTags"
           :items="allTags"
@@ -37,18 +42,20 @@
           deletable-chips
           label="Tagi artykułu"
           multiple
-        ><template v-slot:no-data>
-          <v-alert type="info" class="ma-0">Wszystkie tagi wykorzystane!</v-alert>
-        </template></v-select>
-        
-      <v-divider class="mb-3" />
-      <markdown-editor v-model="Article.text"></markdown-editor>
+        >
+          <template v-slot:no-data>
+            <v-alert type="info" class="ma-0">Wszystkie tagi wykorzystane!</v-alert>
+          </template>
+        </v-select>
+        <v-divider class="mb-3" />
+        <markdown-editor v-model="Article.text"></markdown-editor>
+      </v-form>
     </v-card-text>
   </v-card>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { TagModel } from '@/models/TagModel';
@@ -94,6 +101,18 @@ export default class ArticleEditor extends Vue {
 
   private tagTextSelector(item: TagModel) {
     return item.name;
+  }
+
+  @Watch('$data.inputValidated')
+  private validationchanged() {
+    this.$emit('validation', this.$data.inputValidated);
+  }
+
+  private data() {
+    return {
+      inputValidated: false,
+      required: (value: string) => !!value || 'Pole wymagane',
+    };
   }
 }
 </script>

@@ -12,13 +12,7 @@
     </v-alert>
     <v-layout wrap justify-space-between>
       <v-flex xs12 md6 class="text-xs-left pa-1">
-        <v-textarea
-          auto-grow
-          v-model="markdown"
-          outlined
-          hide-details
-          label="Tekst"
-        ></v-textarea>
+        <v-textarea auto-grow v-model="markdown" outlined label="Tekst" :rules="[required]"></v-textarea>
       </v-flex>
       <v-flex xs12 md6 class="text-xs-left pa-1">
         <v-card outlined>
@@ -53,6 +47,7 @@ export default class MarkdownEditor extends Vue {
 
   private data() {
     return {
+      required: (value: string) => !!value || 'Pole wymagane',
       markdownOptions: {
         markdownIt: {
           html: true,
