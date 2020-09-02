@@ -41,11 +41,6 @@ const userModule: Module<any, any> = {
                 password: authData.password,
             })
                 .then((res) => {
-                    const now = new Date();
-                    const expirationDate = new Date(now.getTime() + 3300000);
-                    localStorage.setItem('token', res.data.access);
-                    localStorage.setItem('refreshToken', res.data.refresh);
-                    localStorage.setItem('expirationDate', expirationDate.toString());
                     commit('authUser', {
                         token: res.data.access,
                         refreshToken: res.data.refresh,
@@ -63,31 +58,8 @@ const userModule: Module<any, any> = {
                     });
                 });
         },
-        // tryAutoLogin({ dispatch, commit }) {
-        //     const token = localStorage.getItem('token');
-        //     if (!token) {
-        //         return;
-        //     } else {
-        //         // const expirationDate = new Date(localStorage.getItem('expirationDate'));
-        //         const expirationDate = new Date();
-        //         const now = new Date();
-        //         if (now >= expirationDate) {
-        //             dispatch('clearLocalStorage');
-        //             return;
-        //         } else {
-        //             const userId = localStorage.getItem('userId');
-        //             commit('authUser', {
-        //                 '{token}': token,
-        //                 '{userId}': userId,
-        //             });
-        //             dispatch('setLogoutTimer', (expirationDate.getTime() - now.getTime()) / 1000);
-        //             dispatch('fetchUserData');
-        //         }
-        //     }
-        // },
         logout({ dispatch, commit, state }) {
             commit('clearAuthData');
-            dispatch('clearLocalStorage');
             if (router.currentRoute.name !== 'home') { router.replace('/'); }
             dispatch('setSnackbarState', {
                 state: true,
@@ -102,22 +74,12 @@ const userModule: Module<any, any> = {
             axios.post('refresh-token/', {
                 refresh: state.refreshToken,
             }).then((res) => {
-                const now = new Date();
-                const expirationDate = new Date(now.getTime() + 3300000);
-                localStorage.setItem('token', res.data.access);
-                localStorage.setItem('refreshToken', res.data.refresh);
-                localStorage.setItem('expirationDate', expirationDate.toString());
                 commit('authUser', {
                     token: res.data.access,
                     refreshToken: res.data.refresh,
                 });
                 dispatch('setRefreshTimer');
             });
-        },
-        clearLocalStorage() {
-            localStorage.removeItem('expirationDate');
-            localStorage.removeItem('token');
-            localStorage.removeItem('refreshToken');
         },
         fetchUserData({ dispatch, commit, state }) {
             if (!state.token) {
