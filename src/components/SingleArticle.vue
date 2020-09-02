@@ -16,19 +16,33 @@
           <v-spacer v-if="article.tags.length > 0" />
           <div v-if="article.tags.length > 0">
             <v-icon left color="primary">mdi-note</v-icon>
-            <v-chip
-              small
-              label
-              v-for="tag in article.tags"
-              :key="tag.name"
-              class="grey mx-1"
-            >
+            <v-chip small label v-for="tag in article.tags" :key="tag.name" class="grey mx-1">
               <a
                 :href="'/#/tag/'+ tag.name"
                 class="white--text text-decoration-none"
               >{{ '#' + tag.name }}</a>
             </v-chip>
           </div>
+        </v-row>
+        <v-divider v-if="article.authors.length" class="ma-2"></v-divider>
+        <v-row
+          wrap
+          v-if="article.authors.length"
+          align="center"
+          justify="start"
+          class="text-subtitle-1 mx-auto mt-2"
+        >
+          <v-col cols="auto" class="pa-0">
+            <p class="my-auto">Współautorzy:</p>
+          </v-col>
+          <v-col class="py-0 pr-0">
+            <v-row align="center" justify="center">
+              <div v-for="(author, i) in article.authors" :key="i" class="mx-2">
+                <v-icon left color="primary">mdi-account</v-icon>
+                <v-chip small label class="white--text grey">{{ author.user.username }}</v-chip>
+              </div>
+            </v-row>
+          </v-col>
         </v-row>
       </v-card-subtitle>
       <v-divider />
@@ -39,7 +53,15 @@
           :options="markdownOptions"
         />
       </v-card-text>
-      <v-btn fab fixed bottom right color="orange" v-if="auth" :to="'/editarticle/'+ $route.params.id">
+      <v-btn
+        fab
+        fixed
+        bottom
+        right
+        color="orange"
+        v-if="auth"
+        :to="'/editarticle/'+ $route.params.id"
+      >
         <v-icon large>mdi-pen</v-icon>
       </v-btn>
     </v-card>
