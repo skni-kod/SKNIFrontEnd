@@ -9,6 +9,7 @@
           <v-form v-model="inputValidated" @submit.prevent="loginUser()">
             <v-card-text class="pb-0">
               <v-text-field
+                autofocus
                 outlined
                 v-model="login"
                 prepend-icon="mdi-account"
