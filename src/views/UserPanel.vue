@@ -16,11 +16,11 @@
           <v-icon left>mdi-lock-reset</v-icon>
           <span>Zmień hasło</span>
         </v-btn>
-        <v-btn color="primary" class="ma-2">
+        <v-btn disabled color="primary" class="ma-2">
           <v-icon left>mdi-email-edit</v-icon>
           <span>Zmień e-mail</span>
         </v-btn>
-        <v-btn color="error" class="ma-2">
+        <v-btn color="error" class="ma-2" @click="logout">
           <v-icon left>mdi-logout</v-icon>
           <span>wyloguj</span>
         </v-btn>
@@ -40,6 +40,10 @@ export default class UserPanel extends Vue {
 
   get user() {
     return this.$store.getters.user;
+  }
+
+  private logout() {
+    this.$store.dispatch('logout');
   }
 
   private data() {
