@@ -13,7 +13,6 @@
 
 <script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue';
 import ProfilesList from '@/components/ProfilesList.vue';
 import { ProfilesService } from '@/services/ProfilesService';
 import { ProfileModel } from '@/models/ProfileModel';

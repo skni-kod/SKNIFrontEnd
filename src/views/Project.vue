@@ -4,7 +4,6 @@
 
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue';
 import { ProjectsService } from '@/services/ProjectsService';
 import { ProjectModel } from '@/models/ProjectModel';
 

@@ -13,7 +13,6 @@
 
 <script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue';
 import ProjectsList from '@/components/ProjectsList.vue';
 import { ProjectsService } from '@/services/ProjectsService';
 import { ProjectModel } from '@/models/ProjectModel';

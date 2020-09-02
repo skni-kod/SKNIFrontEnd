@@ -28,7 +28,6 @@
 
 <script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue';
 import ArticlesList from '@/components/ArticlesList.vue';
 import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';

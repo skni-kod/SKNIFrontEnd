@@ -6,7 +6,6 @@
 
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue';
 import SectionsList from '@/components/SectionsList.vue';
 import { SectionsService } from '@/services/SectionsService';
 import { SectionModel } from '@/models/SectionModel';
