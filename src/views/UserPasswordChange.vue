@@ -74,7 +74,14 @@ export default class UserPasswordChange extends Vue {
     return this.$store.getters.user;
   }
 
-  private changePasswd() {}
+  private changePasswd() {
+    if (this.$data.inputValidated) {
+      this.$store.dispatch('changeUserPassword', {
+        password1: this.$data.password1,
+        password2: this.$data.password2,
+      });
+    }
+  }
 
   private data() {
     return {

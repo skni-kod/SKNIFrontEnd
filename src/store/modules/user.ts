@@ -139,29 +139,32 @@ const userModule: Module<any, any> = {
                     });
             }
         },
-        // changeUserPassword({ dispatch, state }, auth) {
-        //     axios.post('/accounts:update', {
-        //         idToken: state.idToken,
-        //         password: auth,
-        //         returnSecureToken: false,
-        //     }).then((res) => {
-        //         dispatch('logout');
-        //         router.replace('/adminlogin');
-        //         dispatch('setSnackbarState', {
-        //             snackbarState: true,
-        //             snackbarMsg: 'Hasło zostało zmienione',
-        //             snackbarColor: 'info',
-        //             timeout: 7500,
-        //         });
-        //     }).catch((error) => {
-        //         dispatch('setSnackbarState', {
-        //             snackbarState: true,
-        //             snackbarMsg: error,
-        //             snackbarColor: 'error',
-        //             timeout: 7500,
-        //         });
-        //     });
-        // },
+        changeUserPassword({ dispatch, getters }, auth) {
+            axios.post('/rest-auth/password/change/', {
+                new_password1: auth.password1,
+                new_password2: auth.password2,
+            }, {
+                headers: {
+                    Authorization: 'Bearer ' + getters.token,
+                },
+            }).then((res) => {
+                dispatch('logout');
+                router.replace('/login');
+                dispatch('setSnackbarState', {
+                    state: true,
+                    msg: 'Hasło zostało zmienione. Zaloguj się ponownie.',
+                    color: 'success',
+                    timeout: 7500,
+                });
+            }).catch((error) => {
+                dispatch('setSnackbarState', {
+                    state: true,
+                    msg: 'Wystąpił problem ze zmiana hasła!',
+                    color: 'error',
+                    timeout: 7500,
+                });
+            });
+        },
     },
 
     getters: {
