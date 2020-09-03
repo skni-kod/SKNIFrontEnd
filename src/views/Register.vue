@@ -97,7 +97,7 @@
         </v-card>
       </v-row>
       <v-row justify="center">
-        <v-btn class="white--text mt-2 mx-2" color="purple">
+        <v-btn disabled class="white--text mt-2 mx-2" color="purple">
           <v-icon left>mdi-github</v-icon>
           <span>Zarejestruj się poprzez GitHub</span>
         </v-btn>
@@ -148,6 +148,17 @@ export default class Register extends Vue {
     };
   }
 
-  private registerUser() {}
+  private registerUser() {
+    if (this.$data.inputValidated) {
+      this.$store.dispatch('register', {
+        username: this.$data.login,
+        email: this.$data.email,
+        password1: this.$data.password1,
+        password2: this.$data.password2,
+        first_name: this.$data.first_name,
+        last_name: this.$data.last_name,
+      });
+    }
+  }
 }
 </script>
