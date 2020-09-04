@@ -102,6 +102,18 @@ export default new Router({
       },
     },
     {
+      path: '/user/descriptionchange',
+      name: 'userdescriptionchange',
+      component: () => import(/* webpackChunkName: "userdescriptionchange" */ './views/UserDescriptionChange.vue'),
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAuthenticated) {
+          next();
+        } else {
+          next('/403');
+        }
+      },
+    },
+    {
       path: '/projects/:page?',
       name: 'projects',
       component: () => import(/* webpackChunkName: "project" */ './views/ProjectList.vue'),

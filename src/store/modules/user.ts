@@ -92,12 +92,6 @@ const userModule: Module<any, any> = {
                 })
                     .then((res) => {
                         commit('storeUser', res.data);
-                        dispatch('setSnackbarState', {
-                            state: true,
-                            msg: 'Witaj spowrotem, ' + state.user.username + '!',
-                            color: 'success',
-                            timeout: 7500,
-                        });
                     });
             }
         },
