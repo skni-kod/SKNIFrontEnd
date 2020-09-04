@@ -13,7 +13,7 @@
               <v-icon left>mdi-content-save</v-icon>
               <span>Zapisz zmiany</span>
             </v-btn>
-            <v-btn color="error" :to="'user/panel'">
+            <v-btn color="error" :to="'/user/panel'">
               <v-icon left>mdi-cancel</v-icon>
               <span>Anuluj edycję</span>
             </v-btn>

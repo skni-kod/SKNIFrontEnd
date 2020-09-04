@@ -48,7 +48,7 @@
           </template>
         </v-select>
         <v-divider class="mb-3" />
-        <markdown-editor v-model="Article.text"></markdown-editor>
+        <markdown-editor v-model="Article.text" rules=true></markdown-editor>
       </v-form>
     </v-card-text>
   </v-card>
