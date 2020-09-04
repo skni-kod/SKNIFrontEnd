@@ -51,6 +51,24 @@ export class ArticlesService {
         return data;
     }
 
+    // tslint:disable-next-line:max-line-length
+    public async getUserArticles(user: number, pageNumber: number, pageSize: number, fullText: boolean): Promise<PaginationContainer<ArticleModel>> {
+        const data = (await axios('api/articles/', {
+            params: {
+                author: user,
+                format: 'json',
+                offset: (pageNumber - 1) * pageSize,
+                limit: pageSize,
+            },
+        })).data as PaginationContainer<ArticleModel>;
+
+        if (!fullText) {
+            this.cutTextAfterReadMore(data.results);
+        }
+
+        return data;
+    }
+
     public async getArticle(id: number, removeReadMore: boolean = true): Promise<ArticleModel> {
         const article = (await axios('api/articles/' + id, {
             params: {

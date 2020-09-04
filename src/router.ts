@@ -114,6 +114,18 @@ export default new Router({
       },
     },
     {
+      path: '/user/profile/:id',
+      name: 'userprofile',
+      component: () => import(/* webpackChunkName: "UserProfile" */ './views/UserProfile.vue'),
+      beforeEnter: (to, from, next) => {
+        if (to.params.id) {
+          next();
+        } else {
+          next('/403');
+        }
+      },
+    },
+    {
       path: '/projects/:page?',
       name: 'projects',
       component: () => import(/* webpackChunkName: "project" */ './views/ProjectList.vue'),

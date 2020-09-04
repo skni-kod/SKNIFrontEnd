@@ -9,9 +9,9 @@
           <v-card-subtitle class="white--text primary">{{user.username}}</v-card-subtitle>
           <v-divider></v-divider>
           <v-row wrap justify="center">
-            <v-btn color="primary" class="ma-2">
-              <v-icon left>mdi-menu</v-icon>
-              <span>Moje artykuły</span>
+            <v-btn color="primary" class="ma-2" :to="'/user/profile/' + user.id">
+              <v-icon left>mdi-card-account-details</v-icon>
+              <span>Mój profil</span>
             </v-btn>
           </v-row>
           <p class="text-subtitle-1 font-weight-bold text-center ma-1">Opcje profilu</p>
