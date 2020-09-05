@@ -68,16 +68,6 @@ export default new Router({
       component: () => import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
     },
     {
-      path: '/profiles/:page?',
-      name: 'profiles',
-      component: () => import(/* webpackChunkName: "profile" */ './views/Profiles.vue'),
-    },
-    {
-      path: '/profile/:id',
-      name: 'profile',
-      component: () => import(/* webpackChunkName: "profile" */ './views/Profile.vue'),
-    },
-    {
       path: '/user/panel',
       name: 'userpanel',
       component: () => import(/* webpackChunkName: "userpanel" */ './views/UserPanel.vue'),

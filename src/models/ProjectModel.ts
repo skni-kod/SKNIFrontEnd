@@ -1,5 +1,5 @@
-import { ProfileModel } from './ProfileModel';
 import { SectionModel } from './SectionModel';
+import { UserModel } from './UserModel';
 /* tslint:disable */
 export class ProjectModel {
     public id!: number;
@@ -8,6 +8,6 @@ export class ProjectModel {
     public creation_date!: Date;
     public publication_date!: Date;
     public repository_link!: string;
-    public creator!: ProfileModel;
+    public creator!: UserModel;
     public section!: SectionModel;
 }

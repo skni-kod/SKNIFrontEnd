@@ -12,8 +12,6 @@ const CommentsList = () => import(/* webpackChunkName: "ComponentCommentsList" *
 const SingleArticle = () => import(/* webpackChunkName: "ComponentSingleArticle" */ '@/components/SingleArticle.vue');
 const SectionsList = () => import(/* webpackChunkName: "ComponentSectionsList" */ '@/components/SectionsList.vue');
 const HardwaresList = () => import(/* webpackChunkName: "ComponentHardwaresList" */ '@/components/HardwaresList.vue');
-const SingleProfile = () => import(/* webpackChunkName: "ComponentSingleProfile" */ '@/components/SingleProfile.vue');
-const ProfilesList = () => import(/* webpackChunkName: "ComponentProfilesList" */ '@/components/ProfilesList.vue');
 const ProjectsList = () => import(/* webpackChunkName: "ComponentProjectsList" */ '@/components/ProjectsList.vue');
 const SingleProject = () => import(/* webpackChunkName: "ComponentSingleProject" */ '@/components/SingleProject.vue');
 const HomeSectionList = () => import(/* webpackChunkName: "ComponentHomeSectionList" */ '@/components/homePageComponents/HomeSectionList.vue');
@@ -43,8 +41,6 @@ Vue.component('comments-list', CommentsList);
 Vue.component('single-article', SingleArticle);
 Vue.component('sections-list', SectionsList);
 Vue.component('hardwares-list', HardwaresList);
-Vue.component('single-profile', SingleProfile);
-Vue.component('profiles-list', ProfilesList);
 Vue.component('projects-list', ProjectsList);
 Vue.component('single-project', SingleProject);
 Vue.component('home-section-list', HomeSectionList);
