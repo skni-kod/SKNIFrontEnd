@@ -18,10 +18,10 @@
               <v-icon>mdi-pen</v-icon>
             </v-btn>
             <v-spacer />
-            <v-btn
-              :to="'/article/'+ article.id + '-' + article.alias"
-              color="primary"
-            >Czytaj więcej...</v-btn>
+            <v-btn :to="'/article/'+ article.id + '-' + article.alias" color="primary">
+              <v-icon left>mdi-page-next</v-icon>
+              <span>Czytaj więcej...</span>
+            </v-btn>
           </v-card-actions>
         </v-col>
       </v-row>
