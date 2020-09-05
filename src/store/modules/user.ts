@@ -83,7 +83,7 @@ const userModule: Module<any, any> = {
         },
         fetchUserData({ dispatch, commit, state }) {
             if (!state.token) {
-                return;
+                dispatch('logout');
             } else {
                 axios.get('rest-auth/user/', {
                     headers: {
@@ -92,6 +92,8 @@ const userModule: Module<any, any> = {
                 })
                     .then((res) => {
                         commit('storeUser', res.data);
+                    }).catch(() => {
+                        dispatch('logout');
                     });
             }
         },
