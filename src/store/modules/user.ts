@@ -6,7 +6,7 @@ const userModule: Module<any, any> = {
     state: {
         token: null,
         refreshToken: null,
-        user: null,
+        user: { id: 0 },
         timeout: null,
     },
 
@@ -21,7 +21,7 @@ const userModule: Module<any, any> = {
         clearAuthData(state) {
             state.token = null;
             state.refreshToken = null;
-            state.user = null;
+            state.user = { id: 0 };
         },
         setTimeout(state, data) {
             state.timeout = data;

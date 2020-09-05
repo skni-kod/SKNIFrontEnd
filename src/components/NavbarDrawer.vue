@@ -43,6 +43,14 @@
           <v-list-item-title>Rejestracja</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item router @click="drawer = !drawer" :to="'/user/profile/' + user.id" v-if="auth">
+        <v-list-item-action>
+          <v-icon large class="primary--text">mdi-account-circle</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Mój profil</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
       <v-list-item router @click="drawer = !drawer" to="/user/panel" v-if="auth">
         <v-list-item-action>
           <v-icon large class="primary--text">mdi-account</v-icon>
@@ -72,8 +80,13 @@ export default class NavbarDrawer extends Vue {
   get drawer(): boolean {
     return this.$store.getters.navDrawer;
   }
+
   set drawer(value: boolean) {
     this.$store.dispatch('setNavDrawerState', value);
+  }
+
+  get user() {
+    return this.$store.getters.user;
   }
 
   private logout() {

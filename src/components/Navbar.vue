@@ -18,6 +18,12 @@
             </v-btn>
           </template>
           <v-list>
+            <v-list-item @click="$router.push('/user/profile/' + user.id)">
+              <v-list-item-action>
+                <v-icon>mdi-account-circle</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Mój profil</v-list-item-title>
+            </v-list-item>
             <v-list-item @click="$router.push('/user/panel')">
               <v-list-item-action>
                 <v-icon>mdi-cog</v-icon>
@@ -57,7 +63,6 @@ export default class Navbar extends Vue {
     { link: '/sections', title: 'Sekcje', icon: 'mdi-vector-intersection' },
     { link: '/projects', title: 'Projekty', icon: 'mdi-cog' },
     // { link: '/hardware', title: 'Hardware', icon: "mdi-expansion-card" },
-    // { link: '/profiles', title: 'Profile', icon: "mdi-account" },
   ];
   get drawer(): boolean {
     return this.$store.getters.navDrawer;
@@ -68,6 +73,10 @@ export default class Navbar extends Vue {
 
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  get user() {
+    return this.$store.getters.user;
   }
 
   private logout() {

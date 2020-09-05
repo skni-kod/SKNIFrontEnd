@@ -11,7 +11,7 @@
             class="text-h5 white--text darken-2 font-weight-bold justify-left pb-0 px-0"
           >{{ article.title }}</v-card-title>
           <v-card-text class="px-0">
-            <p class="text-left mb-0">{{ article.text }}</p>
+            <p class="text-left mb-0">{{ text }}</p>
           </v-card-text>
           <v-card-actions class="pa-0">
             <v-btn fab x-small color="orange" :to="'/editarticle/' + article.id" v-if="auth">
@@ -37,9 +37,17 @@ import { CommentModel } from '@/models/CommentModel';
 @Component
 export default class ArticleCard extends Vue {
   @Prop() public article!: ArticleModel;
-
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  private removeMarkdown(text: string) {
+    const removeMd = require('remove-markdown');
+    return removeMd(text);
+  }
+
+  get text(): string {
+    return this.removeMarkdown(this.article.text);
   }
 }
 </script>

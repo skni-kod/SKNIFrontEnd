@@ -68,11 +68,6 @@ export default class ArticleList extends Vue {
           return;
         }
         this.pagination.itemCount = paginationContainer.count;
-
-        const removeMd = require('remove-markdown');
-        this.articles.forEach((art) => {
-          art.text = removeMd(art.text);
-        });
       });
   }
 
