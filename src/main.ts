@@ -14,8 +14,6 @@ const SectionsList = () => import(/* webpackChunkName: "ComponentSectionsList" *
 const HardwaresList = () => import(/* webpackChunkName: "ComponentHardwaresList" */ '@/components/HardwaresList.vue');
 const ProjectsList = () => import(/* webpackChunkName: "ComponentProjectsList" */ '@/components/ProjectsList.vue');
 const SingleProject = () => import(/* webpackChunkName: "ComponentSingleProject" */ '@/components/SingleProject.vue');
-const HomeSectionList = () => import(/* webpackChunkName: "ComponentHomeSectionList" */ '@/components/homePageComponents/HomeSectionList.vue');
-const HomeArticleList = () => import(/* webpackChunkName: "ComponentHomeArticleList" */ '@/components/homePageComponents/HomeArticleList.vue');
 const ArticleCard = () => import(/* webpackChunkName: "ComponentArticleCard" */ '@/components/ArticleCard.vue');
 const ArticleEditor = () => import(/* webpackChunkName: "ComponentArticleEditor" */ '@/components/ArticleEditor.vue');
 const MarkdownEditor = () => import(/* webpackChunkName: "ComponentMarkdownEditor" */ '@/components/MarkdownEditor.vue');  // tslint:disable-line
@@ -43,7 +41,5 @@ Vue.component('sections-list', SectionsList);
 Vue.component('hardwares-list', HardwaresList);
 Vue.component('projects-list', ProjectsList);
 Vue.component('single-project', SingleProject);
-Vue.component('home-section-list', HomeSectionList);
-Vue.component('home-article-list', HomeArticleList);
 Vue.component('article-card', ArticleCard);
 Vue.component('gallery', Gallery);

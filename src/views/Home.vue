@@ -35,8 +35,8 @@ import { SectionModel } from '@/models/SectionModel';
 import { ArticleModel } from '../models/ArticleModel';
 import { ArticlesService } from '../services/ArticlesService';
 
-import homeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
-import homeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
+import homeArticleList from '@/components/HomeArticleList.vue';
+import homeSectionList from '@/components/HomeSectionList.vue';
 
 @Component({
   components: { homeArticleList, homeSectionList },
