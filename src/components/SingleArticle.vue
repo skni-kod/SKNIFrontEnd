@@ -33,13 +33,18 @@
           class="text-subtitle-1 mx-auto mt-2"
         >
           <v-col cols="auto" class="pa-0">
-            <p class="my-auto">Współautorzy:</p>
+            <p class="my-auto">{{ article.authors.length === 1 ? 'Autor:' : 'Autorzy:' }}</p>
           </v-col>
           <v-col class="py-0 pr-0">
             <v-row align="center" justify="center">
               <div v-for="(author, i) in article.authors" :key="i" class="mx-2">
                 <v-icon left color="primary">mdi-account</v-icon>
-                <v-chip small label class="white--text grey">{{ author.user.username }}</v-chip>
+                <v-chip small label class="white--text grey">
+                  <a
+                    :href="'/#/user/profile/'+ author.user.id"
+                    class="white--text text-decoration-none"
+                  >{{ author.user.username }}</a>
+                </v-chip>
               </div>
             </v-row>
           </v-col>
