@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
-
 import store from './store';
 
 Vue.use(Router);
@@ -11,7 +9,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
     },
     {
       path: '/about',
@@ -26,11 +24,11 @@ export default new Router({
     {
       path: '/article/:id-:alias',
       name: 'article',
-      component: () => import(/* webpackChunkName: "article" */ './views/Article.vue'),
+      component: () => import(/* webpackChunkName: "article-page" */ './views/Article.vue'),
     },
     {
       path: '/editarticle/:id?',
-      name: 'editarticle',
+      name: 'editArticle',
       beforeEnter: (to, from, next) => {
         if (!store.getters.isAuthenticated) {
           next('/403');
@@ -48,16 +46,6 @@ export default new Router({
       component: () => import(/* webpackChunkName: "article" */ './views/Tag.vue'),
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import(/* webpackChunkName: "user" */ './views/Login.vue'),
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: () => import(/* webpackChunkName: "user-register" */ './views/Register.vue'),
-    },
-    {
       path: '/sections',
       name: 'sections',
       component: () => import(/* webpackChunkName: "sections" */ './views/Sections.vue'),
@@ -68,9 +56,19 @@ export default new Router({
       component: () => import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import(/* webpackChunkName: "user" */ './views/Login.vue'),
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import(/* webpackChunkName: "user-register" */ './views/Register.vue'),
+    },
+    {
       path: '/user/panel',
-      name: 'userpanel',
-      component: () => import(/* webpackChunkName: "userpanel" */ './views/UserPanel.vue'),
+      name: 'userPanel',
+      component: () => import(/* webpackChunkName: "user-panel" */ './views/UserPanel.vue'),
       beforeEnter: (to, from, next) => {
         if (store.getters.isAuthenticated) {
           next();
@@ -81,8 +79,8 @@ export default new Router({
     },
     {
       path: '/user/passwordchange',
-      name: 'userpasswordchange',
-      component: () => import(/* webpackChunkName: "userpasswordchange" */ './views/UserPasswordChange.vue'),
+      name: 'userPasswordChange',
+      component: () => import(/* webpackChunkName: "user-passwordchange" */ './views/UserPasswordChange.vue'),
       beforeEnter: (to, from, next) => {
         if (store.getters.isAuthenticated) {
           next();
@@ -93,8 +91,8 @@ export default new Router({
     },
     {
       path: '/user/descriptionchange',
-      name: 'userdescriptionchange',
-      component: () => import(/* webpackChunkName: "userdescriptionchange" */ './views/UserDescriptionChange.vue'),
+      name: 'userDescriptionChange',
+      component: () => import(/* webpackChunkName: "user-descriptionchange" */ './views/UserDescriptionChange.vue'),
       beforeEnter: (to, from, next) => {
         if (store.getters.isAuthenticated) {
           next();
@@ -105,8 +103,8 @@ export default new Router({
     },
     {
       path: '/user/profile/:id',
-      name: 'userprofile',
-      component: () => import(/* webpackChunkName: "UserProfile" */ './views/UserProfile.vue'),
+      name: 'userProfile',
+      component: () => import(/* webpackChunkName: "user-profile" */ './views/UserProfile.vue'),
       beforeEnter: (to, from, next) => {
         if (to.params.id) {
           next();
@@ -123,17 +121,17 @@ export default new Router({
     {
       path: '/project/:id',
       name: 'project',
-      component: () => import(/* webpackChunkName: "project" */ './views/Project.vue'),
+      component: () => import(/* webpackChunkName: "project-page" */ './views/Project.vue'),
     },
     {
       path: '/403',
-      name: '403',
-      component: () => import(/* webpackChunkName: "403" */ './views/403.vue'),
+      name: 'error403',
+      component: () => import(/* webpackChunkName: "eror403" */ './views/403.vue'),
     },
     {
       path: '/404',
-      name: '404',
-      component: () => import(/* webpackChunkName: "404" */ './views/404.vue'),
+      name: 'error404',
+      component: () => import(/* webpackChunkName: "error404" */ './views/404.vue'),
     },
     { path: '*', redirect: '/404' },
   ],
