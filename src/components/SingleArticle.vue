@@ -16,12 +16,21 @@
           <v-spacer v-if="article.tags.length > 0" />
           <div v-if="article.tags.length > 0">
             <v-icon left color="primary">mdi-note</v-icon>
-            <v-chip small label v-for="tag in article.tags" :key="tag.name" class="grey mx-1">
-              <a
-                :href="'/#/tag/'+ tag.name"
-                class="white--text text-decoration-none"
-              >{{ '#' + tag.name }}</a>
-            </v-chip>
+            <v-hover v-slot:default="{ hover }">
+              <v-chip
+                small
+                label
+                v-for="tag in article.tags"
+                :key="tag.name"
+                class="mx-1"
+                :color="hover ? 'primary' : 'grey'"
+              >
+                <a
+                  :href="'/#/tag/'+ tag.name"
+                  class="white--text text-decoration-none"
+                >{{ '#' + tag.name }}</a>
+              </v-chip>
+            </v-hover>
           </div>
         </v-row>
         <v-divider v-if="article.authors.length" class="ma-2"></v-divider>
@@ -39,12 +48,14 @@
             <v-row align="center" justify="center">
               <div v-for="(author, i) in article.authors" :key="i" class="mx-2">
                 <v-icon left color="primary">mdi-account</v-icon>
-                <v-chip small label class="white--text grey">
-                  <a
-                    :href="'/#/user/profile/'+ author.user.id"
-                    class="white--text text-decoration-none"
-                  >{{ author.user.username }}</a>
-                </v-chip>
+                <v-hover v-slot:default="{ hover }">
+                  <v-chip small label class="white--text" :color="hover ? 'primary' : 'grey'">
+                    <a
+                      :href="'/#/user/profile/'+ author.user.id"
+                      class="white--text text-decoration-none"
+                    >{{ author.user.username }}</a>
+                  </v-chip>
+                </v-hover>
               </div>
             </v-row>
           </v-col>
