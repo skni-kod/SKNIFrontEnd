@@ -5,7 +5,7 @@ import vuetify from './plugins/vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 import store from './store';
-import MarkdownItVue from 'markdown-it-vue';
+const MarkdownItVue = () => import(/* webpackChunkName: "PluginMarkdown" */ 'markdown-it-vue');
 import 'markdown-it-vue/dist/markdown-it-vue.css';
 import VueMoment from 'vue-moment';
 const CommentsList = () => import(/* webpackChunkName: "ComponentCommentsList" */ '@/components/CommentsList.vue');
@@ -22,7 +22,7 @@ const Gallery = () => import(/* webpackChunkName: "ComponentGallery" */ '@/compo
 
 Vue.config.productionTip = false;
 
-Vue.use(MarkdownItVue);
+// Vue.use(MarkdownItVue);
 Vue.use(VueMoment, 'vue-moment');
 
 new Vue({
@@ -32,6 +32,7 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
+Vue.component('markdown-it-vue', MarkdownItVue);
 Vue.component('password-validator', PasswordValidator);
 Vue.component('article-editor', ArticleEditor);
 Vue.component('markdown-editor', MarkdownEditor);
