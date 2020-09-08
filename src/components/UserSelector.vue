@@ -1,6 +1,6 @@
 <template>
   <v-autocomplete
-    v-model="selected"
+    v-model="authors"
     :items="users"
     clearable
     chips
@@ -25,20 +25,30 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import axios from '../axios';
 
 @Component
 export default class UserSelector extends Vue {
-  private data() {
-    return {
-      users: [],
-      selected: [],
-    };
-  }
+  @Prop({ default: '' }) public readonly label!: string;
+  @Prop({ required: true }) public readonly value!: number[];
 
   private created() {
     this.getAllusers();
+  }
+
+  get authors() {
+    return this.value;
+  }
+
+  set authors(data: number[]) {
+    this.$emit('input', data);
+  }
+
+  private data() {
+    return {
+      users: [],
+    };
   }
 
   private getAllusers() {
@@ -56,9 +66,9 @@ export default class UserSelector extends Vue {
   }
 
   private remove(item: any) {
-    const index = this.$data.selected.indexOf(item.id);
+    const index = this.authors.indexOf(item);
     if (index >= 0) {
-      this.$data.selected.splice(index, 1);
+      this.authors.splice(index, 1);
     }
   }
 }

@@ -3,6 +3,8 @@
     <article-editor
       :article="article"
       @articleEdited="article = $event"
+      :authors="authors"
+      @authorsEdited="authors = $event"
       :tags="allTags"
       @tagListEdited="allTags = $event"
       :selTags="selectedTags"
@@ -88,32 +90,32 @@ import { TagModel } from '@/models/TagModel';
 export default class ArticleEdit extends Vue {
   private articlesService!: ArticlesService;
   private tagsService!: TagsService;
-  private article!: ArticleModel;
   private allTags!: TagModel[];
   private selectedTags!: string[];
   private formattedCreationDate!: string;
   private formattedPublicationDate!: string;
 
-  private beforeCreate() {
+  private created() {
     this.articlesService = new ArticlesService();
     this.tagsService = new TagsService();
-    this.article = new ArticleModel();
+    this.$data.article = new ArticleModel();
     this.formattedCreationDate = '';
     this.formattedPublicationDate = '';
-  }
 
-  private mounted() {
     if (this.$route.params.id !== undefined) {
       this.articlesService
         .getArticle(+this.$route.params.id, false)
         .then((article) => {
-          this.article = article;
-          this.selectedTags = this.article.tags.map((p) => p.name);
+          this.$data.article = article;
+          this.selectedTags = this.$data.article.tags.map((p) => p.name);
           this.tagsService.getAllTags().then((tags) => {
             this.allTags = tags;
           });
+          article.authors.forEach((element: any) => {
+            this.$data.authors.push(element.user.id);
+          });
         })
-        .catch(() => {
+        .catch((err) => {
           this.$router.replace('/404');
         });
     }
@@ -179,6 +181,7 @@ export default class ArticleEdit extends Vue {
     return {
       inputValidated: false,
       article: { text: '' },
+      authors: [],
       allTags: this.allTags,
       selectedTags: this.selectedTags,
       formattedPublicationDate: this.formattedPublicationDate,

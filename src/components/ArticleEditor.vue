@@ -63,6 +63,7 @@ import { TagModel } from '@/models/TagModel';
 @Component
 export default class ArticleEditor extends Vue {
   @Prop() public readonly article!: ArticleModel;
+  @Prop() public readonly authors!: number[];
   @Prop() public readonly tags!: TagModel;
   @Prop() public readonly selTags!: string[];
 
@@ -82,6 +83,14 @@ export default class ArticleEditor extends Vue {
 
   set allTags(tags: TagModel) {
     this.$emit('tagListEdited', tags);
+  }
+
+  get artAuthors() {
+    return this.authors;
+  }
+
+  set artAuthors(data: number[]) {
+    this.$emit('authorsEdited', data);
   }
 
   get selectedTags() {
