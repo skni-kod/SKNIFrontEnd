@@ -5,18 +5,18 @@
     clearable
     chips
     hide-selected
-    label="Wyszukaj i wybierz autorów"
+    :label="label"
     item-text="fullname"
     item-value="id"
     multiple
   >
     <template v-slot:selection="data">
-      <v-chip small close @click:close="remove(data.item)">{{ data.item.username }}</v-chip>
+      <v-chip small close @click:close="remove(data.item.id)">{{ data.item.fullname }}</v-chip>
     </template>
     <template v-slot:item="data">
-        <v-list-item-content>
-          <v-list-item-title>{{ data.item.fullname }}</v-list-item-title>
-        </v-list-item-content>
+      <v-list-item-content>
+        <v-list-item-title>{{ data.item.fullname }}</v-list-item-title>
+      </v-list-item-content>
     </template>
     <template v-slot:no-data>
       <v-alert type="info" class="ma-0">Wszyscy uzytkownicy zostali wybrani!</v-alert>

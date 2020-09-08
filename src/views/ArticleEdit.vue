@@ -127,10 +127,10 @@ export default class ArticleEdit extends Vue {
         })
         .map((el: TagModel) => el.id);
       this.articlesService
-        .editArticle(this.article.id, {
-          title: this.article.title,
-          alias: this.article.alias,
-          text: this.article.text,
+        .editArticle(this.$data.article.id, {
+          title: this.$data.article.title,
+          alias: this.$data.article.alias,
+          text: this.$data.article.text,
           tags,
         })
         .then((res: any) => {
@@ -171,7 +171,7 @@ export default class ArticleEdit extends Vue {
 
   private returnToArticle() {
     this.$router.replace(
-      '/article/' + this.article.id + '-' + this.article.alias,
+      '/article/' + this.$data.article.id + '-' + this.$data.article.alias,
     );
   }
 

@@ -4,7 +4,7 @@
       <v-expansion-panel class="white--text info">
         <v-expansion-panel-header
           class="text-h6 font-weight-bold"
-        >Wyswietl ważne informacje dotyczace edytora</v-expansion-panel-header>
+        >Wyświetl ważne informacje dotyczące edytora</v-expansion-panel-header>
         <v-expansion-panel-content>
           <ul>
             <li class="text-body-1">
