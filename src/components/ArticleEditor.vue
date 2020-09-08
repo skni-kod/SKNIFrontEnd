@@ -45,7 +45,7 @@
           multiple
         >
           <template v-slot:selection="data">
-            <v-chip small close @click:close="remove(data.item)">{{ data.item.name }}</v-chip>
+            <v-chip small close @click:close="remove(data.item.id)">{{ data.item.name }}</v-chip>
           </template>
           <template v-slot:item="data">
             <v-list-item-content>
@@ -120,6 +120,13 @@ export default class ArticleEditor extends Vue {
   @Watch('$data.inputValidated')
   private validationchanged() {
     this.$emit('validation', this.$data.inputValidated);
+  }
+
+  private remove(item: any) {
+    const index = this.selectedTags.indexOf(item);
+    if (index >= 0) {
+      this.selectedTags.splice(index, 1);
+    }
   }
 
   private data() {
