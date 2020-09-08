@@ -86,6 +86,16 @@ export class ArticlesService {
         return article;
     }
 
+    public async addArticle(id: number, data: object): Promise<any> {
+        const save = await axios.post('api/articles/', data, {
+            headers: {
+                Authorization: 'Bearer ' + store.getters.token,
+            },
+        });
+
+        return save;
+    }
+
     public async editArticle(id: number, data: object): Promise<any> {
         const edit = await axios.patch('api/articles/' + id + '/', data, {
             headers: {
