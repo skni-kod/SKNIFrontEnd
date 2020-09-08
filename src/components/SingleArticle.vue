@@ -16,12 +16,10 @@
           <v-spacer v-if="article.tags.length > 0" />
           <div v-if="article.tags.length > 0">
             <v-icon left color="primary">mdi-note</v-icon>
-            <v-hover v-slot:default="{ hover }">
+            <v-hover v-slot:default="{ hover }" v-for="tag in article.tags" :key="tag.name">
               <v-chip
                 small
                 label
-                v-for="tag in article.tags"
-                :key="tag.name"
                 class="mx-1"
                 :color="hover ? 'primary' : 'grey'"
               >
