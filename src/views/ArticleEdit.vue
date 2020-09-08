@@ -132,6 +132,7 @@ export default class ArticleEdit extends Vue {
         .editArticle(this.$data.article.id, {
           title: this.$data.article.title,
           alias: this.$data.article.alias,
+          authors: this.$data.authors,
           text: this.$data.article.text,
           tags,
         })
