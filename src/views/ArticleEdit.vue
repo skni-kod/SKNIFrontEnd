@@ -84,32 +84,25 @@ import { Component, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
 import { TagsService } from '@/services/TagsService';
 import { ArticleModel } from '@/models/ArticleModel';
-import { TagModel } from '@/models/TagModel';
 
 @Component
 export default class ArticleEdit extends Vue {
   private articlesService!: ArticlesService;
   private tagsService!: TagsService;
-  private allTags!: TagModel[];
-  private selectedTags!: string[];
-  private formattedCreationDate!: string;
-  private formattedPublicationDate!: string;
 
   private created() {
     this.articlesService = new ArticlesService();
     this.tagsService = new TagsService();
     this.$data.article = new ArticleModel();
-    this.formattedCreationDate = '';
-    this.formattedPublicationDate = '';
 
     if (this.$route.params.id !== undefined) {
       this.articlesService
         .getArticle(+this.$route.params.id, false)
         .then((article) => {
           this.$data.article = article;
-          this.selectedTags = this.$data.article.tags.map((p: any) => p.id);
+          this.$data.selectedTags = this.$data.article.tags.map((p: any) => p.id);
           this.tagsService.getAllTags().then((tags) => {
-            this.allTags = tags;
+            this.$data.allTags = tags;
           });
           article.authors.forEach((element: any) => {
             this.$data.authors.push(element.user.id);
@@ -178,10 +171,8 @@ export default class ArticleEdit extends Vue {
       inputValidated: false,
       article: { text: '' },
       authors: [],
-      allTags: this.allTags,
-      selectedTags: this.selectedTags,
-      formattedPublicationDate: this.formattedPublicationDate,
-      formattedCreationDate: this.formattedCreationDate,
+      allTags: [],
+      selectedTags: [],
       dialog: false,
       fab: false,
     };
