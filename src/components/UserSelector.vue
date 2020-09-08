@@ -50,7 +50,7 @@ export default class UserSelector extends Vue {
 
   private data() {
     return {
-      required: (value: number[]) => value.length || 'Pole wymagane',
+      required: (value: number[]) => value.length > 0 || 'Pole wymagane',
       users: [],
     };
   }
