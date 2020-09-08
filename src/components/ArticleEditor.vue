@@ -33,20 +33,29 @@
             <v-btn color="primary" @click="generateAlias()">Wygeneruj alias</v-btn>
           </v-col>
         </v-row>
-        <v-select
+        <v-autocomplete
           v-model="selectedTags"
           :items="allTags"
-          :item-text="tagTextSelector"
+          clearable
+          chips
           hide-selected
-          small-chips
-          deletable-chips
-          label="Tagi artykułu"
+          label="Wyszukaj i wybierz tagi artykułu"
+          item-text="name"
+          item-value="id"
           multiple
         >
-          <template v-slot:no-data>
-            <v-alert type="info" class="ma-0">Wszystkie tagi wykorzystane!</v-alert>
+          <template v-slot:selection="data">
+            <v-chip small close @click:close="remove(data.item)">{{ data.item.name }}</v-chip>
           </template>
-        </v-select>
+          <template v-slot:item="data">
+            <v-list-item-content>
+              <v-list-item-title>{{ data.item.name }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <template v-slot:no-data>
+            <v-alert type="info" class="ma-0">Brak wyników!</v-alert>
+          </template>
+        </v-autocomplete>
         <user-selector v-model="artAuthors" rules="true" label="Wyszukaj i wybierz autorów"></user-selector>
         <markdown-editor v-model="Article.text" rules="true" label="Treść artykułu"></markdown-editor>
       </v-form>
@@ -65,7 +74,7 @@ export default class ArticleEditor extends Vue {
   @Prop() public readonly article!: ArticleModel;
   @Prop() public readonly authors!: number[];
   @Prop() public readonly tags!: TagModel;
-  @Prop() public readonly selTags!: string[];
+  @Prop() public readonly selTags!: number[];
 
   private articlesService!: ArticlesService;
 
@@ -97,7 +106,7 @@ export default class ArticleEditor extends Vue {
     return this.selTags;
   }
 
-  set selectedTags(tags: string[]) {
+  set selectedTags(tags: number[]) {
     this.$emit('selectedTags', tags);
   }
 
@@ -106,10 +115,6 @@ export default class ArticleEditor extends Vue {
       this.Article.title,
     );
     this.$forceUpdate();
-  }
-
-  private tagTextSelector(item: TagModel) {
-    return item.name;
   }
 
   @Watch('$data.inputValidated')

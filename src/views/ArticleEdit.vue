@@ -107,7 +107,7 @@ export default class ArticleEdit extends Vue {
         .getArticle(+this.$route.params.id, false)
         .then((article) => {
           this.$data.article = article;
-          this.selectedTags = this.$data.article.tags.map((p: any) => p.name);
+          this.selectedTags = this.$data.article.tags.map((p: any) => p.id);
           this.tagsService.getAllTags().then((tags) => {
             this.allTags = tags;
           });
@@ -123,18 +123,13 @@ export default class ArticleEdit extends Vue {
 
   private editArticle() {
     if (this.$data.inputValidated) {
-      const tags = this.$data.allTags
-        .filter((tag: TagModel) => {
-          return this.$data.selectedTags.includes(tag.name);
-        })
-        .map((el: TagModel) => el.id);
       this.articlesService
         .editArticle(this.$data.article.id, {
           title: this.$data.article.title,
           alias: this.$data.article.alias,
           authors: this.$data.authors,
           text: this.$data.article.text,
-          tags,
+          tags: this.$data.selectedTags,
         })
         .then((res: any) => {
           if (res.status === 200) {
