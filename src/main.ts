@@ -19,6 +19,7 @@ const ArticleEditor = () => import(/* webpackChunkName: "ComponentArticleEditor"
 const MarkdownEditor = () => import(/* webpackChunkName: "ComponentMarkdownEditor" */ '@/components/MarkdownEditor.vue');  // tslint:disable-line
 const PasswordValidator = () => import(/* webpackChunkName: "ComponentPasswordValidator" */ '@/components/PasswordValidator.vue');
 const Gallery = () => import(/* webpackChunkName: "ComponentGallery" */ '@/components/Gallery.vue');
+const UserSelector = () => import(/* webpackChunkName: "ComponentUserSelector" */ '@/components/UserSelector.vue');
 
 Vue.config.productionTip = false;
 
@@ -44,3 +45,4 @@ Vue.component('projects-list', ProjectsList);
 Vue.component('single-project', SingleProject);
 Vue.component('article-card', ArticleCard);
 Vue.component('gallery', Gallery);
+Vue.component('user-selector', UserSelector);

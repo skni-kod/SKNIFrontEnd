@@ -47,6 +47,7 @@
             <v-alert type="info" class="ma-0">Wszystkie tagi wykorzystane!</v-alert>
           </template>
         </v-select>
+        <user-selector></user-selector>
         <v-divider class="mb-3" />
         <markdown-editor v-model="Article.text" rules=true></markdown-editor>
       </v-form>
