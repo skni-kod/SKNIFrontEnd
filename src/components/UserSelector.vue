@@ -5,6 +5,8 @@
     clearable
     chips
     hide-selected
+    :hide-details="!rules"
+    :rules="rules ? [required] : []"
     :label="label"
     item-text="fullname"
     item-value="id"
@@ -32,6 +34,7 @@ import axios from '../axios';
 export default class UserSelector extends Vue {
   @Prop({ default: '' }) public readonly label!: string;
   @Prop({ required: true }) public readonly value!: number[];
+  @Prop({ default: false }) public readonly rules!: any;
 
   private created() {
     this.getAllusers();
@@ -47,6 +50,7 @@ export default class UserSelector extends Vue {
 
   private data() {
     return {
+      required: (value: number[]) => value.length || 'Pole wymagane',
       users: [],
     };
   }

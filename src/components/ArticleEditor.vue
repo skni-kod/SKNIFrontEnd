@@ -47,7 +47,7 @@
             <v-alert type="info" class="ma-0">Wszystkie tagi wykorzystane!</v-alert>
           </template>
         </v-select>
-        <user-selector v-model="artAuthors" label="Wyszukaj i wybierz autorów"></user-selector>
+        <user-selector v-model="artAuthors" rules="true" label="Wyszukaj i wybierz autorów"></user-selector>
         <markdown-editor v-model="Article.text" rules="true" label="Treść artykułu"></markdown-editor>
       </v-form>
     </v-card-text>
