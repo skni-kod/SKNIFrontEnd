@@ -21,7 +21,7 @@
       </v-list-item-content>
     </template>
     <template v-slot:no-data>
-      <v-alert type="info" class="ma-0">Wszyscy uzytkownicy zostali wybrani!</v-alert>
+      <v-alert type="info" class="ma-0">Brak wyników!</v-alert>
     </template>
   </v-autocomplete>
 </template>
