@@ -107,7 +107,7 @@ export default class ArticleEdit extends Vue {
         .getArticle(+this.$route.params.id, false)
         .then((article) => {
           this.$data.article = article;
-          this.selectedTags = this.$data.article.tags.map((p) => p.name);
+          this.selectedTags = this.$data.article.tags.map((p: any) => p.name);
           this.tagsService.getAllTags().then((tags) => {
             this.allTags = tags;
           });
