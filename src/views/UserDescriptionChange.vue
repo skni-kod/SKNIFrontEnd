@@ -5,7 +5,7 @@
         <v-card width="1200">
           <v-card-title class="white--text primary">Zmień opis profilu</v-card-title>
           <v-card-text class="py-0">
-            <markdown-editor v-model="text"></markdown-editor>
+            <markdown-editor v-model="text" label="Opis profilu"></markdown-editor>
           </v-card-text>
           <v-card-actions>
             <v-spacer />

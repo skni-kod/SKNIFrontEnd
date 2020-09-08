@@ -37,7 +37,7 @@
           auto-grow
           v-model="markdown"
           outlined
-          label="Opis profilu"
+          :label="label"
           :hide-details="!rules"
           :rules="rules ? [required] : []"
         ></v-textarea>
@@ -64,6 +64,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class MarkdownEditor extends Vue {
   @Prop() public readonly value!: string;
+  @Prop() public readonly label!: string;
   @Prop({ default: false }) public readonly rules!: any;
 
   get markdown() {

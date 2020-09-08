@@ -49,7 +49,7 @@
         </v-select>
         <user-selector></user-selector>
         <v-divider class="mb-3" />
-        <markdown-editor v-model="Article.text" rules=true></markdown-editor>
+        <markdown-editor v-model="Article.text" rules=true label="Treść artykułu"></markdown-editor>
       </v-form>
     </v-card-text>
   </v-card>
