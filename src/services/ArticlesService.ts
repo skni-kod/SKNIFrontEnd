@@ -106,6 +106,16 @@ export class ArticlesService {
         return edit;
     }
 
+    public async deleteArticle(id: number): Promise<any> {
+        const del = await axios.delete('api/articles/' + id + '/', {
+            headers: {
+                Authorization: 'Bearer ' + store.getters.token,
+            },
+        });
+
+        return del;
+    }
+
     public generateAliasForTitle(title: string) {
         if (title === undefined) {
             return '';

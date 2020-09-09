@@ -8,6 +8,7 @@
             v-for="article in articles"
             :key="article.title"
             :article="article"
+            @delete="deleteArticle"
           ></article-card>
         </v-col>
       </v-row>
@@ -69,6 +70,37 @@ export default class ArticleList extends Vue {
           return;
         }
         this.pagination.itemCount = paginationContainer.count;
+      });
+  }
+
+  private deleteArticle(id: number) {
+    this.articlesService
+      .deleteArticle(id)
+      .then((res) => {
+        if (res.status === 204) {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Artykuł został usunięty',
+            color: 'success',
+            timeout: 7500,
+          });
+          this.$router.replace('/articles/reload');
+        } else {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas usuwania artykułu!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+      .catch(() => {
+        this.$store.dispatch('setSnackbarState', {
+          state: true,
+          msg: 'Błąd poczas usuwania artykułu!',
+          color: 'error',
+          timeout: 7500,
+        });
       });
   }
 
