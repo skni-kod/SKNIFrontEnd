@@ -20,6 +20,7 @@ const MarkdownEditor = () => import(/* webpackChunkName: "ComponentMarkdownEdito
 const PasswordValidator = () => import(/* webpackChunkName: "ComponentPasswordValidator" */ '@/components/PasswordValidator.vue');
 const Gallery = () => import(/* webpackChunkName: "ComponentGallery" */ '@/components/Gallery.vue');
 const UserSelector = () => import(/* webpackChunkName: "ComponentUserSelector" */ '@/components/UserSelector.vue');
+const ConfirmationDialog = () => import(/* webpackChunkName: "ComponentConfirmationDialog" */ '@/components/ConfirmationDialog.vue');
 
 Vue.config.productionTip = false;
 
@@ -46,3 +47,4 @@ Vue.component('single-project', SingleProject);
 Vue.component('article-card', ArticleCard);
 Vue.component('gallery', Gallery);
 Vue.component('user-selector', UserSelector);
+Vue.component('confirmation-dialog', ConfirmationDialog);

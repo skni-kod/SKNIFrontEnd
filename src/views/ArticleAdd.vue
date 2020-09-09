@@ -64,21 +64,12 @@
         </v-row>
       </v-container>
     </v-speed-dial>
-
-    <v-dialog v-model="dialog" persistent max-width="400">
-      <v-card>
-        <v-card-title class="text-h4 white--text primary px-4 py-3">Potwierdzenie</v-card-title>
-        <v-divider />
-        <v-card-text
-          class="text-h6 px-4 pt-2 pb-0"
-        >Czy na pewno chcesz opuścić ekran tworzenia nowego artykułu bez zapisywania zmian?</v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="error" @click="dialog = false">Nie</v-btn>
-          <v-btn color="success" @click="returnToArticles">Tak</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <confirmation-dialog
+      v-if="dialog"
+      @yes="returnToArticles"
+      @no="dialog = false"
+      text="Czy na pewno chcesz opuścić ekran tworzenia nowego artykułu bez zapisywania zmian?"
+    ></confirmation-dialog>
   </div>
 </template>
 
@@ -124,7 +115,9 @@ export default class ArticleAdd extends Vue {
               color: 'success',
               timeout: 7500,
             });
-            this.$router.replace('/article/' + res.data.id + '-' + res.data.alias);
+            this.$router.replace(
+              '/article/' + res.data.id + '-' + res.data.alias,
+            );
           } else {
             this.$store.dispatch('setSnackbarState', {
               state: true,

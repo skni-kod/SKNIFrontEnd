@@ -1,6 +1,9 @@
 <template>
   <div>
-    <p class="text-h4 text-center font-weight-bold justify-center ma-2" style="word-break: break-word;">Edycja artykułu nr {{ this.$route.params.id }}</p>
+    <p
+      class="text-h4 text-center font-weight-bold justify-center ma-2"
+      style="word-break: break-word;"
+    >Edycja artykułu nr {{ this.$route.params.id }}</p>
     <article-editor
       :article="article"
       @articleEdited="article = $event"
@@ -61,21 +64,12 @@
         </v-row>
       </v-container>
     </v-speed-dial>
-
-    <v-dialog v-model="dialog" persistent max-width="400">
-      <v-card>
-        <v-card-title class="text-h4 white--text primary px-4 py-3">Potwierdzenie</v-card-title>
-        <v-divider />
-        <v-card-text
-          class="text-h6 px-4 pt-2 pb-0"
-        >Czy na pewno chcesz wyjść z edycji artykułu bez zapisywania zmian?</v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="error" @click="dialog = false">Nie</v-btn>
-          <v-btn color="success" @click="returnToArticle">Tak</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <confirmation-dialog
+      v-if="dialog"
+      @yes="returnToArticle"
+      @no="dialog = false"
+      text="Czy na pewno chcesz wyjść z edycji artykułu bez zapisywania zmian?"
+    ></confirmation-dialog>
   </div>
 </template>
 
@@ -100,7 +94,9 @@ export default class ArticleEdit extends Vue {
         .getArticle(+this.$route.params.id, false)
         .then((article) => {
           this.$data.article = article;
-          this.$data.selectedTags = this.$data.article.tags.map((p: any) => p.id);
+          this.$data.selectedTags = this.$data.article.tags.map(
+            (p: any) => p.id,
+          );
           this.tagsService.getAllTags().then((tags) => {
             this.$data.allTags = tags;
           });
