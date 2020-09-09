@@ -1,26 +1,31 @@
 <template>
-  <v-row align="center">
-    <v-col class="py-0">
-      <v-row align="center" justify="center" class="mx-2">
-        <v-col cols="auto" class="pa-0">
-          <article-card
-            class="my-2"
-            v-for="article in articles"
-            :key="article.title"
-            :article="article"
-            @delete="deleteArticle"
-          ></article-card>
-        </v-col>
-      </v-row>
-      <v-pagination
-        v-model="pagination.currentPage"
-        :length="pagination.pageCount"
-        @input="paginationClicked"
-        prev-icon="mdi-chevron-left"
-        next-icon="mdi-chevron-right"
-      ></v-pagination>
-    </v-col>
-  </v-row>
+  <div>
+    <v-row align="center">
+      <v-col class="py-0">
+        <v-row align="center" justify="center" class="mx-2">
+          <v-col cols="auto" class="pa-0">
+            <article-card
+              class="my-2"
+              v-for="article in articles"
+              :key="article.title"
+              :article="article"
+              @delete="deleteArticle"
+            ></article-card>
+          </v-col>
+        </v-row>
+        <v-pagination
+          v-model="pagination.currentPage"
+          :length="pagination.pageCount"
+          @input="paginationClicked"
+          prev-icon="mdi-chevron-left"
+          next-icon="mdi-chevron-right"
+        ></v-pagination>
+      </v-col>
+    </v-row>
+    <v-btn fab fixed bottom right v-if="auth" :to="'/article/add'" class="success">
+      <v-icon class="white--text">mdi-plus</v-icon>
+    </v-btn>
+  </div>
 </template>
 
 <script lang='ts'>
@@ -35,6 +40,9 @@ export default class ArticleList extends Vue {
   private articlesService!: ArticlesService;
   private pagination!: PaginationModel;
   private articles!: ArticleModel[];
+  get auth(): boolean {
+    return this.$store.getters.isAuthenticated;
+  }
 
   private beforeCreate() {
     this.articlesService = new ArticlesService();
