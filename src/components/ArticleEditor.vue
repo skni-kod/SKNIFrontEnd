@@ -78,6 +78,10 @@ export default class ArticleEditor extends Vue {
 
   private articlesService!: ArticlesService;
 
+  private created() {
+    this.articlesService = new ArticlesService();
+  }
+
   get Article() {
     return this.article;
   }
