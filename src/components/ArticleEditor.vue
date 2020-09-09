@@ -28,30 +28,20 @@
             <v-btn color="primary" @click="generateAlias()">Wygeneruj alias</v-btn>
           </v-col>
         </v-row>
-        <v-autocomplete
+        <element-selector
           v-model="selectedTags"
           :items="allTags"
-          clearable
-          chips
-          hide-selected
+          itemtext="name"
           label="Wyszukaj i wybierz tagi artykułu"
-          item-text="name"
-          item-value="id"
-          multiple
-        >
-          <template v-slot:selection="data">
-            <v-chip small close @click:close="remove(data.item.id)">{{ data.item.name }}</v-chip>
-          </template>
-          <template v-slot:item="data">
-            <v-list-item-content>
-              <v-list-item-title>{{ data.item.name }}</v-list-item-title>
-            </v-list-item-content>
-          </template>
-          <template v-slot:no-data>
-            <v-alert type="info" class="ma-0">Brak wyników!</v-alert>
-          </template>
-        </v-autocomplete>
-        <user-selector v-model="artAuthors" rules="true" label="Wyszukaj i wybierz autorów"></user-selector>
+        ></element-selector>
+        <element-selector
+          v-model="artAuthors"
+          :items="users"
+          itemtext="fullname"
+          rules="true"
+          label="Wyszukaj i wybierz autorów"
+          class="mt-4"
+        ></element-selector>
         <markdown-editor v-model="Article.text" rules="true" label="Treść artykułu"></markdown-editor>
       </v-form>
     </v-card-text>
@@ -63,6 +53,7 @@ import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { TagModel } from '@/models/TagModel';
+import axios from '../axios';
 
 @Component
 export default class ArticleEditor extends Vue {
@@ -75,6 +66,7 @@ export default class ArticleEditor extends Vue {
 
   private created() {
     this.articlesService = new ArticlesService();
+    this.getAllusers();
   }
 
   get Article() {
@@ -116,6 +108,20 @@ export default class ArticleEditor extends Vue {
     this.$forceUpdate();
   }
 
+  private getAllusers() {
+    axios.get('api/users/').then((res) => {
+      this.$data.users = res.data;
+      this.$data.users.forEach((element: any) => {
+        element.fullname =
+          element.first_name +
+          ' "' +
+          element.username +
+          '" ' +
+          element.last_name;
+      });
+    });
+  }
+
   @Watch('$data.inputValidated')
   private validationchanged() {
     this.$emit('validation', this.$data.inputValidated);
@@ -131,6 +137,7 @@ export default class ArticleEditor extends Vue {
   private data() {
     return {
       inputValidated: false,
+      users: [],
       required: (value: string) => !!value || 'Pole wymagane',
     };
   }

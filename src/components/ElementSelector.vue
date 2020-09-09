@@ -1,23 +1,23 @@
 <template>
   <v-autocomplete
-    v-model="authors"
-    :items="users"
+    v-model="selected"
+    :items="items"
     clearable
     chips
     hide-selected
     :hide-details="!rules"
     :rules="rules ? [required] : []"
     :label="label"
-    item-text="fullname"
-    item-value="id"
+    :item-text="itemtext"
+    :item-value="itemvalue"
     multiple
   >
     <template v-slot:selection="data">
-      <v-chip small close @click:close="remove(data.item.id)">{{ data.item.fullname }}</v-chip>
+      <v-chip small close @click:close="remove(data.item[itemvalue])">{{ data.item[itemtext] }}</v-chip>
     </template>
     <template v-slot:item="data">
       <v-list-item-content>
-        <v-list-item-title>{{ data.item.fullname }}</v-list-item-title>
+        <v-list-item-title>{{ data.item[itemtext] }}</v-list-item-title>
       </v-list-item-content>
     </template>
     <template v-slot:no-data>
@@ -28,23 +28,21 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
-import axios from '../axios';
 
 @Component
-export default class UserSelector extends Vue {
+export default class ElementSelector extends Vue {
   @Prop({ default: '' }) public readonly label!: string;
   @Prop({ required: true }) public readonly value!: number[];
+  @Prop({ required: true }) public readonly items!: object[];
+  @Prop({ required: true }) public readonly itemtext!: string;
+  @Prop({ default: 'id' }) public readonly itemvalue!: string;
   @Prop({ default: false }) public readonly rules!: any;
 
-  private created() {
-    this.getAllusers();
-  }
-
-  get authors() {
+  get selected() {
     return this.value;
   }
 
-  set authors(data: number[]) {
+  set selected(data: number[]) {
     this.$emit('input', data);
   }
 
@@ -55,24 +53,10 @@ export default class UserSelector extends Vue {
     };
   }
 
-  private getAllusers() {
-    axios.get('api/users/').then((res) => {
-      this.$data.users = res.data;
-      this.$data.users.forEach((element: any) => {
-        element.fullname =
-          element.first_name +
-          ' "' +
-          element.username +
-          '" ' +
-          element.last_name;
-      });
-    });
-  }
-
   private remove(item: any) {
-    const index = this.authors.indexOf(item);
+    const index = this.selected.indexOf(item);
     if (index >= 0) {
-      this.authors.splice(index, 1);
+      this.selected.splice(index, 1);
     }
   }
 }
