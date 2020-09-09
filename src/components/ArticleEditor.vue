@@ -1,10 +1,5 @@
 <template>
   <v-card outlined class="ma-2">
-    <v-card-title
-      class="text-h3 font-weight-bold justify-center"
-      style="word-break: break-word;"
-    >Edycja artykułu nr {{ this.$route.params.id }}</v-card-title>
-    <v-divider />
     <v-card-text>
       <v-form v-model="inputValidated">
         <v-layout

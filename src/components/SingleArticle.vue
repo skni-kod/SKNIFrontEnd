@@ -74,7 +74,7 @@
         right
         color="orange"
         v-if="auth"
-        :to="'/editarticle/'+ $route.params.id"
+        :to="'/article/edit/'+ $route.params.id"
       >
         <v-icon large>mdi-pen</v-icon>
       </v-btn>

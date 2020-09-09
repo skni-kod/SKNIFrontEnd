@@ -14,7 +14,7 @@
             <p class="text-left mb-0">{{ text }}</p>
           </v-card-text>
           <v-card-actions class="pa-0">
-            <v-btn fab x-small color="orange" :to="'/editarticle/' + article.id" v-if="auth">
+            <v-btn fab x-small color="orange" :to="'/article/edit/' + article.id" v-if="auth">
               <v-icon>mdi-pen</v-icon>
             </v-btn>
             <v-spacer />

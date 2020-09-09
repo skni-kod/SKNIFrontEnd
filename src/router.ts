@@ -27,7 +27,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "article-page" */ './views/Article.vue'),
     },
     {
-      path: '/editarticle/:id?',
+      path: '/article/edit/:id?',
       name: 'editArticle',
       beforeEnter: (to, from, next) => {
         if (!store.getters.isAuthenticated) {
@@ -39,6 +39,18 @@ export default new Router({
         }
       },
       component: () => import(/* webpackChunkName: "article-editor" */ './views/ArticleEdit.vue'),
+    },
+    {
+      path: '/article/add',
+      name: 'addArticle',
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.isAuthenticated) {
+          next('/403');
+        } else {
+          next();
+        }
+      },
+      component: () => import(/* webpackChunkName: "article-new" */ './views/ArticleAdd.vue'),
     },
     {
       path: '/tag/:tag/:page?',

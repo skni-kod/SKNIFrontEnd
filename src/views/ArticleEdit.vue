@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p class="text-h4 text-center font-weight-bold justify-center ma-2" style="word-break: break-word;">Edycja artykułu nr {{ this.$route.params.id }}</p>
     <article-editor
       :article="article"
       @articleEdited="article = $event"
@@ -11,7 +12,6 @@
       @selectedTags="selectedTags = $event"
       @validation="inputValidated = $event"
     ></article-editor>
-
     <v-speed-dial fixed right bottom direction="top" v-model="fab">
       <template v-slot:activator>
         <v-btn

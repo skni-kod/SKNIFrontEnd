@@ -1,5 +1,9 @@
 <template>
   <div>
+    <p
+      class="text-h4 text-center font-weight-bold justify-center ma-2"
+      style="word-break: break-word;"
+    >Nowy artykuł</p>
     <article-editor
       :article="article"
       @articleEdited="article = $event"
@@ -11,7 +15,6 @@
       @selectedTags="selectedTags = $event"
       @validation="inputValidated = $event"
     ></article-editor>
-
     <v-speed-dial fixed right bottom direction="top" v-model="fab">
       <template v-slot:activator>
         <v-btn
@@ -48,7 +51,7 @@
           </v-btn>
         </v-row>
         <v-row justify="end">
-          <v-btn color="success" class="mr-3" @click="editArticle">
+          <v-btn color="success" class="mr-3" @click="addArticle">
             <v-icon left>mdi-pencil</v-icon>
             <span>Zatwierdź zmiany</span>
           </v-btn>
@@ -86,7 +89,7 @@ import { TagsService } from '@/services/TagsService';
 import { ArticleModel } from '@/models/ArticleModel';
 
 @Component
-export default class ArticleNew extends Vue {
+export default class ArticleAdd extends Vue {
   private articlesService!: ArticlesService;
   private tagsService!: TagsService;
 
@@ -94,28 +97,34 @@ export default class ArticleNew extends Vue {
     this.articlesService = new ArticlesService();
     this.tagsService = new TagsService();
     this.$data.article = new ArticleModel();
+
+    this.tagsService.getAllTags().then((tags) => {
+      this.$data.allTags = tags;
+    });
   }
 
-  private editArticle() {
+  private addArticle() {
     if (this.$data.inputValidated) {
       this.articlesService
-        .editArticle(this.$data.article.id, {
+        .addArticle(this.$data.article.id, {
           title: this.$data.article.title,
           alias: this.$data.article.alias,
           authors: this.$data.authors,
           text: this.$data.article.text,
           tags: this.$data.selectedTags,
+          creator: this.$store.getters.user.id,
+          creation_date: new Date(),
+          publication_date: new Date(),
         })
         .then((res: any) => {
-          if (res.status === 200) {
-              console.log(res);
-            // this.$store.dispatch('setSnackbarState', {
-            //   state: true,
-            //   msg: 'Artykuł został zaktualizowany',
-            //   color: 'success',
-            //   timeout: 7500,
-            // });
-            // this.returnToArticle();
+          if (res.status === 201) {
+            this.$store.dispatch('setSnackbarState', {
+              state: true,
+              msg: 'Artykuł został dodany',
+              color: 'success',
+              timeout: 7500,
+            });
+            this.$router.replace('/article/' + res.data.id + '-' + res.data.alias);
           } else {
             this.$store.dispatch('setSnackbarState', {
               state: true,
