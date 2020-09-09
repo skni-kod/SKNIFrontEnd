@@ -50,7 +50,7 @@ export default new Router({
           next();
         }
       },
-      component: () => import(/* webpackChunkName: "article-new" */ './views/ArticleAdd.vue'),
+      component: () => import(/* webpackChunkName: "article-edit" */ './views/ArticleAdd.vue'),
     },
     {
       path: '/tag/:tag/:page?',
