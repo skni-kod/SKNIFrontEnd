@@ -18,7 +18,7 @@
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-speed-dial>
-    <confirmation-dialog v-if="dialog" @yes="deleteArticle" @no="dialog = false" :text="dialogText"></confirmation-dialog>
+    <confirmation-dialog v-if="dialog" @yes="deleteArticle($route.params.id)" @no="dialog = false" :text="dialogText"></confirmation-dialog>
   </div>
 </template>
 
