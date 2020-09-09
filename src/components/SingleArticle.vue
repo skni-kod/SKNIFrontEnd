@@ -17,12 +17,7 @@
           <div v-if="article.tags.length > 0">
             <v-icon left color="primary">mdi-note</v-icon>
             <v-hover v-slot:default="{ hover }" v-for="tag in article.tags" :key="tag.name">
-              <v-chip
-                small
-                label
-                class="mx-1"
-                :color="hover ? 'primary' : 'grey'"
-              >
+              <v-chip small label class="mx-1" :color="hover ? 'primary' : 'grey'">
                 <a
                   :href="'/#/tag/'+ tag.name"
                   class="white--text text-decoration-none"
@@ -67,17 +62,6 @@
           :options="markdownOptions"
         />
       </v-card-text>
-      <v-btn
-        fab
-        fixed
-        bottom
-        right
-        color="orange"
-        v-if="auth"
-        :to="'/article/edit/'+ $route.params.id"
-      >
-        <v-icon large>mdi-pen</v-icon>
-      </v-btn>
     </v-card>
     <gallery breakpoints="xs6" :imgs="article.gallery" />
   </div>
@@ -92,6 +76,7 @@ import { CommentModel } from '@/models/CommentModel';
 export default class SingleArticle extends Vue {
   @Prop() public article!: ArticleModel;
   @Prop() public comments!: CommentModel[];
+
   public data() {
     return {
       galleryIndex: null,
@@ -120,10 +105,6 @@ export default class SingleArticle extends Vue {
       imageUrls.push(galleryItem.image);
     }
     return imageUrls;
-  }
-
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
   }
 }
 </script>
