@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import Component from 'vue-class-component';
+import { Component } from 'vue-property-decorator';
 import NavDrawer from './NavbarDrawer.vue';
 import store from '@/store';
 import Vue from 'vue';
