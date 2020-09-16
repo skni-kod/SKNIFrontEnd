@@ -7,8 +7,14 @@
             <p class="text-h2 text-left mb-0">{{ project.title }}</p>
           </v-card-title>
           <v-card-subtitle class="text-left pb-0">
+            <v-chip label>
+              <v-avatar left>
+                <v-icon>mdi-account-circle</v-icon>
+              </v-avatar>
+              <span>{{ project.creator.user.username }}</span>
+            </v-chip>
             <p class="mb-0">
-              Data wykonania:
+              Data publikacji:
               <b>{{ project.publication_date | moment("YYYY-MM-DD HH:mm:ss") }}</b>
             </p>
           </v-card-subtitle>
