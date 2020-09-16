@@ -24,17 +24,28 @@
             <v-spacer />
           </v-card-actions>
           <v-card-text>
-            <markdown-it-vue class="md-body text-left" :content="project.text" :options="markdownOptions" />
+            <markdown-it-vue
+              class="md-body text-left"
+              :content="project.text"
+              :options="markdownOptions"
+            />
           </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
     <v-layout>
-      <v-flex xs12 md10 offset-md1>
-        <p class="text-center">
+      <v-flex xs12 md10 offset-md1 class="text-center">
+        <p>
           Made with
-          <v-icon color="red">mdi-heart</v-icon> by
-          <b>{{ project.creator.user.first_name }} {{ project.creator.user.last_name }}</b> at
+          <v-icon color="red">mdi-heart</v-icon>by
+        </p>
+        <div v-for="author in project.authors" :key="author.user.username">
+          <p>
+            <b>{{ author.user.first_name }} {{ author.user.last_name }}</b>
+          </p>
+        </div>
+        <p>
+          at
           <b>{{ project.section.name }}</b>
         </p>
       </v-flex>
