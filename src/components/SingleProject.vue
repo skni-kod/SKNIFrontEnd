@@ -37,6 +37,7 @@
             />
           </v-card-text>
         </v-card>
+        <gallery breakpoints="xs6" :imgs="project.gallery" />
       </v-flex>
     </v-layout>
     <v-layout>
