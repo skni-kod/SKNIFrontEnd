@@ -10,7 +10,7 @@
     :label="label"
     :item-text="itemtext"
     :item-value="itemvalue"
-    multiple
+    :multiple="multiple"
   >
     <template v-slot:selection="data">
       <v-chip small close @click:close="remove(data.item[itemvalue])">{{ data.item[itemtext] }}</v-chip>
@@ -37,6 +37,7 @@ export default class ElementSelector extends Vue {
   @Prop({ required: true }) public readonly itemtext!: string;
   @Prop({ default: 'id' }) public readonly itemvalue!: string;
   @Prop({ default: false }) public readonly rules!: any;
+  @Prop({ default: true }) public readonly multiple!: boolean;
 
   get selected() {
     return this.value;
