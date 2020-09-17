@@ -9,5 +9,6 @@ export class ProjectModel {
     public publication_date!: Date;
     public repository_link!: string;
     public creator!: UserModel;
+    public authors!: UserModel[];
     public section!: SectionModel;
 }

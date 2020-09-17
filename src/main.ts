@@ -16,6 +16,7 @@ const ProjectsList = () => import(/* webpackChunkName: "ComponentProjectsList" *
 const SingleProject = () => import(/* webpackChunkName: "ComponentSingleProject" */ '@/components/SingleProject.vue');
 const ArticleCard = () => import(/* webpackChunkName: "ComponentArticleCard" */ '@/components/ArticleCard.vue');
 const ArticleEditor = () => import(/* webpackChunkName: "ComponentArticleEditor" */ '@/components/ArticleEditor.vue');
+const ProjectEditor = () => import(/* webpackChunkName: "ComponentProjectEditor" */ '@/components/ProjectEditor.vue');
 const MarkdownEditor = () => import(/* webpackChunkName: "ComponentMarkdownEditor" */ '@/components/MarkdownEditor.vue');  // tslint:disable-line
 const PasswordValidator = () => import(/* webpackChunkName: "ComponentPasswordValidator" */ '@/components/PasswordValidator.vue');
 const Gallery = () => import(/* webpackChunkName: "ComponentGallery" */ '@/components/Gallery.vue');
@@ -37,6 +38,7 @@ new Vue({
 Vue.component('markdown-it-vue', MarkdownItVue);
 Vue.component('password-validator', PasswordValidator);
 Vue.component('article-editor', ArticleEditor);
+Vue.component('project-editor', ProjectEditor);
 Vue.component('markdown-editor', MarkdownEditor);
 Vue.component('comments-list', CommentsList);
 Vue.component('single-article', SingleArticle);

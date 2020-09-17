@@ -136,6 +136,20 @@ export default new Router({
       component: () => import(/* webpackChunkName: "project-page" */ './views/Project.vue'),
     },
     {
+      path: '/project/edit/:id?',
+      name: 'editProject',
+      // beforeEnter: (to, from, next) => {
+      //   if (!store.getters.isAuthenticated) {
+      //     next('/403');
+      //   } else if (!Number(to.params.id)) {
+      //     next('/404');
+      //   } else {
+      //     next();
+      //   }
+      // },
+      component: () => import(/* webpackChunkName: "project-editor" */ './views/ProjectEdit.vue'),
+    },
+    {
       path: '/403',
       name: 'error403',
       component: () => import(/* webpackChunkName: "eror403" */ './views/403.vue'),
