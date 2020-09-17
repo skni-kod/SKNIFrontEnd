@@ -144,9 +144,9 @@ export default class ProjectEdit extends Vue {
   }
 
   private returnToProject() {
-    // this.$router.replace(
-    //   '/article/' + this.$data.article.id + '-' + this.$data.article.alias,
-    // );
+    this.$router.replace(
+      '/project/' + this.$data.project.id,
+    );
   }
 
   private data() {
