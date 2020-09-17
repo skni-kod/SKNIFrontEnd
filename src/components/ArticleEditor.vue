@@ -127,13 +127,6 @@ export default class ArticleEditor extends Vue {
     this.$emit('validation', this.$data.inputValidated);
   }
 
-  private remove(item: any) {
-    const index = this.selectedTags.indexOf(item);
-    if (index >= 0) {
-      this.selectedTags.splice(index, 1);
-    }
-  }
-
   private data() {
     return {
       inputValidated: false,
