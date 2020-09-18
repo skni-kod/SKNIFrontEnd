@@ -8,7 +8,7 @@
         <v-expansion-panel-content>
           <ul>
             <li class="text-body-1">
-              Poniższy edytor obsługuje język znaczników Markdown. Jego podstawy możesz sprawdzić
+              Poniższy edytor tekstu obsługuje język znaczników Markdown. Jego podstawy możesz sprawdzić
               <b>
                 <a
                   href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
@@ -17,14 +17,14 @@
                 >tutaj</a>
               </b>.
             </li>
-            <li>Edytor obsługuje składnię html, ale nie jest ona aktywna w widoku listy artykułów.</li>
+            <li>Edytor obsługuje składnię html, ale nie jest ona aktywna w widoku listy artykułów / projektów.</li>
             <li>
               Do
-              <b>każdego</b> listingu należy dodać nazwę języka jaki został w nim użyty np. ```c++ - W przeciwnym razie cały markdown nie zostanie wyświetlony.
+              <b>każdego</b> listingu należy dodać nazwę języka jaki został w nim użyty np. ```c++ - W przeciwnym razie cały markdown nie zostanie wyświetlony i będzie error na konsoli.
             </li>
             <li>
-              Podczas edycji artykułu, należy do niego dodać znacznik ---readmore---, aby podgląd artykułu na liście artykułów nie był zbyt długi.
-              Można stosować składnię języka markdown przed znacznikiem ---readmore---. W podgladzie artykułów skladnia ta zostanie usunięta.
+              Podczas edycji artykułu oraz projektu, należy do tekstu dodać znacznik ---readmore---, aby podgląd artykułu na liście artykułów nie był zbyt długi.
+              Można stosować składnię języka markdown przed znacznikiem ---readmore---. W Na liście artykułów / projektów skladnia ta zostanie usunięta.
             </li>
           </ul>
         </v-expansion-panel-content>
