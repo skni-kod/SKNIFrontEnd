@@ -44,7 +44,7 @@
       <v-flex xs12 md10 offset-md1 class="text-center">
         <p>
           Made with
-          <v-icon color="red">mdi-heart</v-icon>by
+          <v-icon color="red">mdi-heart</v-icon> by
         </p>
         <div v-for="author in project.authors" :key="author.user.username">
           <p>
