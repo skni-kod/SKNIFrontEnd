@@ -35,6 +35,7 @@
           label="Wybierz sekcję"
           :multiple=false
         ></element-selector>
+        <string-list-input v-model="links"></string-list-input>
         <markdown-editor v-model="Project.text" rules="true" label="Treść opisu projektu"></markdown-editor>
       </v-form>
     </v-card-text>
@@ -105,6 +106,7 @@ export default class ArticleEditor extends Vue {
     return {
       inputValidated: false,
       users: [],
+      links: [],
       required: (value: string) => !!value || 'Pole wymagane',
     };
   }
