@@ -1,5 +1,5 @@
 export class SectionModel {
-    public url!: string;
+    public id!: number;
     public name!: string;
     public description!: string;
     public isVisible!: boolean;
