@@ -109,49 +109,48 @@ export default class ProjectEdit extends Vue {
   }
 
   private editProject() {
-    // if (this.$data.inputValidated) {
-    //   this.articlesService
-    //     .editArticle(this.$data.article.id, {
-    //       title: this.$data.article.title,
-    //       alias: this.$data.article.alias,
-    //       authors: this.$data.authors,
-    //       text: this.$data.article.text,
-    //       tags: this.$data.selectedTags,
-    //     })
-    //     .then((res: any) => {
-    //       if (res.status === 200) {
-    //         this.$store.dispatch('setSnackbarState', {
-    //           state: true,
-    //           msg: 'Artykuł został zaktualizowany',
-    //           color: 'success',
-    //           timeout: 7500,
-    //         });
-    //         this.returnToArticle();
-    //       } else {
-    //         this.$store.dispatch('setSnackbarState', {
-    //           state: true,
-    //           msg: 'Błąd poczas edycji artykułu!',
-    //           color: 'error',
-    //           timeout: 7500,
-    //         });
-    //       }
-    //     })
-    //     .catch(() => {
-    //       this.$store.dispatch('setSnackbarState', {
-    //         state: true,
-    //         msg: 'Błąd poczas edycji artykułu!',
-    //         color: 'error',
-    //         timeout: 7500,
-    //       });
-    //     });
-    // } else {
-    //   this.$store.dispatch('setSnackbarState', {
-    //     state: true,
-    //     msg: 'Formularz nie zostal poprawnie wypełniony!',
-    //     color: 'warning',
-    //     timeout: 7500,
-    //   });
-    // }
+    if (this.$data.inputValidated) {
+      this.projectsService
+        .editProject(this.$data.project.id, {
+          title: this.$data.project.title,
+          authors: this.$data.authors,
+          section: this.$data.section,
+          text: this.$data.project.text,
+        })
+        .then((res: any) => {
+          if (res.status === 200) {
+            this.$store.dispatch('setSnackbarState', {
+              state: true,
+              msg: 'Projekt został zaktualizowany',
+              color: 'success',
+              timeout: 7500,
+            });
+            this.returnToProject();
+          } else {
+            this.$store.dispatch('setSnackbarState', {
+              state: true,
+              msg: 'Błąd poczas edycji projektu!',
+              color: 'error',
+              timeout: 7500,
+            });
+          }
+        })
+        .catch(() => {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas edycji projektu!',
+            color: 'error',
+            timeout: 7500,
+          });
+        });
+    } else {
+      this.$store.dispatch('setSnackbarState', {
+        state: true,
+        msg: 'Formularz nie został poprawnie wypełniony!',
+        color: 'warning',
+        timeout: 7500,
+      });
+    }
   }
 
   private returnToProject() {
