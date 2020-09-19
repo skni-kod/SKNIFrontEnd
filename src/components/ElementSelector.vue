@@ -13,7 +13,7 @@
     :multiple="multiple"
   >
     <template v-slot:selection="data">
-      <v-chip small close @click:close="remove(data.item[itemvalue])">{{ data.item[itemtext] }}</v-chip>
+      <v-chip small close @click:close="remove(data.item)">{{ data.item[itemtext] }}</v-chip>
     </template>
     <template v-slot:item="data">
       <v-list-item-content>
@@ -32,7 +32,7 @@ import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 @Component
 export default class ElementSelector extends Vue {
   @Prop({ default: '' }) public readonly label!: string;
-  @Prop({ required: true }) public readonly value!: number[];
+  @Prop({ required: true }) public readonly value!: any;
   @Prop({ required: true }) public readonly items!: object[];
   @Prop({ required: true }) public readonly itemtext!: string;
   @Prop({ default: 'id' }) public readonly itemvalue!: string;
@@ -43,21 +43,31 @@ export default class ElementSelector extends Vue {
     return this.value;
   }
 
-  set selected(data: number[]) {
+  set selected(data: any) {
     this.$emit('input', data);
   }
 
   private data() {
     return {
-      required: (value: number[]) => value.length > 0 || 'Pole wymagane',
+      required: (value: any) => {
+        if (this.multiple) {
+          return value.length > 0 || 'Pole wymagane';
+        } else {
+          return value ? true : 'Pole wymagane';
+        }
+      },
       users: [],
     };
   }
 
   private remove(item: any) {
-    const index = this.selected.indexOf(item);
-    if (index >= 0) {
-      this.selected.splice(index, 1);
+    if (this.multiple) {
+      const index = this.selected.indexOf(item[this.itemvalue]);
+      if (index >= 0) {
+        this.selected.splice(index, 1);
+      }
+    } else {
+      this.selected = undefined;
     }
   }
 }
