@@ -9,6 +9,9 @@
       @articleEdited="project = $event"
       :authors="authors"
       @authorsEdited="authors = $event"
+      :section="section"
+      @sectionUpdated="section = $event"
+      :allSections="allSections"
       @validation="inputValidated = $event"
     ></project-editor>
     <v-speed-dial fixed right bottom direction="top" v-model="fab">
@@ -73,13 +76,17 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ProjectsService } from '@/services/ProjectsService';
 import { ProjectModel } from '@/models/ProjectModel';
+import { SectionsService } from '@/services/SectionsService';
+import { SectionModel } from '@/models/SectionModel';
 
 @Component
 export default class ProjectEdit extends Vue {
   private projectsService!: ProjectsService;
+  private sectionsService!: SectionsService;
 
   private created() {
     this.projectsService = new ProjectsService();
+    this.sectionsService = new SectionsService();
     this.$data.article = new ProjectModel();
 
     if (this.$route.params.id !== undefined) {
@@ -90,10 +97,14 @@ export default class ProjectEdit extends Vue {
           project.authors.forEach((element: any) => {
             this.$data.authors.push(element.user.id);
           });
+          this.$data.section = project.section.id;
         })
         .catch((err) => {
           this.$router.replace('/404');
         });
+      this.sectionsService.getAllSections().then((res) => {
+        this.$data.allSections = res;
+      });
     }
   }
 
@@ -144,9 +155,7 @@ export default class ProjectEdit extends Vue {
   }
 
   private returnToProject() {
-    this.$router.replace(
-      '/project/' + this.$data.project.id,
-    );
+    this.$router.replace('/project/' + this.$data.project.id);
   }
 
   private data() {
@@ -154,6 +163,8 @@ export default class ProjectEdit extends Vue {
       inputValidated: false,
       project: { text: '' },
       authors: [],
+      section: undefined,
+      allSections: [],
       dialog: false,
       fab: false,
     };

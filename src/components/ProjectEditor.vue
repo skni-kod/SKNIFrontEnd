@@ -28,6 +28,15 @@
           label="Wyszukaj i wybierz autorów"
           class="mt-4"
         ></element-selector>
+        <element-selector
+          v-model="Section"
+          :items="allSections"
+          itemtext="name"
+          rules="true"
+          label="Wybierz sekcję"
+          :multiple=false
+          class="mt-4"
+        ></element-selector>
         <markdown-editor v-model="Project.text" rules="true" label="Treść opisu projektu"></markdown-editor>
       </v-form>
     </v-card-text>
@@ -37,12 +46,15 @@
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { ProjectModel } from '@/models/ProjectModel';
+import { SectionModel } from '@/models/SectionModel';
 import axios from '../axios';
 
 @Component
 export default class ArticleEditor extends Vue {
-  @Prop() public readonly project!: ProjectModel;
-  @Prop() public readonly authors!: number[];
+  @Prop({ required: true }) public readonly project!: ProjectModel;
+  @Prop({ required: true }) public readonly authors!: number[];
+  @Prop({ required: true }) public readonly section!: number;
+  @Prop({ required: true }) public readonly allSections!: SectionModel[];
 
   private created() {
     this.getAllusers();
@@ -62,6 +74,14 @@ export default class ArticleEditor extends Vue {
 
   set projAuthors(data: number[]) {
     this.$emit('authorsEdited', data);
+  }
+
+  get Section() {
+    return this.section;
+  }
+
+  set Section(val: number) {
+    this.$emit('sectionUpdated', val);
   }
 
   private getAllusers() {
