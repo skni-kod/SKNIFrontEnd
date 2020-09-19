@@ -1,6 +1,7 @@
 import { ProjectModel } from '@/models/ProjectModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
 import axios from '../axios';
+import store from '../store';
 
 export class ProjectsService {
     private readMoreGuard = '---readmore---';
@@ -39,6 +40,16 @@ export class ProjectsService {
             },
         })).data as PaginationContainer<ProjectModel>;
         return data;
+    }
+
+    public async editProject(id: number, data: object): Promise<any> {
+        const edit = await axios.patch('api/project/' + id + '/', data, {
+            headers: {
+                Authorization: 'Bearer ' + store.getters.token,
+            },
+        });
+
+        return edit;
     }
 
 }
