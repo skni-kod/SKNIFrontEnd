@@ -149,7 +149,7 @@ export default class ArticleEdit extends Vue {
     } else {
       this.$store.dispatch('setSnackbarState', {
         state: true,
-        msg: 'Formularz nie zostal poprawnie wypełniony!',
+        msg: 'Formularz nie został poprawnie wypełniony!',
         color: 'warning',
         timeout: 7500,
       });
