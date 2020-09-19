@@ -26,7 +26,6 @@
           itemtext="fullname"
           rules="true"
           label="Wyszukaj i wybierz autorów"
-          class="mt-4"
         ></element-selector>
         <element-selector
           v-model="Section"
@@ -35,7 +34,6 @@
           rules="true"
           label="Wybierz sekcję"
           :multiple=false
-          class="mt-4"
         ></element-selector>
         <markdown-editor v-model="Project.text" rules="true" label="Treść opisu projektu"></markdown-editor>
       </v-form>
