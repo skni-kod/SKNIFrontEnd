@@ -21,7 +21,7 @@ const PasswordValidator = () => import(/* webpackChunkName: "ComponentPasswordVa
 const Gallery = () => import(/* webpackChunkName: "ComponentGallery" */ '@/components/Gallery.vue');
 const ElementSelector = () => import(/* webpackChunkName: "ComponentElementSelector" */ '@/components/ElementSelector.vue');
 const ConfirmationDialog = () => import(/* webpackChunkName: "ComponentConfirmationDialog" */ '@/components/ConfirmationDialog.vue');
-const StringListInput = () => import(/* webpackChunkName: "ComponentStringListInput" */ '@/components/StringListInput.vue');
+const LinkListInput = () => import(/* webpackChunkName: "ComponentLinkListInput" */ '@/components/LinkListInput.vue');
 
 Vue.config.productionTip = false;
 
@@ -49,4 +49,4 @@ Vue.component('article-card', ArticleCard);
 Vue.component('gallery', Gallery);
 Vue.component('element-selector', ElementSelector);
 Vue.component('confirmation-dialog', ConfirmationDialog);
-Vue.component('string-list-input', StringListInput);
+Vue.component('link-list-input', LinkListInput);

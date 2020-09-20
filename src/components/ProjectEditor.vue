@@ -35,7 +35,7 @@
           label="Wybierz sekcję"
           :multiple=false
         ></element-selector>
-        <string-list-input v-model="links"></string-list-input>
+        <link-list-input v-model="links"></link-list-input>
         <markdown-editor v-model="Project.text" rules="true" label="Treść opisu projektu"></markdown-editor>
       </v-form>
     </v-card-text>
