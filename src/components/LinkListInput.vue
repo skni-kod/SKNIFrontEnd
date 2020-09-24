@@ -1,8 +1,8 @@
 <template>
   <v-card>
-    <v-card-title
-      class="primary text-body-1 white--text justify-center pa-1"
-    >Dodaj linki do projektu</v-card-title>
+    <v-card-title class="primary text-body-1 white--text justify-center pa-1"
+      >Dodaj linki do projektu</v-card-title
+    >
     <v-divider />
     <v-card-text v-if="list.length > 0" class="pt-2 pb-0">
       <div v-for="(item, i) in list" :key="i">
@@ -13,11 +13,11 @@
               clearable
               :rules="[required]"
               :label="'Link ' + (i + 1)"
-              v-model="list[i].text"
+              v-model="item.text"
             ></v-text-field>
           </v-col>
           <v-col cols="auto" class="py-0 px-1">
-            <v-btn color="error" @click="list.splice(i, 1);">
+            <v-btn color="error" @click="list.splice(i, 1)">
               <v-icon left>mdi-delete</v-icon>
               <span>Usuń</span>
             </v-btn>
@@ -28,7 +28,12 @@
             <p class="px-1 my-auto">Typ linku</p>
           </v-col>
           <v-col class="py-0">
-            <v-select v-model="list[i].type" :items="types" item-text="text" item-value="id">
+            <v-select
+              v-model="item.type"
+              :items="types"
+              item-text="text"
+              item-value="id"
+            >
               <template v-slot:item="data">
                 <v-list-item-icon>
                   <v-icon>{{ data.item.icon }}</v-icon>
@@ -45,7 +50,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer />
-      <v-btn block color="primary" @click="list.push('')">
+      <v-btn block color="primary" @click="list.push({ text: '', type: undefined })">
         <v-icon left>mdi-link-variant-plus</v-icon>
         <span>Dodaj link</span>
       </v-btn>
@@ -64,7 +69,7 @@ export default class LinkListInput extends Vue {
     return this.value;
   }
 
-  set list(data: any) {
+  set list(data: object[]) {
     this.$emit('input', data);
   }
 
