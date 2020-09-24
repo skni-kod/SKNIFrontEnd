@@ -33,7 +33,7 @@
               v-model="item.type"
               :items="types"
               item-text="text"
-              item-value="id"
+              item-value="text"
               :rules="[required]"
             >
               <template v-slot:item="data">
@@ -87,32 +87,26 @@ export default class LinkListInput extends Vue {
     return {
       types: [
         {
-          id: 1,
           text: 'Github',
           icon: 'mdi-github',
         },
         {
-          id: 2,
           text: 'Gitlab',
           icon: 'mdi-gitlab',
         },
         {
-          id: 3,
           text: 'Bitbucket',
           icon: 'mdi-bitbucket',
         },
         {
-          id: 4,
           text: 'Blog',
           icon: 'mdi-post',
         },
         {
-          id: 5,
           text: 'Portfolio',
           icon: 'mdi-folder-multiple',
         },
         {
-          id: 6,
           text: 'Inne',
           icon: 'mdi-link',
         },
