@@ -35,7 +35,7 @@
           label="Wybierz sekcję"
           :multiple=false
         ></element-selector>
-        <link-list-input v-model="links"></link-list-input>
+        <link-list-input v-model="Links"></link-list-input>
         <markdown-editor v-model="Project.text" rules="true" label="Treść opisu projektu"></markdown-editor>
       </v-form>
     </v-card-text>
@@ -53,6 +53,7 @@ export default class ArticleEditor extends Vue {
   @Prop({ required: true }) public readonly project!: ProjectModel;
   @Prop({ required: true }) public readonly authors!: number[];
   @Prop({ required: true }) public readonly section!: number;
+  @Prop({ required: true }) public readonly links!: object[];
   @Prop({ required: true }) public readonly allSections!: SectionModel[];
 
   private created() {
@@ -83,6 +84,14 @@ export default class ArticleEditor extends Vue {
     this.$emit('sectionUpdated', val);
   }
 
+  get Links() {
+    return this.links;
+  }
+
+  set Links(links: object[]) {
+    this.$emit('linksEdited', links);
+  }
+
   private getAllusers() {
     axios.get('api/users/').then((res) => {
       this.$data.users = res.data;
@@ -106,7 +115,6 @@ export default class ArticleEditor extends Vue {
     return {
       inputValidated: false,
       users: [],
-      links: [],
       required: (value: string) => !!value || 'Pole wymagane',
     };
   }

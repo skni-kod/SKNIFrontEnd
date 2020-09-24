@@ -11,6 +11,8 @@
       @authorsEdited="authors = $event"
       :section="section"
       @sectionUpdated="section = $event"
+      :links="links"
+      @linksEdited="links = $event"
       :allSections="allSections"
       @validation="inputValidated = $event"
     ></project-editor>
@@ -163,6 +165,7 @@ export default class ProjectEdit extends Vue {
       project: { text: '' },
       authors: [],
       section: undefined,
+      links: [],
       allSections: [],
       dialog: false,
       fab: false,
