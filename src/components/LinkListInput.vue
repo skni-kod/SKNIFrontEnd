@@ -11,9 +11,9 @@
           <v-col class="py-0">
             <v-text-field
               clearable
+              v-model="item.text"
               :rules="[required]"
               :label="'Link ' + (i + 1)"
-              v-model="item.text"
             ></v-text-field>
           </v-col>
           <v-col cols="auto" class="py-0 px-1">
@@ -29,10 +29,12 @@
           </v-col>
           <v-col class="py-0">
             <v-select
+              dense
               v-model="item.type"
               :items="types"
               item-text="text"
               item-value="id"
+              :rules="[required]"
             >
               <template v-slot:item="data">
                 <v-list-item-icon>
