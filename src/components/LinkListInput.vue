@@ -17,7 +17,7 @@
             ></v-text-field>
           </v-col>
           <v-col cols="auto" class="py-0 px-1">
-            <v-btn color="error" @click="list.splice(i, 1)">
+            <v-btn color="error" @click="removeListElement(i)">
               <v-icon left>mdi-delete</v-icon>
               <span>Usuń</span>
             </v-btn>
@@ -50,7 +50,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer />
-      <v-btn block color="primary" @click="list.push({ text: '', type: undefined })">
+      <v-btn block color="primary" @click="addListElement">
         <v-icon left>mdi-link-variant-plus</v-icon>
         <span>Dodaj link</span>
       </v-btn>
@@ -71,6 +71,14 @@ export default class LinkListInput extends Vue {
 
   set list(data: object[]) {
     this.$emit('input', data);
+  }
+
+  private addListElement() {
+    this.list.push({});
+  }
+
+  private removeListElement(i: number) {
+    this.list.splice(i, 1);
   }
 
   private data() {
