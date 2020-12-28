@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-layout>
-      <v-flex xs12 sm10 md8 lg6 offset-sm1 offset-md2 offset-lg3>
+    <v-row justify="center">
+      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
         <v-card
           v-for="project in projects"
           :key="project.id"
@@ -49,8 +49,8 @@
             >
           </v-card-actions>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-pagination
       v-model="pagination.currentPage"
       :length="pagination.pageCount"
