@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row align="center">
+    <v-row class="mt-3 mb-2" align="center">
       <v-col class="py-0">
         <v-row align="center" justify="center" class="mx-2">
           <v-col cols="auto" class="pa-0">
@@ -15,6 +15,7 @@
         </v-row>
         <v-pagination
           v-model="pagination.currentPage"
+          class="mt-2"
           :length="pagination.pageCount"
           @input="paginationClicked"
           prev-icon="mdi-chevron-left"
