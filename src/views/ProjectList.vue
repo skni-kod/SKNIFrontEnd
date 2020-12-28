@@ -40,13 +40,39 @@
             </v-row>
           </v-card-text>
           <v-card-actions>
-            <v-btn
-              depressed
-              block
-              color="warning"
-              :to="'/project/' + project.id"
+            <v-spacer></v-spacer>
+            <v-btn depressed color="warning" :to="'/project/' + project.id"
               >Zobacz więcej</v-btn
             >
+            <v-speed-dial
+              direction="top"
+              v-if="auth"
+              v-model="fab"
+              class="ml-2"
+            >
+              <template v-slot:activator>
+                <v-btn
+                  x-small
+                  fab
+                  v-model="fab"
+                  class="text-body-1 font-weight-bold"
+                  color="primary"
+                >
+                  <v-icon>mdi-cog</v-icon>
+                </v-btn>
+              </template>
+              <v-btn
+                fab
+                x-small
+                color="orange"
+                :to="'/project/edit/' + project.id"
+              >
+                <v-icon>mdi-pen</v-icon>
+              </v-btn>
+              <v-btn fab x-small color="error" @click="dialog = true">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </v-speed-dial>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -58,6 +84,12 @@
       prev-icon="mdi-chevron-left"
       next-icon="mdi-chevron-right"
     ></v-pagination>
+    <confirmation-dialog
+      v-if="dialog"
+      @yes="deleteArticle"
+      @no="dialog = false"
+      :text="dialogText"
+    ></confirmation-dialog>
   </div>
 </template>
 
@@ -73,6 +105,13 @@ export default class ProjectList extends Vue {
   private projectsService!: ProjectsService;
   private pagination!: PaginationModel;
   private projects!: ProjectModel[];
+  get auth(): boolean {
+    return this.$store.getters.isAuthenticated;
+  }
+
+  get dialogText() {
+    return 'Czy na pewno chcesz usunąć projekt?';
+  }
 
   private beforeCreate() {
     this.projectsService = new ProjectsService();
@@ -114,6 +153,8 @@ export default class ProjectList extends Vue {
   private data() {
     return {
       projects: this.projects,
+      fab: true,
+      dialog: false,
       markdownOptions: {
         githubToc: {
           anchorLink: false,
