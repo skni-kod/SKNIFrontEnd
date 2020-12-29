@@ -28,7 +28,7 @@
               <v-icon left>mdi-email-edit</v-icon>
               <span>Zmień e-mail</span>
             </v-btn>
-            <v-btn color="error" class="mb-10 mt-10" @click="logout">
+            <v-btn color="error" class="my-10" @click="logout">
               <v-icon left>mdi-logout</v-icon>
               <span>wyloguj</span>
             </v-btn>
@@ -40,7 +40,7 @@
           <v-card-title class="white--text primary">Opis profilu</v-card-title>
           <v-card-text class="py-1">
             <markdown-it-vue
-              class="md-body text-left"
+              class="md-body text-left pa-3"
               :content="user.profile.description || '## <center>Brak opisu. Napisz coś o sobie :)</center>'"
               :options="markdownOptions"
             />
