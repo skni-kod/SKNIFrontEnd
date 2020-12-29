@@ -5,7 +5,7 @@
         <v-card
           v-for="project in projects"
           :key="project.id"
-          class="mx-1 my-2 elevation-3"
+          class="mx-1 my-8 elevation-3"
         >
           <v-card-title class="grey lighten-4">
             <h3 class="headline">{{ project.title }}</h3>
@@ -83,6 +83,7 @@
       @input="paginationClicked"
       prev-icon="mdi-chevron-left"
       next-icon="mdi-chevron-right"
+      class="mb-3"
     ></v-pagination>
     <confirmation-dialog
       v-if="dialog"
