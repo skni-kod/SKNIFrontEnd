@@ -15,7 +15,7 @@
         </v-row>
         <v-pagination
           v-model="pagination.currentPage"
-          class="mt-2"
+          class="mt-8 mb-3"
           :length="pagination.pageCount"
           @input="paginationClicked"
           prev-icon="mdi-chevron-left"

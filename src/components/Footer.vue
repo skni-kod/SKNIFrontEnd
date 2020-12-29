@@ -8,7 +8,7 @@
           &nbsp; &copy;{{ new Date().getFullYear() }}
         </p>
       </v-layout>
-      <v-layout justify-center class='my-2'>
+      <v-layout justify-center>
         <v-btn text small color="primary" class="font-weight-bold">strona główna</v-btn>
         <v-btn text small color="primary" class="font-weight-bold">o nas</v-btn>
         <v-btn text small color="primary" class="font-weight-bold">kontakt</v-btn>
