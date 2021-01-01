@@ -60,7 +60,7 @@ export default new Router({
     {
       path: '/sections',
       name: 'sections',
-      component: () => import(/* webpackChunkName: "sections" */ './views/Sections.vue'),
+      component: () => import(/* webpackChunkName: "sections" */ './views/SectionList.vue'),
     },
     {
       path: '/hardware/:page?',

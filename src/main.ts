@@ -9,7 +9,6 @@ const MarkdownItVue = () => import(/* webpackChunkName: "PluginMarkdown" */ 'mar
 import 'markdown-it-vue/dist/markdown-it-vue.css';
 import VueMoment from 'vue-moment';
 const CommentsList = () => import(/* webpackChunkName: "ComponentCommentsList" */ '@/components/CommentsList.vue');
-const SectionsList = () => import(/* webpackChunkName: "ComponentSectionsList" */ '@/components/SectionsList.vue');
 const HardwaresList = () => import(/* webpackChunkName: "ComponentHardwaresList" */ '@/components/HardwaresList.vue');
 const ArticleEditor = () => import(/* webpackChunkName: "ComponentArticleEditor" */ '@/components/ArticleEditor.vue');
 const ProjectEditor = () => import(/* webpackChunkName: "ComponentProjectEditor" */ '@/components/ProjectEditor.vue');
@@ -38,7 +37,6 @@ Vue.component('article-editor', ArticleEditor);
 Vue.component('project-editor', ProjectEditor);
 Vue.component('markdown-editor', MarkdownEditor);
 Vue.component('comments-list', CommentsList);
-Vue.component('sections-list', SectionsList);
 Vue.component('hardwares-list', HardwaresList);
 Vue.component('gallery', Gallery);
 Vue.component('element-selector', ElementSelector);
