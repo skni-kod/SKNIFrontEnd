@@ -5,6 +5,7 @@ import vuetify from './plugins/vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 import store from './store';
+import 'animate.css';
 const MarkdownItVue = () => import(/* webpackChunkName: "PluginMarkdown" */ 'markdown-it-vue');
 import 'markdown-it-vue/dist/markdown-it-vue.css';
 import VueMoment from 'vue-moment';
