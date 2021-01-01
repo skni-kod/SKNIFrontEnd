@@ -93,7 +93,7 @@
         <gallery breakpoints="xs6" :imgs="article.gallery" />
       </v-col>
     </v-row>
-    <v-speed-dial fixed right bottom direction="top" v-model="fab">
+    <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="auth">
       <template v-slot:activator>
         <v-btn
           fab
