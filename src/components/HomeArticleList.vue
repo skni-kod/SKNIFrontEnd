@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined class="ma-2">
+  <v-card tile elevation="0" class="ma-1">
     <v-card-title class="text-h3 justify-center py-1">Najnowsze artykuły</v-card-title>
     <v-card-text class="pa-0">
       <v-row no-gutters justify="center">
