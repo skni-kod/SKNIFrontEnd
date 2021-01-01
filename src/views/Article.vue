@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-2">
     <v-row justify="center" v-if="article != undefined">
       <v-col cols="12" sm="10" md="8" lg="6" xl="4">
         <v-card>
