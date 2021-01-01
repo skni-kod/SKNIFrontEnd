@@ -1,18 +1,15 @@
 <template>
-  <v-container grid-list-md text-xs-center>
-    <p class="text-h3 text-center">Najnowsze artykuły</p>
-    <v-layout align-space-between justify-center row fill-height wrap style="margin-top: 20px">
-      <v-flex
-        xs12
-        :md6="index"
-        :md12="!index"
-        v-for="(article, index) in articles"
-        :key="article.title"
-      >
+  <v-card outlined class="ma-2">
+    <v-card-title class="text-h3 justify-center py-1">Najnowsze artykuły</v-card-title>
+    <v-card-text class="pa-0">
+      <v-row no-gutters justify="center">
+      <v-col class="pa-1" cols="12" :md="index ? 6 : 12" v-for="(article, index) in articles"
+        :key="article.title">
         <article-card :article="article" @delete="deleteArticle"></article-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+      </v-col>
+    </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang='ts'>
