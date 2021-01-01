@@ -41,7 +41,7 @@
                 </v-hover>
               </div>
             </v-row>
-            <v-divider v-if="article.authors.length" class="ma-2"></v-divider>
+            <v-divider v-if="article.authors.length" class="mt-5"></v-divider>
             <v-row
               wrap
               v-if="article.authors.length"

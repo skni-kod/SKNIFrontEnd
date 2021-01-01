@@ -34,7 +34,7 @@
         <v-row justify="end">
           <v-btn
             color="blue white--text"
-            class="mr-3"
+            class="ma-2"
             @click="$vuetify.goTo(0, { duration: 1000 })"
           >
             <v-icon left>mdi-arrow-collapse-up</v-icon>
@@ -44,7 +44,7 @@
         <v-row justify="end">
           <v-btn
             color="blue white--text"
-            class="mr-3"
+            class="ma-2"
             @click="$vuetify.goTo('footer', { duration: 1000 })"
           >
             <v-icon left>mdi-arrow-collapse-down</v-icon>
@@ -52,13 +52,13 @@
           </v-btn>
         </v-row>
         <v-row justify="end">
-          <v-btn color="success" class="mr-3" @click="editProject">
+          <v-btn color="success" class="ma-2" @click="editProject">
             <v-icon left>mdi-pencil</v-icon>
             <span>Zatwierdź zmiany</span>
           </v-btn>
         </v-row>
         <v-row justify="end">
-          <v-btn color="error" class="mr-3" @click="dialog = true">
+          <v-btn color="error" class="ma-2" @click="dialog = true">
             <v-icon left>mdi-pencil-off</v-icon>
             <span>Odrzuć zmiany</span>
           </v-btn>
