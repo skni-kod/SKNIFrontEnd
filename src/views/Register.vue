@@ -4,7 +4,9 @@
       <v-row justify="center" class="mx-2">
         <v-card class="elevation-12 ma-2" width="600">
           <v-toolbar color="primary">
-            <v-toolbar-title class="white--text font-weight-bold">Zarejestruj się</v-toolbar-title>
+            <v-toolbar-title class="white--text font-weight-bold"
+              >Zarejestruj się</v-toolbar-title
+            >
           </v-toolbar>
           <v-form v-model="inputValidated" @submit.prevent="registerUser()">
             <v-card-text class="pb-0">
@@ -74,7 +76,10 @@
                     v-model="password2"
                     :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="showPass = !showPass"
-                    :rules="[rules.required, rules.identical(password1, password2)]"
+                    :rules="[
+                      rules.required,
+                      rules.identical(password1, password2),
+                    ]"
                     label="Powtórz hasło"
                     color="primary"
                     :type="showPass ? 'text' : 'password'"
@@ -82,9 +87,17 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
-              <div v-if="passwdFocus">
-                <password-validator :password="password1" @validation="passwdValid = $event"></password-validator>
-              </div>
+              <transition
+                enter-active-class="animate__animated animate__zoomIn animate__fast"
+                leave-active-class="animate__animated animate__zoomOut animate__fast"
+                mode="in-out"
+                ><div v-if="passwdFocus">
+                  <password-validator
+                    :password="password1"
+                    @validation="passwdValid = $event"
+                  ></password-validator>
+                </div>
+              </transition>
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
