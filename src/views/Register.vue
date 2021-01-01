@@ -110,7 +110,8 @@
         </v-card>
       </v-row>
       <v-row justify="center">
-        <v-btn disabled class="white--text mt-2 mx-2" color="purple">
+        <!-- TODO -->
+        <v-btn disabled class="white--text mx-2 mt-4 mb-2" color="purple">
           <v-icon left>mdi-github</v-icon>
           <span>Zarejestruj się poprzez GitHub</span>
         </v-btn>
@@ -120,7 +121,7 @@
           <p class="my-auto">Masz już konto?</p>
         </v-col>
         <v-col cols="auto">
-          <v-btn outlined text color="primary" @click="$router.push('/login')">
+          <v-btn text color="primary" @click="$router.push('/login')">
             <v-icon left>mdi-login</v-icon>
             <span>Zaloguj się!</span>
           </v-btn>

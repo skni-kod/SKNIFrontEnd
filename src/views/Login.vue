@@ -4,7 +4,9 @@
       <v-row justify="center" class="mx-2">
         <v-card class="elevation-12 ma-2" width="500">
           <v-toolbar color="primary">
-            <v-toolbar-title class="white--text font-weight-bold">Zaloguj się</v-toolbar-title>
+            <v-toolbar-title class="white--text font-weight-bold"
+              >Zaloguj się</v-toolbar-title
+            >
           </v-toolbar>
           <v-form v-model="inputValidated" @submit.prevent="loginUser()">
             <v-card-text class="pb-0">
@@ -43,7 +45,8 @@
         </v-card>
       </v-row>
       <v-row justify="center">
-        <v-btn class="white--text my-5 mx-2" color="purple">
+        <!-- TODO -->
+        <v-btn disabled class="white--text mt-4 mb-2 mx-2" color="purple">
           <v-icon left>mdi-github</v-icon>
           <span>Zaloguj się poprzez GitHub</span>
         </v-btn>
@@ -53,7 +56,7 @@
           <p class="my-auto">Nie masz konta?</p>
         </v-col>
         <v-col cols="auto">
-          <v-btn outlined text color="primary" @click="$router.push('/register')">
+          <v-btn text color="primary" @click="$router.push('/register')">
             <v-icon left>mdi-database-plus</v-icon>
             <span>Zarejestruj się!</span>
           </v-btn>
