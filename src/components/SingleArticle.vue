@@ -79,8 +79,6 @@ export default class SingleArticle extends Vue {
 
   public data() {
     return {
-      galleryIndex: null,
-      gallery: [],
       markdownOptions: {
         markdownIt: {
           html: true,
@@ -91,20 +89,6 @@ export default class SingleArticle extends Vue {
         },
       },
     };
-  }
-
-  public methods() {
-    return {
-      getImageUrls: this.getImageUrls,
-    };
-  }
-
-  public getImageUrls() {
-    const imageUrls: string[] = [];
-    for (const galleryItem of this.article.gallery) {
-      imageUrls.push(galleryItem.image);
-    }
-    return imageUrls;
   }
 }
 </script>
