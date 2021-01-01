@@ -43,7 +43,7 @@
         </v-card>
       </v-row>
       <v-row justify="center">
-        <v-btn class="white--text mt-2 mx-2" color="purple">
+        <v-btn class="white--text my-5 mx-2" color="purple">
           <v-icon left>mdi-github</v-icon>
           <span>Zaloguj się poprzez GitHub</span>
         </v-btn>

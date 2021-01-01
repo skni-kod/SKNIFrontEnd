@@ -9,33 +9,33 @@
           <v-card-subtitle class="white--text primary">{{user.username}}</v-card-subtitle>
           <v-divider></v-divider>
           <v-row wrap justify="center">
-            <v-btn color="primary" class="ma-2" :to="'/user/profile/' + user.id">
+            <v-btn color="primary" class="mt-10" :to="'/user/profile/' + user.id">
               <v-icon left>mdi-card-account-details</v-icon>
               <span>Mój profil</span>
             </v-btn>
           </v-row>
-          <p class="text-subtitle-1 font-weight-bold text-center ma-1">Opcje profilu</p>
+          <p class="text-subtitle-1 font-weight-bold text-center mt-7">Opcje profilu</p>
           <v-row wrap class="mx-2" justify="center">
-            <v-btn color="primary" class="ma-2" to="/user/descriptionchange">
+            <v-btn color="primary" class="ma-1" to="/user/descriptionchange">
               <v-icon left>mdi-text-account</v-icon>
               <span>Zmień opis profilu</span>
             </v-btn>
-            <v-btn color="primary" class="ma-2" to="/user/passwordchange">
+            <v-btn color="primary" class="ma-1" to="/user/passwordchange">
               <v-icon left>mdi-lock-reset</v-icon>
               <span>Zmień hasło</span>
             </v-btn>
-            <v-btn disabled color="primary" class="ma-2">
+            <v-btn disabled color="primary" class="mt-1 ml-1">
               <v-icon left>mdi-email-edit</v-icon>
               <span>Zmień e-mail</span>
             </v-btn>
-            <v-btn color="error" class="ma-2" @click="logout">
+            <v-btn color="error" class="mb-10 mt-10" @click="logout">
               <v-icon left>mdi-logout</v-icon>
               <span>wyloguj</span>
             </v-btn>
           </v-row>
         </v-card>
       </v-row>
-      <v-row align="center" justify="center" class="ma-2">
+      <v-row align="center" justify="center" class="ma-10">
         <v-card width="1000">
           <v-card-title class="white--text primary">Opis profilu</v-card-title>
           <v-card-text class="py-1">
