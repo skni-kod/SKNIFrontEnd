@@ -2,30 +2,44 @@
   <v-card outlined class="ma-2">
     <v-card-text>
       <v-form v-model="inputValidated">
-        <v-layout
+        <v-row
+          no-gutters
+          justify="space-around"
           v-if="Article.creation_date && Article.publication_date"
-          wrap
-          justify-space-between
         >
-          <v-flex xs12 sm6>
-            <p
-              class="text-center"
-            >Data utworzenia: {{ Article.creation_date | moment("DD.MM.YYYY hh:mm:ss") }}</p>
-          </v-flex>
-          <v-flex xs12 sm6>
-            <p
-              class="text-center"
-            >Data publikacji: {{ Article.publication_date | moment("DD.MM.YYYY hh:mm:ss") }}</p>
-          </v-flex>
-        </v-layout>
+          <v-col cols="12" sm="auto">
+            <p>
+              Data utworzenia:
+              {{ Article.creation_date | moment('DD.MM.YYYY hh:mm:ss') }}
+            </p>
+          </v-col>
+          <v-col cols="12" sm="auto">
+            <p>
+              Data publikacji:
+              {{ Article.publication_date | moment('DD.MM.YYYY hh:mm:ss') }}
+            </p>
+          </v-col>
+        </v-row>
         <v-divider v-if="Article.creation_date && Article.publication_date" />
-        <v-text-field clearable label="Tytuł artykułu" v-model="Article.title" :rules="[required]"></v-text-field>
+        <v-text-field
+          clearable
+          label="Tytuł artykułu"
+          v-model="Article.title"
+          :rules="[required]"
+        ></v-text-field>
         <v-row align="center">
           <v-col class="py-0">
-            <v-text-field clearable label="Alias" v-model="Article.alias" :rules="[required]"></v-text-field>
+            <v-text-field
+              clearable
+              label="Alias"
+              v-model="Article.alias"
+              :rules="[required]"
+            ></v-text-field>
           </v-col>
           <v-col class="py-0" cols="auto">
-            <v-btn color="primary" @click="generateAlias()">Wygeneruj alias</v-btn>
+            <v-btn color="primary" @click="generateAlias()"
+              >Wygeneruj alias</v-btn
+            >
           </v-col>
         </v-row>
         <element-selector
@@ -42,7 +56,11 @@
           label="Wyszukaj i wybierz autorów"
           class="mt-4"
         ></element-selector>
-        <markdown-editor v-model="Article.text" rules="true" label="Treść artykułu"></markdown-editor>
+        <markdown-editor
+          v-model="Article.text"
+          rules="true"
+          label="Treść artykułu"
+        ></markdown-editor>
       </v-form>
     </v-card-text>
   </v-card>
