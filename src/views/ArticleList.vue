@@ -36,13 +36,7 @@ import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationModel } from '@/models/PaginationModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
 
-import ArticleCard from '@/components/ArticleCard.vue';
-
-@Component({
-  components: {
-    ArticleCard,
-  },
-})
+@Component
 export default class ArticleList extends Vue {
   private articlesService!: ArticlesService;
   private pagination!: PaginationModel;
