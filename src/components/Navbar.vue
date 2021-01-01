@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar dark app hide-on-scroll>
+    <v-app-bar dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
         <v-btn text v-for="item in toolbarItems" :key="item.link" :to="item.link">{{ item.title }}</v-btn>
