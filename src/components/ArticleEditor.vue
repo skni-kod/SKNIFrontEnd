@@ -1,26 +1,26 @@
 <template>
   <v-card outlined class="ma-2">
     <v-card-text>
+      <v-row
+        no-gutters
+        justify="space-around"
+        v-if="Article.creation_date && Article.publication_date"
+      >
+        <v-col cols="12" sm="auto">
+          <p>
+            Data utworzenia:
+            {{ Article.creation_date | moment('DD.MM.YYYY hh:mm:ss') }}
+          </p>
+        </v-col>
+        <v-col cols="12" sm="auto">
+          <p>
+            Data publikacji:
+            {{ Article.publication_date | moment('DD.MM.YYYY hh:mm:ss') }}
+          </p>
+        </v-col>
+      </v-row>
+      <v-divider></v-divider>
       <v-form v-model="inputValidated">
-        <v-row
-          no-gutters
-          justify="space-around"
-          v-if="Article.creation_date && Article.publication_date"
-        >
-          <v-col cols="12" sm="auto">
-            <p>
-              Data utworzenia:
-              {{ Article.creation_date | moment('DD.MM.YYYY hh:mm:ss') }}
-            </p>
-          </v-col>
-          <v-col cols="12" sm="auto">
-            <p>
-              Data publikacji:
-              {{ Article.publication_date | moment('DD.MM.YYYY hh:mm:ss') }}
-            </p>
-          </v-col>
-        </v-row>
-        <v-divider v-if="Article.creation_date && Article.publication_date" />
         <v-text-field
           clearable
           label="Tytuł artykułu"

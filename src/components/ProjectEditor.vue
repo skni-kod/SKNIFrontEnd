@@ -1,24 +1,26 @@
 <template>
   <v-card outlined class="ma-2">
     <v-card-text>
+      <v-row
+        no-gutters
+        justify="space-around"
+        v-if="Project.creation_date && Project.publication_date"
+      >
+        <v-col cols="12" sm="auto">
+          <p>
+            Data utworzenia:
+            {{ Project.creation_date | moment('DD.MM.YYYY hh:mm:ss') }}
+          </p>
+        </v-col>
+        <v-col cols="12" sm="auto">
+          <p>
+            Data publikacji:
+            {{ Project.publication_date | moment('DD.MM.YYYY hh:mm:ss') }}
+          </p>
+        </v-col>
+      </v-row>
+      <v-divider></v-divider>
       <v-form v-model="inputValidated">
-        <v-layout
-          v-if="Project.creation_date && Project.publication_date"
-          wrap
-          justify-space-between
-        >
-          <v-flex xs12 sm6>
-            <p
-              class="text-center"
-            >Data utworzenia: {{ Project.creation_date | moment("DD.MM.YYYY hh:mm:ss") }}</p>
-          </v-flex>
-          <v-flex xs12 sm6>
-            <p
-              class="text-center"
-            >Data publikacji: {{ Project.publication_date | moment("DD.MM.YYYY hh:mm:ss") }}</p>
-          </v-flex>
-        </v-layout>
-        <v-divider v-if="Project.creation_date && Project.publication_date" />
         <v-text-field clearable label="Tytuł projektu" v-model="Project.title" :rules="[required]"></v-text-field>
         <element-selector
           v-model="projAuthors"
@@ -49,7 +51,7 @@ import { SectionModel } from '@/models/SectionModel';
 import axios from '../axios';
 
 @Component
-export default class ArticleEditor extends Vue {
+export default class ProjectEditor extends Vue {
   @Prop({ required: true }) public readonly project!: ProjectModel;
   @Prop({ required: true }) public readonly authors!: number[];
   @Prop({ required: true }) public readonly section!: number;
