@@ -11,7 +11,6 @@ import VueMoment from 'vue-moment';
 const CommentsList = () => import(/* webpackChunkName: "ComponentCommentsList" */ '@/components/CommentsList.vue');
 const SectionsList = () => import(/* webpackChunkName: "ComponentSectionsList" */ '@/components/SectionsList.vue');
 const HardwaresList = () => import(/* webpackChunkName: "ComponentHardwaresList" */ '@/components/HardwaresList.vue');
-const ArticleCard = () => import(/* webpackChunkName: "ComponentArticleCard" */ '@/components/ArticleCard.vue');
 const ArticleEditor = () => import(/* webpackChunkName: "ComponentArticleEditor" */ '@/components/ArticleEditor.vue');
 const ProjectEditor = () => import(/* webpackChunkName: "ComponentProjectEditor" */ '@/components/ProjectEditor.vue');
 const MarkdownEditor = () => import(/* webpackChunkName: "ComponentMarkdownEditor" */ '@/components/MarkdownEditor.vue');  // tslint:disable-line
@@ -41,7 +40,6 @@ Vue.component('markdown-editor', MarkdownEditor);
 Vue.component('comments-list', CommentsList);
 Vue.component('sections-list', SectionsList);
 Vue.component('hardwares-list', HardwaresList);
-Vue.component('article-card', ArticleCard);
 Vue.component('gallery', Gallery);
 Vue.component('element-selector', ElementSelector);
 Vue.component('confirmation-dialog', ConfirmationDialog);
