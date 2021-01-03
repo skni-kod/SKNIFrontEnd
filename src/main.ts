@@ -20,6 +20,7 @@ const Gallery = () => import(/* webpackChunkName: "ComponentGallery" */ '@/compo
 const ElementSelector = () => import(/* webpackChunkName: "ComponentElementSelector" */ '@/components/ElementSelector.vue');
 const ConfirmationDialog = () => import(/* webpackChunkName: "ComponentConfirmationDialog" */ '@/components/ConfirmationDialog.vue');
 const LinkListInput = () => import(/* webpackChunkName: "ComponentLinkListInput" */ '@/components/LinkListInput.vue');
+const EditorMenu = () => import(/* webpackChunkName: "ComponentEditorMenu" */ '@/components/EditorMenu.vue');
 
 Vue.config.productionTip = false;
 
@@ -45,3 +46,4 @@ Vue.component('gallery', Gallery);
 Vue.component('element-selector', ElementSelector);
 Vue.component('confirmation-dialog', ConfirmationDialog);
 Vue.component('link-list-input', LinkListInput);
+Vue.component('editor-menu', EditorMenu);
