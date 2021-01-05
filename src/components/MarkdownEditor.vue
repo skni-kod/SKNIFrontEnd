@@ -33,7 +33,7 @@
               Podczas edycji artykułu oraz projektu, należy do tekstu dodać
               znacznik ---readmore---, aby podgląd artykułu na liście artykułów
               nie był zbyt długi. Można stosować składnię języka markdown przed
-              znacznikiem ---readmore---. W Na liście artykułów / projektów
+              znacznikiem ---readmore---. Na liście artykułów / projektów
               skladnia ta zostanie usunięta.
             </li>
           </ul>
