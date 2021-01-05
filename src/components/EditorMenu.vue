@@ -38,13 +38,13 @@
         <v-row justify="end">
           <v-btn color="success" class="ma-2" @click="saveChanges">
             <v-icon left>mdi-pencil</v-icon>
-            <span>Zatwierdź zmiany</span>
+            <span>{{ saveText }}</span>
           </v-btn>
         </v-row>
         <v-row justify="end">
           <v-btn color="error" class="ma-2" @click="dialog = true">
             <v-icon left>mdi-pencil-off</v-icon>
-            <span>Odrzuć zmiany</span>
+            <span>{{ discardText }}</span>
           </v-btn>
         </v-row>
       </v-container>
@@ -64,6 +64,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class EditorMenu extends Vue {
   @Prop({ required: true }) private text!: string;
+  @Prop({ default: 'Zatwierdź zmiany' }) private saveText!: string;
+  @Prop({ default: 'Odrzuć zmiany' }) private discardText!: string;
 
   private saveChanges() {
     this.$emit('saveChanges');
