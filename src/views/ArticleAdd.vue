@@ -21,6 +21,8 @@
       @saveChanges="addArticle"
       @discardChanges="returnToArticles"
       text="Czy na pewno chcesz opuścić ekran tworzenia nowego artykułu bez zapisywania zmian?"
+      saveText="Dodaj artykuł"
+      discardText="Odrzuć artykuł"
     />
   </div>
 </template>
