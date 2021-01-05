@@ -108,8 +108,6 @@ export default class ArticleAdd extends Vue {
       authors: [],
       allTags: [],
       selectedTags: [],
-      dialog: false,
-      fab: false,
     };
   }
 }

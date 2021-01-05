@@ -2,8 +2,10 @@
   <div>
     <p
       class="text-h4 text-center font-weight-bold justify-center ma-2"
-      style="word-break: break-word;"
-    >Edycja artykułu nr {{ this.$route.params.id }}</p>
+      style="word-break: break-word"
+    >
+      Edycja artykułu nr {{ this.$route.params.id }}
+    </p>
     <article-editor
       :article="article"
       @articleEdited="article = $event"
@@ -15,7 +17,11 @@
       @selectedTags="selectedTags = $event"
       @validation="inputValidated = $event"
     ></article-editor>
-    <editor-menu @saveChanges="editArticle" @discardChanges="returnToArticle" text = "Czy na pewno chcesz wyjść z edycji artykułu bez zapisywania zmian?" />
+    <editor-menu
+      @saveChanges="editArticle"
+      @discardChanges="returnToArticle"
+      text="Czy na pewno chcesz wyjść z edycji artykułu bez zapisywania zmian?"
+    />
   </div>
 </template>
 
@@ -115,8 +121,6 @@ export default class ArticleEdit extends Vue {
       authors: [],
       allTags: [],
       selectedTags: [],
-      dialog: false,
-      fab: false,
     };
   }
 }

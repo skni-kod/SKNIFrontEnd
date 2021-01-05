@@ -2,8 +2,10 @@
   <div>
     <p
       class="text-h4 text-center font-weight-bold justify-center ma-2"
-      style="word-break: break-word;"
-    >Edycja projektu nr {{ this.$route.params.id }}</p>
+      style="word-break: break-word"
+    >
+      Edycja projektu nr {{ this.$route.params.id }}
+    </p>
     <project-editor
       :project="project"
       @articleEdited="project = $event"
@@ -16,7 +18,11 @@
       :allSections="allSections"
       @validation="inputValidated = $event"
     ></project-editor>
-      <editor-menu @saveChanges="editProject" @discardChanges="returnToProject" text = "Czy na pewno chcesz wyjść z edycji projektu bez zapisywania zmian?" />
+    <editor-menu
+      @saveChanges="editProject"
+      @discardChanges="returnToProject"
+      text="Czy na pewno chcesz wyjść z edycji projektu bez zapisywania zmian?"
+    />
   </div>
 </template>
 
@@ -113,8 +119,6 @@ export default class ProjectEdit extends Vue {
       section: undefined,
       links: [],
       allSections: [],
-      dialog: false,
-      fab: false,
     };
   }
 }
