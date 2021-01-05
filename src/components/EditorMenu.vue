@@ -1,13 +1,13 @@
-   <template>
-   <div>
-   <v-speed-dial fixed right bottom direction="top" v-model="fab">
+<template>
+  <div>
+    <v-speed-dial fixed right bottom direction="top" v-model="fab">
       <template v-slot:activator>
         <v-btn
           large
           v-model="fab"
           class="text-body-1 font-weight-bold"
           color="primary"
-          style="z-index: 3;"
+          style="z-index: 3"
         >
           <v-icon large v-if="fab" left>mdi-close</v-icon>
           <v-icon large v-else left>mdi-dots-vertical</v-icon>
@@ -49,35 +49,32 @@
         </v-row>
       </v-container>
     </v-speed-dial>
-      <confirmation-dialog
-    v-if="dialog"
-    @yes="discardChanges"
-    @no="dialog = false"
-    :text=text
-  ></confirmation-dialog>
+    <confirmation-dialog
+      v-if="dialog"
+      @yes="discardChanges"
+      @no="dialog = false"
+      :text="text"
+    ></confirmation-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { component } from 'vue/types/umd';
-
 
 @Component
+export default class EditorMenu extends Vue {
+  @Prop({ required: true }) private text!: string;
 
-export default class Edit extends Vue{
-
-  @Prop({required:true}) private text!: string;
-
-  private saveChanges(){
-    this.$emit("saveChanges");
+  private saveChanges() {
+    this.$emit('saveChanges');
   }
-  private discardChanges(){
-    this.$emit("discardChanges");
+  private discardChanges() {
+    this.$emit('discardChanges');
   }
   private data() {
     return {
       dialog: false,
+      fab: false,
     };
   }
 }
