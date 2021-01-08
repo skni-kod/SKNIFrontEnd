@@ -1,12 +1,19 @@
 <template>
 <div>
-  <!---<div v-if="comments != undefined">-->
-    <h3 class="text-xs-left" style="margin-top: 20px;">Komentarze:</h3>
+  <v-card class='pr-10 pl-4 py-5 my-5'>
+        <v-card-title>    <h3 class="text-xs-left mb-5">Komentarze:</h3></v-card-title>
+    <v-card-text>
+<!---<div v-if="comments != undefined">-->
+
     <!--<div v-for="comment in comments" :key="comment.id">
 
     </div>-->
-    <comment />
-    <comment />
+    <comment text="asssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssassssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss ssssssssssssssssssssssssssasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" />
+    <comment text="asssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" :nested= true />
+    <comment text="asssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" />
+    </v-card-text>
+  
+  </v-card>
   </div>
 </template>
 
