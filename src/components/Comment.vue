@@ -58,6 +58,12 @@ export default class Comment extends Vue {
   @Prop() public text!: string;
   @Prop({ default: false }) public nested!: boolean;
 
+  private created() {
+    if (this.text.length < 300) {
+      this.$data.short = false;
+    }
+  }
+
   get comment() {
     if (this.$data.short) {
       return this.text.slice(0, this.text.indexOf(' ', 300)) + '...';
