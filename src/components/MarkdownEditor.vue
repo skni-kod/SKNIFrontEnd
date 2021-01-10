@@ -2,7 +2,7 @@
   <div>
     <v-expansion-panels dark class="my-2">
       <v-expansion-panel class="white--text info">
-        <v-expansion-panel-header class="text-h6 font-weight-bold"
+        <v-expansion-panel-header class="text-h6 font-weight-bold py-1"
           >Wyświetl ważne informacje dotyczące edytora</v-expansion-panel-header
         >
         <v-expansion-panel-content>
@@ -54,8 +54,8 @@
       <v-col cols="12" md="6" class="pa-1">
         <v-card outlined>
           <v-card-title
-            class="primary text-h4 white--text font-weight-bold justify-center py-0"
-            >PODGLĄD</v-card-title
+            class="primary text-h6 white--text font-weight-bold py-1"
+            >Podgląd</v-card-title
           >
           <markdown-it-vue
             class="md-body text-left mx-2"
