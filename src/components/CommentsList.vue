@@ -7,9 +7,19 @@
       >
       <v-card-text class="py-1">
         <comment text="Testowy komentarz" />
-        <comment text="Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz " :nested="true" />
+        <comment
+          text="Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz "
+          :nested="true"
+        />
         <comment text="Testowy komentarz" />
+        <comment-add v-if="addComment" @cancel="addComment = false"></comment-add>
       </v-card-text>
+      <v-card-actions v-if="!addComment">
+        <v-btn block color="primary" @click="addComment = true">
+          <span>Dodaj komentarz</span>
+          <v-icon right>mdi-comment-plus</v-icon>
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -21,5 +31,11 @@ import { CommentModel } from '@/models/CommentModel';
 @Component
 export default class CommentsList extends Vue {
   @Prop() public comments!: CommentModel[];
+
+  private data() {
+    return {
+      addComment: false,
+    };
+  }
 }
 </script>
