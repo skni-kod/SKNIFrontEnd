@@ -151,7 +151,9 @@ export default class Article extends Vue {
       });
 
     this.commentsService
-      .getCommentsForArticle(+this.$route.params.id)
+      .getComments({
+        article_id: this.$route.params.id,
+      })
       .then((comments) => {
         this.comments = comments;
       });
