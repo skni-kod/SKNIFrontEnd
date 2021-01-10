@@ -17,7 +17,7 @@
           @close="addComment = false"
         ></comment-add>
       </v-card-text>
-      <v-card-actions v-if="!addComment">
+      <v-card-actions v-if="auth && !addComment">
         <v-btn block color="primary" @click="addComment = true">
           <span>Dodaj komentarz</span>
           <v-icon right>mdi-comment-plus</v-icon>
@@ -34,6 +34,10 @@ import { CommentModel } from '@/models/CommentModel';
 @Component
 export default class CommentsList extends Vue {
   @Prop() public comments!: CommentModel[];
+
+  get auth(): boolean {
+    return this.$store.getters.isAuthenticated;
+  }
 
   private data() {
     return {
