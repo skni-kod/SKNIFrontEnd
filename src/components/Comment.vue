@@ -26,13 +26,27 @@
           plain
           :ripple="false"
           color="primary"
-          class="pa-0"
           v-if="text.length > 300"
           @click="short = !short"
         >
           {{ short ? 'Rozwiń' : 'Zwiń' }}
         </v-btn>
+        <v-btn
+          small
+          plain
+          :ripple="false"
+          color="primary"
+          v-if="auth && !addComment"
+          @click="addComment = true"
+        >
+          Odpowiedz
+        </v-btn>
       </v-row>
+      <comment-add
+        v-if="addComment"
+        @close="addComment = false"
+        addText="Odpowiedz"
+      ></comment-add>
       <v-row v-if="nested" class="ml-4">
         <v-col cols="auto" class="px-0">
           <v-divider vertical></v-divider>
@@ -64,6 +78,10 @@ export default class Comment extends Vue {
     }
   }
 
+  get auth(): boolean {
+    return this.$store.getters.isAuthenticated;
+  }
+
   get comment() {
     if (this.$data.short) {
       return this.text.slice(0, this.text.indexOf(' ', 300)) + '...';
@@ -75,6 +93,7 @@ export default class Comment extends Vue {
   private data() {
     return {
       short: true,
+      addComment: false,
     };
   }
 }

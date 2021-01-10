@@ -12,7 +12,10 @@
           :nested="true"
         />
         <comment text="Testowy komentarz" />
-        <comment-add v-if="addComment" @cancel="addComment = false"></comment-add>
+        <comment-add
+          v-if="addComment"
+          @close="addComment = false"
+        ></comment-add>
       </v-card-text>
       <v-card-actions v-if="!addComment">
         <v-btn block color="primary" @click="addComment = true">

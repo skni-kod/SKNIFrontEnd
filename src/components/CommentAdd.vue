@@ -1,6 +1,6 @@
 <template>
   <v-card outlined>
-    <v-card-title class="text-body-1 white--text primary pa-1"
+    <v-card-title class="text-body-1 white--text primary py-1"
       >Dodaj komentarz</v-card-title
     >
     <v-divider></v-divider>
@@ -10,14 +10,14 @@
     <v-card-actions>
       <v-row justify="end" no-gutters>
         <v-col cols="12" sm="auto" class="px-2 py-1">
-          <v-btn block outlined color="error" @click="cancel">
+          <v-btn block outlined color="error" @click="close">
             <span>Anuluj</span>
             <v-icon right>mdi-cancel</v-icon>
           </v-btn>
         </v-col>
         <v-col cols="12" sm="auto" class="px-2 py-1">
           <v-btn block outlined :disabled="!comment.length" color="primary">
-            <span>Dodaj komentarz</span>
+            <span>{{ addText }}</span>
             <v-icon right>mdi-comment-plus</v-icon>
           </v-btn>
         </v-col>
@@ -34,14 +34,15 @@ import { CommentsService } from '@/services/CommentsService';
 export default class CommentAdd extends Vue {
   @Prop() private article!: number;
   @Prop() private replyfor!: number;
+  @Prop({ default: 'Dodaj komentarz' }) private addText!: string;
   private commentsService!: CommentsService;
 
   private created() {
     this.commentsService = new CommentsService();
   }
 
-  private cancel() {
-      this.$emit('cancel');
+  private close() {
+    this.$emit('close');
   }
 
   private data() {
