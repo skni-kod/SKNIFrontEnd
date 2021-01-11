@@ -21,6 +21,8 @@ const ElementSelector = () => import(/* webpackChunkName: "ComponentElementSelec
 const ConfirmationDialog = () => import(/* webpackChunkName: "ComponentConfirmationDialog" */ '@/components/ConfirmationDialog.vue');
 const LinkListInput = () => import(/* webpackChunkName: "ComponentLinkListInput" */ '@/components/LinkListInput.vue');
 const EditorMenu = () => import(/* webpackChunkName: "ComponentEditorMenu" */ '@/components/EditorMenu.vue');
+const Comment = () => import(/* webpackChunkName: "ComponentComment" */ '@/components/Comment.vue');
+const CommentAdd = () => import(/* webpackChunkName: "ComponentCommentAdd" */ '@/components/CommentAdd.vue');
 
 Vue.config.productionTip = false;
 
@@ -47,3 +49,5 @@ Vue.component('element-selector', ElementSelector);
 Vue.component('confirmation-dialog', ConfirmationDialog);
 Vue.component('link-list-input', LinkListInput);
 Vue.component('editor-menu', EditorMenu);
+Vue.component('comment', Comment);
+Vue.component('comment-add', CommentAdd);

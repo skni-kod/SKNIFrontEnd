@@ -7,7 +7,7 @@ export class ProjectsService {
     private readMoreGuard = '---readmore---';
 
     public async getAllProjects(): Promise<ProjectModel[]> {
-        return (await axios('api/project/', {
+        return (await axios('api/projects/', {
             params: {
                 format: 'json',
             },
@@ -15,7 +15,7 @@ export class ProjectsService {
     }
 
     public async getProject(projectNumber: number, removeReadMore: boolean = true): Promise<ProjectModel> {
-        const project = (await axios('api/project/' + projectNumber, {
+        const project = (await axios('api/projects/' + projectNumber, {
             params: {
                 format: 'json',
             },
@@ -32,7 +32,7 @@ export class ProjectsService {
     }
 
     public async getProjectsByPage(pageNumber: number, pageSize: number): Promise<PaginationContainer<ProjectModel>> {
-        const data = (await axios('api/project/', {
+        const data = (await axios('api/projects/', {
             params: {
                 format: 'json',
                 offset: (pageNumber - 1) * pageSize,
@@ -43,7 +43,7 @@ export class ProjectsService {
     }
 
     public async editProject(id: number, data: object): Promise<any> {
-        const edit = await axios.patch('api/project/' + id + '/', data, {
+        const edit = await axios.patch('api/projects/' + id + '/', data, {
             headers: {
                 Authorization: 'Bearer ' + store.getters.token,
             },

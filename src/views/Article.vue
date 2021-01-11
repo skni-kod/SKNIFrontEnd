@@ -91,6 +91,7 @@
           </v-card-text>
         </v-card>
         <gallery breakpoints="xs6" :imgs="article.gallery" />
+        <comments-list/>
       </v-col>
     </v-row>
     <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="auth">
@@ -150,7 +151,9 @@ export default class Article extends Vue {
       });
 
     this.commentsService
-      .getCommentsForArticle(+this.$route.params.id)
+      .getComments({
+        article_id: this.$route.params.id,
+      })
       .then((comments) => {
         this.comments = comments;
       });
