@@ -52,7 +52,7 @@ export class ProjectsService {
         return edit;
     }
 
-    public async addProject(id: number, data: object): Promise<any> {
+    public async addProject(data: object): Promise<any> {
         const save = await axios.post('api/projects/', data, {
             headers: {
                 Authorization: 'Bearer ' + store.getters.token,

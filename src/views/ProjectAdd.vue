@@ -8,13 +8,13 @@
     </p>
     <project-editor
       :project="project"
-      @articleEdited="project = $event"
+      @sectionEdited="project = $event"
       :authors="authors"
       @authorsEdited="authors = $event"
-      :section="section"
-      @sectionUpdated="section = $event"
       :links="links"
       @linksEdited="links = $event"
+      :section="section"
+      @sectionUpdated="section = $event"
       :allSections="allSections"
       @validation="inputValidated = $event"
     ></project-editor>
@@ -52,14 +52,15 @@ export default class ProjectsAdd extends Vue {
 
   private addProject() {
     if (this.$data.inputValidated) {
+
       this.projectsService
-        .addProject(this.$data.project.id, {
+        .addProject({
           title: this.$data.project.title,
-          alias: this.$data.project.alias,
           authors: this.$data.authors,
           text: this.$data.project.text,
-          tags: this.$data.selectedSections,
-          creator: this.$store.getters.user.id,
+          section: this.$data.section,
+          creator: this.$store.getters.user.profile,
+          repository_links: this.$data.links,
           creation_date: new Date(),
           publication_date: new Date(),
         })
@@ -72,7 +73,7 @@ export default class ProjectsAdd extends Vue {
               timeout: 7500,
             });
             this.$router.replace(
-              '/project/' + res.data.id + '-' + res.data.alias,
+              '/project/' + res.data.id,
             );
           } else {
             this.$store.dispatch('setSnackbarState', {
@@ -110,8 +111,9 @@ export default class ProjectsAdd extends Vue {
       inputValidated: false,
       project: { text: '' },
       authors: [],
+      links: [],
       allSections: [],
-      selectedSections: [],
+      section: undefined,
     };
   }
 }
