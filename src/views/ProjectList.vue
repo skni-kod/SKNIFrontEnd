@@ -9,6 +9,9 @@
         ></project-card>
       </v-col>
     </v-row>
+    <v-btn fab fixed bottom right v-if="auth" :to="'/project/add'" class="success">
+      <v-icon class="white--text">mdi-plus</v-icon>
+    </v-btn>
     <v-pagination
       v-model="pagination.currentPage"
       :length="pagination.pageCount"
@@ -80,7 +83,34 @@ export default class ProjectList extends Vue {
   }
 
   private deleteProject(id: number) {
-    return; // TODO
+    this.projectsService
+      .deleteProject(id)
+      .then((res) => {
+        if (res.status === 204) {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Projekt został usunięty',
+            color: 'success',
+            timeout: 7500,
+          });
+          this.$router.replace('/projects/reload');
+        } else {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas usuwania projektu!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+      .catch(() => {
+        this.$store.dispatch('setSnackbarState', {
+          state: true,
+          msg: 'Błąd poczas usuwania projektu!',
+          color: 'error',
+          timeout: 7500,
+        });
+      });
   }
 
   private data() {
