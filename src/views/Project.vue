@@ -59,6 +59,30 @@
         </p>
       </v-col>
     </v-row>
+    <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="auth">
+      <template v-slot:activator>
+        <v-btn
+          fab
+          v-model="fab"
+          class="text-body-1 font-weight-bold"
+          color="primary"
+        >
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
+      </template>
+      <v-btn fab color="orange" :to="'/project/edit/' + $route.params.id">
+        <v-icon>mdi-pen</v-icon>
+      </v-btn>
+      <v-btn fab color="error" @click="dialog = true">
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
+    </v-speed-dial>
+    <confirmation-dialog
+      v-if="dialog"
+      @yes="deleteProject($route.params.id)"
+      @no="dialog = false"
+      :text="dialogText"
+    ></confirmation-dialog>
   </div>
 </template>
 
@@ -87,9 +111,50 @@ export default class Project extends Vue {
       });
   }
 
+  get auth(): boolean {
+    return this.$store.getters.isAuthenticated;
+  }
+
+    get dialogText() {
+    return 'Czy na pewno chcesz usunąć artykuł "' + this.project.title + '"?';
+  }
+
+  private deleteProject(id: number) {
+    this.projectsService
+      .deleteProject(id)
+      .then((res) => {
+        if (res.status === 204) {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Porjekt został usunięty',
+            color: 'success',
+            timeout: 7500,
+          });
+          this.$router.replace('/projects/1');
+        } else {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas usuwania projektu!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+      .catch(() => {
+        this.$store.dispatch('setSnackbarState', {
+          state: true,
+          msg: 'Błąd poczas usuwania projektu!',
+          color: 'error',
+          timeout: 7500,
+        });
+      });
+  }
+
   private data() {
     return {
       project: this.project,
+      fab: false,
+      dialog:false,
       markdownOptions: {
         markdownIt: {
           html: true,
