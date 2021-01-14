@@ -115,7 +115,7 @@ export default class Project extends Vue {
     return this.$store.getters.isAuthenticated;
   }
 
-    get dialogText() {
+  get dialogText() {
     return 'Czy na pewno chcesz usunąć artykuł "' + this.project.title + '"?';
   }
 
@@ -154,7 +154,7 @@ export default class Project extends Vue {
     return {
       project: this.project,
       fab: false,
-      dialog:false,
+      dialog: false,
       markdownOptions: {
         markdownIt: {
           html: true,
