@@ -62,4 +62,14 @@ export class ProjectsService {
         return save;
     }
 
+    public async deleteProject(id: number): Promise<any> {
+        const del = await axios.delete('api/projects/' + id + '/', {
+            headers: {
+                Authorization: 'Bearer ' + store.getters.token,
+            },
+        });
+
+        return del;
+    }
+
 }
