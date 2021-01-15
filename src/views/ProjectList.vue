@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ma-2">
     <v-row justify="center" v-for="project in projects" :key="project.title">
       <v-col cols="12" sm="10" md="8" lg="6" xl="4">
         <project-card

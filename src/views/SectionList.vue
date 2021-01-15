@@ -1,5 +1,5 @@
 <template>
-  <div class="my-2">
+  <div class="ma-2">
     <v-row justify="center" v-for="section in sections" :key="section.title">
       <v-col>
         <v-card class="mx-auto bg-gradient" dark max-width="800">
