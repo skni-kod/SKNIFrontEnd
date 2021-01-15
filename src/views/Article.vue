@@ -70,9 +70,9 @@
                         :color="hover ? 'primary' : 'grey'"
                       >
                         <a
-                          :href="'/#/user/profile/' + author.user.id"
+                          :href="'/#/user/profile/' + author.id"
                           class="white--text text-decoration-none"
-                          >{{ author.user.username }}</a
+                          >{{ author.username }}</a
                         >
                       </v-chip>
                     </v-hover>

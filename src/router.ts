@@ -35,7 +35,6 @@ export default new Router({
       alias: '/article/add',
       name: 'editArticle',
       beforeEnter: (to, from, next) => {
-        console.log(to, !to.path.includes('add'));
         if (!store.getters.isAuthenticated) {
           next('/403');
         } else {

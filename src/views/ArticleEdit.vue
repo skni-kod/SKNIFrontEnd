@@ -64,10 +64,10 @@ export default class ArticleEdit extends Vue {
             );
             this.getAllTags();
             article.authors.forEach((element: any) => {
-              this.$data.authors.push(element.user.id);
+              this.$data.authors.push(element.id);
             });
           })
-          .catch((err) => {
+          .catch(() => {
             this.$router.replace('/404');
           });
       }
