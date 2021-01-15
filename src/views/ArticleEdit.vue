@@ -39,8 +39,13 @@ import { Component, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
 import { TagsService } from '@/services/TagsService';
 import { ArticleModel } from '@/models/ArticleModel';
+import ArticleEditor from '@/components/ArticleEditor.vue';
 
-@Component
+@Component({
+  components: {
+    ArticleEditor,
+  },
+})
 export default class ArticleEdit extends Vue {
   private articlesService!: ArticlesService;
   private tagsService!: TagsService;
