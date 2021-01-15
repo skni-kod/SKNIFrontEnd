@@ -133,38 +133,24 @@ export default new Router({
         import(/* webpackChunkName: "project" */ './views/ProjectList.vue'),
     },
     {
-      path: '/project/add',
-      name: 'addProject',
-      beforeEnter: (to, from, next) => {
-        if (!store.getters.isAuthenticated) {
-          next('/403');
-        } else {
-          next();
-        }
-      },
-      component: () =>
-        import(/* webpackChunkName: "project-add" */ './views/ProjectAdd.vue'),
+    path: '/project/edit/:id?',
+    alias: '/project/add',
+    name: 'editProject',
+    beforeEnter: (to, from, next) => {
+      if (!store.getters.isAuthenticated) {
+        next('/403');
+      } else {
+        next();
+      }
     },
+    component: () =>
+      import(/* webpackChunkName: "article-editor" */ './views/ProjectEdit.vue'),
+  },
     {
       path: '/project/:id',
       name: 'project',
       component: () =>
         import(/* webpackChunkName: "project-page" */ './views/Project.vue'),
-    },
-    {
-      path: '/project/edit/:id?',
-      name: 'editProject',
-      // beforeEnter: (to, from, next) => {
-      //   if (!store.getters.isAuthenticated) {
-      //     next('/403');
-      //   } else if (!Number(to.params.id)) {
-      //     next('/404');
-      //   } else {
-      //     next();
-      //   }
-      // },
-      component: () =>
-        import(/* webpackChunkName: "project-editor" */ './views/ProjectEdit.vue'),
     },
     {
       path: '/403',
