@@ -63,7 +63,12 @@ export default new Router({
       component: () => import(/* webpackChunkName: "sections" */ './views/SectionList.vue'),
     },
     {
-      path: '/hardware/:page?',
+      path: '/hardwares/:page?',
+      name: 'hardwareList',
+      component: () => import(/* webpackChunkName: "hardwares" */ './views/HardwareList.vue'),
+    },
+    {
+      path: '/hardware/:id?',
       name: 'hardware',
       component: () => import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
     },

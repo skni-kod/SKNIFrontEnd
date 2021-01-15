@@ -62,7 +62,7 @@ export default class Navbar extends Vue {
     { link: '/articles/1', title: 'Artykuły', icon: 'mdi-text-box-multiple' },
     { link: '/sections', title: 'Sekcje', icon: 'mdi-vector-intersection' },
     { link: '/projects', title: 'Projekty', icon: 'mdi-cog' },
-    // { link: '/hardware', title: 'Hardware', icon: "mdi-expansion-card" },
+    { link: '/hardwares', title: 'Hardware', icon: 'mdi-expansion-card' },
   ];
   get drawer(): boolean {
     return this.$store.getters.navDrawer;
