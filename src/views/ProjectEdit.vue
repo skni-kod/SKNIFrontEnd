@@ -80,7 +80,7 @@ private addProject() {
           authors: this.$data.authors,
           text: this.$data.project.text,
           section: this.$data.section,
-          creator: this.$store.getters.user.profile,
+          creator: this.$store.getters.user.id,
           repository_links: this.$data.links,
           creation_date: new Date(),
           publication_date: new Date(),
