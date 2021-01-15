@@ -17,7 +17,7 @@
               </p>
               <v-spacer />
               <v-icon left color="primary">mdi-account</v-icon>
-              <p class="my-auto">{{ article.creator.user.username }}</p>
+              <p class="my-auto">{{ article.creator.username }}</p>
               <v-spacer v-if="article.tags.length > 0" />
               <div v-if="article.tags.length > 0">
                 <v-icon left color="primary">mdi-note</v-icon>

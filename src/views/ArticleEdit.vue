@@ -80,10 +80,10 @@ export default class ArticleEdit extends Vue {
         .addArticle(this.$data.article.id, {
           title: this.$data.article.title,
           alias: this.$data.article.alias,
-          authors: [11],
+          authors: this.$data.authors,
           text: this.$data.article.text,
           tags: this.$data.selectedTags,
-          creator: this.$store.getters.user.profile,
+          creator: this.$store.getters.user.id,
           creation_date: new Date(),
           publication_date: new Date(),
         })
