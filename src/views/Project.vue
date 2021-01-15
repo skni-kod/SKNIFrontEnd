@@ -11,7 +11,7 @@
               <v-avatar left>
                 <v-icon>mdi-account-circle</v-icon>
               </v-avatar>
-              <span>{{ project.creator.user.username }}</span>
+              <span>{{ project.creator.username }}</span>
             </v-chip>
             <p class="mb-0">
               Data publikacji:
@@ -48,9 +48,9 @@
           Made with
           <v-icon color="red">mdi-heart</v-icon> by
         </p>
-        <div v-for="author in project.authors" :key="author.user.username">
+        <div v-for="author in project.authors" :key="author.username">
           <p>
-            <b>{{ author.user.first_name }} {{ author.user.last_name }}</b>
+            <b>{{ author.first_name }} "{{author.username}}" {{ author.last_name }}</b>
           </p>
         </div>
         <p>

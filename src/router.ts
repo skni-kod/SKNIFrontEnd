@@ -9,78 +9,76 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
+      component: () =>
+        import(/* webpackChunkName: "home" */ './views/Home.vue'),
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
+      component: () =>
+        import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
     {
       path: '/articles/:page?',
       name: 'articles',
-      component: () => import(/* webpackChunkName: "article" */ './views/ArticleList.vue'),
+      component: () =>
+        import(/* webpackChunkName: "article" */ './views/ArticleList.vue'),
     },
     {
       path: '/article/:id-:alias',
       name: 'article',
-      component: () => import(/* webpackChunkName: "article-page" */ './views/Article.vue'),
+      component: () =>
+        import(/* webpackChunkName: "article-page" */ './views/Article.vue'),
     },
     {
       path: '/article/edit/:id?',
+      alias: '/article/add',
       name: 'editArticle',
       beforeEnter: (to, from, next) => {
         if (!store.getters.isAuthenticated) {
           next('/403');
-        } else if (!Number(to.params.id)) {
-          next('/404');
         } else {
           next();
         }
       },
-      component: () => import(/* webpackChunkName: "article-editor" */ './views/ArticleEdit.vue'),
-    },
-    {
-      path: '/article/add',
-      name: 'addArticle',
-      beforeEnter: (to, from, next) => {
-        if (!store.getters.isAuthenticated) {
-          next('/403');
-        } else {
-          next();
-        }
-      },
-      component: () => import(/* webpackChunkName: "article-edit" */ './views/ArticleAdd.vue'),
+      component: () =>
+        import(/* webpackChunkName: "article-editor" */ './views/ArticleEdit.vue'),
     },
     {
       path: '/tag/:tag/:page?',
       name: 'tag',
-      component: () => import(/* webpackChunkName: "article" */ './views/Tag.vue'),
+      component: () =>
+        import(/* webpackChunkName: "article" */ './views/Tag.vue'),
     },
     {
       path: '/sections',
       name: 'sections',
-      component: () => import(/* webpackChunkName: "sections" */ './views/SectionList.vue'),
+      component: () =>
+        import(/* webpackChunkName: "sections" */ './views/SectionList.vue'),
     },
     {
       path: '/hardware/:page?',
       name: 'hardware',
-      component: () => import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
+      component: () =>
+        import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "user" */ './views/Login.vue'),
+      component: () =>
+        import(/* webpackChunkName: "user" */ './views/Login.vue'),
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import(/* webpackChunkName: "user-register" */ './views/Register.vue'),
+      component: () =>
+        import(/* webpackChunkName: "user-register" */ './views/Register.vue'),
     },
     {
       path: '/user/panel',
       name: 'userPanel',
-      component: () => import(/* webpackChunkName: "user-panel" */ './views/UserPanel.vue'),
+      component: () =>
+        import(/* webpackChunkName: "user-panel" */ './views/UserPanel.vue'),
       beforeEnter: (to, from, next) => {
         if (store.getters.isAuthenticated) {
           next();
@@ -92,7 +90,8 @@ export default new Router({
     {
       path: '/user/passwordchange',
       name: 'userPasswordChange',
-      component: () => import(/* webpackChunkName: "user-passwordchange" */ './views/UserPasswordChange.vue'),
+      component: () =>
+        import(/* webpackChunkName: "user-passwordchange" */ './views/UserPasswordChange.vue'),
       beforeEnter: (to, from, next) => {
         if (store.getters.isAuthenticated) {
           next();
@@ -104,7 +103,8 @@ export default new Router({
     {
       path: '/user/descriptionchange',
       name: 'userDescriptionChange',
-      component: () => import(/* webpackChunkName: "user-descriptionchange" */ './views/UserDescriptionChange.vue'),
+      component: () =>
+        import(/* webpackChunkName: "user-descriptionchange" */ './views/UserDescriptionChange.vue'),
       beforeEnter: (to, from, next) => {
         if (store.getters.isAuthenticated) {
           next();
@@ -116,7 +116,8 @@ export default new Router({
     {
       path: '/user/profile/:id',
       name: 'userProfile',
-      component: () => import(/* webpackChunkName: "user-profile" */ './views/UserProfile.vue'),
+      component: () =>
+        import(/* webpackChunkName: "user-profile" */ './views/UserProfile.vue'),
       beforeEnter: (to, from, next) => {
         if (to.params.id) {
           next();
@@ -128,48 +129,40 @@ export default new Router({
     {
       path: '/projects/:page?',
       name: 'projects',
-      component: () => import(/* webpackChunkName: "project" */ './views/ProjectList.vue'),
+      component: () =>
+        import(/* webpackChunkName: "project" */ './views/ProjectList.vue'),
     },
     {
-      path: '/project/add',
-      name: 'addProject',
-      beforeEnter: (to, from, next) => {
-        if (!store.getters.isAuthenticated) {
-          next('/403');
-        } else {
-          next();
-        }
-      },
-      component: () => import(/* webpackChunkName: "project-add" */ './views/ProjectAdd.vue'),
+    path: '/project/edit/:id?',
+    alias: '/project/add',
+    name: 'editProject',
+    beforeEnter: (to, from, next) => {
+      if (!store.getters.isAuthenticated) {
+        next('/403');
+      } else {
+        next();
+      }
     },
+    component: () =>
+      import(/* webpackChunkName: "article-editor" */ './views/ProjectEdit.vue'),
+  },
     {
       path: '/project/:id',
       name: 'project',
-      component: () => import(/* webpackChunkName: "project-page" */ './views/Project.vue'),
-    },
-    {
-      path: '/project/edit/:id?',
-      name: 'editProject',
-      // beforeEnter: (to, from, next) => {
-      //   if (!store.getters.isAuthenticated) {
-      //     next('/403');
-      //   } else if (!Number(to.params.id)) {
-      //     next('/404');
-      //   } else {
-      //     next();
-      //   }
-      // },
-      component: () => import(/* webpackChunkName: "project-editor" */ './views/ProjectEdit.vue'),
+      component: () =>
+        import(/* webpackChunkName: "project-page" */ './views/Project.vue'),
     },
     {
       path: '/403',
       name: 'error403',
-      component: () => import(/* webpackChunkName: "eror403" */ './views/403.vue'),
+      component: () =>
+        import(/* webpackChunkName: "eror403" */ './views/403.vue'),
     },
     {
       path: '/404',
       name: 'error404',
-      component: () => import(/* webpackChunkName: "error404" */ './views/404.vue'),
+      component: () =>
+        import(/* webpackChunkName: "error404" */ './views/404.vue'),
     },
     { path: '*', redirect: '/404' },
   ],

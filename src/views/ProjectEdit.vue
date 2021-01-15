@@ -4,7 +4,7 @@
       class="text-h4 text-center font-weight-bold justify-center ma-2"
       style="word-break: break-word"
     >
-      Edycja projektu nr {{ this.$route.params.id }}
+      {{ add ? 'Nowy projekt' : 'Edycja projektu nr ' + this.$route.params.id }}
     </p>
     <project-editor
       :project="project"
@@ -19,9 +19,18 @@
       @validation="inputValidated = $event"
     ></project-editor>
     <editor-menu
+      @saveChanges="addProject"
+      @discardChanges="returnFromEditor"
+      text="Czy na pewno chcesz opuścić ekran tworzenia nowego projektu bez zapisywania zmian?"
+      saveText="Dodaj projekt"
+      discardText="Odrzuć projekt"
+      v-if="add"
+    />
+    <editor-menu
       @saveChanges="editProject"
-      @discardChanges="returnToProject"
+      @discardChanges="returnFromEditor"
       text="Czy na pewno chcesz wyjść z edycji projektu bez zapisywania zmian?"
+      v-else
     />
   </div>
 </template>
@@ -32,6 +41,13 @@ import { ProjectsService } from '@/services/ProjectsService';
 import { ProjectModel } from '@/models/ProjectModel';
 import { SectionsService } from '@/services/SectionsService';
 import { SectionModel } from '@/models/SectionModel';
+import ProjectEditor from '@/components/ProjectEditor.vue';
+
+@Component({
+  components: {
+    ProjectEditor,
+  },
+})
 
 @Component
 export default class ProjectEdit extends Vue {
@@ -43,21 +59,73 @@ export default class ProjectEdit extends Vue {
     this.sectionsService = new SectionsService();
     this.$data.article = new ProjectModel();
 
-    if (this.$route.params.id !== undefined) {
+    if (this.$route.path.includes('add')) {
+      this.$data.add = true;
+      this.getAllSections();
+    } else {
       this.projectsService
         .getProject(+this.$route.params.id, false)
         .then((project) => {
           this.$data.project = project;
+          this.getAllSections();
           project.authors.forEach((element: any) => {
-            this.$data.authors.push(element.user.id);
+            this.$data.authors.push(element.id);
           });
           this.$data.section = project.section.id;
         })
         .catch((err) => {
           this.$router.replace('/404');
         });
-      this.sectionsService.getAllSections().then((res) => {
-        this.$data.allSections = res;
+    }
+  }
+
+private addProject() {
+    if (this.$data.inputValidated) {
+      this.projectsService
+        .addProject({
+          title: this.$data.project.title,
+          authors: this.$data.authors,
+          text: this.$data.project.text,
+          section: this.$data.section,
+          creator: this.$store.getters.user.id,
+          repository_links: this.$data.links,
+          creation_date: new Date(),
+          publication_date: new Date(),
+        })
+        .then((res: any) => {
+          if (res.status === 201) {
+            this.$store.dispatch('setSnackbarState', {
+              state: true,
+              msg: 'Projekt został dodany',
+              color: 'success',
+              timeout: 7500,
+            });
+            this.$router.replace(
+              '/project/' + res.data.id,
+            );
+          } else {
+            this.$store.dispatch('setSnackbarState', {
+              state: true,
+              msg: 'Błąd poczas zapisywania projektu!',
+              color: 'error',
+              timeout: 7500,
+            });
+          }
+        })
+        .catch(() => {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas zapisywania projektu!',
+            color: 'error',
+            timeout: 7500,
+          });
+        });
+    } else {
+      this.$store.dispatch('setSnackbarState', {
+        state: true,
+        msg: 'Formularz nie zostal poprawnie wypełniony!',
+        color: 'warning',
+        timeout: 7500,
       });
     }
   }
@@ -79,7 +147,7 @@ export default class ProjectEdit extends Vue {
               color: 'success',
               timeout: 7500,
             });
-            this.returnToProject();
+            this.returnFromEditor();
           } else {
             this.$store.dispatch('setSnackbarState', {
               state: true,
@@ -107,8 +175,20 @@ export default class ProjectEdit extends Vue {
     }
   }
 
-  private returnToProject() {
-    this.$router.replace('/project/' + this.$data.project.id);
+  private getAllSections() {
+    this.sectionsService.getAllSections().then((sections) => {
+      this.$data.allSections = sections;
+    });
+  }
+
+  private returnFromEditor() {
+    if (this.$data.add) {
+      this.$router.replace('/projects');
+    } else {
+      this.$router.replace(
+        '/project/' + this.$data.project.id,
+      );
+    }
   }
 
   private data() {
@@ -119,6 +199,7 @@ export default class ProjectEdit extends Vue {
       section: undefined,
       links: [],
       allSections: [],
+      add: false,
     };
   }
 }
