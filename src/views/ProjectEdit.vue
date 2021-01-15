@@ -49,7 +49,7 @@ export default class ProjectEdit extends Vue {
         .then((project) => {
           this.$data.project = project;
           project.authors.forEach((element: any) => {
-            this.$data.authors.push(element.user.id);
+            this.$data.authors.push(element.id);
           });
           this.$data.section = project.section.id;
         })
