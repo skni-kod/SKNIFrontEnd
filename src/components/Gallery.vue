@@ -53,7 +53,7 @@
           </v-carousel-item>
         </v-carousel>
       </v-card>
-      <v-btn
+      <v-btn-cap
         fab
         fixed
         top
@@ -63,7 +63,7 @@
         @click="dialog = false"
       >
         <v-icon large>mdi-close</v-icon>
-      </v-btn>
+      </v-btn-cap>
     </v-dialog>
   </div>
 </template>

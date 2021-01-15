@@ -16,13 +16,13 @@
             </v-card-text>
             <v-card-actions class="pa-0">
               <v-spacer />
-              <v-btn :to="'/article/'+ article.id + '-' + article.alias" color="primary">
+              <v-btn-cap :to="'/article/'+ article.id + '-' + article.alias" color="primary">
                 <v-icon left>mdi-page-next</v-icon>
                 <span>Czytaj więcej...</span>
-              </v-btn>
+              </v-btn-cap>
               <v-speed-dial direction="top" v-if="auth" v-model="fab" class="ml-2">
                 <template v-slot:activator>
-                  <v-btn
+                  <v-btn-cap
                     x-small
                     fab
                     v-model="fab"
@@ -30,14 +30,14 @@
                     color="primary"
                   >
                     <v-icon>mdi-cog</v-icon>
-                  </v-btn>
+                  </v-btn-cap>
                 </template>
-                <v-btn fab x-small color="orange" :to="'/article/edit/' + article.id">
+                <v-btn-cap fab x-small color="orange" :to="'/article/edit/' + article.id">
                   <v-icon>mdi-pen</v-icon>
-                </v-btn>
-                <v-btn fab x-small color="error" @click="dialog = true;">
+                </v-btn-cap>
+                <v-btn-cap fab x-small color="error" @click="dialog = true;">
                   <v-icon>mdi-delete</v-icon>
-                </v-btn>
+                </v-btn-cap>
               </v-speed-dial>
             </v-card-actions>
           </v-col>

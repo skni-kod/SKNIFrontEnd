@@ -2,7 +2,7 @@
   <div>
     <v-speed-dial fixed right bottom direction="top" v-model="fab">
       <template v-slot:activator>
-        <v-btn
+        <v-btn-cap
           large
           v-model="fab"
           class="text-body-1 font-weight-bold"
@@ -12,40 +12,40 @@
           <v-icon large v-if="fab" left>mdi-close</v-icon>
           <v-icon large v-else left>mdi-dots-vertical</v-icon>
           <span>Menu</span>
-        </v-btn>
+        </v-btn-cap>
       </template>
       <v-container class="ma-0 pa-0">
         <v-row justify="end">
-          <v-btn
+          <v-btn-cap
             color="blue white--text"
             class="ma-2"
             @click="$vuetify.goTo(0, { duration: 1000 })"
           >
             <v-icon left>mdi-arrow-collapse-up</v-icon>
             <span>Przejdź na górę</span>
-          </v-btn>
+          </v-btn-cap>
         </v-row>
         <v-row justify="end">
-          <v-btn
+          <v-btn-cap
             color="blue white--text"
             class="ma-2"
             @click="$vuetify.goTo('footer', { duration: 1000 })"
           >
             <v-icon left>mdi-arrow-collapse-down</v-icon>
             <span>Przejdź na dół</span>
-          </v-btn>
+          </v-btn-cap>
         </v-row>
         <v-row justify="end">
-          <v-btn color="success" class="ma-2" @click="saveChanges">
+          <v-btn-cap color="success" class="ma-2" @click="saveChanges">
             <v-icon left>mdi-pencil</v-icon>
             <span>{{ saveText }}</span>
-          </v-btn>
+          </v-btn-cap>
         </v-row>
         <v-row justify="end">
-          <v-btn color="error" class="ma-2" @click="dialog = true">
+          <v-btn-cap color="error" class="ma-2" @click="dialog = true">
             <v-icon left>mdi-pencil-off</v-icon>
             <span>{{ discardText }}</span>
-          </v-btn>
+          </v-btn-cap>
         </v-row>
       </v-container>
     </v-speed-dial>

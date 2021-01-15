@@ -10,16 +10,16 @@
     <v-card-actions>
       <v-row justify="end" no-gutters>
         <v-col cols="12" sm="auto" class="px-2 py-1">
-          <v-btn block outlined color="error" @click="close">
+          <v-btn-cap block outlined color="error" @click="close">
             <span>Anuluj</span>
             <v-icon right>mdi-cancel</v-icon>
-          </v-btn>
+          </v-btn-cap>
         </v-col>
         <v-col cols="12" sm="auto" class="px-2 py-1">
-          <v-btn block outlined :disabled="!comment.length" color="primary">
+          <v-btn-cap block outlined :disabled="!comment.length" color="primary">
             <span>{{ addText }}</span>
             <v-icon right>mdi-comment-plus</v-icon>
-          </v-btn>
+          </v-btn-cap>
         </v-col>
       </v-row>
     </v-card-actions>

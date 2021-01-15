@@ -101,30 +101,30 @@
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
-              <v-btn :disabled="!inputValidated" color="primary" type="submit">
+              <v-btn-cap :disabled="!inputValidated" color="primary" type="submit">
                 <span class="font-weight-bold">Zarejestruj się</span>
                 <v-icon right>mdi-database-plus</v-icon>
-              </v-btn>
+              </v-btn-cap>
             </v-card-actions>
           </v-form>
         </v-card>
       </v-row>
       <v-row justify="center">
         <!-- TODO -->
-        <v-btn disabled class="white--text mx-2 mt-4 mb-2" color="purple">
+        <v-btn-cap disabled class="white--text mx-2 mt-4 mb-2" color="purple">
           <v-icon left>mdi-github</v-icon>
           <span>Zarejestruj się poprzez GitHub</span>
-        </v-btn>
+        </v-btn-cap>
       </v-row>
       <v-row align="center" justify="center">
         <v-col cols="auto">
           <p class="my-auto">Masz już konto?</p>
         </v-col>
         <v-col cols="auto">
-          <v-btn text color="primary" @click="$router.push('/login')">
+          <v-btn-cap text color="primary" @click="$router.push('/login')">
             <v-icon left>mdi-login</v-icon>
             <span>Zaloguj się!</span>
-          </v-btn>
+          </v-btn-cap>
         </v-col>
       </v-row>
     </v-col>

@@ -23,9 +23,9 @@
         ></v-pagination>
       </v-col>
     </v-row>
-    <v-btn fab fixed bottom right v-if="auth" :to="'/article/add'" class="success">
+    <v-btn-cap fab fixed bottom right v-if="auth" :to="'/article/add'" class="success">
       <v-icon class="white--text">mdi-plus</v-icon>
-    </v-btn>
+    </v-btn-cap>
   </div>
 </template>
 

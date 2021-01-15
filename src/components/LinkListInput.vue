@@ -17,10 +17,10 @@
             ></v-text-field>
           </v-col>
           <v-col cols="auto" class="py-0 px-1">
-            <v-btn color="error" @click="removeListElement(i)">
+            <v-btn-cap color="error" @click="removeListElement(i)">
               <v-icon left>mdi-delete</v-icon>
               <span>Usuń</span>
-            </v-btn>
+            </v-btn-cap>
           </v-col>
         </v-row>
         <v-row align="center">
@@ -52,10 +52,10 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer />
-      <v-btn block color="primary" @click="addListElement">
+      <v-btn-cap block color="primary" @click="addListElement">
         <v-icon left>mdi-link-variant-plus</v-icon>
         <span>Dodaj link</span>
-      </v-btn>
+      </v-btn-cap>
     </v-card-actions>
   </v-card>
 </template>

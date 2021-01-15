@@ -37,8 +37,8 @@
             ></v-text-field>
           </v-col>
           <v-col class="py-0" cols="auto">
-            <v-btn color="primary" @click="generateAlias()"
-              >Wygeneruj alias</v-btn
+            <v-btn-cap color="primary" @click="generateAlias()"
+              >Wygeneruj alias</v-btn-cap
             >
           </v-col>
         </v-row>

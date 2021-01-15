@@ -9,9 +9,9 @@
         ></project-card>
       </v-col>
     </v-row>
-    <v-btn fab fixed bottom right v-if="auth" :to="'/project/add'" class="success">
+    <v-btn-cap fab fixed bottom right v-if="auth" :to="'/project/add'" class="success">
       <v-icon class="white--text">mdi-plus</v-icon>
-    </v-btn>
+    </v-btn-cap>
     <v-pagination
       v-model="pagination.currentPage"
       :length="pagination.pageCount"

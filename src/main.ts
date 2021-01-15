@@ -22,6 +22,8 @@ const EditorMenu = () => import(/* webpackChunkName: "ComponentEditorMenu" */ '@
 const Comment = () => import(/* webpackChunkName: "ComponentComment" */ '@/components/Comment.vue');
 const CommentAdd = () => import(/* webpackChunkName: "ComponentCommentAdd" */ '@/components/CommentAdd.vue');
 
+const VBtnCap = () => import(/* webpackChunkName: "CustomVBtnCap" */ '@/components/base/VBtnCap.vue');
+
 Vue.config.productionTip = false;
 
 // Vue.use(MarkdownItVue);
@@ -47,3 +49,4 @@ Vue.component('link-list-input', LinkListInput);
 Vue.component('editor-menu', EditorMenu);
 Vue.component('comment', Comment);
 Vue.component('comment-add', CommentAdd);
+Vue.component('v-btn-cap', VBtnCap);
