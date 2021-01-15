@@ -50,7 +50,7 @@
         </p>
         <div v-for="author in project.authors" :key="author.username">
           <p>
-            <b>{{ author.first_name }} {{ author.last_name }}</b>
+            <b>{{ author.first_name }} "{{author.username}}" {{ author.last_name }}</b>
           </p>
         </div>
         <p>
