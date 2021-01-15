@@ -44,12 +44,8 @@ import { SectionModel } from '@/models/SectionModel';
 import ProjectEditor from '@/components/ProjectEditor.vue';
 
 @Component({
-  components: {
-    ProjectEditor,
-  },
+  components: { ProjectEditor },
 })
-
-@Component
 export default class ProjectEdit extends Vue {
   private projectsService!: ProjectsService;
   private sectionsService!: SectionsService;

@@ -14,5 +14,5 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component({
   inheritAttrs: false,
 })
-export default class VBtnCapitalise extends Vue {}
+export default class VBtnCapitalize extends Vue {}
 </script>
