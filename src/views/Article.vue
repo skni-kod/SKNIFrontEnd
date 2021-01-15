@@ -1,6 +1,6 @@
 <template>
   <div class="mt-2">
-    <v-row justify="center" v-if="article != undefined">
+    <v-row justify="center" v-if="article != undefined" class="mx-1">
       <v-col cols="12" sm="10" md="8" lg="6" xl="4">
         <v-card>
           <v-card-title
@@ -17,7 +17,7 @@
               </p>
               <v-spacer />
               <v-icon left color="primary">mdi-account</v-icon>
-              <p class="my-auto">{{ article.creator.user.username }}</p>
+              <p class="my-auto">{{ article.creator.username }}</p>
               <v-spacer v-if="article.tags.length > 0" />
               <div v-if="article.tags.length > 0">
                 <v-icon left color="primary">mdi-note</v-icon>
@@ -70,9 +70,9 @@
                         :color="hover ? 'primary' : 'grey'"
                       >
                         <a
-                          :href="'/#/user/profile/' + author.user.id"
+                          :href="'/#/user/profile/' + author.id"
                           class="white--text text-decoration-none"
-                          >{{ author.user.username }}</a
+                          >{{ author.username }}</a
                         >
                       </v-chip>
                     </v-hover>

@@ -52,4 +52,24 @@ export class ProjectsService {
         return edit;
     }
 
+    public async addProject(data: object): Promise<any> {
+        const save = await axios.post('api/projects/', data, {
+            headers: {
+                Authorization: 'Bearer ' + store.getters.token,
+            },
+        });
+
+        return save;
+    }
+
+    public async deleteProject(id: number): Promise<any> {
+        const del = await axios.delete('api/projects/' + id + '/', {
+            headers: {
+                Authorization: 'Bearer ' + store.getters.token,
+            },
+        });
+
+        return del;
+    }
+
 }
