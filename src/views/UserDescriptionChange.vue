@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from '../axios';
+import beAxios from '../axios';
 
 @Component
 export default class UserPasswordChange extends Vue {
@@ -39,7 +39,7 @@ export default class UserPasswordChange extends Vue {
   }
 
   private editDescription() {
-    axios
+    beAxios
       .patch(
         'api/profiles/' + this.user.profile.id + '/',
         {

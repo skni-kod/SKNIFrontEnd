@@ -48,7 +48,7 @@
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { ProjectModel } from '@/models/ProjectModel';
 import { SectionModel } from '@/models/SectionModel';
-import axios from '../axios';
+import beAxios from '../axios';
 
 @Component
 export default class ProjectEditor extends Vue {
@@ -95,7 +95,7 @@ export default class ProjectEditor extends Vue {
   }
 
   private getAllusers() {
-    axios.get('api/users/').then((res) => {
+    beAxios.get('api/users/').then((res) => {
       this.$data.users = res.data;
       this.$data.users.forEach((element: any) => {
         element.fullname =

@@ -20,7 +20,7 @@
             <v-img
               class="clickable"
               style="cursor: pointer;"
-              :src="img.thumbnail"
+              :src="be + img.thumbnail"
               aspect-ratio="1"
               @click.native="
                 dialog = true;
@@ -46,7 +46,7 @@
           <v-carousel-item v-for="(img, i) in imgs" :key="i">
             <v-img
               contain
-              :src="img.image"
+              :src="be + img.image"
               aspect-ratio="1.7778"
               height="75vh"
             ></v-img>
@@ -82,6 +82,10 @@ export default class Gallery extends Vue {
   @Prop({ default: 4 }) public readonly bMd!: number;
   @Prop({ default: undefined }) public readonly bLg!: number;
   @Prop({ default: undefined }) public readonly bXl!: number;
+
+  get be() {
+    return process.env.VUE_APP_BACK_URL.slice(0, -1);
+  }
 
   public data() {
     return {

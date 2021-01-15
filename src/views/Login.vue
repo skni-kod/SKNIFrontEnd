@@ -69,7 +69,7 @@
 <script lang='ts'>
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import Axios from 'axios';
+import beAxios from 'axios';
 
 @Component
 export default class Login extends Vue {

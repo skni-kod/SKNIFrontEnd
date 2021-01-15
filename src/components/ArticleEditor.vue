@@ -71,7 +71,7 @@ import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { TagModel } from '@/models/TagModel';
-import axios from '../axios';
+import beAxios from '../axios';
 
 @Component
 export default class ArticleEditor extends Vue {
@@ -127,7 +127,7 @@ export default class ArticleEditor extends Vue {
   }
 
   private getAllusers() {
-    axios.get('api/users/').then((res) => {
+    beAxios.get('api/users/').then((res) => {
       this.$data.users = res.data;
       this.$data.users.forEach((element: any) => {
         element.fullname =

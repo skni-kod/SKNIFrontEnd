@@ -4,23 +4,38 @@
       <v-img
         class="white--text"
         height="300px"
-        :src="article.gallery ? (article.gallery[0] ? article.gallery[0].image : require('../assets/strona_bg.png')) : require('../assets/strona_bg.png')"
+        :src="
+          article.gallery
+            ? article.gallery[0]
+              ? be + article.gallery[0].image
+              : require('../assets/strona_bg.png')
+            : require('../assets/strona_bg.png')
+        "
       >
         <v-row align="end" style="height: 100%" class="card-text ma-0">
           <v-col cols="12">
             <v-card-title
               class="text-h5 white--text darken-2 font-weight-bold justify-left pb-0 px-0"
-            >{{ article.title }}</v-card-title>
+              >{{ article.title }}</v-card-title
+            >
             <v-card-text class="px-0">
               <p class="text-left mb-0">{{ text }}</p>
             </v-card-text>
             <v-card-actions class="pa-0">
               <v-spacer />
-              <v-btn-cap :to="'/article/'+ article.id + '-' + article.alias" color="primary">
+              <v-btn-cap
+                :to="'/article/' + article.id + '-' + article.alias"
+                color="primary"
+              >
                 <v-icon left>mdi-page-next</v-icon>
                 <span>Czytaj więcej...</span>
               </v-btn-cap>
-              <v-speed-dial direction="top" v-if="auth" v-model="fab" class="ml-2">
+              <v-speed-dial
+                direction="top"
+                v-if="auth"
+                v-model="fab"
+                class="ml-2"
+              >
                 <template v-slot:activator>
                   <v-btn-cap
                     x-small
@@ -32,10 +47,15 @@
                     <v-icon>mdi-cog</v-icon>
                   </v-btn-cap>
                 </template>
-                <v-btn-cap fab x-small color="orange" :to="'/article/edit/' + article.id">
+                <v-btn-cap
+                  fab
+                  x-small
+                  color="orange"
+                  :to="'/article/edit/' + article.id"
+                >
                   <v-icon>mdi-pen</v-icon>
                 </v-btn-cap>
-                <v-btn-cap fab x-small color="error" @click="dialog = true;">
+                <v-btn-cap fab x-small color="error" @click="dialog = true">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn-cap>
               </v-speed-dial>
@@ -76,6 +96,10 @@ export default class ArticleCard extends Vue {
 
   get text(): string {
     return this.removeMarkdown(this.article.text);
+  }
+
+  get be() {
+    return process.env.VUE_APP_BACK_URL.slice(0, -1);
   }
 
   private deleteArticle() {
