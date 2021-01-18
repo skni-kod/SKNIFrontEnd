@@ -51,15 +51,15 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class HardwareCard extends Vue {
   @Prop() public name!: string;
-  @Prop() public availability!: string;
-  @Prop({ default: false }) public rent!: boolean;
+  @Prop() public is_rented!: string;
+  @Prop({ default: false }) public to_rent!: boolean;
   @Prop() public img!: string;
 
   private color() {
-    if (!this.rent) {
+    if (!this.to_rent) {
       this.$data.tooltip = 'Sprzęt nie jest wypożyczany.';
       return 'red--text text--lighten-2 text-h4';
-    } else if (!this.availability) {
+    } else if (!this.is_rented) {
       this.$data.tooltip = 'Sprzęt został już wypożyczony.';
       return 'orange--text text--lighten-2 text-h4';
     } else {

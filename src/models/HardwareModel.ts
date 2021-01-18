@@ -5,4 +5,5 @@ export class HardwareModel {
     public description!: string;
     public serial_number!: string;
     public is_rented!: boolean;
+    public to_rent!: boolean;
 }
