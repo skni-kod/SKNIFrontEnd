@@ -14,9 +14,15 @@
       class="mb-3"
     ></v-pagination>
     -->
-    <v-row justify="center" class='py-5'>
-      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
-        <hardware-card></hardware-card
+    <v-row justify="center" class="pa-5">
+      <v-col cols="5" sm="10" md="8" lg="6" xl="4">
+        <hardware-card name='Arduino' :availability="true" :rent="true" img='arduino.jpg'></hardware-card
+      ></v-col>
+      <v-col cols="5" sm="10" md="8" lg="6" xl="4">
+        <hardware-card name='Kaczuszka' :availability="false" :rent="false" img='rubber_duck.jpg'></hardware-card
+      ></v-col>
+      <v-col cols="5" sm="10" md="8" lg="6" xl="4">
+        <hardware-card name='Monitor' :availability="false" :rent="true"></hardware-card
       ></v-col>
     </v-row>
   </div>
@@ -29,17 +35,17 @@ import { HardwareModel } from '@/models/HardwareModel';
 import { PaginationModel } from '@/models/PaginationModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
 
-import ProjectCard from '@/components/ProjectCard.vue';
+import HardwareCard from '@/components/HardwareCard.vue';
 
 @Component({
   components: {
-    ProjectCard,
+    HardwareCard,
   },
 })
 export default class HardwareList extends Vue {
   private hardwaresService!: HardwaresService;
   private pagination!: PaginationModel;
-  private hardwares!: HardwareModel[];
+  private hardware!: HardwareModel[];
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
   }
@@ -84,7 +90,7 @@ export default class HardwareList extends Vue {
 
   private data() {
     return {
-      hardwares: this.hardwares,
+      hardware: this.hardware,
     };
   }
 }
