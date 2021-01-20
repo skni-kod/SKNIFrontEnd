@@ -21,8 +21,8 @@
       <v-col cols="4">
       </v-col>
       <v-col cols='1'>
-        <v-btn small plain rounded outlined v-if="availability">Wypożycz</v-btn>
-        <v-btn small plain rounded outlined v-else-if="rent" disabled>Wypożycz</v-btn>
+        <v-btn small plain rounded outlined v-if="!is_rented">Wypożycz</v-btn>
+        <v-btn small plain rounded outlined v-else disabled>Wypożycz</v-btn>
       </v-col>
     </v-card-title>
     <v-divider></v-divider>
@@ -59,7 +59,7 @@ export default class HardwareCard extends Vue {
     if (!this.to_rent) {
       this.$data.tooltip = 'Sprzęt nie jest wypożyczany.';
       return 'red--text text--lighten-2 text-h4';
-    } else if (!this.is_rented) {
+    } else if (this.is_rented) {
       this.$data.tooltip = 'Sprzęt został już wypożyczony.';
       return 'orange--text text--lighten-2 text-h4';
     } else {
