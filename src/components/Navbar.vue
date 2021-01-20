@@ -3,7 +3,13 @@
     <v-app-bar dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
-        <v-btn text v-for="item in toolbarItems" :key="item.link" :to="item.link">{{ item.title }}</v-btn>
+        <v-btn
+          text
+          v-for="item in toolbarItems"
+          :key="item.link"
+          :to="item.link"
+          >{{ item.title }}</v-btn
+        >
       </v-toolbar-items>
       <v-toolbar-title v-else>SKNI KOD</v-toolbar-title>
       <v-spacer />
@@ -62,8 +68,8 @@ export default class Navbar extends Vue {
     { link: '/articles/1', title: 'Artykuły', icon: 'mdi-text-box-multiple' },
     { link: '/sections', title: 'Sekcje', icon: 'mdi-vector-intersection' },
     { link: '/projects', title: 'Projekty', icon: 'mdi-cog' },
-    { link: '/hardwares', title: 'Hardware', icon: 'mdi-expansion-card' },
   ];
+
   get drawer(): boolean {
     return this.$store.getters.navDrawer;
   }
@@ -72,6 +78,16 @@ export default class Navbar extends Vue {
   }
 
   get auth(): boolean {
+    if (this.$store.getters.isAuthenticated){
+      this.toolbarItems.push({
+        link: '/hardware',
+        title: 'Hardware',
+        icon: 'mdi-expansion-card',
+      });
+    }
+    else if(this.toolbarItems[this.toolbarItems.length - 1].title == "Hardware"){
+      this.toolbarItems.pop()
+    }
     return this.$store.getters.isAuthenticated;
   }
 
