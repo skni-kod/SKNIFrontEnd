@@ -63,12 +63,19 @@ export default new Router({
       component: () => import(/* webpackChunkName: "sections" */ './views/SectionList.vue'),
     },
     {
-      path: '/hardwares/:page?',
+      path: '/hardware/:page?',
       name: 'hardwareList',
       component: () => import(/* webpackChunkName: "hardwares" */ './views/HardwareList.vue'),
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAuthenticated) {
+          next();
+        } else {
+          next('/403');
+        }
+      },
     },
     {
-      path: '/hardware/:id?',
+      path: '/hardwareCard/:id?',
       name: 'hardware',
       component: () => import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
     },
