@@ -15,13 +15,13 @@
     ></v-pagination>
     -->
     <v-row justify="center" class="pa-5">
-      <v-col cols="5" sm="10" md="8" lg="6" xl="4">
+      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
         <hardware-card name='Arduino' :is_rented="true" :to_rent="true" img='arduino.jpg'></hardware-card
       ></v-col>
-      <v-col cols="5" sm="10" md="8" lg="6" xl="4">
+      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
         <hardware-card name='Kaczuszka' :is_rented="false" :to_rent="true" img='rubber_duck.jpg'></hardware-card
       ></v-col>
-      <v-col cols="5" sm="10" md="8" lg="6" xl="4">
+      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
         <hardware-card name='Monitor' :is_rented="false" :to_rent="true"></hardware-card
       ></v-col>
     </v-row>

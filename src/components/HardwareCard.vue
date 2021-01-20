@@ -1,29 +1,28 @@
 <template>
   <v-card tile>
     <v-card-title class="grey lighten-4">
-      <v-col cols="3" class="text-center">
-        <h3 class="">{{ name }}</h3>
-      </v-col>
-      <v-divider vertical></v-divider>
-      <v-col cols="3">
+      <v-row>
+        <v-col cols="12" sm="3" class="text-center">
+          <h3 class="">{{ name }}</h3>
+        </v-col>
+        <v-divider vertical></v-divider>
+        <v-col cols="12" sm="4" md="3">
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-              <h3 class="mx-5 grey--text" v-bind="attrs" v-on="on">
+              <h3 class="grey--text text-center" v-bind="attrs" v-on="on">
                 Status:
-                <v-icon :class="color()"
-                  >mdi-record</v-icon
-                >
+                <v-icon :class="color()">mdi-record</v-icon>
               </h3>
             </template>
             <span> {{ tooltip }} </span>
           </v-tooltip>
-      </v-col>
-      <v-col cols="4">
-      </v-col>
-      <v-col cols='1'>
-        <v-btn small plain rounded outlined v-if="!is_rented">Wypożycz</v-btn>
-        <v-btn small plain rounded outlined v-else disabled>Wypożycz</v-btn>
-      </v-col>
+        </v-col>
+        <v-col sm='2' md='3' :class="{'d-none': $vuetify.breakpoint.xs}"> </v-col>
+        <v-col cols="12" sm="2" :class="{'text-center': $vuetify.breakpoint.xs}">
+            <v-btn small plain rounded outlined v-if="!is_rented">Wypożycz</v-btn>
+            <v-btn small plain rounded outlined v-else disabled>Wypożycz</v-btn>
+        </v-col>
+      </v-row>
     </v-card-title>
     <v-divider></v-divider>
     <v-img height="300" :src="require(`@/assets/${img}`)" contain>
