@@ -59,6 +59,14 @@
           <v-list-item-title>Panel użytkownika</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+       <v-list-item router @click="drawer = !drawer" to="/admin/panel" v-if="admin">
+        <v-list-item-action>
+          <v-icon large class="primary--text">mdi-duck</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Panel administratora</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
       <v-list-item @click="logout(); drawer = !drawer" v-if="auth">
         <v-list-item-action>
           <v-icon large class="primary--text">mdi-logout</v-icon>
@@ -77,6 +85,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class NavbarDrawer extends Vue {
   @Prop({ type: Array }) public readonly items!: object[];
   @Prop() public readonly auth!: boolean;
+  @Prop() public readonly admin!: boolean;
   get drawer(): boolean {
     return this.$store.getters.navDrawer;
   }

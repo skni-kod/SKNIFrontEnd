@@ -102,6 +102,18 @@ export default new Router({
       },
     },
     {
+      path: '/admin/panel',
+      name: 'adminPanel',
+      component: () => import(/* webpackChunkName: "admin-panel" */ './views/AdminPanel.vue'),
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAuthenticated) {
+          next();
+        } else {
+          next('/403');
+        }
+      },
+    },
+    {
       path: '/user/passwordchange',
       name: 'userPasswordChange',
       component: () => import(/* webpackChunkName: "user-passwordchange" */ './views/UserPasswordChange.vue'),
