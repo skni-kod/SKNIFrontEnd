@@ -5,7 +5,7 @@ const CS = new CommentsService();
 const snackbarModule: Module<any, any> = {
   state: {
       articleId: undefined,
-    comments: undefined,
+    comments: [],
   },
 
   mutations: {
@@ -15,7 +15,7 @@ const snackbarModule: Module<any, any> = {
     },
     purgeModule(state) {
         state.articleId = undefined;
-        state.comments = undefined;
+        state.comments = [];
     },
   },
 
