@@ -6,12 +6,13 @@
         >Komentarze</v-card-title
       >
       <v-card-text class="py-1">
-        <comment text="Testowy komentarz" />
         <comment
-          text="Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz Testowy komentarz "
-          :nested="true"
+          v-for="comment in comments"
+          :key="comment.id"
+          :nick="comment.user.username"
+          :date="comment.creation_date"
+          :text="comment.text"
         />
-        <comment text="Testowy komentarz" />
         <comment-add
           v-if="addComment"
           @close="addComment = false"

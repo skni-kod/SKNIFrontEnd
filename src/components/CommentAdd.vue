@@ -16,7 +16,13 @@
           </v-btn-cap>
         </v-col>
         <v-col cols="12" sm="auto" class="px-2 py-1">
-          <v-btn-cap block outlined :disabled="!comment.length" color="primary">
+          <v-btn-cap
+            block
+            outlined
+            :disabled="!comment.length"
+            color="primary"
+            @click="addComment"
+          >
             <span>{{ addText }}</span>
             <v-icon right>mdi-comment-plus</v-icon>
           </v-btn-cap>
@@ -45,9 +51,48 @@ export default class CommentAdd extends Vue {
     this.$emit('close');
   }
 
+  private addComment() {
+    this.commentsService
+      .addComment({
+        text: this.$data.comment,
+        user: this.$data.author,
+        article: this.$route.params.id,
+      })
+      .then((res: any) => {
+        if (res.status === 201) {
+          this.$store.dispatch('refreshComments');
+          this.$emit('close');
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Komentarz został dodany',
+            color: 'success',
+            timeout: 7500,
+          });
+        } else {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas zapisywania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+      .catch(() => {
+        this.$store.dispatch('setSnackbarState', {
+          state: true,
+          msg: 'Błąd poczas zapisywania komentarza!',
+          color: 'error',
+          timeout: 7500,
+        });
+      });
+  }
+
   private data() {
     return {
       comment: '',
+      author: this.$store.getters.user.id,
+      data: new Date(),
+      imputValidated: false,
     };
   }
 }

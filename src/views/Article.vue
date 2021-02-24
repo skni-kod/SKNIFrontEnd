@@ -91,7 +91,7 @@
           </v-card-text>
         </v-card>
         <gallery breakpoints="xs6" :imgs="article.gallery" />
-        <comments-list/>
+        <comments-list :comments="comments" />
       </v-col>
     </v-row>
     <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="auth">
@@ -124,20 +124,15 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
-import { CommentsService } from '@/services/CommentsService';
 import { ArticleModel } from '@/models/ArticleModel';
-import { CommentModel } from '@/models/CommentModel';
 
 @Component
 export default class Article extends Vue {
   private articlesService!: ArticlesService;
-  private commentsService!: CommentsService;
   private article!: ArticleModel;
-  private comments!: CommentModel[];
 
   private beforeCreate() {
     this.articlesService = new ArticlesService();
-    this.commentsService = new CommentsService();
   }
 
   private mounted() {
@@ -150,13 +145,11 @@ export default class Article extends Vue {
         this.$router.replace('/404');
       });
 
-    this.commentsService
-      .getComments({
-        article_id: this.$route.params.id,
-      })
-      .then((comments) => {
-        this.comments = comments;
-      });
+    this.$store.dispatch('getComments', this.$route.params.id);
+  }
+
+   private beforeDestroy() {
+    this.$store.dispatch('purgeModule');
   }
 
   get auth(): boolean {
@@ -198,10 +191,13 @@ export default class Article extends Vue {
       });
   }
 
+  get comments() {
+    return this.$store.getters.comments;
+  }
+
   private data() {
     return {
       article: this.article,
-      comments: this.comments,
       fab: false,
       dialog: false,
       markdownOptions: {
