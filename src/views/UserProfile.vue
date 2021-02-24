@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from '../axios';
+import beAxios from '../axios';
 
 import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
@@ -47,7 +47,7 @@ export default class UserPanel extends Vue {
   private pagination!: PaginationModel;
   private articles!: ArticleModel[];
   private async getUser() {
-    await axios.get('api/users/' + this.$route.params.id).then((res) => {
+    await beAxios.get('api/users/' + this.$route.params.id).then((res) => {
       this.$data.user = res.data;
     });
   }

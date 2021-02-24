@@ -58,6 +58,18 @@ export default new Router({
     },
     {
       path: '/hardware/:page?',
+      name: 'hardwareList',
+      component: () => import(/* webpackChunkName: "hardwares" */ './views/HardwareList.vue'),
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAuthenticated) {
+          next();
+        } else {
+          next('/403');
+        }
+      },
+    },
+    {
+      path: '/hardwareCard/:id?',
       name: 'hardware',
       component: () =>
         import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
@@ -79,6 +91,18 @@ export default new Router({
       name: 'userPanel',
       component: () =>
         import(/* webpackChunkName: "user-panel" */ './views/UserPanel.vue'),
+      beforeEnter: (to, from, next) => {
+        if (store.getters.isAuthenticated) {
+          next();
+        } else {
+          next('/403');
+        }
+      },
+    },
+    {
+      path: '/admin/panel',
+      name: 'adminPanel',
+      component: () => import(/* webpackChunkName: "admin-panel" */ './views/AdminPanel.vue'),
       beforeEnter: (to, from, next) => {
         if (store.getters.isAuthenticated) {
           next();

@@ -1,8 +1,8 @@
 import { SectionModel } from '@/models/SectionModel';
-import axios from '../axios';
+import beAxios from '../axios';
 
 export class SectionsService {
     public async getAllSections(): Promise<SectionModel[]> {
-        return (await axios('api/section/')).data;
+        return (await beAxios('api/section/')).data;
     }
 }

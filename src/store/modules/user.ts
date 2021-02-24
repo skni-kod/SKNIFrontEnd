@@ -1,5 +1,5 @@
 import { Module } from 'vuex';
-import axios from '../../axios';
+import beAxios from '../../axios';
 import router from '../../router';
 
 const userModule: Module<any, any> = {
@@ -36,7 +36,7 @@ const userModule: Module<any, any> = {
             commit('setTimeout', to);
         },
         login({ commit, dispatch }, authData) {
-            axios.post('obtain-token/', {
+            beAxios.post('obtain-token/', {
                 username: authData.login,
                 password: authData.password,
             })
@@ -71,7 +71,7 @@ const userModule: Module<any, any> = {
             commit('setTimeout', null);
         },
         refreshToken({ dispatch, commit, state }) {
-            axios.post('refresh-token/', {
+            beAxios.post('refresh-token/', {
                 refresh: state.refreshToken,
             }).then((res) => {
                 commit('authUser', {
@@ -85,7 +85,7 @@ const userModule: Module<any, any> = {
             if (!state.token) {
                 dispatch('logout');
             } else {
-                axios.get('rest-auth/user/', {
+                beAxios.get('rest-auth/user/', {
                     headers: {
                         Authorization: 'Bearer ' + state.token,
                     },
@@ -98,7 +98,7 @@ const userModule: Module<any, any> = {
             }
         },
         register({ dispatch }, data) {
-            axios.post('rest-auth/registration/', data).then((res) => {
+            beAxios.post('rest-auth/registration/', data).then((res) => {
                 dispatch('setSnackbarState', {
                     state: true,
                     msg: 'Rejestracja przebiegła pomyslnie. Teraz możesz się zalogować.',
@@ -132,7 +132,7 @@ const userModule: Module<any, any> = {
             });
         },
         changeUserPassword({ dispatch, getters }, auth) {
-            axios.post('/rest-auth/password/change/', {
+            beAxios.post('/rest-auth/password/change/', {
                 new_password1: auth.password1,
                 new_password2: auth.password2,
             }, {

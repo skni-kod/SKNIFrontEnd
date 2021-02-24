@@ -6,8 +6,8 @@
       <v-card-text class="text-h6 px-4 pt-2 pb-0">{{ text }}</v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn color="error" @click="No">Nie</v-btn>
-        <v-btn color="success" @click="Yes">Tak</v-btn>
+        <v-btn-cap color="error" @click="No">Nie</v-btn-cap>
+        <v-btn-cap color="success" @click="Yes">Tak</v-btn-cap>
       </v-card-actions>
     </v-card>
   </v-dialog>

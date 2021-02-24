@@ -36,30 +36,30 @@
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
-              <v-btn :disabled="!inputValidated" color="primary" type="submit">
+              <v-btn-cap :disabled="!inputValidated" color="primary" type="submit">
                 <span class="font-weight-bold">Zaloguj</span>
                 <v-icon right>mdi-key</v-icon>
-              </v-btn>
+              </v-btn-cap>
             </v-card-actions>
           </v-form>
         </v-card>
       </v-row>
       <v-row justify="center">
         <!-- TODO -->
-        <v-btn disabled class="white--text mt-4 mb-2 mx-2" color="purple">
+        <v-btn-cap disabled class="white--text mt-4 mb-2 mx-2" color="purple">
           <v-icon left>mdi-github</v-icon>
           <span>Zaloguj się poprzez GitHub</span>
-        </v-btn>
+        </v-btn-cap>
       </v-row>
       <v-row align="center" justify="center">
         <v-col cols="auto">
           <p class="my-auto">Nie masz konta?</p>
         </v-col>
         <v-col cols="auto">
-          <v-btn text color="primary" @click="$router.push('/register')">
+          <v-btn-cap text color="primary" @click="$router.push('/register')">
             <v-icon left>mdi-database-plus</v-icon>
             <span>Zarejestruj się!</span>
-          </v-btn>
+          </v-btn-cap>
         </v-col>
       </v-row>
     </v-col>
@@ -69,7 +69,7 @@
 <script lang='ts'>
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import Axios from 'axios';
+import beAxios from 'axios';
 
 @Component
 export default class Login extends Vue {

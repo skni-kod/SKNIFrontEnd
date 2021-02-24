@@ -19,10 +19,10 @@
         ></comment-add>
       </v-card-text>
       <v-card-actions v-if="auth && !addComment">
-        <v-btn block color="primary" @click="addComment = true">
+        <v-btn-cap block color="primary" @click="addComment = true">
           <span>Dodaj komentarz</span>
           <v-icon right>mdi-comment-plus</v-icon>
-        </v-btn>
+        </v-btn-cap>
       </v-card-actions>
     </v-card>
   </div>

@@ -43,19 +43,19 @@
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
-              <v-btn :disabled="!inputValidated" color="primary" type="submit">
+              <v-btn-cap :disabled="!inputValidated" color="primary" type="submit">
                 <span class="font-weight-bold">Zmień hasło</span>
                 <v-icon right>mdi-lock-reset</v-icon>
-              </v-btn>
+              </v-btn-cap>
             </v-card-actions>
           </v-form>
         </v-card>
       </v-row>
       <v-row align="center" justify="center" class="ma-5">
-        <v-btn outlined color="error" @click="$router.push('/user/panel')">
+        <v-btn-cap outlined color="error" @click="$router.push('/user/panel')">
           <v-icon left>mdi-cancel</v-icon>
           <span>Anuluj zmianę hasła</span>
-        </v-btn>
+        </v-btn-cap>
       </v-row>
     </v-col>
   </v-row>

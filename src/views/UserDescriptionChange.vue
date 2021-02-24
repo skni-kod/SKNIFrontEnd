@@ -9,14 +9,14 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="success" @click="editDescription">
+            <v-btn-cap color="success" @click="editDescription">
               <v-icon left>mdi-content-save</v-icon>
               <span>Zapisz zmiany</span>
-            </v-btn>
-            <v-btn color="error" :to="'/user/panel'">
+            </v-btn-cap>
+            <v-btn-cap color="error" :to="'/user/panel'">
               <v-icon left>mdi-cancel</v-icon>
               <span>Anuluj edycję</span>
-            </v-btn>
+            </v-btn-cap>
           </v-card-actions>
         </v-card>
       </v-row>
@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from '../axios';
+import beAxios from '../axios';
 
 @Component
 export default class UserPasswordChange extends Vue {
@@ -39,7 +39,7 @@ export default class UserPasswordChange extends Vue {
   }
 
   private editDescription() {
-    axios
+    beAxios
       .patch(
         'api/profiles/' + this.user.profile.id + '/',
         {

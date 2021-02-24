@@ -21,7 +21,7 @@
     <v-card-text class="pa-1">
       <v-row no-gutters>{{ comment }}</v-row>
       <v-row no-gutters>
-        <v-btn
+        <v-btn-cap
           small
           plain
           :ripple="false"
@@ -30,8 +30,8 @@
           @click="short = !short"
         >
           {{ short ? 'Rozwiń' : 'Zwiń' }}
-        </v-btn>
-        <v-btn
+        </v-btn-cap>
+        <v-btn-cap
           small
           plain
           :ripple="false"
@@ -40,7 +40,7 @@
           @click="addComment = true"
         >
           Odpowiedz
-        </v-btn>
+        </v-btn-cap>
       </v-row>
       <comment-add
         v-if="addComment"

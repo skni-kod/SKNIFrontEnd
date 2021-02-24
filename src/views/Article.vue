@@ -96,21 +96,21 @@
     </v-row>
     <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="auth">
       <template v-slot:activator>
-        <v-btn
+        <v-btn-cap
           fab
           v-model="fab"
           class="text-body-1 font-weight-bold"
           color="primary"
         >
           <v-icon>mdi-cog</v-icon>
-        </v-btn>
+        </v-btn-cap>
       </template>
-      <v-btn fab color="orange" :to="'/article/edit/' + $route.params.id">
+      <v-btn-cap fab color="orange" :to="'/article/edit/' + $route.params.id">
         <v-icon>mdi-pen</v-icon>
-      </v-btn>
-      <v-btn fab color="error" @click="dialog = true">
+      </v-btn-cap>
+      <v-btn-cap fab color="error" @click="dialog = true">
         <v-icon>mdi-delete</v-icon>
-      </v-btn>
+      </v-btn-cap>
     </v-speed-dial>
     <confirmation-dialog
       v-if="dialog"

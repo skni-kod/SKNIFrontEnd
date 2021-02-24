@@ -1,6 +1,6 @@
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
-import axios from '../axios';
+import beAxios from '../axios';
 import store from '../store';
 
 // tslint:disable:object-literal-shorthand
@@ -9,7 +9,7 @@ export class ArticlesService {
     private readMoreGuard = '---readmore---';
 
     public async getAllArticles(): Promise<ArticleModel[]> {
-        return (await axios('api/articles/', {
+        return (await beAxios('api/articles/', {
             params: {
                 format: 'json',
             },
@@ -18,7 +18,7 @@ export class ArticlesService {
 
     // tslint:disable-next-line:max-line-length
     public async getArticles(pageNumber: number, pageSize: number, fullText: boolean): Promise<PaginationContainer<ArticleModel>> {
-        const data = (await axios('api/articles/', {
+        const data = (await beAxios('api/articles/', {
             params: {
                 format: 'json',
                 offset: (pageNumber - 1) * pageSize,
@@ -35,7 +35,7 @@ export class ArticlesService {
 
     // tslint:disable-next-line:max-line-length
     public async getArticlesWithTag(tag: string, pageNumber: number, pageSize: number, fullText: boolean): Promise<PaginationContainer<ArticleModel>> {
-        const data = (await axios('api/articles/', {
+        const data = (await beAxios('api/articles/', {
             params: {
                 tagname: tag,
                 format: 'json',
@@ -53,7 +53,7 @@ export class ArticlesService {
 
     // tslint:disable-next-line:max-line-length
     public async getUserArticles(user: number, pageNumber: number, pageSize: number, fullText: boolean): Promise<PaginationContainer<ArticleModel>> {
-        const data = (await axios('api/articles/', {
+        const data = (await beAxios('api/articles/', {
             params: {
                 author: user,
                 format: 'json',
@@ -70,7 +70,7 @@ export class ArticlesService {
     }
 
     public async getArticle(id: number, removeReadMore: boolean = true): Promise<ArticleModel> {
-        const article = (await axios('api/articles/' + id, {
+        const article = (await beAxios('api/articles/' + id, {
             params: {
                 format: 'json',
             },
@@ -87,7 +87,7 @@ export class ArticlesService {
     }
 
     public async addArticle(id: number, data: object): Promise<any> {
-        const save = await axios.post('api/articles/', data, {
+        const save = await beAxios.post('api/articles/', data, {
             headers: {
                 Authorization: 'Bearer ' + store.getters.token,
             },
@@ -97,7 +97,7 @@ export class ArticlesService {
     }
 
     public async editArticle(id: number, data: object): Promise<any> {
-        const edit = await axios.patch('api/articles/' + id + '/', data, {
+        const edit = await beAxios.patch('api/articles/' + id + '/', data, {
             headers: {
                 Authorization: 'Bearer ' + store.getters.token,
             },
@@ -107,7 +107,7 @@ export class ArticlesService {
     }
 
     public async deleteArticle(id: number): Promise<any> {
-        const del = await axios.delete('api/articles/' + id + '/', {
+        const del = await beAxios.delete('api/articles/' + id + '/', {
             headers: {
                 Authorization: 'Bearer ' + store.getters.token,
             },
