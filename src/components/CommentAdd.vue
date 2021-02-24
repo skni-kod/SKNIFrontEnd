@@ -51,9 +51,8 @@ export default class CommentAdd extends Vue {
           {
           text: this.$data.comment,
           user: this.$data.author,
-          creation_date:this.$data.date,
           article_id: 7,
-          project_id: 7})
+          project_id: 1})
         .then((res: any) => {
           if (res.status === 201) {
             this.$store.dispatch('setSnackbarState', {
