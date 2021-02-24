@@ -6,7 +6,13 @@
         >Komentarze</v-card-title
       >
       <v-card-text class="py-1">
-        <comment v-for="comment in comments" :key='comment.id' :text="comment.text" />
+        <comment
+          v-for="comment in comments"
+          :key="comment.id"
+          :nick="comment.user.username"
+          :date="comment.creation_date"
+          :text="comment.text"
+        />
         <comment-add
           v-if="addComment"
           @close="addComment = false"
