@@ -23,6 +23,7 @@
           @close="addComment = false"
         ></comment-add>
       </v-card-text>
+      <v-divider></v-divider>
       <v-card-actions>
         <v-btn-cap
           v-if="auth && !addComment"
