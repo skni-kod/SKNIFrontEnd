@@ -34,7 +34,7 @@
           <span>Dodaj komentarz</span>
           <v-icon right>mdi-comment-plus</v-icon>
         </v-btn-cap>
-        <v-row v-else no-gutters>
+        <v-row v-if="!auth" no-gutters>
           <v-col>
             <v-alert dense dismissible type="info" class="mb-0"
               >Zaloguj się aby dodac komentarz</v-alert
