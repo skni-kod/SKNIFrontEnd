@@ -58,6 +58,34 @@ const snackbarModule: Module<any, any> = {
           });
         });
     },
+    editComment({ commit,dispatch },{id,body}) {
+      CS.editComment(id,body).then((res: any) => {
+        if (res.status === 200) {
+          dispatch('refreshComments');
+          dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Komentarz został dodany',
+            color: 'success',
+            timeout: 7500,
+          });
+        } else {
+            dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas zapisywania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+        .catch(() => {
+            dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas zapisywania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        });
+    },
     deleteComment({ commit,dispatch }, payload) {
       CS.deleteComment(payload).then((res: any) => {
         if (res.status === 204) {

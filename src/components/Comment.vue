@@ -39,9 +39,25 @@
           :ripple="false"
           color="primary"
           v-if="auth && !addComment"
-          @click="addComment = true"
+          @click="
+            addComment = true;
+            editComment = false;
+          "
         >
           Odpowiedz
+        </v-btn-cap>
+        <v-btn-cap
+          small
+          plain
+          :ripple="false"
+          color="primary"
+          v-if="auth && !editComment"
+          @click="
+            editComment = true;
+            addComment = false;
+          "
+        >
+          Edytuj
         </v-btn-cap>
         <v-btn-cap
           small
@@ -58,6 +74,13 @@
         v-if="addComment"
         @close="addComment = false"
         addText="Odpowiedz"
+      ></comment-add>
+      <comment-add
+        v-else-if="editComment"
+        @close="editComment = false"
+        :editText="comment"
+        :id="commentId"
+        addText="Zatwierdź zmiany"
       ></comment-add>
       <v-row v-if="nested" class="ml-4">
         <v-col cols="auto" class="px-0">
@@ -97,7 +120,7 @@ export default class Comment extends Vue {
   }
 
   private deleteComment() {
-    this.$store.dispatch('deleteComment',this.commentId);
+    this.$store.dispatch('deleteComment', this.commentId);
   }
 
   get comment() {
@@ -112,6 +135,7 @@ export default class Comment extends Vue {
     return {
       short: true,
       addComment: false,
+      editComment: false,
     };
   }
 }
