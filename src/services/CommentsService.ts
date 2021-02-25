@@ -4,8 +4,14 @@ import beAxios from '../axios';
 import store from '../store';
 
 export class CommentsService {
-  public async getComment(id: number): Promise<CommentModel[]> {
-    return (await beAxios('api/comments/' + id + '/')).data;
+  public async deleteComment(id: number): Promise<AxiosResponse> {
+    return (
+      await beAxios.delete('api/comments/'+id+'/', {
+        headers: {
+          Authorization: 'Bearer ' + store.getters.token,
+        },
+      })
+    );
   }
   public async getComments(body: object): Promise<CommentModel[]> {
     return (await beAxios('api/comments/', body)).data;

@@ -58,6 +58,34 @@ const snackbarModule: Module<any, any> = {
           });
         });
     },
+    deleteComment({ commit,dispatch }, payload) {
+      CS.deleteComment(payload).then((res: any) => {
+        if (res.status === 204) {
+          dispatch('refreshComments');
+          dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Komentarz został usunięty',
+            color: 'success',
+            timeout: 7500,
+          });
+        } else {
+            dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas usuwania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+        .catch(() => {
+            dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas usuwania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        });
+    },
     refreshComments({ state, dispatch }) {
       dispatch('getComments', state.articleId);
     },

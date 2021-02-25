@@ -34,18 +34,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { CommentsService } from '@/services/CommentsService';
 
 @Component
 export default class CommentAdd extends Vue {
   @Prop() private article!: number;
   @Prop() private replyfor!: number;
   @Prop({ default: 'Dodaj komentarz' }) private addText!: string;
-  private commentsService!: CommentsService;
-
-  private created() {
-    this.commentsService = new CommentsService();
-  }
 
   private close() {
     this.$emit('close');

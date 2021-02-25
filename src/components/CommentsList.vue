@@ -13,6 +13,7 @@
             :nick="comment.user.username"
             :date="comment.creation_date"
             :text="comment.text"
+            :commentId="comment.id"
           />
         </div>
         <p v-else class="text-h4 font-weight-thin text-center mb-0 pa-2">

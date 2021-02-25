@@ -11,7 +11,9 @@
               <v-icon left small>mdi-calendar</v-icon>
             </v-col>
             <v-col>
-              <span class="text-body-2">{{ date | moment('DD-MM-YYYY HH:mm:ss') }}</span>
+              <span class="text-body-2">{{
+                date | moment('DD-MM-YYYY HH:mm:ss')
+              }}</span>
             </v-col>
           </v-row>
         </v-col>
@@ -40,6 +42,16 @@
           @click="addComment = true"
         >
           Odpowiedz
+        </v-btn-cap>
+        <v-btn-cap
+          small
+          plain
+          :ripple="false"
+          color="primary"
+          v-if="auth"
+          @click="deleteComment"
+        >
+          Usuń
         </v-btn-cap>
       </v-row>
       <comment-add
@@ -73,7 +85,7 @@ export default class Comment extends Vue {
   @Prop({ required: true }) public date!: string;
   @Prop({ required: true }) public text!: string;
   @Prop({ default: false }) public nested!: boolean;
-
+  @Prop({ default: false }) public commentId!: number;
   private created() {
     if (this.text.length < 300) {
       this.$data.short = false;
@@ -82,6 +94,10 @@ export default class Comment extends Vue {
 
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  private deleteComment() {
+    this.$store.dispatch('deleteComment',this.commentId);
   }
 
   get comment() {
