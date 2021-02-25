@@ -52,7 +52,13 @@ export default class CommentAdd extends Vue {
   }
 
   private addComment() {
-    this.commentsService
+    this.$store.dispatch('addComment', {
+      text: this.$data.comment,
+      user: this.$data.author,
+      article: this.$route.params.id,
+    });
+    this.$emit('close');
+    /*this.commentsService
       .addComment({
         text: this.$data.comment,
         user: this.$data.author,
@@ -85,6 +91,7 @@ export default class CommentAdd extends Vue {
           timeout: 7500,
         });
       });
+      */
   }
 
   private data() {
