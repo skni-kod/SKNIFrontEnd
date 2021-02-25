@@ -58,8 +58,8 @@ const snackbarModule: Module<any, any> = {
           });
         });
     },
-    refreshComments({ state, commit }) {
-      commit('getComments', state.articleId);
+    refreshComments({ state, dispatch }) {
+      dispatch('getComments', state.articleId);
     },
     purgeModule({ commit }) {
       commit('purgeModule');
