@@ -5,7 +5,7 @@
     >
     <v-divider></v-divider>
     <v-card-text class="pa-1">
-      <v-textarea outlined hide-details v-model="comment"></v-textarea>
+      <v-textarea outlined hide-details v-model="comment" :value="comment"></v-textarea>
     </v-card-text>
     <v-card-actions>
       <v-row justify="end" no-gutters>
@@ -19,9 +19,21 @@
           <v-btn-cap
             block
             outlined
+            v-if="addText == 'Dodaj komentarz'"
             :disabled="!comment.length"
             color="primary"
             @click="addComment"
+          >
+            <span>{{ addText }}</span>
+            <v-icon right>mdi-comment-plus</v-icon>
+          </v-btn-cap>
+          <v-btn-cap
+            block
+            outlined
+            v-else
+            :disabled="!comment.length"
+            color="primary"
+            @click="editComment"
           >
             <span>{{ addText }}</span>
             <v-icon right>mdi-comment-plus</v-icon>
@@ -34,62 +46,39 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { CommentsService } from '@/services/CommentsService';
 
 @Component
 export default class CommentAdd extends Vue {
   @Prop() private article!: number;
   @Prop() private replyfor!: number;
   @Prop({ default: 'Dodaj komentarz' }) private addText!: string;
-  private commentsService!: CommentsService;
-
-  private created() {
-    this.commentsService = new CommentsService();
-  }
+  @Prop({default: ''}) private editText!: string;
+  @Prop() private id!: number;
 
   private close() {
     this.$emit('close');
   }
 
   private addComment() {
-    this.commentsService
-      .addComment({
-        text: this.$data.comment,
-        user: this.$data.author,
-        article: this.$route.params.id,
-      })
-      .then((res: any) => {
-        if (res.status === 201) {
-          this.$store.dispatch('refreshComments');
-          this.$emit('close');
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Komentarz został dodany',
-            color: 'success',
-            timeout: 7500,
-          });
-        } else {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas zapisywania komentarza!',
-            color: 'error',
-            timeout: 7500,
-          });
-        }
-      })
-      .catch(() => {
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Błąd poczas zapisywania komentarza!',
-          color: 'error',
-          timeout: 7500,
-        });
-      });
+    this.$store.dispatch('addComment', {
+      text: this.$data.comment,
+      user: this.$data.author,
+      article: this.$route.params.id,
+    });
+    this.$emit('close');
   }
 
+  private editComment() {
+    this.$store.dispatch('editComment', {
+      body: {text:this.$data.comment,
+      user:this.$store.getters.user.id},
+      id: this.id,
+    });
+    this.$emit('close');
+  }
   private data() {
     return {
-      comment: '',
+      comment: this.editText,
       author: this.$store.getters.user.id,
       data: new Date(),
       imputValidated: false,

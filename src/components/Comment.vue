@@ -11,7 +11,9 @@
               <v-icon left small>mdi-calendar</v-icon>
             </v-col>
             <v-col>
-              <span class="text-body-2">{{ date | moment('DD-MM-YYYY HH:mm:ss') }}</span>
+              <span class="text-body-2">{{
+                date | moment('DD-MM-YYYY HH:mm:ss')
+              }}</span>
             </v-col>
           </v-row>
         </v-col>
@@ -37,15 +39,48 @@
           :ripple="false"
           color="primary"
           v-if="auth && !addComment"
-          @click="addComment = true"
+          @click="
+            addComment = true;
+            editComment = false;
+          "
         >
           Odpowiedz
+        </v-btn-cap>
+        <v-btn-cap
+          small
+          plain
+          :ripple="false"
+          color="primary"
+          v-if="auth && !editComment"
+          @click="
+            editComment = true;
+            addComment = false;
+          "
+        >
+          Edytuj
+        </v-btn-cap>
+        <v-btn-cap
+          small
+          plain
+          :ripple="false"
+          color="primary"
+          v-if="auth"
+          @click="deleteComment"
+        >
+          Usuń
         </v-btn-cap>
       </v-row>
       <comment-add
         v-if="addComment"
         @close="addComment = false"
         addText="Odpowiedz"
+      ></comment-add>
+      <comment-add
+        v-else-if="editComment"
+        @close="editComment = false"
+        :editText="comment"
+        :id="commentId"
+        addText="Zatwierdź zmiany"
       ></comment-add>
       <v-row v-if="nested" class="ml-4">
         <v-col cols="auto" class="px-0">
@@ -73,7 +108,7 @@ export default class Comment extends Vue {
   @Prop({ required: true }) public date!: string;
   @Prop({ required: true }) public text!: string;
   @Prop({ default: false }) public nested!: boolean;
-
+  @Prop({ default: false }) public commentId!: number;
   private created() {
     if (this.text.length < 300) {
       this.$data.short = false;
@@ -82,6 +117,10 @@ export default class Comment extends Vue {
 
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  private deleteComment() {
+    this.$store.dispatch('deleteComment', this.commentId);
   }
 
   get comment() {
@@ -96,6 +135,7 @@ export default class Comment extends Vue {
     return {
       short: true,
       addComment: false,
+      editComment: false,
     };
   }
 }

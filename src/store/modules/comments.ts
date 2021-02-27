@@ -4,18 +4,18 @@ const CS = new CommentsService();
 
 const snackbarModule: Module<any, any> = {
   state: {
-      articleId: undefined,
-    comments: undefined,
+    articleId: undefined,
+    comments: [],
   },
 
   mutations: {
     setComments(state, payload) {
-        state.articleId = payload.articleId;
-        state.comments = payload.comments;
+      state.articleId = payload.articleId;
+      state.comments = payload.comments;
     },
     purgeModule(state) {
-        state.articleId = undefined;
-        state.comments = undefined;
+      state.articleId = undefined;
+      state.comments = [];
     },
   },
 
@@ -26,15 +26,99 @@ const snackbarModule: Module<any, any> = {
           article: payload,
         },
       }).then((comments) => {
-        commit('setComments', {articleId: payload, comments});
+        commit('setComments', { articleId: payload, comments });
 
       });
     },
-    refreshComments({ state, commit }) {
-        commit('getComments', state.articleId);
+    addComment({ commit,dispatch }, payload) {
+      CS.addComment(payload).then((res: any) => {
+        if (res.status === 201) {
+          dispatch('refreshComments');
+          dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Komentarz został dodany',
+            color: 'success',
+            timeout: 7500,
+          });
+        } else {
+            dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas zapisywania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+        .catch(() => {
+            dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas zapisywania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        });
     },
-    purgeModule({commit}) {
-        commit('purgeModule');
+    editComment({ commit,dispatch },{id,body}) {
+      CS.editComment(id,body).then((res: any) => {
+        if (res.status === 200) {
+          dispatch('refreshComments');
+          dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Komentarz został dodany',
+            color: 'success',
+            timeout: 7500,
+          });
+        } else {
+            dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas zapisywania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+        .catch(() => {
+            dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas zapisywania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        });
+    },
+    deleteComment({ commit,dispatch }, payload) {
+      CS.deleteComment(payload).then((res: any) => {
+        if (res.status === 204) {
+          dispatch('refreshComments');
+          dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Komentarz został usunięty',
+            color: 'success',
+            timeout: 7500,
+          });
+        } else {
+            dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas usuwania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+        .catch(() => {
+            dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas usuwania komentarza!',
+            color: 'error',
+            timeout: 7500,
+          });
+        });
+    },
+    refreshComments({ state, dispatch }) {
+      dispatch('getComments', state.articleId);
+    },
+    purgeModule({ commit }) {
+      commit('purgeModule');
     },
   },
 
