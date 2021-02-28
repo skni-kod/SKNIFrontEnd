@@ -57,6 +57,20 @@ export default new Router({
         import(/* webpackChunkName: "sections" */ './views/SectionList.vue'),
     },
     {
+      path: '/section/edit/:id?',
+      alias: '/section/add',
+      name: 'editSection',
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.isAuthenticated) {
+          next('/403');
+        } else {
+          next();
+        }
+      },
+      component: () =>
+        import(/* webpackChunkName: "article-editor" */ './views/SectionEdit.vue'),
+    },
+    {
       path: '/hardware/:page?',
       name: 'hardwareList',
       component: () => import(/* webpackChunkName: "hardwares" */ './views/HardwareList.vue'),
@@ -157,19 +171,19 @@ export default new Router({
         import(/* webpackChunkName: "project" */ './views/ProjectList.vue'),
     },
     {
-    path: '/project/edit/:id?',
-    alias: '/project/add',
-    name: 'editProject',
-    beforeEnter: (to, from, next) => {
-      if (!store.getters.isAuthenticated) {
-        next('/403');
-      } else {
-        next();
-      }
+      path: '/project/edit/:id?',
+      alias: '/project/add',
+      name: 'editProject',
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.isAuthenticated) {
+          next('/403');
+        } else {
+          next();
+        }
+      },
+      component: () =>
+        import(/* webpackChunkName: "article-editor" */ './views/ProjectEdit.vue'),
     },
-    component: () =>
-      import(/* webpackChunkName: "article-editor" */ './views/ProjectEdit.vue'),
-  },
     {
       path: '/project/:id',
       name: 'project',

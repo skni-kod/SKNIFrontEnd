@@ -52,7 +52,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn-cap depressed color="warning" :to="'/section/' + section.name"
+        <v-btn-cap depressed color="warning" :to="'/section/edit/' + section.id"
           >Zobacz więcej</v-btn-cap
         >
         <v-speed-dial direction="top" v-if="auth" v-model="fab" class="ml-2">
