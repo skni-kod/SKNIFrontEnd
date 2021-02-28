@@ -6,8 +6,8 @@ export class SectionsService {
     public async getAllSections(): Promise<SectionModel[]> {
         return (await beAxios('api/section/')).data;
     }
-    public async getSection(id:number): Promise<SectionModel[]> {
-        return (await beAxios('api/section/'+id)).data;
+    public async getSection(id: number): Promise<SectionModel[]> {
+        return (await beAxios('api/section/' + id)).data;
     }
 
     public async editSection(id: number, data: object): Promise<any> {
@@ -28,5 +28,15 @@ export class SectionsService {
         });
 
         return save;
+    }
+
+    public async deleteSection(id: number): Promise<any> {
+        const edit = await beAxios.delete('api/section/' + id + '/', {
+            headers: {
+                Authorization: 'Bearer ' + store.getters.token,
+            },
+        });
+
+        return edit;
     }
 }
