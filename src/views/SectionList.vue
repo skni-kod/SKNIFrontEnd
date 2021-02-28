@@ -1,29 +1,9 @@
 <template>
   <div class="ma-2">
-    <v-row justify="center" v-for="section in sections" :key="section.title">
-      <v-col>
-        <v-card class="mx-auto bg-gradient" dark max-width="800">
-          <v-card-title>
-            <v-row class="mx-auto">
-              <v-col cols="auto" class="text-center py-0">
-                <v-row justify="center" class="flex-column ma-0 fill-height">
-                  <v-icon x-large left>{{ section.icon }}</v-icon>
-                </v-row>
-              </v-col>
-              <v-col class="pa-0">
-                <v-row justify="center" class="flex-column ma-0 fill-height">
-                  <p
-                    class="text-left text-h6 font-weight-bold my-auto"
-                    style="word-break: break-word"
-                  >
-                    {{ section.name }}
-                  </p>
-                </v-row>
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text class="headline">{{ section.description }}</v-card-text>
-        </v-card>
+    <v-row justify="center" v-for="section in sections" :key="section.name">
+      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+        <section-card class="my-2" :section="section" :projects="projects">
+        </section-card>
       </v-col>
     </v-row>
   </div>
@@ -33,16 +13,27 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { SectionsService } from '@/services/SectionsService';
 import { SectionModel } from '@/models/SectionModel';
+import SectionCard from '@/components/SectionCard.vue';
+import { ProjectsService } from '@/services/ProjectsService';
 
-@Component
+@Component({
+  components: {
+    SectionCard,
+  },
+})
 export default class SectionList extends Vue {
   private sectionsService!: SectionsService;
   private sections!: SectionModel[];
+  private projectsService!: ProjectsService;
   constructor() {
     super();
     this.sectionsService = new SectionsService();
+    this.projectsService = new ProjectsService();
   }
-  public mounted() {
+  public created() {
+    this.projectsService.getAllProjects().then((res) => {
+      this.$data.projects = res;
+    });
     this.sectionsService.getAllSections().then((p) => {
       this.sections = p;
       for (let i = 0; i < this.sections.length; ) {
@@ -54,15 +45,8 @@ export default class SectionList extends Vue {
       }
     });
   }
-
   public data() {
-    return { sections: this.sections };
+    return { sections: this.sections, projects: [] };
   }
 }
 </script>
-
-<style <style lang="scss" scoped>
-.bg-gradient {
-  background: linear-gradient(#aecad5, #2e5d71);
-}
-</style>

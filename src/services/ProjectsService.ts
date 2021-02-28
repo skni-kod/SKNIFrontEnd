@@ -10,6 +10,7 @@ export class ProjectsService {
         return (await beAxios('api/projects/', {
             params: {
                 format: 'json',
+                limit: 0,
             },
         })).data;
     }
