@@ -56,6 +56,7 @@ export default class ProjectEditor extends Vue {
 
   private data() {
     return {
+      sectionCoordinators: [],
       inputValidated: false,
       users: [],
       required: (value: string) => !!value || 'Pole wymagane',

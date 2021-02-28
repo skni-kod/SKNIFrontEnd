@@ -57,13 +57,14 @@ export default class ProjectEdit extends Vue {
     }
   }
 
-private addSection() {
+  private addSection() {
     if (this.$data.inputValidated) {
       this.sectionService
         .addSection({
           name: this.$data.section.name,
           description: this.$data.section.description,
-          icon: this.$data.section.icon
+          icon: this.$data.section.icon,
+          isVisible: true,
         })
         .then((res: any) => {
           if (res.status === 201) {
@@ -73,9 +74,7 @@ private addSection() {
               color: 'success',
               timeout: 7500,
             });
-            this.$router.replace(
-              '/section/' + res.data.id,
-            );
+            this.$router.replace('/section/' + res.data.id);
           } else {
             this.$store.dispatch('setSnackbarState', {
               state: true,
@@ -109,7 +108,7 @@ private addSection() {
         .editSection(this.$data.section.id, {
           name: this.$data.section.name,
           description: this.$data.section.description,
-          icon: this.$data.section.icon
+          icon: this.$data.section.icon,
         })
         .then((res: any) => {
           if (res.status === 200) {
@@ -151,9 +150,7 @@ private addSection() {
     if (this.$data.add) {
       this.$router.replace('/section');
     } else {
-      this.$router.replace(
-        '/section/' + this.$data.section.id,
-      );
+      this.$router.replace('/section/' + this.$data.section.id);
     }
   }
 
