@@ -32,11 +32,11 @@
               </v-btn-cap>
               <v-speed-dial
                 direction="top"
-                v-if="auth"
+                v-if="role"
                 v-model="fab"
                 class="ml-2"
               >
-                <template v-slot:activator v-if='role'>
+                <template v-slot:activator>
                   <v-btn-cap
                     x-small
                     fab
