@@ -163,7 +163,7 @@ const userModule: Module<any, any> = {
         user: (state) => state.user,
         token: (state) => state.token,
         isAuthenticated: (state) => state.token !== null,
-        isAdministrator: state => {if(state.token != null){return state.user.groups[0] === 1}},
+        isAdministrator: state => {if(typeof state.user.groups !== 'undefined'){return state.user.groups[0] === 1}},
     },
 };
 

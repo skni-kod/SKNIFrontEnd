@@ -35,7 +35,7 @@ export default new Router({
       alias: '/article/add',
       name: 'editArticle',
       beforeEnter: (to, from, next) => {
-        if (!store.getters.isAuthenticated) {
+        if (!store.getters.isAdministrator) {
           next('/403');
         } else {
           next();
@@ -104,7 +104,7 @@ export default new Router({
       name: 'adminPanel',
       component: () => import(/* webpackChunkName: "admin-panel" */ './views/AdminPanel.vue'),
       beforeEnter: (to, from, next) => {
-        if (store.getters.isAuthenticated) {
+        if (store.getters.isAdministrator) {
           next();
         } else {
           next('/403');
@@ -161,7 +161,7 @@ export default new Router({
     alias: '/project/add',
     name: 'editProject',
     beforeEnter: (to, from, next) => {
-      if (!store.getters.isAuthenticated) {
+      if (!store.getters.isAdministrator) {
         next('/403');
       } else {
         next();
