@@ -9,7 +9,15 @@
         ></project-card>
       </v-col>
     </v-row>
-    <v-btn-cap fab fixed bottom right v-if="auth" :to="'/project/add'" class="success">
+    <v-btn-cap
+      fab
+      fixed
+      bottom
+      right
+      v-if="role"
+      :to="'/project/add'"
+      class="success"
+    >
       <v-icon class="white--text">mdi-plus</v-icon>
     </v-btn-cap>
     <v-pagination
@@ -44,7 +52,9 @@ export default class ProjectList extends Vue {
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
   }
-
+  get role(): boolean {
+    return this.$store.getters.isAdministrator;
+  }
   private beforeCreate() {
     this.projectsService = new ProjectsService();
     this.pagination = new PaginationModel(1, 3, 3);
