@@ -23,7 +23,15 @@
         ></v-pagination>
       </v-col>
     </v-row>
-    <v-btn-cap fab fixed bottom right v-if="auth" :to="'/article/add'" class="success">
+    <v-btn-cap
+      fab
+      fixed
+      bottom
+      right
+      v-if="role"
+      :to="'/article/add'"
+      class="success"
+    >
       <v-icon class="white--text">mdi-plus</v-icon>
     </v-btn-cap>
   </div>
@@ -43,6 +51,10 @@ export default class ArticleList extends Vue {
   private articles!: ArticleModel[];
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  get role(): boolean {
+    return this.$store.getters.isAdministrator;
   }
 
   private beforeCreate() {

@@ -36,7 +36,7 @@
                 v-model="fab"
                 class="ml-2"
               >
-                <template v-slot:activator>
+                <template v-slot:activator v-if='role'>
                   <v-btn-cap
                     x-small
                     fab
@@ -83,6 +83,10 @@ export default class ArticleCard extends Vue {
   @Prop() public article!: ArticleModel;
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  get role(): boolean {
+    return this.$store.getters.isAdministrator;
   }
 
   private removeMarkdown(text: string) {

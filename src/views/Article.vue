@@ -94,7 +94,7 @@
         <comments-list :comments="comments" />
       </v-col>
     </v-row>
-    <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="auth">
+    <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="role">
       <template v-slot:activator>
         <v-btn-cap
           fab
@@ -148,12 +148,16 @@ export default class Article extends Vue {
     this.$store.dispatch('getComments', this.$route.params.id);
   }
 
-   private beforeDestroy() {
+  private beforeDestroy() {
     this.$store.dispatch('purgeModule');
   }
 
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  get role(): boolean {
+    return this.$store.getters.isAdministrator;
   }
 
   get dialogText() {
