@@ -38,7 +38,7 @@
           plain
           :ripple="false"
           color="primary"
-          v-if="auth && !addComment"
+          v-if="auth && !addComment && !nested"
           @click="
             addComment = true;
             editComment = false;
@@ -82,16 +82,20 @@
         :editText="comment"
         addText="Zatwierdź zmiany"
       ></comment-add>
-      <v-row v-if="nested" class="ml-4">
-        <v-col cols="auto" class="px-0">
+      <v-row class="ml-4">
+        <v-col v-if="!nested" cols="auto" class="px-0">
           <v-divider vertical></v-divider>
         </v-col>
         <v-col>
-          <comment text="Odpowiedź na komentarz" />
           <comment
-            text="Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz "
+            v-for="comment in children"
+            :key="comment.id"
+            :nick="comment.user.username"
+            :date="comment.creation_date"
+            :text="comment.text"
+            :commentId="comment.id"
+            :nested="true"
           />
-          <comment text="Odpowiedź na komentarz " />
         </v-col>
       </v-row>
     </v-card-text>
@@ -108,6 +112,7 @@ export default class Comment extends Vue {
   @Prop({ required: true }) public date!: string;
   @Prop({ required: true }) public text!: string;
   @Prop({ default: false }) public nested!: boolean;
+  @Prop({ default: undefined }) public children!: object[];
   @Prop({ default: undefined }) public commentId!: number;
   private created() {
     if (this.text.length < 300) {
