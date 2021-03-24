@@ -24,10 +24,10 @@
         </v-row>
         <v-row no-gutters>
           <v-col>
-            <comment-add
-          v-if="addComment"
-          @close="addComment = false"
-        ></comment-add>
+            <comment-editor
+              v-if="addComment"
+              @close="addComment = false"
+            ></comment-editor>
           </v-col>
         </v-row>
       </v-card-actions>

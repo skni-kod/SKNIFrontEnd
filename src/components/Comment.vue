@@ -70,19 +70,19 @@
           Usuń
         </v-btn-cap>
       </v-row>
-      <comment-add
+      <comment-editor
         v-if="addComment"
         @close="addComment = false"
         :id="commentId"
         addText="Dodaj komentarz"
-      ></comment-add>
-      <comment-add
+      ></comment-editor>
+      <comment-editor
         v-else-if="editComment"
         @close="editComment = false"
         :editText="comment"
         :id="commentId"
         addText="Zatwierdź zmiany"
-      ></comment-add>
+      ></comment-editor>
       <v-row class="ml-4">
         <v-col v-if="!nested && children.length" cols="auto" class="px-0">
           <v-divider vertical></v-divider>

@@ -53,7 +53,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
-export default class CommentAdd extends Vue {
+export default class CommentEditor extends Vue {
   @Prop() private article!: number;
   @Prop() private replyfor!: number;
   @Prop({ default: 'Dodaj komentarz' }) private addText!: string;

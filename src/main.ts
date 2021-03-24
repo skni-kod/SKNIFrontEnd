@@ -20,7 +20,7 @@ const ConfirmationDialog = () => import(/* webpackChunkName: "ComponentConfirmat
 const LinkListInput = () => import(/* webpackChunkName: "ComponentLinkListInput" */ '@/components/LinkListInput.vue');
 const EditorMenu = () => import(/* webpackChunkName: "ComponentEditorMenu" */ '@/components/EditorMenu.vue');
 const Comment = () => import(/* webpackChunkName: "ComponentComment" */ '@/components/Comment.vue');
-const CommentAdd = () => import(/* webpackChunkName: "ComponentCommentAdd" */ '@/components/CommentAdd.vue');
+const CommentEditor = () => import(/* webpackChunkName: "ComponentCommentEditor" */ '@/components/CommentEditor.vue');
 
 const VBtnCap = () => import(/* webpackChunkName: "CustomVBtnCap" */ '@/components/base/VBtnCap.vue');
 
@@ -48,5 +48,5 @@ Vue.component('confirmation-dialog', ConfirmationDialog);
 Vue.component('link-list-input', LinkListInput);
 Vue.component('editor-menu', EditorMenu);
 Vue.component('comment', Comment);
-Vue.component('comment-add', CommentAdd);
+Vue.component('comment-editor', CommentEditor);
 Vue.component('v-btn-cap', VBtnCap);
