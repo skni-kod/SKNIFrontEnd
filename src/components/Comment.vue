@@ -80,6 +80,7 @@
         v-else-if="editComment"
         @close="editComment = false"
         :editText="comment"
+        :id="commentId"
         addText="Zatwierdź zmiany"
       ></comment-add>
       <v-row class="ml-4">

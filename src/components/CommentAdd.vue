@@ -58,7 +58,7 @@ export default class CommentAdd extends Vue {
   @Prop() private replyfor!: number;
   @Prop({ default: 'Dodaj komentarz' }) private addText!: string;
   @Prop({ default: '' }) private editText!: string;
-  @Prop({ default: undefined }) private id!: number;
+  @Prop({ required: true }) private id!: number;
 
   private close() {
     this.$emit('close');
