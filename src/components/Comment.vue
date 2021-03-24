@@ -83,7 +83,7 @@
         addText="Zatwierdź zmiany"
       ></comment-add>
       <v-row class="ml-4">
-        <v-col v-if="!nested" cols="auto" class="px-0">
+        <v-col v-if="!nested && children.length" cols="auto" class="px-0">
           <v-divider vertical></v-divider>
         </v-col>
         <v-col>
