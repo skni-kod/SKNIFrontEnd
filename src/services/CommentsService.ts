@@ -5,23 +5,19 @@ import store from '../store';
 
 export class CommentsService {
   public async deleteComment(id: number): Promise<AxiosResponse> {
-    return (
-      await beAxios.delete('api/comments/'+id+'/', {
-        headers: {
-          Authorization: 'Bearer ' + store.getters.token,
-        },
-      })
-    );
+    return await beAxios.delete('api/comments/' + id + '/', {
+      headers: {
+        Authorization: 'Bearer ' + store.getters.token,
+      },
+    });
   }
 
-  public async editComment(id:number,body:object): Promise<AxiosResponse> {
-    return (
-      await beAxios.put('api/comments/'+id+'/',body, {
-        headers: {
-          Authorization: 'Bearer ' + store.getters.token,
-        },
-      })
-    );
+  public async editComment(id: number, body: object): Promise<AxiosResponse> {
+    return await beAxios.put('api/comments/' + id + '/', body, {
+      headers: {
+        Authorization: 'Bearer ' + store.getters.token,
+      },
+    });
   }
 
   public async getComments(body: object): Promise<CommentModel[]> {
@@ -29,12 +25,10 @@ export class CommentsService {
   }
 
   public async addComment(body: object): Promise<AxiosResponse> {
-    return (
-      await beAxios.post('api/comments/', body, {
-        headers: {
-          Authorization: 'Bearer ' + store.getters.token,
-        },
-      })
-    );
+    return await beAxios.post('api/comments/', body, {
+      headers: {
+        Authorization: 'Bearer ' + store.getters.token,
+      },
+    });
   }
 }

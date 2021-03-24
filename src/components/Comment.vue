@@ -38,7 +38,7 @@
           plain
           :ripple="false"
           color="primary"
-          v-if="auth && !addComment"
+          v-if="auth && !addComment && !nested"
           @click="
             addComment = true;
             editComment = false;
@@ -51,7 +51,7 @@
           plain
           :ripple="false"
           color="primary"
-          v-if="auth && !editComment"
+          v-if="auth && nick === user.username && !editComment"
           @click="
             editComment = true;
             addComment = false;
@@ -64,34 +64,39 @@
           plain
           :ripple="false"
           color="primary"
-          v-if="auth"
+          v-if="auth && nick === user.username"
           @click="deleteComment"
         >
           Usuń
         </v-btn-cap>
       </v-row>
-      <comment-add
+      <comment-editor
         v-if="addComment"
         @close="addComment = false"
-        addText="Odpowiedz"
-      ></comment-add>
-      <comment-add
+        :id="commentId"
+        addText="Dodaj komentarz"
+      ></comment-editor>
+      <comment-editor
         v-else-if="editComment"
         @close="editComment = false"
         :editText="comment"
         :id="commentId"
         addText="Zatwierdź zmiany"
-      ></comment-add>
-      <v-row v-if="nested" class="ml-4">
-        <v-col cols="auto" class="px-0">
+      ></comment-editor>
+      <v-row class="ml-4">
+        <v-col v-if="!nested && children.length" cols="auto" class="px-0">
           <v-divider vertical></v-divider>
         </v-col>
         <v-col>
-          <comment text="Odpowiedź na komentarz" />
           <comment
-            text="Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz Odpowiedź na komentarz "
+            v-for="comment in children"
+            :key="comment.id"
+            :nick="comment.user.username"
+            :date="comment.creation_date"
+            :text="comment.text"
+            :commentId="comment.id"
+            :nested="true"
           />
-          <comment text="Odpowiedź na komentarz " />
         </v-col>
       </v-row>
     </v-card-text>
@@ -108,7 +113,8 @@ export default class Comment extends Vue {
   @Prop({ required: true }) public date!: string;
   @Prop({ required: true }) public text!: string;
   @Prop({ default: false }) public nested!: boolean;
-  @Prop({ default: false }) public commentId!: number;
+  @Prop({ default: undefined }) public children!: object[];
+  @Prop({ default: undefined }) public commentId!: number;
   private created() {
     if (this.text.length < 300) {
       this.$data.short = false;
@@ -117,6 +123,10 @@ export default class Comment extends Vue {
 
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  get user() {
+    return this.$store.getters.user;
   }
 
   private deleteComment() {
