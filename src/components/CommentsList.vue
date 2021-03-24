@@ -5,27 +5,6 @@
         class="text-h5 font-weight-bold justify-center white--text primary py-1"
         >Komentarze</v-card-title
       >
-      <v-card-text class="py-1">
-        <div v-if="comments.length > 0">
-          <comment
-            v-for="comment in comments"
-            :key="comment.id"
-            :nick="comment.user.username"
-            :date="comment.creation_date"
-            :text="comment.text"
-            :commentId="comment.id"
-            :children="comment.children"
-          />
-        </div>
-        <p v-else class="text-h4 font-weight-thin text-center mb-0 pa-2">
-          Brak komentarzy
-        </p>
-        <comment-add
-          v-if="addComment"
-          @close="addComment = false"
-        ></comment-add>
-      </v-card-text>
-      <v-divider></v-divider>
       <v-card-actions>
         <v-btn-cap
           v-if="auth && !addComment"
@@ -43,7 +22,32 @@
             >
           </v-col>
         </v-row>
+        <v-row no-gutters>
+          <v-col>
+            <comment-add
+          v-if="addComment"
+          @close="addComment = false"
+        ></comment-add>
+          </v-col>
+        </v-row>
       </v-card-actions>
+      <v-divider></v-divider>
+      <v-card-text class="py-1">
+        <div v-if="comments.length > 0">
+          <comment
+            v-for="comment in comments"
+            :key="comment.id"
+            :nick="comment.user.username"
+            :date="comment.creation_date"
+            :text="comment.text"
+            :commentId="comment.id"
+            :children="comment.children"
+          />
+        </div>
+        <p v-else class="text-h4 font-weight-thin text-center mb-0 pa-2">
+          Brak komentarzy
+        </p>
+      </v-card-text>
     </v-card>
   </div>
 </template>
