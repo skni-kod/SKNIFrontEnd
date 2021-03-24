@@ -51,7 +51,7 @@
           plain
           :ripple="false"
           color="primary"
-          v-if="auth && !editComment"
+          v-if="auth && nick === user.username && !editComment"
           @click="
             editComment = true;
             addComment = false;
@@ -123,6 +123,10 @@ export default class Comment extends Vue {
 
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  get user() {
+    return this.$store.getters.user;
   }
 
   private deleteComment() {
