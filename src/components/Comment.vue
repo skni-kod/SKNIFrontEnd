@@ -64,7 +64,7 @@
           plain
           :ripple="false"
           color="primary"
-          v-if="auth"
+          v-if="auth && nick === user.username"
           @click="deleteComment"
         >
           Usuń
