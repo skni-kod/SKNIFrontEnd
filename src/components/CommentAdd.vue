@@ -5,7 +5,12 @@
     >
     <v-divider></v-divider>
     <v-card-text class="pa-1">
-      <v-textarea outlined hide-details v-model="comment" :value="comment"></v-textarea>
+      <v-textarea
+        outlined
+        hide-details
+        v-model="comment"
+        :value="comment"
+      ></v-textarea>
     </v-card-text>
     <v-card-actions>
       <v-row justify="end" no-gutters>
@@ -52,26 +57,33 @@ export default class CommentAdd extends Vue {
   @Prop() private article!: number;
   @Prop() private replyfor!: number;
   @Prop({ default: 'Dodaj komentarz' }) private addText!: string;
-  @Prop({default: ''}) private editText!: string;
-  @Prop() private id!: number;
+  @Prop({ default: '' }) private editText!: string;
+  @Prop({ default: undefined }) private id!: number;
 
   private close() {
     this.$emit('close');
   }
 
   private addComment() {
-    this.$store.dispatch('addComment', {
-      text: this.$data.comment,
-      user: this.$data.author,
-      article: this.$route.params.id,
-    });
+    if (this.id !== undefined) {
+      this.$store.dispatch('addComment', {
+        text: this.$data.comment,
+        user: this.$data.author,
+        parent: this.id,
+      });
+    } else {
+      this.$store.dispatch('addComment', {
+        text: this.$data.comment,
+        user: this.$data.author,
+        article: this.$route.params.id,
+      });
+    }
     this.$emit('close');
   }
 
   private editComment() {
     this.$store.dispatch('editComment', {
-      body: {text:this.$data.comment,
-      user:this.$store.getters.user.id},
+      body: { text: this.$data.comment, user: this.$store.getters.user.id },
       id: this.id,
     });
     this.$emit('close');

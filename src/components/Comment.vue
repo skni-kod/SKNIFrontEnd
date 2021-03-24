@@ -73,13 +73,13 @@
       <comment-add
         v-if="addComment"
         @close="addComment = false"
-        addText="Odpowiedz"
+        :id="commentId"
+        addText="Dodaj komentarz"
       ></comment-add>
       <comment-add
         v-else-if="editComment"
         @close="editComment = false"
         :editText="comment"
-        :id="commentId"
         addText="Zatwierdź zmiany"
       ></comment-add>
       <v-row v-if="nested" class="ml-4">
@@ -108,7 +108,7 @@ export default class Comment extends Vue {
   @Prop({ required: true }) public date!: string;
   @Prop({ required: true }) public text!: string;
   @Prop({ default: false }) public nested!: boolean;
-  @Prop({ default: false }) public commentId!: number;
+  @Prop({ default: undefined }) public commentId!: number;
   private created() {
     if (this.text.length < 300) {
       this.$data.short = false;
