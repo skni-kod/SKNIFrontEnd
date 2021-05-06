@@ -1,10 +1,29 @@
 <template>
   <div>
-    <!--<v-row justify="center" v-for="hardware in hardwares" :key="hardware.title">
-      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
-        <project-card class="my-2" :project="hardware"></project-card>
-      </v-col>
-    </v-row>
+    <v-row justify="center" class="pa-5">
+      <v-col
+        cols="12"
+        sm="10"
+        md="8"
+        lg="6"
+        xl="4"
+        v-for="item in hardware"
+        :key="item.id"
+      >
+        <hardware-card :hardware="item"></hardware-card
+      ></v-col> </v-row
+    >\
+    <v-btn
+      fab
+      fixed
+      bottom
+      right
+      v-if="auth"
+      :to="'/hardware/add'"
+      class="success"
+    >
+      <v-icon class="white--text">mdi-plus</v-icon>
+    </v-btn>
     <v-pagination
       v-model="pagination.currentPage"
       :length="pagination.pageCount"
@@ -13,24 +32,12 @@
       next-icon="mdi-chevron-right"
       class="mb-3"
     ></v-pagination>
-    -->
-    <v-row justify="center" class="pa-5">
-      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
-        <hardware-card name='Arduino' :is_rented="true" :to_rent="true" img='arduino.jpg'></hardware-card
-      ></v-col>
-      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
-        <hardware-card name='Kaczuszka' :is_rented="false" :to_rent="true" img='rubber_duck.jpg'></hardware-card
-      ></v-col>
-      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
-        <hardware-card name='Monitor' :is_rented="false" :to_rent="true"></hardware-card
-      ></v-col>
-    </v-row>
   </div>
 </template>
 
 <script lang='ts'>
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import { HardwaresService } from '@/services/HardwaresService';
+import { Component, Vue } from 'vue-property-decorator';
+import { HardwareService } from '@/services/HardwareService';
 import { HardwareModel } from '@/models/HardwareModel';
 import { PaginationModel } from '@/models/PaginationModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
@@ -43,7 +50,7 @@ import HardwareCard from '@/components/HardwareCard.vue';
   },
 })
 export default class HardwareList extends Vue {
-  private hardwaresService!: HardwaresService;
+  private hardwareService!: HardwareService;
   private pagination!: PaginationModel;
   private hardware!: HardwareModel[];
   get auth(): boolean {
@@ -51,42 +58,73 @@ export default class HardwareList extends Vue {
   }
 
   private beforeCreate() {
-    this.hardwaresService = new HardwaresService();
-    this.pagination = new PaginationModel(1, 3, 3);
+    this.hardwareService = new HardwareService();
+    this.pagination = new PaginationModel(1, 3, 6);
   }
 
-  /*private mounted() {
-    this.getHardwares();
+  private mounted() {
+    this.getHardware();
   }
 
   private paginationClicked(pageNumber: number) {
     this.$router.replace({
-      name: 'hardwares',
+      name: 'hardwareList',
       params: { page: '' + pageNumber },
     });
 
-    this.getHardwares();
+    this.getHardware();
   }
 
-  private getHardwares() {
+  private getHardware() {
     let pageNumber = +this.$route.params.page;
     if (pageNumber === undefined || isNaN(pageNumber)) {
       pageNumber = 1;
     }
 
     this.pagination.currentPage = pageNumber;
-    this.hardwaresService
-      .getHardwareByPage(pageNumber, this.pagination.itemsPerPage)
+    this.hardwareService
+      .getHardwareByPage(pageNumber, this.pagination.itemsPerPage, false)
       .then((paginationContainer: PaginationContainer<HardwareModel>) => {
-        this.hardwares = paginationContainer.results;
-        if (!this.hardwares.length) {
+        this.hardware = paginationContainer.results;
+        if (!this.hardware.length) {
           this.paginationClicked(1);
           return;
         }
         this.pagination.itemCount = paginationContainer.count;
       });
   }
-  */
+
+private deleteHardware(id: number) {
+    this.hardwareService
+      .deleteHardware(id)
+      .then((res) => {
+        if (res.status === 204) {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Sprzęt został usunięty',
+            color: 'success',
+            timeout: 7500,
+          });
+          this.$router.replace('/hardware/1');
+        } else {
+          this.$store.dispatch('setSnackbarState', {
+            state: true,
+            msg: 'Błąd poczas usuwania sprzętu!',
+            color: 'error',
+            timeout: 7500,
+          });
+        }
+      })
+      .catch(() => {
+        this.$store.dispatch('setSnackbarState', {
+          state: true,
+          msg: 'Błąd poczas usuwania sprzętu!',
+          color: 'error',
+          timeout: 7500,
+        });
+      });
+  }
+
 
   private data() {
     return {
