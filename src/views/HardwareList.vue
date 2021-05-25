@@ -1,18 +1,22 @@
 <template>
-  <div>
-    <v-row justify="center" class="pa-5">
-      <v-col
-        cols="12"
-        sm="10"
-        md="8"
-        lg="6"
-        xl="4"
+  <div class="fill-height">
+    <div v-if="hardware && hardware.length > 0">
+      <v-row
+        justify="center"
+        class="pa-2"
         v-for="item in hardware"
         :key="item.id"
       >
-        <hardware-card :hardware="item"></hardware-card
-      ></v-col> </v-row
-    >\
+        <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+          <hardware-card :hardware="item"></hardware-card>
+        </v-col>
+      </v-row>
+    </div>
+    <v-row align="center" class="fill-height" v-else>
+      <v-col>
+        <div class="text-h3 font-weight-bold text-center">Brak hardware</div>
+      </v-col>
+    </v-row>
     <v-btn
       fab
       fixed
@@ -31,6 +35,7 @@
       prev-icon="mdi-chevron-left"
       next-icon="mdi-chevron-right"
       class="mb-3"
+      v-if="hardware && hardware.length > 0"
     ></v-pagination>
   </div>
 </template>
@@ -95,7 +100,7 @@ export default class HardwareList extends Vue {
       });
   }
 
-private deleteHardware(id: number) {
+  private deleteHardware(id: number) {
     this.hardwareService
       .deleteHardware(id)
       .then((res) => {
@@ -125,7 +130,6 @@ private deleteHardware(id: number) {
         });
       });
   }
-
 
   private data() {
     return {
