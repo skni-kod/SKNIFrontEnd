@@ -5,11 +5,11 @@
         <v-card width="600">
           <v-card-title
             class="white--text primary pb-2"
-          >Witaj {{user.first_name}} {{user.last_name}}!</v-card-title>
+          >Witaj {{ user.first_name || 'Gal' }} {{ user.last_name || 'Anonim' }}!</v-card-title>
           <v-card-subtitle class="white--text primary">{{user.username}}</v-card-subtitle>
           <v-divider></v-divider>
           <v-row wrap justify="center">
-            <v-btn-cap color="primary" class="mt-10" :to="'/user/profile/' + user.id">
+            <v-btn-cap color="primary" class="mt-10" :to="'/user/profile/' + user.profile">
               <v-icon left>mdi-card-account-details</v-icon>
               <span>Mój profil</span>
             </v-btn-cap>
@@ -41,7 +41,7 @@
           <v-card-text class="py-1">
             <markdown-it-vue
               class="md-body text-left"
-              :content="user.profile.description || '## <center>Brak opisu. Napisz coś o sobie :)</center>'"
+              :content="profile.description || '## <center>Brak opisu. Napisz coś o sobie :)</center>'"
               :options="markdownOptions"
             />
           </v-card-text>
@@ -62,6 +62,10 @@ export default class UserPanel extends Vue {
 
   get user() {
     return this.$store.getters.user;
+  }
+
+  get profile() {
+    return this.$store.getters.profile;
   }
 
   private logout() {

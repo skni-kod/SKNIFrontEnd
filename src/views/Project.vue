@@ -50,7 +50,10 @@
         </p>
         <div v-for="author in project.authors" :key="author.username">
           <p>
-            <b>{{ author.first_name }} "{{author.username}}" {{ author.last_name }}</b>
+            <b
+              >{{ author.first_name }} "{{ author.username }}"
+              {{ author.last_name }}</b
+            >
           </p>
         </div>
         <p>
@@ -59,7 +62,7 @@
         </p>
       </v-col>
     </v-row>
-    <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="auth">
+    <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="role">
       <template v-slot:activator>
         <v-btn-cap
           fab
@@ -114,7 +117,9 @@ export default class Project extends Vue {
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
   }
-
+  get role(): boolean {
+    return this.$store.getters.isAdministrator;
+  }
   get dialogText() {
     return 'Czy na pewno chcesz usunąć artykuł "' + this.project.title + '"?';
   }

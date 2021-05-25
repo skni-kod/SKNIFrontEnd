@@ -1,6 +1,6 @@
 <template>
-  <v-row class="fill-height" align="center">
-    <v-col cols="12" class="pa-0">
+  <v-row class="fill-height mx-1" align="center" justify="center">
+    <v-col cols="12" sm="11" md="10" lg="8" xl="6">
       <v-row class="fill-height ma-2" align="center" justify="center">
         <v-card width="1200">
           <v-card-title class="white--text primary">Zmień opis profilu</v-card-title>
@@ -31,17 +31,13 @@ import beAxios from '../axios';
 @Component
 export default class UserPasswordChange extends Vue {
   private created() {
-    this.$data.text = this.user.profile.description;
-  }
-
-  get user() {
-    return this.$store.getters.user;
+    this.$data.text = this.profile.description;
   }
 
   private editDescription() {
     beAxios
       .patch(
-        'api/profiles/' + this.user.profile.id + '/',
+        'api/profiles/' + this.profile.id + '/',
         {
           description: this.$data.text,
         },
@@ -52,7 +48,7 @@ export default class UserPasswordChange extends Vue {
         },
       )
       .then(() => {
-        this.$store.dispatch('fetchUserData');
+        this.$store.dispatch('fetchUserProfile');
         this.$store.dispatch('setSnackbarState', {
           state: true,
           msg: 'Opis profilu został zaktualizowany',
@@ -69,6 +65,10 @@ export default class UserPasswordChange extends Vue {
           timeout: 7500,
         });
       });
+  }
+
+  get profile() {
+    return this.$store.getters.profile;
   }
 
   private data() {

@@ -38,7 +38,7 @@
         <v-btn-cap depressed color="warning" :to="'/project/' + project.id"
           >Zobacz więcej</v-btn-cap
         >
-        <v-speed-dial direction="top" v-if="auth" v-model="fab" class="ml-2">
+        <v-speed-dial direction="top" v-if="role" v-model="fab" class="ml-2">
           <template v-slot:activator>
             <v-btn-cap
               x-small
@@ -77,6 +77,10 @@ export default class ProjectCard extends Vue {
   @Prop() public project!: ProjectModel;
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  get role(): boolean {
+    return this.$store.getters.isAdministrator;
   }
 
   private removeMarkdown(text: string) {

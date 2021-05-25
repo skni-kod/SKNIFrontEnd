@@ -35,7 +35,7 @@ export default new Router({
       alias: '/article/add',
       name: 'editArticle',
       beforeEnter: (to, from, next) => {
-        if (!store.getters.isAuthenticated) {
+        if (!store.getters.isAdministrator) {
           next('/403');
         } else {
           next();
@@ -55,6 +55,34 @@ export default new Router({
       name: 'sections',
       component: () =>
         import(/* webpackChunkName: "sections" */ './views/SectionList.vue'),
+    },
+    {
+      path: '/section/edit/:id?',
+      alias: '/section/add',
+      name: 'sectionEdit',
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.isAuthenticated) {
+          next('/403');
+        } else {
+          next();
+        }
+      },
+      component: () =>
+        import(/* webpackChunkName: "article-editor" */ './views/SectionEdit.vue'),
+    },
+    {
+      path: '/hardware/edit/:id?',
+      alias: '/hardware/add',
+      name: 'editHardware',
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.isAuthenticated) {
+          next('/403');
+        } else {
+          next();
+        }
+      },
+      component: () =>
+        import(/* webpackChunkName: "article-editor" */ './views/HardwareEdit.vue'),
     },
     {
       path: '/hardware/:page?',
@@ -104,7 +132,7 @@ export default new Router({
       name: 'adminPanel',
       component: () => import(/* webpackChunkName: "admin-panel" */ './views/AdminPanel.vue'),
       beforeEnter: (to, from, next) => {
-        if (store.getters.isAuthenticated) {
+        if (store.getters.isAdministrator) {
           next();
         } else {
           next('/403');

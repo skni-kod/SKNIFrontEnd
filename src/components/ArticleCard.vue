@@ -32,7 +32,7 @@
               </v-btn-cap>
               <v-speed-dial
                 direction="top"
-                v-if="auth"
+                v-if="role"
                 v-model="fab"
                 class="ml-2"
               >
@@ -83,6 +83,10 @@ export default class ArticleCard extends Vue {
   @Prop() public article!: ArticleModel;
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
+  }
+
+  get role(): boolean {
+    return this.$store.getters.isAdministrator;
   }
 
   private removeMarkdown(text: string) {

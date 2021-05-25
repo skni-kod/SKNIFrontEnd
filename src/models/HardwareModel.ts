@@ -1,9 +1,7 @@
-/* tslint:disable */
 export class HardwareModel {
-    public url!: string;
-    public name!: string;
-    public description!: string;
-    public serial_number!: string;
-    public is_rented!: boolean;
-    public to_rent!: boolean;
+  public id!: number;
+  public name!: string;
+  public description!: string;
+  public serialNumber!: string;
+  public status!: string;
 }
