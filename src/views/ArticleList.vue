@@ -2,7 +2,12 @@
   <div>
     <v-row class="mt-3 mb-2" align="center">
       <v-col class="py-0">
-        <v-row align="center" justify="center" class="mx-2">
+        <v-row
+          align="center"
+          justify="center"
+          class="mx-2"
+          v-if="articles && articles.length > 0"
+        >
           <v-col cols="auto" class="pa-0">
             <article-card
               class="my-2"
@@ -13,6 +18,13 @@
             ></article-card>
           </v-col>
         </v-row>
+        <v-row align="center" v-else>
+          <v-col>
+            <div class="text-h3 font-weight-bold text-center">
+              Brak artykułów
+            </div>
+          </v-col>
+        </v-row>
         <v-pagination
           v-model="pagination.currentPage"
           class="mt-8 mb-3"
@@ -20,6 +32,7 @@
           @input="paginationClicked"
           prev-icon="mdi-chevron-left"
           next-icon="mdi-chevron-right"
+          v-if="articles && articles.length > 0"
         ></v-pagination>
       </v-col>
     </v-row>
