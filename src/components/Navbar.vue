@@ -36,7 +36,7 @@
               </v-list-item-action>
               <v-list-item-title>Panel użytkownika</v-list-item-title>
             </v-list-item>
-            <v-list-item @click="$router.push('/admin/panel')">
+            <v-list-item @click="$router.push('/admin/panel')" v-if="role">
               <v-list-item-action>
                 <v-icon>mdi-duck</v-icon>
               </v-list-item-action>
@@ -55,7 +55,7 @@
     <nav-drawer
       :items="toolbarItems"
       :auth="auth"
-      :admin="admin"
+      :role="role"
       @logout="logout"
     />
   </div>
@@ -103,8 +103,8 @@ export default class Navbar extends Vue {
     return this.$store.getters.isAuthenticated;
   }
 
-  get admin(): boolean {
-    return true;
+  get role(): boolean {
+    return this.$store.getters.isAdministrator;
   }
   get user() {
     return this.$store.getters.user;
