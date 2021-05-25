@@ -84,7 +84,7 @@ import { HardwareModel } from '@/models/HardwareModel';
 @Component
 export default class Hardware extends Vue {
   private hardwareService!: HardwareService;
-  private hardware!: HardwareModel[];
+  private hardware!: HardwareModel;
 
   private beforeCreate() {
     this.hardwareService = new HardwareService();

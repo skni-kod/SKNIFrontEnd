@@ -2,7 +2,12 @@
   <div class="ma-2">
     <v-row justify="center" v-for="section in sections" :key="section.id">
       <v-col cols="12" sm="10" md="8" lg="6" xl="4">
-        <section-card class="my-2" :section="section" :projects="projects" @delete="deleteSection">
+        <section-card
+          class="my-2"
+          :section="section"
+          :projects="projects"
+          @delete="deleteSection"
+        >
         </section-card>
       </v-col>
     </v-row>
@@ -73,7 +78,9 @@ export default class SectionList extends Vue {
             color: 'success',
             timeout: 7500,
           });
-         this.$data.sections = this.$data.sections.filter((el:any) => {return el.id != id })
+          this.$data.sections = this.$data.sections.filter((el: any) => {
+            return el.id !== id;
+          });
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,
@@ -93,8 +100,11 @@ export default class SectionList extends Vue {
       });
   }
 
-  public data() {
-    return { sections: this.sections, projects: [] };
+  private data() {
+    return {
+      sections: this.sections,
+      projects: [],
+    };
   }
 }
 </script>

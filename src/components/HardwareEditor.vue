@@ -52,7 +52,7 @@ export default class HardwareEditor extends Vue {
   get Status() {
     return this.status;
   }
-  set Status(status:object) {
+  set Status(status: object) {
     this.$emit('statusEdited', status);
   }
   @Watch('$data.inputValidated')

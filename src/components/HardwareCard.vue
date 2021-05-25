@@ -96,18 +96,18 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class HardwareCard extends Vue {
-  private hardwareService!: HardwareService;
   @Prop() public hardware!: HardwareModel;
+  private hardwareService!: HardwareService;
 
   private beforeCreate() {
     this.hardwareService = new HardwareService();
   }
 
   private color() {
-    if (this.hardware.status == 'Unavailable') {
+    if (this.hardware.status === 'Unavailable') {
       this.$data.tooltip = 'Sprzęt nie jest wypożyczany.';
       return 'red--text text--lighten-2 text-h4';
-    } else if (this.hardware.status == 'Rented') {
+    } else if (this.hardware.status === 'Rented') {
       this.$data.tooltip = 'Sprzęt został już wypożyczony.';
       return 'orange--text text--lighten-2 text-h4';
     } else {

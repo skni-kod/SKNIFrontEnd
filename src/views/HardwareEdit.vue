@@ -44,7 +44,7 @@ import hardwareEditor from '@/components/HardwareEditor.vue';
 @Component({
   components: { hardwareEditor },
 })
-export default class hardwareEdit extends Vue {
+export default class HardwareEdit extends Vue {
   private hardwareService!: HardwareService;
   private hardwareModel!: HardwareModel;
 
@@ -57,9 +57,9 @@ export default class hardwareEdit extends Vue {
     } else {
       this.hardwareService
         .getHardware(this.$route.params.id)
-        .then((hardware) => {
-          this.$data.hardware = hardware;
-          this.$data.status = hardware.status;
+        .then((res) => {
+          this.$data.hardware = res;
+          this.$data.status = res.status;
         })
         .catch((err) => {
           this.$router.replace('/404');
@@ -119,7 +119,7 @@ export default class hardwareEdit extends Vue {
           name: this.$data.hardware.name,
           description: this.$data.hardware.description,
           status: this.$data.status,
-          serial_number: this.$data.hardware.serial_number
+          serial_number: this.$data.hardware.serial_number,
         })
         .then((res: any) => {
           if (res.status === 200) {
@@ -165,7 +165,7 @@ export default class hardwareEdit extends Vue {
     }
   }
 
-  change(e:any) {
+  private change(e: any) {
     this.$data.status = e;
   }
 
@@ -173,7 +173,7 @@ export default class hardwareEdit extends Vue {
     return {
       inputValidated: false,
       hardware: { description: '' },
-      status:'',
+      status: '',
       add: false,
     };
   }

@@ -100,7 +100,7 @@ export default class SectionCard extends Vue {
   @Prop() public projects!: any;
 
   get Projects() {
-    var filtered = this.projects.filter((el: any) => {
+    const filtered = this.projects.filter((el: any) => {
       return el.section.name === this.section.name;
     });
     return filtered;
