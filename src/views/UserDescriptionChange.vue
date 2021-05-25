@@ -41,7 +41,7 @@ export default class UserPasswordChange extends Vue {
   private editDescription() {
     beAxios
       .patch(
-        'api/profiles/' + this.user.profile.id + '/',
+        'api/profiles/' + this.user.profile + '/',
         {
           description: this.$data.text,
         },
