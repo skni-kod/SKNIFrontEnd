@@ -24,7 +24,7 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item @click="$router.push('/user/profile/' + user.id)">
+            <v-list-item @click="$router.push('/user/profile/' + profile.id)">
               <v-list-item-action>
                 <v-icon>mdi-account-circle</v-icon>
               </v-list-item-action>
@@ -106,8 +106,13 @@ export default class Navbar extends Vue {
   get role(): boolean {
     return this.$store.getters.isAdministrator;
   }
+
   get user() {
     return this.$store.getters.user;
+  }
+
+  get profile() {
+    return this.$store.getters.profile;
   }
 
   private logout() {

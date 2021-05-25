@@ -7,6 +7,7 @@ const userModule: Module<any, any> = {
     token: null,
     refreshToken: null,
     user: { id: 0 },
+    profile: undefined,
     timeout: null,
   },
 
@@ -18,10 +19,14 @@ const userModule: Module<any, any> = {
     storeUser(state, user) {
       state.user = user;
     },
+    storeProfile(state, profile) {
+      state.profile = profile;
+    },
     clearAuthData(state) {
       state.token = null;
       state.refreshToken = null;
       state.user = { id: 0 };
+      state.profile = {};
     },
     setTimeout(state, data) {
       state.timeout = data;
@@ -98,6 +103,21 @@ const userModule: Module<any, any> = {
           })
           .then((res) => {
             commit('storeUser', res.data);
+            dispatch('fetchUserProfile');
+          })
+          .catch(() => {
+            dispatch('logout');
+          });
+      }
+    },
+    fetchUserProfile({ dispatch, commit, state }) {
+      if (!state.token) {
+        dispatch('logout');
+      } else {
+        beAxios
+          .get('api/profiles/' + state.user.profile + '/', {})
+          .then((res) => {
+            commit('storeProfile', res.data);
           })
           .catch(() => {
             dispatch('logout');
@@ -179,10 +199,11 @@ const userModule: Module<any, any> = {
   },
 
   getters: {
-    user: (state) => state.user,
     token: (state) => state.token,
     isAuthenticated: (state) => state.token !== null,
     isAdministrator: (state) => state.user.is_admin_user,
+    user: (state) => state.user,
+    profile: (state) => state.profile,
   },
 };
 
