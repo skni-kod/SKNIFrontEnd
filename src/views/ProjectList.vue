@@ -84,7 +84,7 @@ export default class ProjectList extends Vue {
       .getProjectsByPage(pageNumber, this.pagination.itemsPerPage)
       .then((paginationContainer: PaginationContainer<ProjectModel>) => {
         this.projects = paginationContainer.results;
-        if (!this.projects.length) {
+        if (!this.projects.length && pageNumber !== 1) {
           this.paginationClicked(1);
           return;
         }

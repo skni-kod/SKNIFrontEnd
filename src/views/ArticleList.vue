@@ -86,7 +86,7 @@ export default class ArticleList extends Vue {
       .getArticles(pageNumber, this.pagination.itemsPerPage, false)
       .then((paginationContainer: PaginationContainer<ArticleModel>) => {
         this.articles = paginationContainer.results;
-        if (!this.articles.length) {
+        if (!this.articles.length && pageNumber !== 1) {
           this.paginationClicked(1);
           return;
         }

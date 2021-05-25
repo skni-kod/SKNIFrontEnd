@@ -57,9 +57,9 @@ export default new Router({
         import(/* webpackChunkName: "sections" */ './views/SectionList.vue'),
     },
     {
-      path: '/section/edit/:id?',
-      alias: '/section/add',
-      name: 'editSection',
+      path: '/hardware/edit/:id?',
+      alias: '/hardware/add',
+      name: 'editHardware',
       beforeEnter: (to, from, next) => {
         if (!store.getters.isAuthenticated) {
           next('/403');
@@ -68,7 +68,7 @@ export default new Router({
         }
       },
       component: () =>
-        import(/* webpackChunkName: "article-editor" */ './views/SectionEdit.vue'),
+        import(/* webpackChunkName: "article-editor" */ './views/HardwareEdit.vue'),
     },
     {
       path: '/hardware/:page?',
@@ -171,19 +171,19 @@ export default new Router({
         import(/* webpackChunkName: "project" */ './views/ProjectList.vue'),
     },
     {
-      path: '/project/edit/:id?',
-      alias: '/project/add',
-      name: 'editProject',
-      beforeEnter: (to, from, next) => {
-        if (!store.getters.isAuthenticated) {
-          next('/403');
-        } else {
-          next();
-        }
-      },
-      component: () =>
-        import(/* webpackChunkName: "article-editor" */ './views/ProjectEdit.vue'),
+    path: '/project/edit/:id?',
+    alias: '/project/add',
+    name: 'editProject',
+    beforeEnter: (to, from, next) => {
+      if (!store.getters.isAuthenticated) {
+        next('/403');
+      } else {
+        next();
+      }
     },
+    component: () =>
+      import(/* webpackChunkName: "article-editor" */ './views/ProjectEdit.vue'),
+  },
     {
       path: '/project/:id',
       name: 'project',
