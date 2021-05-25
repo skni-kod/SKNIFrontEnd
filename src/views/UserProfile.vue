@@ -4,10 +4,10 @@
       <v-row justify="center" class="ma-2">
         <v-card width="1000">
           <v-card-title class="white--text primary pb-2"
-            >{{ user.first_name }} {{ user.last_name }}</v-card-title
+            >{{ profile.user.first_name || 'Gal' }} {{ profile.user.last_name || 'Anonim' }}</v-card-title
           >
           <v-card-subtitle class="white--text primary">{{
-            user.username
+            profile.user.username
           }}</v-card-subtitle>
           <v-divider></v-divider>
           <v-card-text>
@@ -15,7 +15,7 @@
             <markdown-it-vue
               class="md-body text-left mx-2"
               :content="
-                user.profile.description ||
+                profile.description ||
                 '### <center>Użytkownik nie uzupełnił opisu profilu :\'(</center>'
               "
               :options="markdownOptions"
@@ -61,9 +61,18 @@ export default class UserPanel extends Vue {
   private pagination!: PaginationModel;
   private articles!: ArticleModel[];
   private async getUser() {
-    await beAxios.get('api/profiles/' + this.user.profile).then((res) => {
-      this.$data.user = res.data;
-    });
+    await beAxios
+      .get('api/profiles/' + this.$route.params.id + '/')
+      .then((res) => {
+        if (res.status === 200) {
+          this.$data.profile = res.data;
+        } else {
+          this.$router.replace('/404');
+        }
+      })
+      .catch(() => {
+        this.$router.replace('/404');
+      });
   }
 
   private created() {
@@ -97,14 +106,11 @@ export default class UserPanel extends Vue {
       });
   }
 
-  get user() {
-    return this.$store.getters.user;
-  }
-
   private data() {
     return {
       articles: this.articles,
       pagination: this.pagination,
+      profile: {},
       markdownOptions: {
         markdownIt: {
           html: true,
