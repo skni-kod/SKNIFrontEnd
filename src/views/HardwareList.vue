@@ -87,7 +87,7 @@ export default class HardwareList extends Vue {
       .getHardwareByPage(pageNumber, this.pagination.itemsPerPage, false)
       .then((paginationContainer: PaginationContainer<HardwareModel>) => {
         this.hardware = paginationContainer.results;
-        if (!this.hardware.length) {
+        if (!this.hardware.length && pageNumber !== 1) {
           this.paginationClicked(1);
           return;
         }
