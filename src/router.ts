@@ -57,6 +57,20 @@ export default new Router({
         import(/* webpackChunkName: "sections" */ './views/SectionList.vue'),
     },
     {
+      path: '/section/edit/:id?',
+      alias: '/section/add',
+      name: 'sectionEdit',
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.isAuthenticated) {
+          next('/403');
+        } else {
+          next();
+        }
+      },
+      component: () =>
+        import(/* webpackChunkName: "article-editor" */ './views/SectionEdit.vue'),
+    },
+    {
       path: '/hardware/edit/:id?',
       alias: '/hardware/add',
       name: 'editHardware',

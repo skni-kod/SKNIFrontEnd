@@ -9,7 +9,7 @@
       <v-card-text class="text-left">
         <markdown-it-vue
           class="md-body"
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan finibus elit sed rutrum. Suspendisse faucibus consectetur lacus nec vulputate. Pellentesque pharetra pulvinar lacus, eget pellentesque odio fermentum vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse sodales ante lobortis turpis egestas euismod. Donec non velit et neque vulputate blandit. Integer a ornare turpis. Nunc id dui dui. Nulla scelerisque ipsum vitae ultrices ullamcorper. Etiam sed sollicitudin diam, vitae pellentesque odio."
+          :content="section.description"
           :options="markdownOptions"
         />
       </v-card-text>
@@ -52,7 +52,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn-cap depressed color="warning" :to="'/section/edit/' + section.id"
+        <v-btn-cap depressed color="warning" :to="'/section/' + section.id"
           >Zobacz więcej</v-btn-cap
         >
         <v-speed-dial direction="top" v-if="auth" v-model="fab" class="ml-2">

@@ -127,7 +127,9 @@ export default class ArticleEditor extends Vue {
   }
 
   private getAllusers() {
-    beAxios.get('api/users/').then((res) => {
+    beAxios.get('api/users/',{headers: {
+                Authorization: 'Bearer ' + this.$store.getters.token,
+            },}).then((res) => {
       this.$data.users = res.data;
       this.$data.users.forEach((element: any) => {
         element.fullname =
