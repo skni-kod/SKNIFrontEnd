@@ -22,8 +22,7 @@
     ></v-img>
     <home-section-list :sections="sections"></home-section-list>
     <home-article-list :articles="articles"></home-article-list>
-    <sponsors />
-
+    <sponsors></sponsors>
   </div>
 </template>
 
