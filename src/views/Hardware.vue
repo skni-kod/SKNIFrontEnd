@@ -1,10 +1,10 @@
 <template>
-  <div class="mt-3">
+  <div>
     <v-row no-gutters justify="center">
-      <v-col md="6"
-        ><v-card elevation="1" outlined>
+      <v-col md="6">
+        <v-card outlined class="ma-4">
           <v-card-title
-            class="grey lighten-3 text-h4 primary--text font-weight-bold justify-center"
+            class="primary text-h4 white--text font-weight-bold justify-center py-1"
             >{{ hardware.name }}</v-card-title
           >
           <v-card-text>
@@ -14,39 +14,26 @@
               :options="markdownOptions"
             />
             <v-divider />
-            <v-row class="mt-2">
-              <v-col cols="12" sm="4" md="4">
-                <h3 class="text-center">
-                  Status: {{ hardware.status }}
-                </h3>
+            <v-row align="center" class="mt-1">
+              <v-col cols="12" sm="4" class="py-0">
+                <h3 class="text-center">Status: {{ hardware.status }}</h3>
               </v-col>
-              <v-col cols="12" sm="4" class="text-center">Numer seryjny:{{ hardware.serial_number}} </v-col>
-              <v-col
-                sm="2"
-                md="1"
-                :class="{ 'd-none': $vuetify.breakpoint.xs }"
-              >
+              <v-col cols="12" sm="4" class="text-center py-0"
+                >Numer seryjny: {{ hardware.serial_number }}
               </v-col>
-              <v-col
-                cols="12"
-                sm="2"
-                :class="{ 'text-center': $vuetify.breakpoint.xs }"
-              >
-                <v-btn
-                  small
-                  plain
-                  rounded
-                  outlined
-                  v-if="hardware.status == 'Available'"
-                  >Wypożycz</v-btn
+              <v-col cols="12" sm="4" class="text-center py-0">
+                <v-btn-cap
+                  depressed
+                  :disabled="hardware.status !== 'Available'"
+                  class="primary"
                 >
-                <v-btn small plain rounded outlined v-else disabled
-                  >Wypożycz</v-btn
-                >
+                  <span>Wypożycz</span>
+                  <v-icon right>mdi-dolly</v-icon>
+                </v-btn-cap>
               </v-col>
             </v-row>
-          </v-card-text></v-card
-        >
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
     <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="auth">
@@ -110,7 +97,9 @@ export default class Hardware extends Vue {
   }
 
   get dialogText() {
-    return 'Czy na pewno chcesz usunąć sprzęt "' + this.$data.hardware.name + '"?';
+    return (
+      'Czy na pewno chcesz usunąć sprzęt "' + this.$data.hardware.name + '"?'
+    );
   }
 
   private deleteHardware(id: number) {
