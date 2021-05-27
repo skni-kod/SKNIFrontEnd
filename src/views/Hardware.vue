@@ -2,7 +2,7 @@
   <div>
     <v-row no-gutters justify="center">
       <v-col md="6">
-        <v-card outlined class="ma-4">
+        <v-card outlined class="ma-4" v-if="!loading && hardware">
           <v-card-title
             class="primary text-h4 white--text font-weight-bold justify-center py-1"
             >{{ hardware.name }}</v-card-title
@@ -34,6 +34,11 @@
             </v-row>
           </v-card-text>
         </v-card>
+        <v-skeleton-loader
+          type="card-heading, card-avatar, article, actions"
+          class="ma-4"
+          v-else
+        ></v-skeleton-loader>
       </v-col>
     </v-row>
     <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="auth">
@@ -71,25 +76,21 @@ import { HardwareModel } from '@/models/HardwareModel';
 @Component
 export default class Hardware extends Vue {
   private hardwareService!: HardwareService;
-  private hardware!: HardwareModel;
 
   private beforeCreate() {
     this.hardwareService = new HardwareService();
   }
 
-  private mounted() {
+  private created() {
     this.hardwareService
       .getHardware(this.$route.params.id)
       .then((hardware) => {
-        this.hardware = hardware;
+        this.$data.hardware = hardware;
+        this.$data.loading = false;
       })
       .catch(() => {
         this.$router.replace('/404');
       });
-  }
-
-  private beforeDestroy() {
-    this.$store.dispatch('purgeModule');
   }
 
   get auth(): boolean {
@@ -135,7 +136,7 @@ export default class Hardware extends Vue {
 
   private data() {
     return {
-      hardware: this.hardware,
+      hardware: [],
       fab: false,
       dialog: false,
       markdownOptions: {
@@ -147,6 +148,7 @@ export default class Hardware extends Vue {
           anchorLink: false,
         },
       },
+      loading: true,
     };
   }
 }
