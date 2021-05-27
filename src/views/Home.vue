@@ -22,6 +22,7 @@
     ></v-img>
     <home-section-list :sections="sections"></home-section-list>
     <home-article-list :articles="articles"></home-article-list>
+    <sponsors></sponsors>
   </div>
 </template>
 
@@ -34,9 +35,10 @@ import { ArticlesService } from '../services/ArticlesService';
 
 import homeArticleList from '@/components/HomeArticleList.vue';
 import homeSectionList from '@/components/HomeSectionList.vue';
+import Sponsors from '@/components/Sponsors.vue';
 
 @Component({
-  components: { homeArticleList, homeSectionList },
+  components: { homeArticleList, homeSectionList, Sponsors },
 })
 export default class Home extends Vue {
   private sectionsService!: SectionsService;
