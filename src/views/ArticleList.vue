@@ -1,41 +1,42 @@
 <template>
-  <div>
-    <v-row class="mt-3 mb-2" align="center">
-      <v-col class="py-0">
-        <v-row
-          align="center"
-          justify="center"
-          class="mx-2"
-          v-if="articles && articles.length > 0"
-        >
-          <v-col cols="auto" class="pa-0">
-            <article-card
-              class="my-2"
-              v-for="article in articles"
-              :key="article.title"
-              :article="article"
-              @delete="deleteArticle"
-            ></article-card>
-          </v-col>
-        </v-row>
-        <v-row align="center" v-else>
-          <v-col>
-            <div class="text-h3 font-weight-bold text-center">
-              Brak artykułów
-            </div>
-          </v-col>
-        </v-row>
-        <v-pagination
-          v-model="pagination.currentPage"
-          class="mt-8 mb-3"
-          :length="pagination.pageCount"
-          @input="paginationClicked"
-          prev-icon="mdi-chevron-left"
-          next-icon="mdi-chevron-right"
-          v-if="articles && articles.length > 0"
-        ></v-pagination>
+  <div class="mt-4 mb-2 mx-4 fill-height">
+    <v-row
+      align="center"
+      justify="center"
+      class="mx-0"
+      v-if="articles && articles.length > 0"
+    >
+      <v-col cols="auto" class="pa-0">
+        <article-card
+          class="my-2"
+          v-for="article in articles"
+          :key="article.title"
+          :article="article"
+          @delete="deleteArticle"
+        ></article-card>
       </v-col>
     </v-row>
+    <v-row align="center" class="fill-height" v-else>
+      <v-col>
+        <div class="text-h3 font-weight-bold text-center">
+          {{ loading ? 'Ładowanie danych' : 'Brak artykułów' }}
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            v-if="loading"
+          ></v-progress-circular>
+        </div>
+      </v-col>
+    </v-row>
+    <v-pagination
+      v-model="pagination.currentPage"
+      class="mt-2"
+      :length="pagination.pageCount"
+      @input="paginationClicked"
+      prev-icon="mdi-chevron-left"
+      next-icon="mdi-chevron-right"
+      v-if="articles && articles.length > 0"
+    ></v-pagination>
     <v-btn-cap
       fab
       fixed
@@ -104,6 +105,10 @@ export default class ArticleList extends Vue {
           return;
         }
         this.pagination.itemCount = paginationContainer.count;
+        this.$data.loading = false;
+      })
+      .catch(() => {
+        this.$data.loading = false;
       });
   }
 
@@ -142,6 +147,7 @@ export default class ArticleList extends Vue {
     return {
       articles: this.articles,
       pagination: this.pagination,
+      loading: true,
     };
   }
 }

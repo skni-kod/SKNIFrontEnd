@@ -1,9 +1,8 @@
 <template>
-  <div class="fill-height">
+  <div class="mt-4 mb-2 mx-4 fill-height">
     <div v-if="hardware && hardware.length > 0">
       <v-row
         justify="center"
-        class="pa-2"
         v-for="item in hardware"
         :key="item.id"
       >
@@ -14,7 +13,14 @@
     </div>
     <v-row align="center" class="fill-height" v-else>
       <v-col>
-        <div class="text-h3 font-weight-bold text-center">Brak hardware</div>
+        <div class="text-h3 font-weight-bold text-center">
+          {{ loading ? 'Ładowanie danych' : 'Brak hardware' }}
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            v-if="loading"
+          ></v-progress-circular>
+        </div>
       </v-col>
     </v-row>
     <v-btn
@@ -34,7 +40,7 @@
       @input="paginationClicked"
       prev-icon="mdi-chevron-left"
       next-icon="mdi-chevron-right"
-      class="mb-3"
+      class="mt-2"
       v-if="hardware && hardware.length > 0"
     ></v-pagination>
   </div>
@@ -97,6 +103,10 @@ export default class HardwareList extends Vue {
           return;
         }
         this.pagination.itemCount = paginationContainer.count;
+        this.$data.loading = false;
+      })
+      .catch(() => {
+        this.$data.loading = false;
       });
   }
 
@@ -134,6 +144,7 @@ export default class HardwareList extends Vue {
   private data() {
     return {
       hardware: this.hardware,
+      loading: true,
     };
   }
 }

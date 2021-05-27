@@ -1,14 +1,28 @@
 <template>
-  <div class="ma-2">
-    <v-row justify="center" v-for="section in sections" :key="section.id">
-      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
-        <section-card
-          class="my-2"
-          :section="section"
-          :projects="projects"
-          @delete="deleteSection"
-        >
-        </section-card>
+  <div class="ma-4 fill-height">
+    <div v-if="sections && sections.length > 0">
+      <v-row justify="center" v-for="section in sections" :key="section.id">
+        <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+          <section-card
+            class="my-2"
+            :section="section"
+            :projects="projects"
+            @delete="deleteSection"
+          >
+          </section-card>
+        </v-col>
+      </v-row>
+    </div>
+    <v-row align="center" class="fill-height" v-else>
+      <v-col>
+        <div class="text-h3 font-weight-bold text-center">
+          {{ loading ? 'Ładowanie danych' : 'Brak sekcji' }}
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            v-if="loading"
+          ></v-progress-circular>
+        </div>
       </v-col>
     </v-row>
     <v-btn-cap
@@ -55,16 +69,22 @@ export default class SectionList extends Vue {
     this.projectsService.getAllProjects().then((res) => {
       this.$data.projects = res;
     });
-    this.sectionsService.getAllSections().then((p) => {
-      this.sections = p;
-      for (let i = 0; i < this.sections.length; ) {
-        if (this.sections[i].isVisible === false) {
-          this.sections.splice(i, 1);
-        } else {
-          i++;
+    this.sectionsService
+      .getAllSections()
+      .then((p) => {
+        this.sections = p;
+        for (let i = 0; i < this.sections.length; ) {
+          if (this.sections[i].isVisible === false) {
+            this.sections.splice(i, 1);
+          } else {
+            i++;
+          }
         }
-      }
-    });
+        this.$data.loading = false;
+      })
+      .catch(() => {
+        this.$data.loading = false;
+      });
   }
 
   private deleteSection(id: number) {
@@ -104,6 +124,7 @@ export default class SectionList extends Vue {
     return {
       sections: this.sections,
       projects: [],
+      loading: true,
     };
   }
 }
