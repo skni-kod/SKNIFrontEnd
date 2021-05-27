@@ -30,8 +30,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { SectionsService } from '@/services/SectionsService';
 import { SectionModel } from '@/models/SectionModel';
-import { ArticleModel } from '../models/ArticleModel';
-import { ArticlesService } from '../services/ArticlesService';
+import { ArticleModel } from '@/models/ArticleModel';
+import { ArticlesService } from '@/services/ArticlesService';
 
 import homeArticleList from '@/components/HomeArticleList.vue';
 import homeSectionList from '@/components/HomeSectionList.vue';
