@@ -6,7 +6,6 @@
         >Komentarze</v-card-title
       >
       <v-card-actions>
-        <v-spacer></v-spacer>
         <v-btn-cap
           v-if="auth && !addComment"
           block
@@ -23,10 +22,9 @@
             >
           </v-col>
         </v-row>
-        <v-row no-gutters>
+        <v-row v-if="addComment" no-gutters>
           <v-col>
             <comment-editor
-              v-if="addComment"
               @close="addComment = false"
             ></comment-editor>
           </v-col>
