@@ -3,7 +3,7 @@
     <v-row justify="center" v-if="project != undefined">
       <v-col cols="12" sm="10" md="8" lg="6" xl="4">
         <v-card tile elevation="0">
-          <v-card-title style="word-break: break-word">
+          <v-card-title class="mb-2" style="word-break: break-word">
             <p class="text-h2 text-left mb-0">{{ project.title }}</p>
           </v-card-title>
           <v-card-subtitle class="text-left pb-0">
