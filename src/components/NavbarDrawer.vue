@@ -23,6 +23,19 @@
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item
+        router
+        to="/hardware"
+        @click="drawer = !drawer"
+        v-if="auth"
+      >
+        <v-list-item-action>
+          <v-icon large class="primary--text">mdi-expansion-card</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Hardware</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
 
     <v-list subheader shaped>

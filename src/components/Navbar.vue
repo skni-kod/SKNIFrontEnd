@@ -10,6 +10,12 @@
           :to="item.link"
           >{{ item.title }}</v-btn
         >
+        <v-btn
+          text
+          to="/hardware"
+          v-if="auth"
+          >Hardware</v-btn
+        >
       </v-toolbar-items>
       <v-toolbar-title v-else>SKNI KOD</v-toolbar-title>
       <v-spacer />
@@ -89,17 +95,6 @@ export default class Navbar extends Vue {
   }
 
   get auth(): boolean {
-    if (this.$store.getters.isAuthenticated) {
-      this.toolbarItems.push({
-        link: '/hardware',
-        title: 'Hardware',
-        icon: 'mdi-expansion-card',
-      });
-    } else if (
-      this.toolbarItems[this.toolbarItems.length - 1].title === 'Hardware'
-    ) {
-      this.toolbarItems.pop();
-    }
     return this.$store.getters.isAuthenticated;
   }
 
