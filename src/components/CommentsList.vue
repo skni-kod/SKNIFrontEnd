@@ -6,6 +6,7 @@
         >Komentarze</v-card-title
       >
       <v-card-actions>
+        <v-spacer></v-spacer>
         <v-btn-cap
           v-if="auth && !addComment"
           block
