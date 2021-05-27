@@ -1,29 +1,24 @@
 <template>
-  <v-footer id="footer" elevation="5" height="auto" color="#EEF4F9" class="pa-0">
+  <v-footer id="footer" height="auto" class="pa-0">
     <v-col class="pa-0">
       <v-img width="120" src="../assets/logo_color.png" class="ma-auto" />
-      <v-layout justify-center row wrap>
-        <p class="grey--text ma-0">
+      <v-row justify="center">
+        <p class="ma-0">
           <strong>SKNI KOD</strong>
           &nbsp; &copy;{{ new Date().getFullYear() }}
         </p>
-      </v-layout>
-      <v-layout justify-center>
-        <v-btn text small color="primary" class="font-weight-bold">strona główna</v-btn>
-        <v-btn text small color="primary" class="font-weight-bold">o nas</v-btn>
-        <v-btn text small color="primary" class="font-weight-bold">kontakt</v-btn>
         <v-btn
           href="https://www.facebook.com/skni.kod/"
           small
           icon
           text
           color="primary"
-          class="font-weight-bold"
+          class="font-weight-bold mx-2"
           target="_blank"
         >
           <v-icon>mdi-facebook</v-icon>
         </v-btn>
-      </v-layout>
+      </v-row>
     </v-col>
   </v-footer>
 </template>
