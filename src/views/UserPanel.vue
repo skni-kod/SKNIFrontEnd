@@ -8,14 +8,14 @@
           >Witaj {{ user.first_name || 'Gal' }} {{ user.last_name || 'Anonim' }}!</v-card-title>
           <v-card-subtitle class="white--text primary">{{user.username}}</v-card-subtitle>
           <v-divider></v-divider>
-          <v-row wrap justify="center">
+          <v-row justify="center">
             <v-btn-cap color="primary" class="mt-10" :to="'/user/profile/' + user.profile">
               <v-icon left>mdi-card-account-details</v-icon>
               <span>Mój profil</span>
             </v-btn-cap>
           </v-row>
           <p class="text-subtitle-1 font-weight-bold text-center mt-7">Opcje profilu</p>
-          <v-row wrap class="mx-2" justify="center">
+          <v-row class="mx-2" justify="center">
             <v-btn-cap color="primary" class="ma-1" to="/user/descriptionchange">
               <v-icon left>mdi-text-account</v-icon>
               <span>Zmień opis profilu</span>
