@@ -73,7 +73,7 @@ export default class ArticleEdit extends Vue {
             });
           })
           .catch(() => {
-            this.$router.replace('/404');
+            this.$router.replace({name:'error404'});
           });
       }
     }
@@ -182,10 +182,9 @@ export default class ArticleEdit extends Vue {
 
   private returnFromEditor() {
     if (this.$data.add) {
-      this.$router.replace('/articles');
+      this.$router.replace({name:'articles'});
     } else {
-      this.$router.replace(
-        '/article/' + this.$data.article.id + '-' + this.$data.article.alias,
+      this.$router.replace({name:'article',params:{id:this.$data.article.id,alias:this.$data.article.alias}}
       );
     }
   }

@@ -36,7 +36,7 @@ export default class HomeArticleList extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace('/articles/1');
+          this.$router.replace({name:'articles',params:{page:'1'}});
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,

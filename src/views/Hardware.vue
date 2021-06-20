@@ -89,7 +89,7 @@ export default class Hardware extends Vue {
         this.$data.loading = false;
       })
       .catch(() => {
-        this.$router.replace('/404');
+        this.$router.replace({name:'error404'});
       });
   }
 
@@ -114,7 +114,7 @@ export default class Hardware extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace('/hardware/1');
+          this.$router.replace({name:'hardwareList',params:{page:'1'}});
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,

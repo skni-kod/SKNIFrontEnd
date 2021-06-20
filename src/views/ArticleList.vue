@@ -123,7 +123,7 @@ export default class ArticleList extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace('/articles/reload');
+          this.$router.replace({name:'articles',params:{page:'reload'}});
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,

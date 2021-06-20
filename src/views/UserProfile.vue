@@ -67,11 +67,11 @@ export default class UserPanel extends Vue {
         if (res.status === 200) {
           this.$data.profile = res.data;
         } else {
-          this.$router.replace('/404');
+          this.$router.replace({name:'error404'});
         }
       })
       .catch(() => {
-        this.$router.replace('/404');
+        this.$router.replace({name:'error404'});
       });
   }
 

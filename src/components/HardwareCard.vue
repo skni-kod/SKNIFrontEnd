@@ -133,7 +133,7 @@ export default class HardwareCard extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace('/hardware/1');
+          this.$router.replace({name:'hardwareList',params:{page:'1'}});
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,

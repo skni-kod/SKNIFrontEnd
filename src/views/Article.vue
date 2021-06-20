@@ -141,7 +141,7 @@ export default class Article extends Vue {
         this.article = article;
       })
       .catch(() => {
-        this.$router.replace('/404');
+        this.$router.replace({name:'error404'});
       });
 
     this.$store.dispatch('getComments', this.$route.params.id);
@@ -174,7 +174,7 @@ export default class Article extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace('/articles/1');
+          this.$router.replace({name:'articles',params:{page:'1'}});
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,
