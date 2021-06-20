@@ -55,7 +55,7 @@ export default class UserPasswordChange extends Vue {
           color: 'success',
           timeout: 7500,
         });
-        this.$router.push('/user/panel');
+        this.$router.push({name:'userPanel'});
       })
       .catch(() => {
         this.$store.dispatch('setSnackbarState', {

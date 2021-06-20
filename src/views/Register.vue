@@ -121,7 +121,7 @@
           <p class="my-auto">Masz już konto?</p>
         </v-col>
         <v-col cols="auto">
-          <v-btn-cap text color="primary" @click="$router.push('/login')">
+          <v-btn-cap text color="primary" @click="$router.push({name:'login'})">
             <v-icon left>mdi-login</v-icon>
             <span>Zaloguj się!</span>
           </v-btn-cap>

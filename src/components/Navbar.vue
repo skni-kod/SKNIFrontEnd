@@ -30,19 +30,19 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item @click="$router.push('/user/profile/' + profile.id)">
+            <v-list-item @click="$router.push({name:'userProfile',params:{id:profile.id}})">
               <v-list-item-action>
                 <v-icon>mdi-account-circle</v-icon>
               </v-list-item-action>
               <v-list-item-title>Mój profil</v-list-item-title>
             </v-list-item>
-            <v-list-item @click="$router.push('/user/panel')">
+            <v-list-item @click="$router.push({name:'userPanel'})">
               <v-list-item-action>
                 <v-icon>mdi-cog</v-icon>
               </v-list-item-action>
               <v-list-item-title>Panel użytkownika</v-list-item-title>
             </v-list-item>
-            <v-list-item @click="$router.push('/admin/panel')" v-if="role">
+            <v-list-item @click="$router.push({name:'adminProfile'})" v-if="role">
               <v-list-item-action>
                 <v-icon>mdi-duck</v-icon>
               </v-list-item-action>

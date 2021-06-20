@@ -111,7 +111,7 @@ export default class SectionCard extends Vue {
   }
 
   private route(id: number) {
-    this.$router.push('/project/' + id);
+    this.$router.push({name:'project',params:{id:String(id)}});
   }
 
   private removeMarkdown(text: string) {

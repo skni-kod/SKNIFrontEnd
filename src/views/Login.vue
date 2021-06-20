@@ -56,7 +56,7 @@
           <p class="my-auto">Nie masz konta?</p>
         </v-col>
         <v-col cols="auto">
-          <v-btn-cap text color="primary" @click="$router.push('/register')">
+          <v-btn-cap text color="primary" @click="$router.push({name:'register'})">
             <v-icon left>mdi-database-plus</v-icon>
             <span>Zarejestruj się!</span>
           </v-btn-cap>
