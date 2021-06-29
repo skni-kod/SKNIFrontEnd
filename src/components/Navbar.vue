@@ -45,7 +45,7 @@
               <v-list-item-title>Panel użytkownika</v-list-item-title>
             </v-list-item>
             <v-list-item
-              @click="$router.push({ name: 'adminProfile' })"
+              @click="$router.push({ name: 'adminPanel' })"
               v-if="role"
             >
               <v-list-item-action>

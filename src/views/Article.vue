@@ -107,7 +107,7 @@
       <v-btn-cap
         fab
         color="orange"
-        :to="{ name: 'editArticle', params: { id: article.id } }"
+        :to="{ name: 'articleEdit', params: { id: article.id } }"
       >
         <v-icon>mdi-pen</v-icon>
       </v-btn-cap>

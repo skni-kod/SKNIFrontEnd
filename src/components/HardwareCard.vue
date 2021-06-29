@@ -69,7 +69,7 @@
               fab
               x-small
               color="orange"
-              :to="{ name: 'editHardware', params: { id: hardware.id } }"
+              :to="{ name: 'hardwareEdit', params: { id: hardware.id } }"
             >
               <v-icon>mdi-pen</v-icon>
             </v-btn>

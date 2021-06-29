@@ -55,7 +55,7 @@
       <v-btn
         fab
         color="orange"
-        :to="{ name: 'editHardware', params: { id: $route.params.id } }"
+        :to="{ name: 'hardwareEdit', params: { id: $route.params.id } }"
       >
         <v-icon>mdi-pen</v-icon>
       </v-btn>

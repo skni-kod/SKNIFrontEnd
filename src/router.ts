@@ -38,14 +38,14 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/article/edit/:id?',
-    name: 'editArticle',
+    name: 'articleEdit',
     component: () =>
       import(/* webpackChunkName: "ArticleEdit" */ './views/ArticleEdit.vue'),
     beforeEnter: authGuard,
   },
   {
     path: '/article/add',
-    name: 'addArticle',
+    name: 'articleAdd',
     component: () =>
       import(/* webpackChunkName: "ArticleEdit" */ './views/ArticleEdit.vue'),
     beforeEnter: authGuard,
@@ -78,14 +78,14 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/hardware/edit/:id?',
-    name: 'editHardware',
+    name: 'hardwareEdit',
     component: () =>
       import(/* webpackChunkName: "HardwareEdit" */ './views/HardwareEdit.vue'),
     beforeEnter: authGuard,
   },
   {
     path: '/hardware/add',
-    name: 'addHardware',
+    name: 'hardwareAdd',
     component: () =>
       import(/* webpackChunkName: "HardwareEdit" */ './views/HardwareEdit.vue'),
     beforeEnter: authGuard,
