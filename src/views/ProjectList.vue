@@ -29,7 +29,7 @@
       bottom
       right
       v-if="role"
-      :to="'/project/add'"
+      :to="{name:'addProject'}"
       class="success"
     >
       <v-icon class="white--text">mdi-plus</v-icon>
@@ -121,7 +121,7 @@ export default class ProjectList extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace('/projects/reload');
+          this.$router.replace({name:'projects',params:{page:'reload'}});
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,

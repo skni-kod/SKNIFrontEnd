@@ -31,7 +31,7 @@
       bottom
       right
       v-if="auth"
-      :to="'/section/add'"
+      :to="{name:'addSection'}"
       class="success"
     >
       <v-icon class="white--text">mdi-plus</v-icon>

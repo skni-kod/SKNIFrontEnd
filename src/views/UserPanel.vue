@@ -9,18 +9,18 @@
           <v-card-subtitle class="white--text primary">{{user.username}}</v-card-subtitle>
           <v-divider></v-divider>
           <v-row justify="center">
-            <v-btn-cap color="primary" class="mt-10" :to="'/user/profile/' + user.profile">
+            <v-btn-cap color="primary" class="mt-10" :to="{name:'userProfile',params:{id:user.profile}}">
               <v-icon left>mdi-card-account-details</v-icon>
               <span>Mój profil</span>
             </v-btn-cap>
           </v-row>
           <p class="text-subtitle-1 font-weight-bold text-center mt-7">Opcje profilu</p>
           <v-row class="mx-2" justify="center">
-            <v-btn-cap color="primary" class="ma-1" to="/user/descriptionchange">
+            <v-btn-cap color="primary" class="ma-1" :to="{name:'userDescriptionChange'}">
               <v-icon left>mdi-text-account</v-icon>
               <span>Zmień opis profilu</span>
             </v-btn-cap>
-            <v-btn-cap color="primary" class="ma-1" to="/user/passwordchange">
+            <v-btn-cap color="primary" class="ma-1" :to="{name:'userPasswordChange'}">
               <v-icon left>mdi-lock-reset</v-icon>
               <span>Zmień hasło</span>
             </v-btn-cap>
@@ -56,9 +56,6 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class UserPanel extends Vue {
-  private route(link: string) {
-    this.$router.push(link);
-  }
 
   get user() {
     return this.$store.getters.user;

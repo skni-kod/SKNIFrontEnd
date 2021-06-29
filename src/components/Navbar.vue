@@ -12,7 +12,7 @@
         >
         <v-btn
           text
-          to="/hardware"
+          :to="{name:'hardwareList'}"
           v-if="auth"
           >Hardware</v-btn
         >
@@ -20,8 +20,8 @@
       <v-toolbar-title v-else>SKNI KOD</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
-        <v-btn text to="/login" v-if="!auth">Login</v-btn>
-        <v-btn text to="/register" v-if="!auth">Rejestracja</v-btn>
+        <v-btn text :to="{name:'login'}" v-if="!auth">Login</v-btn>
+        <v-btn text :to="{name:'register'}" v-if="!auth">Rejestracja</v-btn>
         <v-menu dark offset-y v-if="auth">
           <template v-slot:activator="{ on, attrs }">
             <v-btn text v-bind="attrs" v-on="on">
@@ -30,19 +30,19 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item @click="$router.push('/user/profile/' + profile.id)">
+            <v-list-item @click="$router.push({name:'userProfile',params:{id:profile.id}})">
               <v-list-item-action>
                 <v-icon>mdi-account-circle</v-icon>
               </v-list-item-action>
               <v-list-item-title>Mój profil</v-list-item-title>
             </v-list-item>
-            <v-list-item @click="$router.push('/user/panel')">
+            <v-list-item @click="$router.push({name:'userPanel'})">
               <v-list-item-action>
                 <v-icon>mdi-cog</v-icon>
               </v-list-item-action>
               <v-list-item-title>Panel użytkownika</v-list-item-title>
             </v-list-item>
-            <v-list-item @click="$router.push('/admin/panel')" v-if="role">
+            <v-list-item @click="$router.push({name:'adminProfile'})" v-if="role">
               <v-list-item-action>
                 <v-icon>mdi-duck</v-icon>
               </v-list-item-action>
@@ -80,11 +80,11 @@ import Vue from 'vue';
 })
 export default class Navbar extends Vue {
   private toolbarItems = [
-    { link: '/', title: 'Strona główna', icon: 'mdi-home' },
-    { link: '/about', title: 'O nas', icon: 'mdi-account-group' },
-    { link: '/articles/1', title: 'Artykuły', icon: 'mdi-text-box-multiple' },
-    { link: '/sections', title: 'Sekcje', icon: 'mdi-vector-intersection' },
-    { link: '/projects', title: 'Projekty', icon: 'mdi-cog' },
+    { link: {name:'home'}, title: 'Strona główna', icon: 'mdi-home' },
+    { link: {name:'about'}, title: 'O nas', icon: 'mdi-account-group' },
+    { link: {name:'articles',params:{page:1}}, title: 'Artykuły', icon: 'mdi-text-box-multiple' },
+    { link: {name:'sections'}, title: 'Sekcje', icon: 'mdi-vector-intersection' },
+    { link: {name:'projects'}, title: 'Projekty', icon: 'mdi-cog' },
   ];
 
   get drawer(): boolean {

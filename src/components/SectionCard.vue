@@ -52,7 +52,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn-cap depressed color="warning" :to="'/section/' + section.id"
+        <v-btn-cap depressed color="warning" :to="{name:'section',params:{id:section.id}}"
           >Zobacz więcej</v-btn-cap
         >
         <v-speed-dial direction="top" v-if="auth" v-model="fab" class="ml-2">
@@ -71,7 +71,7 @@
             fab
             x-small
             color="orange"
-            :to="'/section/edit/' + section.id"
+            :to="{name:'editSection',params:{id:section.id}}"
           >
             <v-icon>mdi-pen</v-icon>
           </v-btn-cap>
@@ -111,7 +111,7 @@ export default class SectionCard extends Vue {
   }
 
   private route(id: number) {
-    this.$router.push('/project/' + id);
+    this.$router.push({name:'project',params:{id:String(id)}});
   }
 
   private removeMarkdown(text: string) {

@@ -29,7 +29,7 @@
       bottom
       right
       v-if="auth"
-      :to="'/hardware/add'"
+      :to="{name:'addHardware'}"
       class="success"
     >
       <v-icon class="white--text">mdi-plus</v-icon>
@@ -121,7 +121,7 @@ export default class HardwareList extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace('/hardware/1');
+          this.$router.replace({name:'hardwareList',params:{page:'1'}});
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,

@@ -13,7 +13,7 @@
               <v-icon left>mdi-content-save</v-icon>
               <span>Zapisz zmiany</span>
             </v-btn-cap>
-            <v-btn-cap color="error" :to="'/user/panel'">
+            <v-btn-cap color="error" :to="{name:'userPanel'}">
               <v-icon left>mdi-cancel</v-icon>
               <span>Anuluj edycję</span>
             </v-btn-cap>
@@ -55,7 +55,7 @@ export default class UserPasswordChange extends Vue {
           color: 'success',
           timeout: 7500,
         });
-        this.$router.push('/user/panel');
+        this.$router.push({name:'userPanel'});
       })
       .catch(() => {
         this.$store.dispatch('setSnackbarState', {

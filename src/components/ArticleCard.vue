@@ -24,7 +24,7 @@
             <v-card-actions class="pa-0">
               <v-spacer />
               <v-btn-cap
-                :to="'/article/' + article.id + '-' + article.alias"
+                :to="{name:'article', params:{id:article.id,alias:article.alias}}"
                 color="primary"
               >
                 <v-icon left>mdi-page-next</v-icon>
@@ -51,7 +51,7 @@
                   fab
                   x-small
                   color="orange"
-                  :to="'/article/edit/' + article.id"
+                  :to="{name:'editArticle', params:{id:article.id}}"
                 >
                   <v-icon>mdi-pen</v-icon>
                 </v-btn-cap>

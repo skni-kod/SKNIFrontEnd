@@ -25,7 +25,7 @@
       </v-list-item>
       <v-list-item
         router
-        to="/hardware"
+        :to="{name:'hardware'}"
         @click="drawer = !drawer"
         v-if="auth"
       >
@@ -40,7 +40,7 @@
 
     <v-list subheader shaped>
       <v-subheader>Użytkownik</v-subheader>
-      <v-list-item router @click="drawer = !drawer" to="/login" v-if="!auth">
+      <v-list-item router @click="drawer = !drawer" :to="{name:'login'}" v-if="!auth">
         <v-list-item-action>
           <v-icon large class="primary--text">mdi-login</v-icon>
         </v-list-item-action>
@@ -48,7 +48,7 @@
           <v-list-item-title>Login</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item router @click="drawer = !drawer" to="/register" v-if="!auth">
+      <v-list-item router @click="drawer = !drawer" :to="{name:'register'}" v-if="!auth">
         <v-list-item-action>
           <v-icon large class="primary--text">mdi-database-plus</v-icon>
         </v-list-item-action>
@@ -56,7 +56,7 @@
           <v-list-item-title>Rejestracja</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item router @click="drawer = !drawer" :to="'/user/profile/' + user.id" v-if="auth">
+      <v-list-item router @click="drawer = !drawer" :to="{name:'userProfile',params:{id:user.id}}" v-if="auth">
         <v-list-item-action>
           <v-icon large class="primary--text">mdi-account-circle</v-icon>
         </v-list-item-action>
@@ -64,7 +64,7 @@
           <v-list-item-title>Mój profil</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item router @click="drawer = !drawer" to="/user/panel" v-if="auth">
+      <v-list-item router @click="drawer = !drawer" :to="{name:'userPanel'}" v-if="auth">
         <v-list-item-action>
           <v-icon large class="primary--text">mdi-cog</v-icon>
         </v-list-item-action>
@@ -72,7 +72,7 @@
           <v-list-item-title>Panel użytkownika</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-       <v-list-item router @click="drawer = !drawer" to="/admin/panel" v-if="role">
+       <v-list-item router @click="drawer = !drawer" :to="{name:'adminPanel'}" v-if="role">
         <v-list-item-action>
           <v-icon large class="primary--text">mdi-duck</v-icon>
         </v-list-item-action>

@@ -73,7 +73,7 @@
           <v-icon>mdi-cog</v-icon>
         </v-btn-cap>
       </template>
-      <v-btn-cap fab color="orange" :to="'/project/edit/' + $route.params.id">
+      <v-btn-cap fab color="orange" :to="{name:'editProject',params:{id:$route.params.id}}">
         <v-icon>mdi-pen</v-icon>
       </v-btn-cap>
       <v-btn-cap fab color="error" @click="dialog = true">
@@ -110,7 +110,7 @@ export default class Project extends Vue {
         this.project = project;
       })
       .catch(() => {
-        this.$router.replace('/404');
+        this.$router.replace({name:'error404'});
       });
   }
 
@@ -135,7 +135,7 @@ export default class Project extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace('/projects/1');
+          this.$router.replace({name:'projects',params:{page:'1'}});
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,

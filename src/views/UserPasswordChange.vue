@@ -52,7 +52,7 @@
         </v-card>
       </v-row>
       <v-row align="center" justify="center" class="ma-5">
-        <v-btn-cap outlined color="error" @click="$router.push('/user/panel')">
+        <v-btn-cap outlined color="error" @click="$router.push({name:'userPanel'})">
           <v-icon left>mdi-cancel</v-icon>
           <span>Anuluj zmianę hasła</span>
         </v-btn-cap>
@@ -66,9 +66,6 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class UserPasswordChange extends Vue {
-  private route(link: string) {
-    this.$router.push(link);
-  }
 
   get user() {
     return this.$store.getters.user;
