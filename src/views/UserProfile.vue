@@ -3,8 +3,9 @@
     <v-col class="py-0">
       <v-row justify="center" class="ma-2">
         <v-card width="1000">
-          <v-card-title class="white--text primary pb-2"
-            >{{ profile.user.first_name || 'Gal' }} {{ profile.user.last_name || 'Anonim' }}</v-card-title
+          <v-card-title class="white--text primary pb-2" v-if="profile"
+            >{{ profile.user.first_name || 'Gal' }}
+            {{ profile.user.last_name || 'Anonim' }}</v-card-title
           >
           <v-card-subtitle class="white--text primary">{{
             profile.user.username
@@ -56,7 +57,7 @@ import { PaginationModel } from '@/models/PaginationModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
 
 @Component
-export default class UserPanel extends Vue {
+export default class UserProfile extends Vue {
   private articlesService!: ArticlesService;
   private pagination!: PaginationModel;
   private articles!: ArticleModel[];
@@ -95,7 +96,7 @@ export default class UserPanel extends Vue {
     this.pagination.currentPage = pageNumber;
     this.articlesService
       .getUserArticles(
-        this.$data.user.id,
+        this.$data.profile.user.id,
         pageNumber,
         this.pagination.itemsPerPage,
         false,
