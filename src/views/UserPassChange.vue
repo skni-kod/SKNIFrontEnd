@@ -65,7 +65,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class UserPasswordChange extends Vue {
+export default class UserPassChange extends Vue {
 
   get user() {
     return this.$store.getters.user;

@@ -34,7 +34,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import beAxios from '../axios';
 
 @Component
-export default class UserPasswordChange extends Vue {
+export default class UserEdit extends Vue {
   private created() {
     this.$data.text = this.profile.description;
   }

@@ -16,11 +16,11 @@
           </v-row>
           <p class="text-subtitle-1 font-weight-bold text-center mt-7">Opcje profilu</p>
           <v-row class="mx-2" justify="center">
-            <v-btn-cap color="primary" class="ma-1" :to="{name:'userDescriptionChange'}">
+            <v-btn-cap color="primary" class="ma-1" :to="{name:'UserEditChange'}">
               <v-icon left>mdi-text-account</v-icon>
               <span>Zmień opis profilu</span>
             </v-btn-cap>
-            <v-btn-cap color="primary" class="ma-1" :to="{name:'userPasswordChange'}">
+            <v-btn-cap color="primary" class="ma-1" :to="{name:'UserPassChange'}">
               <v-icon left>mdi-lock-reset</v-icon>
               <span>Zmień hasło</span>
             </v-btn-cap>
