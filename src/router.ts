@@ -1,8 +1,16 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import Router, { Route, NavigationGuardNext } from 'vue-router';
 import store from './store';
 
 Vue.use(Router);
+
+const authGuard = (to: Route, from: Route, next: NavigationGuardNext) => {
+  if (!store.getters.isAdministrator) {
+    next({ name: 'error403' });
+  } else {
+    next();
+  }
+};
 
 export default new Router({
   routes: [
@@ -33,28 +41,20 @@ export default new Router({
     {
       path: '/article/edit/:id?',
       name: 'editArticle',
-      beforeEnter: (to, from, next) => {
-        if (!store.getters.isAdministrator) {
-          next('/403');
-        } else {
-          next();
-        }
-      },
       component: () =>
-        import(/* webpackChunkName: "article-editor" */ './views/ArticleEdit.vue'),
+        import(
+          /* webpackChunkName: "article-editor" */ './views/ArticleEdit.vue'
+        ),
+      beforeEnter: authGuard,
     },
     {
       path: '/article/add',
       name: 'addArticle',
-      beforeEnter: (to, from, next) => {
-        if (!store.getters.isAdministrator) {
-          next('/403');
-        } else {
-          next();
-        }
-      },
       component: () =>
-        import(/* webpackChunkName: "article-editor" */ './views/ArticleEdit.vue'),
+        import(
+          /* webpackChunkName: "article-editor" */ './views/ArticleEdit.vue'
+        ),
+      beforeEnter: authGuard,
     },
     {
       path: '/tag/:tag/:page?',
@@ -71,67 +71,46 @@ export default new Router({
     {
       path: '/section/edit/:id?',
       name: 'sectionEdit',
-      beforeEnter: (to, from, next) => {
-        if (!store.getters.isAuthenticated) {
-          next('/403');
-        } else {
-          next();
-        }
-      },
       component: () =>
-        import(/* webpackChunkName: "article-editor" */ './views/SectionEdit.vue'),
+        import(
+          /* webpackChunkName: "article-editor" */ './views/SectionEdit.vue'
+        ),
+      beforeEnter: authGuard,
     },
     {
       path: '/section/add',
       alias: '/section/add',
       name: 'sectionAdd',
-      beforeEnter: (to, from, next) => {
-        if (!store.getters.isAuthenticated) {
-          next('/403');
-        } else {
-          next();
-        }
-      },
       component: () =>
-        import(/* webpackChunkName: "article-editor" */ './views/SectionEdit.vue'),
+        import(
+          /* webpackChunkName: "article-editor" */ './views/SectionEdit.vue'
+        ),
+      beforeEnter: authGuard,
     },
     {
       path: '/hardware/edit/:id?',
       name: 'editHardware',
-      beforeEnter: (to, from, next) => {
-        if (!store.getters.isAuthenticated) {
-          next('/403');
-        } else {
-          next();
-        }
-      },
       component: () =>
-        import(/* webpackChunkName: "article-editor" */ './views/HardwareEdit.vue'),
+        import(
+          /* webpackChunkName: "article-editor" */ './views/HardwareEdit.vue'
+        ),
+      beforeEnter: authGuard,
     },
     {
       path: '/hardware/add',
       name: 'addHardware',
-      beforeEnter: (to, from, next) => {
-        if (!store.getters.isAuthenticated) {
-          next('/403');
-        } else {
-          next();
-        }
-      },
       component: () =>
-        import(/* webpackChunkName: "article-editor" */ './views/HardwareEdit.vue'),
+        import(
+          /* webpackChunkName: "article-editor" */ './views/HardwareEdit.vue'
+        ),
+      beforeEnter: authGuard,
     },
     {
       path: '/hardware/:page?',
       name: 'hardwareList',
-      component: () => import(/* webpackChunkName: "hardwares" */ './views/HardwareList.vue'),
-      beforeEnter: (to, from, next) => {
-        if (store.getters.isAuthenticated) {
-          next();
-        } else {
-          next('/403');
-        }
-      },
+      component: () =>
+        import(/* webpackChunkName: "hardwares" */ './views/HardwareList.vue'),
+      beforeEnter: authGuard,
     },
     {
       path: '/hardwareCard/:id?',
@@ -156,64 +135,41 @@ export default new Router({
       name: 'userPanel',
       component: () =>
         import(/* webpackChunkName: "user-panel" */ './views/UserPanel.vue'),
-      beforeEnter: (to, from, next) => {
-        if (store.getters.isAuthenticated) {
-          next();
-        } else {
-          next('/403');
-        }
-      },
+      beforeEnter: authGuard,
     },
     {
       path: '/admin/panel',
       name: 'adminPanel',
-      component: () => import(/* webpackChunkName: "admin-panel" */ './views/AdminPanel.vue'),
-      beforeEnter: (to, from, next) => {
-        if (store.getters.isAdministrator) {
-          next();
-        } else {
-          next('/403');
-        }
-      },
+      component: () =>
+        import(/* webpackChunkName: "admin-panel" */ './views/AdminPanel.vue'),
+      beforeEnter: authGuard,
     },
     {
       path: '/user/passwordchange',
       name: 'userPasswordChange',
       component: () =>
-        import(/* webpackChunkName: "user-passwordchange" */ './views/UserPasswordChange.vue'),
-      beforeEnter: (to, from, next) => {
-        if (store.getters.isAuthenticated) {
-          next();
-        } else {
-          next('/403');
-        }
-      },
+        import(
+          /* webpackChunkName: "user-passwordchange" */ './views/UserPasswordChange.vue'
+        ),
+      beforeEnter: authGuard,
     },
     {
       path: '/user/descriptionchange',
       name: 'userDescriptionChange',
       component: () =>
-        import(/* webpackChunkName: "user-descriptionchange" */ './views/UserDescriptionChange.vue'),
-      beforeEnter: (to, from, next) => {
-        if (store.getters.isAuthenticated) {
-          next();
-        } else {
-          next('/403');
-        }
-      },
+        import(
+          /* webpackChunkName: "user-descriptionchange" */ './views/UserDescriptionChange.vue'
+        ),
+      beforeEnter: authGuard,
     },
     {
       path: '/user/profile/:id',
       name: 'userProfile',
       component: () =>
-        import(/* webpackChunkName: "user-profile" */ './views/UserProfile.vue'),
-      beforeEnter: (to, from, next) => {
-        if (to.params.id) {
-          next();
-        } else {
-          next('/403');
-        }
-      },
+        import(
+          /* webpackChunkName: "user-profile" */ './views/UserProfile.vue'
+        ),
+      beforeEnter: authGuard,
     },
     {
       path: '/projects/:page?',
@@ -222,31 +178,23 @@ export default new Router({
         import(/* webpackChunkName: "project" */ './views/ProjectList.vue'),
     },
     {
-    path: '/project/edit/:id?',
-    name: 'editProject',
-    beforeEnter: (to, from, next) => {
-      if (!store.getters.isAuthenticated) {
-        next('/403');
-      } else {
-        next();
-      }
+      path: '/project/edit/:id?',
+      name: 'editProject',
+      component: () =>
+        import(
+          /* webpackChunkName: "project-editor" */ './views/ProjectEdit.vue'
+        ),
+      beforeEnter: authGuard,
     },
-    component: () =>
-      import(/* webpackChunkName: "project-editor" */ './views/ProjectEdit.vue'),
-  },
-  {
-    path: '/project/add',
-    name: 'addProject',
-    beforeEnter: (to, from, next) => {
-      if (!store.getters.isAuthenticated) {
-        next('/403');
-      } else {
-        next();
-      }
+    {
+      path: '/project/add',
+      name: 'addProject',
+      component: () =>
+        import(
+          /* webpackChunkName: "project-editor" */ './views/ProjectEdit.vue'
+        ),
+      beforeEnter: authGuard,
     },
-    component: () =>
-      import(/* webpackChunkName: "project-editor" */ './views/ProjectEdit.vue'),
-  },
     {
       path: '/project/:id',
       name: 'project',
