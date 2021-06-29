@@ -50,7 +50,7 @@
             outlined
             dark
             class="warning"
-            :to="'/hardwareCard/' + hardware.id"
+            :to="{name:'hardware', params:{id:hardware.id}}"
             >Zobacz więcej</v-btn
           >
           <v-speed-dial direction="top" v-if="auth" v-model="fab" class="ml-2">
@@ -69,7 +69,7 @@
               fab
               x-small
               color="orange"
-              :to="'/hardware/edit/' + hardware.id"
+              :to="{name:'editHardware', params:{id:hardware.id}}"
             >
               <v-icon>mdi-pen</v-icon>
             </v-btn>

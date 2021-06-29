@@ -29,7 +29,7 @@
       bottom
       right
       v-if="auth"
-      :to="'/hardware/add'"
+      :to="{name:'addHardware'}"
       class="success"
     >
       <v-icon class="white--text">mdi-plus</v-icon>

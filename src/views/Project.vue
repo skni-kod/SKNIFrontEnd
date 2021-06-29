@@ -73,7 +73,7 @@
           <v-icon>mdi-cog</v-icon>
         </v-btn-cap>
       </template>
-      <v-btn-cap fab color="orange" :to="'/project/edit/' + $route.params.id">
+      <v-btn-cap fab color="orange" :to="{name:'editProject',params:{id:$route.params.id}}">
         <v-icon>mdi-pen</v-icon>
       </v-btn-cap>
       <v-btn-cap fab color="error" @click="dialog = true">

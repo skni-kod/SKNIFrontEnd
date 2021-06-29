@@ -29,7 +29,7 @@
       bottom
       right
       v-if="role"
-      :to="'/project/add'"
+      :to="{name:'addProject'}"
       class="success"
     >
       <v-icon class="white--text">mdi-plus</v-icon>

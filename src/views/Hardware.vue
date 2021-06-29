@@ -52,7 +52,7 @@
           <v-icon>mdi-cog</v-icon>
         </v-btn>
       </template>
-      <v-btn fab color="orange" :to="'/hardware/edit/' + $route.params.id">
+      <v-btn fab color="orange" :to="{name:'editHardware',params:{id: $route.params.id}}">
         <v-icon>mdi-pen</v-icon>
       </v-btn>
       <v-btn fab color="error" @click="dialog = true">

@@ -43,7 +43,7 @@
       bottom
       right
       v-if="role"
-      :to="'/article/add'"
+      :to="{name:'articleAdd'}"
       class="success"
     >
       <v-icon class="white--text">mdi-plus</v-icon>

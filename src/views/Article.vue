@@ -104,7 +104,7 @@
           <v-icon>mdi-cog</v-icon>
         </v-btn-cap>
       </template>
-      <v-btn-cap fab color="orange" :to="'/article/edit/' + $route.params.id">
+      <v-btn-cap fab color="orange" :to="{name:'editArticle',params:{id:article.id}}">
         <v-icon>mdi-pen</v-icon>
       </v-btn-cap>
       <v-btn-cap fab color="error" @click="dialog = true">
