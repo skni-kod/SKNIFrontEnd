@@ -122,7 +122,7 @@ const routes: RouteConfig[] = [
     beforeEnter: authGuard,
   },
   {
-    path: '/admin/panel',
+    path: '/admin/panel/:module?',
     name: 'adminPanel',
     component: () =>
       import(/* webpackChunkName: "AdminPanel" */ './views/AdminPanel.vue'),
