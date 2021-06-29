@@ -5,23 +5,18 @@
       <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
         <v-btn
           text
-          v-for="item in toolbarItems"
-          :key="item.link"
+          v-for="(item, i) in toolbarItems"
+          :key="i"
           :to="item.link"
           >{{ item.title }}</v-btn
         >
-        <v-btn
-          text
-          :to="{name:'hardwareList'}"
-          v-if="auth"
-          >Hardware</v-btn
-        >
+        <v-btn text :to="{ name: 'hardwareList' }" v-if="auth">Hardware</v-btn>
       </v-toolbar-items>
       <v-toolbar-title v-else>SKNI KOD</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
-        <v-btn text :to="{name:'login'}" v-if="!auth">Login</v-btn>
-        <v-btn text :to="{name:'register'}" v-if="!auth">Rejestracja</v-btn>
+        <v-btn text :to="{ name: 'login' }" v-if="!auth">Login</v-btn>
+        <v-btn text :to="{ name: 'register' }" v-if="!auth">Rejestracja</v-btn>
         <v-menu dark offset-y v-if="auth">
           <template v-slot:activator="{ on, attrs }">
             <v-btn text v-bind="attrs" v-on="on">
@@ -30,19 +25,29 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item @click="$router.push({name:'userProfile',params:{id:profile.id}})">
+            <v-list-item
+              @click="
+                $router.push({
+                  name: 'userProfile',
+                  params: { id: profile.id },
+                })
+              "
+            >
               <v-list-item-action>
                 <v-icon>mdi-account-circle</v-icon>
               </v-list-item-action>
               <v-list-item-title>Mój profil</v-list-item-title>
             </v-list-item>
-            <v-list-item @click="$router.push({name:'userPanel'})">
+            <v-list-item @click="$router.push({ name: 'userPanel' })">
               <v-list-item-action>
                 <v-icon>mdi-cog</v-icon>
               </v-list-item-action>
               <v-list-item-title>Panel użytkownika</v-list-item-title>
             </v-list-item>
-            <v-list-item @click="$router.push({name:'adminProfile'})" v-if="role">
+            <v-list-item
+              @click="$router.push({ name: 'adminProfile' })"
+              v-if="role"
+            >
               <v-list-item-action>
                 <v-icon>mdi-duck</v-icon>
               </v-list-item-action>
@@ -80,11 +85,19 @@ import Vue from 'vue';
 })
 export default class Navbar extends Vue {
   private toolbarItems = [
-    { link: {name:'home'}, title: 'Strona główna', icon: 'mdi-home' },
-    { link: {name:'about'}, title: 'O nas', icon: 'mdi-account-group' },
-    { link: {name:'articles',params:{page:1}}, title: 'Artykuły', icon: 'mdi-text-box-multiple' },
-    { link: {name:'sections'}, title: 'Sekcje', icon: 'mdi-vector-intersection' },
-    { link: {name:'projects'}, title: 'Projekty', icon: 'mdi-cog' },
+    { link: { name: 'home' }, title: 'Strona główna', icon: 'mdi-home' },
+    { link: { name: 'about' }, title: 'O nas', icon: 'mdi-account-group' },
+    {
+      link: { name: 'articles', params: { page: 1 } },
+      title: 'Artykuły',
+      icon: 'mdi-text-box-multiple',
+    },
+    {
+      link: { name: 'sections' },
+      title: 'Sekcje',
+      icon: 'mdi-vector-intersection',
+    },
+    { link: { name: 'projects' }, title: 'Projekty', icon: 'mdi-cog' },
   ];
 
   get drawer(): boolean {
