@@ -66,9 +66,6 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class UserPasswordChange extends Vue {
-  private route(link: string) {
-    this.$router.push(link);
-  }
 
   get user() {
     return this.$store.getters.user;
