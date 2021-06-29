@@ -68,11 +68,11 @@ export default class UserProfile extends Vue {
         if (res.status === 200) {
           this.$data.profile = res.data;
         } else {
-          this.$router.replace({name:'error404'});
+          this.$router.replace({ name: 'error404' });
         }
       })
       .catch(() => {
-        this.$router.replace({name:'error404'});
+        this.$router.replace({ name: 'error404' });
       });
   }
 

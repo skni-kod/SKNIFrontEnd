@@ -62,7 +62,7 @@ export default class HardwareEdit extends Vue {
           this.$data.status = res.status;
         })
         .catch((err) => {
-          this.$router.replace({name:'error404'});
+          this.$router.replace({ name: 'error404' });
         });
     }
   }
@@ -84,7 +84,10 @@ export default class HardwareEdit extends Vue {
               color: 'success',
               timeout: 7500,
             });
-            this.$router.replace({name:'hardware',params:{id:res.data.id}});
+            this.$router.replace({
+              name: 'hardware',
+              params: { id: res.data.id },
+            });
           } else {
             this.$store.dispatch('setSnackbarState', {
               state: true,
@@ -159,9 +162,12 @@ export default class HardwareEdit extends Vue {
 
   private returnFromEditor() {
     if (this.$data.add) {
-      this.$router.replace({name:'hardwareList',params:{page:'1'}});
+      this.$router.replace({ name: 'hardwareList', params: { page: '1' } });
     } else {
-      this.$router.replace({name:'hardware',params:{id:this.$data.hardware.id}});
+      this.$router.replace({
+        name: 'hardware',
+        params: { id: this.$data.hardware.id },
+      });
     }
   }
 

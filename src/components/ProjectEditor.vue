@@ -21,7 +21,12 @@
       </v-row>
       <v-divider></v-divider>
       <v-form v-model="inputValidated">
-        <v-text-field clearable label="Tytuł projektu" v-model="Project.title" :rules="[required]"></v-text-field>
+        <v-text-field
+          clearable
+          label="Tytuł projektu"
+          v-model="Project.title"
+          :rules="[required]"
+        ></v-text-field>
         <element-selector
           v-model="projAuthors"
           :items="users"
@@ -35,10 +40,14 @@
           itemtext="name"
           rules="true"
           label="Wybierz sekcję"
-          :multiple=false
+          :multiple="false"
         ></element-selector>
         <link-list-input v-model="Links"></link-list-input>
-        <markdown-editor v-model="Project.text" rules="true" label="Treść opisu projektu"></markdown-editor>
+        <markdown-editor
+          v-model="Project.text"
+          rules="true"
+          label="Treść opisu projektu"
+        ></markdown-editor>
       </v-form>
     </v-card-text>
   </v-card>
@@ -95,19 +104,23 @@ export default class ProjectEditor extends Vue {
   }
 
   private getAllusers() {
-    beAxios.get('api/users/',{headers: {
-                Authorization: 'Bearer ' + this.$store.getters.token,
-            },}).then((res) => {
-      this.$data.users = res.data;
-      this.$data.users.forEach((element: any) => {
-        element.fullname =
-          element.first_name +
-          ' "' +
-          element.username +
-          '" ' +
-          element.last_name;
+    beAxios
+      .get('api/users/', {
+        headers: {
+          Authorization: 'Bearer ' + this.$store.getters.token,
+        },
+      })
+      .then((res) => {
+        this.$data.users = res.data;
+        this.$data.users.forEach((element: any) => {
+          element.fullname =
+            element.first_name +
+            ' "' +
+            element.username +
+            '" ' +
+            element.last_name;
+        });
       });
-    });
   }
 
   @Watch('$data.inputValidated')

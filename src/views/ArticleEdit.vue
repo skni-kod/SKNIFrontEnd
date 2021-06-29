@@ -4,7 +4,7 @@
       class="text-h4 text-center font-weight-bold justify-center ma-2"
       style="word-break: break-word"
     >
-    {{ add ? 'Nowy artykuł' : 'Edycja artykułu nr ' +  this.$route.params.id}}
+      {{ add ? 'Nowy artykuł' : 'Edycja artykułu nr ' + this.$route.params.id }}
     </p>
     <article-editor
       :article="article"
@@ -73,7 +73,7 @@ export default class ArticleEdit extends Vue {
             });
           })
           .catch(() => {
-            this.$router.replace({name:'error404'});
+            this.$router.replace({ name: 'error404' });
           });
       }
     }
@@ -182,10 +182,12 @@ export default class ArticleEdit extends Vue {
 
   private returnFromEditor() {
     if (this.$data.add) {
-      this.$router.replace({name:'articles'});
+      this.$router.replace({ name: 'articles' });
     } else {
-      this.$router.replace({name:'article',params:{id:this.$data.article.id,alias:this.$data.article.alias}}
-      );
+      this.$router.replace({
+        name: 'article',
+        params: { id: this.$data.article.id, alias: this.$data.article.alias },
+      });
     }
   }
 

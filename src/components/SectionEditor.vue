@@ -2,15 +2,29 @@
   <v-card outlined class="ma-2">
     <v-card-text>
       <v-form v-model="inputValidated">
-        <v-text-field clearable label="Ikonka sekcji (używaj tych: https://materialdesignicons.com)" v-model="Section.icon" :rules="[required]"></v-text-field>
-        <v-text-field clearable label="Nazwa sekcji" v-model="Section.name" :rules="[required]"></v-text-field>
+        <v-text-field
+          clearable
+          label="Ikonka sekcji (używaj tych: https://materialdesignicons.com)"
+          v-model="Section.icon"
+          :rules="[required]"
+        ></v-text-field>
+        <v-text-field
+          clearable
+          label="Nazwa sekcji"
+          v-model="Section.name"
+          :rules="[required]"
+        ></v-text-field>
         <element-selector
           v-model="sectionCoordinators"
           :items="users"
           itemtext="fullname"
           label="Wyszukaj i wybierz koordynatorów sekcji"
         ></element-selector>
-        <markdown-editor v-model="Section.description" rules="true" label="Treść opisu sekcji"></markdown-editor>
+        <markdown-editor
+          v-model="Section.description"
+          rules="true"
+          label="Treść opisu sekcji"
+        ></markdown-editor>
       </v-form>
     </v-card-text>
   </v-card>
@@ -36,19 +50,23 @@ export default class ProjectEditor extends Vue {
   }
 
   private getAllusers() {
-    beAxios.get('api/users/',{headers: {
-                Authorization: 'Bearer ' + this.$store.getters.token,
-            },}).then((res) => {
-      this.$data.users = res.data;
-      this.$data.users.forEach((element: any) => {
-        element.fullname =
-          element.first_name +
-          ' "' +
-          element.username +
-          '" ' +
-          element.last_name;
+    beAxios
+      .get('api/users/', {
+        headers: {
+          Authorization: 'Bearer ' + this.$store.getters.token,
+        },
+      })
+      .then((res) => {
+        this.$data.users = res.data;
+        this.$data.users.forEach((element: any) => {
+          element.fullname =
+            element.first_name +
+            ' "' +
+            element.username +
+            '" ' +
+            element.last_name;
+        });
       });
-    });
   }
 
   @Watch('$data.inputValidated')

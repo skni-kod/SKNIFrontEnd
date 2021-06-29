@@ -52,7 +52,11 @@
           <v-icon>mdi-cog</v-icon>
         </v-btn>
       </template>
-      <v-btn fab color="orange" :to="{name:'editHardware',params:{id: $route.params.id}}">
+      <v-btn
+        fab
+        color="orange"
+        :to="{ name: 'editHardware', params: { id: $route.params.id } }"
+      >
         <v-icon>mdi-pen</v-icon>
       </v-btn>
       <v-btn fab color="error" @click="dialog = true">
@@ -89,7 +93,7 @@ export default class Hardware extends Vue {
         this.$data.loading = false;
       })
       .catch(() => {
-        this.$router.replace({name:'error404'});
+        this.$router.replace({ name: 'error404' });
       });
   }
 
@@ -114,7 +118,7 @@ export default class Hardware extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace({name:'hardwareList',params:{page:'1'}});
+          this.$router.replace({ name: 'hardwareList', params: { page: '1' } });
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,

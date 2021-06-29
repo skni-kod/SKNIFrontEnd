@@ -1,13 +1,23 @@
 <template>
   <v-card tile elevation="0" class="ma-1">
-    <v-card-title class="text-h3 justify-center py-1">Najnowsze artykuły</v-card-title>
+    <v-card-title class="text-h3 justify-center py-1"
+      >Najnowsze artykuły</v-card-title
+    >
     <v-card-text class="pa-0">
       <v-row no-gutters justify="center">
-      <v-col class="pa-1" cols="12" :md="index ? 6 : 12" v-for="(article, index) in articles"
-        :key="article.title">
-        <article-card :article="article" @delete="deleteArticle"></article-card>
-      </v-col>
-    </v-row>
+        <v-col
+          class="pa-1"
+          cols="12"
+          :md="index ? 6 : 12"
+          v-for="(article, index) in articles"
+          :key="article.title"
+        >
+          <article-card
+            :article="article"
+            @delete="deleteArticle"
+          ></article-card>
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -36,7 +46,7 @@ export default class HomeArticleList extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace({name:'articles',params:{page:'1'}});
+          this.$router.replace({ name: 'articles', params: { page: '1' } });
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,

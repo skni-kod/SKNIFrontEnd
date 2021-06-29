@@ -70,12 +70,12 @@ export default class ProjectEdit extends Vue {
           this.$data.section = project.section.id;
         })
         .catch((err) => {
-          this.$router.replace({name:'error404'});
+          this.$router.replace({ name: 'error404' });
         });
     }
   }
 
-private addProject() {
+  private addProject() {
     if (this.$data.inputValidated) {
       this.projectsService
         .addProject({
@@ -96,9 +96,10 @@ private addProject() {
               color: 'success',
               timeout: 7500,
             });
-            this.$router.replace(
-              {name:'project',params:{id:res.data.id}}
-            );
+            this.$router.replace({
+              name: 'project',
+              params: { id: res.data.id },
+            });
           } else {
             this.$store.dispatch('setSnackbarState', {
               state: true,
@@ -179,11 +180,12 @@ private addProject() {
 
   private returnFromEditor() {
     if (this.$data.add) {
-      this.$router.replace({name:'projects',params:{page:'1'}});
+      this.$router.replace({ name: 'projects', params: { page: '1' } });
     } else {
-      this.$router.replace(
-        {name:'project',params:{id:this.$data.project.id}}
-      );
+      this.$router.replace({
+        name: 'project',
+        params: { id: this.$data.project.id },
+      });
     }
   }
 

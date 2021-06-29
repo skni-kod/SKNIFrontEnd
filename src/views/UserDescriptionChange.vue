@@ -3,9 +3,14 @@
     <v-col cols="12" sm="11" md="10" lg="8" xl="6">
       <v-row class="fill-height ma-2" align="center" justify="center">
         <v-card width="1200">
-          <v-card-title class="white--text primary">Zmień opis profilu</v-card-title>
+          <v-card-title class="white--text primary"
+            >Zmień opis profilu</v-card-title
+          >
           <v-card-text class="py-0">
-            <markdown-editor v-model="text" label="Opis profilu"></markdown-editor>
+            <markdown-editor
+              v-model="text"
+              label="Opis profilu"
+            ></markdown-editor>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -13,7 +18,7 @@
               <v-icon left>mdi-content-save</v-icon>
               <span>Zapisz zmiany</span>
             </v-btn-cap>
-            <v-btn-cap color="error" :to="{name:'userPanel'}">
+            <v-btn-cap color="error" :to="{ name: 'userPanel' }">
               <v-icon left>mdi-cancel</v-icon>
               <span>Anuluj edycję</span>
             </v-btn-cap>
@@ -55,7 +60,7 @@ export default class UserPasswordChange extends Vue {
           color: 'success',
           timeout: 7500,
         });
-        this.$router.push({name:'userPanel'});
+        this.$router.push({ name: 'userPanel' });
       })
       .catch(() => {
         this.$store.dispatch('setSnackbarState', {

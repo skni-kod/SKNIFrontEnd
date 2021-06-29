@@ -1,11 +1,7 @@
 <template>
   <div class="mt-4 mb-2 mx-4 fill-height">
     <div v-if="hardware && hardware.length > 0">
-      <v-row
-        justify="center"
-        v-for="item in hardware"
-        :key="item.id"
-      >
+      <v-row justify="center" v-for="item in hardware" :key="item.id">
         <v-col cols="12" sm="10" md="8" lg="6" xl="4">
           <hardware-card :hardware="item"></hardware-card>
         </v-col>
@@ -29,7 +25,7 @@
       bottom
       right
       v-if="auth"
-      :to="{name:'addHardware'}"
+      :to="{ name: 'addHardware' }"
       class="success"
     >
       <v-icon class="white--text">mdi-plus</v-icon>
@@ -121,7 +117,7 @@ export default class HardwareList extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace({name:'hardwareList',params:{page:'1'}});
+          this.$router.replace({ name: 'hardwareList', params: { page: '1' } });
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,

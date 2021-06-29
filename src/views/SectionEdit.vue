@@ -52,7 +52,7 @@ export default class ProjectEdit extends Vue {
           this.$data.section = section;
         })
         .catch((err) => {
-          this.$router.replace({name:'error404'});
+          this.$router.replace({ name: 'error404' });
         });
     }
   }
@@ -74,7 +74,10 @@ export default class ProjectEdit extends Vue {
               color: 'success',
               timeout: 7500,
             });
-            this.$router.replace({name:'secton', params:{id:res.data.id}});
+            this.$router.replace({
+              name: 'secton',
+              params: { id: res.data.id },
+            });
           } else {
             this.$store.dispatch('setSnackbarState', {
               state: true,
@@ -148,9 +151,12 @@ export default class ProjectEdit extends Vue {
 
   private returnFromEditor() {
     if (this.$data.add) {
-      this.$router.replace({name:'sections'});
+      this.$router.replace({ name: 'sections' });
     } else {
-      this.$router.replace({name:'section',params:{id:this.$data.section.id}});
+      this.$router.replace({
+        name: 'section',
+        params: { id: this.$data.section.id },
+      });
     }
   }
 

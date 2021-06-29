@@ -104,7 +104,11 @@
           <v-icon>mdi-cog</v-icon>
         </v-btn-cap>
       </template>
-      <v-btn-cap fab color="orange" :to="{name:'editArticle',params:{id:article.id}}">
+      <v-btn-cap
+        fab
+        color="orange"
+        :to="{ name: 'editArticle', params: { id: article.id } }"
+      >
         <v-icon>mdi-pen</v-icon>
       </v-btn-cap>
       <v-btn-cap fab color="error" @click="dialog = true">
@@ -141,7 +145,7 @@ export default class Article extends Vue {
         this.article = article;
       })
       .catch(() => {
-        this.$router.replace({name:'error404'});
+        this.$router.replace({ name: 'error404' });
       });
 
     this.$store.dispatch('getComments', this.$route.params.id);
@@ -174,7 +178,7 @@ export default class Article extends Vue {
             color: 'success',
             timeout: 7500,
           });
-          this.$router.replace({name:'articles',params:{page:'1'}});
+          this.$router.replace({ name: 'articles', params: { page: '1' } });
         } else {
           this.$store.dispatch('setSnackbarState', {
             state: true,
