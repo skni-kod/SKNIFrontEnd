@@ -2,8 +2,14 @@
   <div>
     <v-card class="elevation-3">
       <v-card-title class="grey lighten-4">
-        <v-icon x-large left class="primary--text">{{ section.icon }}</v-icon>
-        <h3 class="headline">{{ section.name }}</h3>
+        <v-row align="center" justify="start">
+          <v-col cols="auto" class="py-0 pr-0">
+            <v-icon x-large left class="primary--text">{{ section.icon }}</v-icon>
+          </v-col>
+          <v-col class="pl-1">
+            <h3 class="headline" style="word-break: break-word;">{{ section.name }}</h3>
+          </v-col>
+        </v-row>
       </v-card-title>
       <v-divider />
       <v-card-text class="text-left">
