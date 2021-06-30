@@ -4,7 +4,7 @@
       <v-list>
         <v-list-item>
           <v-list-item-icon>
-            <v-icon color="amber">mdi-shield-account</v-icon>
+            <v-icon color="amber">mdi-duck</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Panel Administratora</v-list-item-title>
         </v-list-item>
