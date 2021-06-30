@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 
 @Component({
   components: {

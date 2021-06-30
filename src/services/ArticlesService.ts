@@ -1,6 +1,6 @@
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 import store from '../store';
 
 // tslint:disable:object-literal-shorthand

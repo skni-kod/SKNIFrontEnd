@@ -1,6 +1,6 @@
 import { ProjectModel } from '@/models/ProjectModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 import store from '../store';
 
 export class ProjectsService {

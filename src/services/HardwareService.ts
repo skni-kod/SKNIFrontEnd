@@ -1,6 +1,6 @@
 import { HardwareModel } from '@/models/HardwareModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 import store from '../store';
 
 export class HardwareService {

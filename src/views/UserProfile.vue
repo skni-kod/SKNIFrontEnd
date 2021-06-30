@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 
 import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';

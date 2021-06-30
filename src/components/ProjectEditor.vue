@@ -57,7 +57,7 @@
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { ProjectModel } from '@/models/ProjectModel';
 import { SectionModel } from '@/models/SectionModel';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 
 @Component
 export default class ProjectEditor extends Vue {

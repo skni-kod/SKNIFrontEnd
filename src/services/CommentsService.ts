@@ -1,6 +1,6 @@
 import { CommentModel } from '@/models/CommentModel';
 import { AxiosResponse } from 'axios';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 import store from '../store';
 
 export class CommentsService {

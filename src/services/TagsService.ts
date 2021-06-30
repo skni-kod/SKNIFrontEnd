@@ -1,5 +1,5 @@
 import { TagModel } from '@/models/TagModel';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 
 export class TagsService {
     public async getAllTags(): Promise<TagModel[]> {

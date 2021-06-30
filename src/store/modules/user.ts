@@ -1,5 +1,5 @@
 import { Module } from 'vuex';
-import beAxios from '../../axios';
+import beAxios from '@/axios';
 import router from '../../router';
 
 const userModule: Module<any, any> = {

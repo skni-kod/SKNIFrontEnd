@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 
 @Component
 export default class ProjectEditor extends Vue {

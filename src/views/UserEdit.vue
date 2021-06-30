@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 
 @Component
 export default class UserEdit extends Vue {

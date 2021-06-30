@@ -1,5 +1,5 @@
 import { SectionModel } from '@/models/SectionModel';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 import store from '../store';
 
 export class SectionsService {

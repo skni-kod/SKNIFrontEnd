@@ -71,7 +71,7 @@ import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { TagModel } from '@/models/TagModel';
-import beAxios from '../axios';
+import beAxios from '@/axios';
 
 @Component
 export default class ArticleEditor extends Vue {
