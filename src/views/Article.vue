@@ -152,7 +152,7 @@ export default class Article extends Vue {
   }
 
   private beforeDestroy() {
-    this.$store.dispatch('purgeModule');
+    this.$store.dispatch('purgeComments');
   }
 
   get auth(): boolean {

@@ -13,7 +13,7 @@ const snackbarModule: Module<any, any> = {
       state.articleId = payload.articleId;
       state.comments = payload.comments;
     },
-    purgeModule(state) {
+    purgeComments(state) {
       state.articleId = undefined;
       state.comments = [];
     },
@@ -119,8 +119,8 @@ const snackbarModule: Module<any, any> = {
     refreshComments({ state, dispatch }) {
       dispatch('getComments', state.articleId);
     },
-    purgeModule({ commit }) {
-      commit('purgeModule');
+    purgeComments({ commit }) {
+      commit('purgeComments');
     },
   },
 
