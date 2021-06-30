@@ -75,7 +75,7 @@ export default class ProjectEdit extends Vue {
               timeout: 7500,
             });
             this.$router.replace({
-              name: 'secton',
+              name: 'section',
               params: { id: res.data.id },
             });
           } else {
