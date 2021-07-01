@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-navigation-drawer dark permanent expand-on-hover width="300">
+    <component v-if="module" :is="module"></component>
+    <v-navigation-drawer dark absolute height="100%" width="300" v-model="menu">
       <v-list>
         <v-list-item>
           <v-list-item-icon>
@@ -26,8 +27,17 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-
-    <component v-if="module" :is="module"></component>
+    <v-btn
+      fab
+      fixed
+      bottom
+      left
+      class="primary"
+      @click="menu = true"
+      v-if="!menu"
+    >
+      <v-icon large>mdi-duck</v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -72,12 +82,19 @@ import beAxios from '@/axios';
   },
 })
 export default class AdminPanel extends Vue {
+  private created() {
+    if (this.$route.params.module === undefined) {
+      this.$data.menu = true;
+    }
+  }
+
   get module() {
     return this.$route.params.module;
   }
 
   private data() {
     return {
+      menu: false,
       modules: [
         {
           icon: 'mdi-cog',
