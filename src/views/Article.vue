@@ -6,80 +6,71 @@
           <v-card-title
             class="text-h4 primary--text font-weight-bold justify-center"
             style="word-break: break-word"
-            >{{ article.title }}</v-card-title
-          >
+            >{{ article.title }}
+          </v-card-title>
           <v-divider />
-          <v-card-subtitle class="grey lighten-3">
-            <v-row class="text-subtitle-1 mx-auto">
-              <v-icon left color="primary">mdi-calendar-today</v-icon>
-              <p class="my-auto">
-                {{ article.creation_date | moment('DD-MM-YYYY') }}
-              </p>
-              <v-spacer />
-              <v-icon left color="primary">mdi-account</v-icon>
-              <p class="my-auto">{{ article.creator.username }}</p>
-              <v-spacer v-if="article.tags.length > 0" />
-              <div v-if="article.tags.length > 0">
-                <v-icon left color="primary">mdi-note</v-icon>
-                <v-hover
-                  v-slot:default="{ hover }"
-                  v-for="tag in article.tags"
-                  :key="tag.name"
-                >
-                  <v-chip
-                    small
-                    label
-                    class="mx-1"
-                    :color="hover ? 'primary' : 'grey'"
-                  >
-                    <a
-                      :href="'/#/tag/' + tag.name"
-                      class="white--text text-decoration-none"
-                      >{{ '#' + tag.name }}</a
-                    >
-                  </v-chip>
-                </v-hover>
-              </div>
-            </v-row>
-            <v-divider v-if="article.authors.length" class="mt-5"></v-divider>
-            <v-row
-              v-if="article.authors.length"
-              align="center"
-              justify="start"
-              class="text-subtitle-1 mx-auto mt-2"
-            >
-              <v-col cols="auto" class="pa-0">
-                <p class="my-auto">
-                  {{ article.authors.length === 1 ? 'Autor:' : 'Autorzy:' }}
-                </p>
-              </v-col>
-              <v-col class="py-0 pr-0">
-                <v-row align="center" justify="center">
-                  <div
-                    v-for="(author, i) in article.authors"
-                    :key="i"
-                    class="mx-2"
-                  >
-                    <v-icon left color="primary">mdi-account</v-icon>
-                    <v-hover v-slot:default="{ hover }">
-                      <v-chip
-                        small
-                        label
-                        class="white--text"
-                        :color="hover ? 'primary' : 'grey'"
-                      >
-                        <a
-                          :href="'/#/user/profile/' + author.id"
-                          class="white--text text-decoration-none"
-                          >{{ author.username }}</a
-                        >
-                      </v-chip>
-                    </v-hover>
-                  </div>
+          <v-card-text class="grey lighten-3">
+            <v-row align="center" justify="center">
+              <v-col cols="auto" class="mx-2 py-1">
+                <v-row align="center" justify="center" class="my-auto">
+                  <v-icon left color="primary">mdi-calendar-today</v-icon>
+                  <p class="my-auto">
+                    {{ article.creation_date | moment('DD-MM-YYYY') }}
+                  </p>
                 </v-row>
               </v-col>
+              <v-col cols="auto" class="mx-2 py-1">
+                <v-row align-content="center" justify="center" class="my-auto">
+                  <v-icon left color="primary">mdi-account</v-icon>
+                  <p class="my-auto">{{ article.creator.username }}</p>
+                </v-row>
+              </v-col>
+              <v-col cols="auto" class="mx-2 py-1">
+                {{ article.tags === 1 ? 'Tag:' : 'Tagi:' }}
+                <a
+                  :href="'/#/tag/' + tag.name"
+                  class="text-decoration-none"
+                  v-for="(tag, i) in article.tags"
+                  :key="i"
+                >
+                  <v-hover v-slot:default="{ hover }">
+                    <v-chip
+                      small
+                      label
+                      class="white--text mx-1"
+                      style="cursor: pointer"
+                      :color="hover ? 'primary' : 'grey'"
+                    >
+                      <v-icon small left>mdi-tag-outline</v-icon>
+                      {{ tag.name }}
+                    </v-chip>
+                  </v-hover>
+                </a>
+              </v-col>
+              <v-col cols="auto" class="mx-2 py-1">
+                {{ article.authors.length === 1 ? 'Autor:' : 'Autorzy:' }}
+                <a
+                  :href="'/#/user/profile/' + author.id"
+                  class="text-decoration-none"
+                  v-for="(author, i) in article.authors"
+                  :key="i"
+                >
+                  <v-hover v-slot:default="{ hover }">
+                    <v-chip
+                      small
+                      label
+                      class="white--text mx-1"
+                      style="cursor: pointer"
+                      :color="hover ? 'primary' : 'grey'"
+                    >
+                      <v-icon small left>mdi-account</v-icon>
+                      {{ author.username }}
+                    </v-chip>
+                  </v-hover>
+                </a>
+              </v-col>
             </v-row>
-          </v-card-subtitle>
+          </v-card-text>
           <v-divider />
           <v-card-text>
             <markdown-it-vue
