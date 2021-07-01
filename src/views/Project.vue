@@ -133,29 +133,12 @@ export default class Project extends Vue {
       .deleteProject(id)
       .then((res) => {
         if (res.status === 204) {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Porjekt został usunięty',
-            color: 'success',
-            timeout: 7500,
-          });
+          this.$store.dispatch('successMessage', 'Porjekt został usunięty');
           this.$router.replace({ name: 'projects', params: { page: '1' } });
-        } else {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas usuwania projektu!',
-            color: 'error',
-            timeout: 7500,
-          });
         }
       })
       .catch(() => {
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Błąd poczas usuwania projektu!',
-          color: 'error',
-          timeout: 7500,
-        });
+        this.$store.dispatch('errorMessage', 'Błąd poczas usuwania projektu!');
       });
   }
 

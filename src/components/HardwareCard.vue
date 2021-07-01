@@ -127,29 +127,12 @@ export default class HardwareCard extends Vue {
       .deleteHardware(id)
       .then((res) => {
         if (res.status === 204) {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Sprzęt został usunięty',
-            color: 'success',
-            timeout: 7500,
-          });
+          this.$store.dispatch('successMessage', 'Sprzęt został usunięty');
           this.$router.replace({ name: 'hardwareList', params: { page: '1' } });
-        } else {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas usuwania sprzętu!',
-            color: 'error',
-            timeout: 7500,
-          });
         }
       })
       .catch(() => {
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Błąd poczas usuwania sprzętu!',
-          color: 'error',
-          timeout: 7500,
-        });
+        this.$store.dispatch('errorMessage', 'Błąd poczas usuwania sprzętu!');
       });
   }
   private data() {

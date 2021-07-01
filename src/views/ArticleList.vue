@@ -117,32 +117,15 @@ export default class ArticleList extends Vue {
       .deleteArticle(id)
       .then((res) => {
         if (res.status === 204) {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Artykuł został usunięty',
-            color: 'success',
-            timeout: 7500,
-          });
+          this.$store.dispatch('successMessage', 'Artykuł został usunięty');
           this.$router.replace({
             name: 'articles',
             params: { page: 'reload' },
           });
-        } else {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas usuwania artykułu!',
-            color: 'error',
-            timeout: 7500,
-          });
         }
       })
       .catch(() => {
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Błąd poczas usuwania artykułu!',
-          color: 'error',
-          timeout: 7500,
-        });
+        this.$store.dispatch('errorMessage', 'Błąd poczas usuwania artykułu!');
       });
   }
 

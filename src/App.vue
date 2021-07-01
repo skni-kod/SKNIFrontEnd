@@ -5,7 +5,7 @@
       <router-view :key="$route.fullPath" />
     </v-main>
     <Footer />
-    <Snackbar />
+    <Snackbars />
   </v-app>
 </template>
 
@@ -15,10 +15,13 @@ import { Component } from 'vue-property-decorator';
 
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
-import Snackbar from '@/components/Snackbar.vue';
+const Snackbars = () =>
+  import(
+    /* webpackChunkName: "ComponentSnackbar" */ '@/components/Snackbar.vue'
+  );
 
 @Component({
-  components: { Navbar, Footer, Snackbar },
+  components: { Navbar, Footer, Snackbars },
 })
 export default class App extends Vue {}
 </script>

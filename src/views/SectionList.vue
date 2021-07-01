@@ -31,7 +31,7 @@
       bottom
       right
       v-if="auth"
-      :to="{name:'sectionAdd'}"
+      :to="{ name: 'sectionAdd' }"
       class="success"
     >
       <v-icon class="white--text">mdi-plus</v-icon>
@@ -92,31 +92,14 @@ export default class SectionList extends Vue {
       .deleteSection(id)
       .then((res) => {
         if (res.status === 204) {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Sekcja została usunięta',
-            color: 'success',
-            timeout: 7500,
-          });
+          this.$store.dispatch('successMessage', 'Sekcja została usunięta');
           this.$data.sections = this.$data.sections.filter((el: any) => {
             return el.id !== id;
-          });
-        } else {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas usuwania sekcji!',
-            color: 'error',
-            timeout: 7500,
           });
         }
       })
       .catch(() => {
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Błąd poczas usuwania secji!',
-          color: 'error',
-          timeout: 7500,
-        });
+        this.$store.dispatch('errorMessage', 'Błąd poczas usuwania secji!');
       });
   }
 

@@ -90,40 +90,24 @@ export default class ProjectEdit extends Vue {
         })
         .then((res: any) => {
           if (res.status === 201) {
-            this.$store.dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Projekt został dodany',
-              color: 'success',
-              timeout: 7500,
-            });
+            this.$store.dispatch('successMessage', 'Projekt został dodany');
             this.$router.replace({
               name: 'project',
               params: { id: res.data.id },
             });
-          } else {
-            this.$store.dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Błąd poczas zapisywania projektu!',
-              color: 'error',
-              timeout: 7500,
-            });
           }
         })
         .catch(() => {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas zapisywania projektu!',
-            color: 'error',
-            timeout: 7500,
-          });
+          this.$store.dispatch(
+            'errorMessage',
+            'Błąd poczas zapisywania projektu!',
+          );
         });
     } else {
-      this.$store.dispatch('setSnackbarState', {
-        state: true,
-        msg: 'Formularz nie zostal poprawnie wypełniony!',
-        color: 'warning',
-        timeout: 7500,
-      });
+      this.$store.dispatch(
+        'warningMessage',
+        'Formularz nie zostal poprawnie wypełniony!',
+      );
     }
   }
 
@@ -138,37 +122,21 @@ export default class ProjectEdit extends Vue {
         })
         .then((res: any) => {
           if (res.status === 200) {
-            this.$store.dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Projekt został zaktualizowany',
-              color: 'success',
-              timeout: 7500,
-            });
+            this.$store.dispatch(
+              'successMessage',
+              'Projekt został zaktualizowany',
+            );
             this.returnFromEditor();
-          } else {
-            this.$store.dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Błąd poczas edycji projektu!',
-              color: 'error',
-              timeout: 7500,
-            });
           }
         })
         .catch(() => {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas edycji projektu!',
-            color: 'error',
-            timeout: 7500,
-          });
+          this.$store.dispatch('errorMessage', 'Błąd poczas edycji projektu!');
         });
     } else {
-      this.$store.dispatch('setSnackbarState', {
-        state: true,
-        msg: 'Formularz nie został poprawnie wypełniony!',
-        color: 'warning',
-        timeout: 7500,
-      });
+      this.$store.dispatch(
+        'warningMessage',
+        'Formularz nie został poprawnie wypełniony!',
+      );
     }
   }
 

@@ -56,12 +56,7 @@ const userModule: Module<any, any> = {
           router.replace('/');
         })
         .catch(() => {
-          dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Nieprawidłowy login lub hasło!',
-            color: 'error',
-            timeout: 7500,
-          });
+          dispatch('errorMessage', 'Nieprawidłowy login lub hasło!');
         });
     },
     logout({ dispatch, commit, state }) {
@@ -69,12 +64,7 @@ const userModule: Module<any, any> = {
       if (router.currentRoute.name !== 'home') {
         router.replace('/');
       }
-      dispatch('setSnackbarState', {
-        state: true,
-        msg: 'Wylogowano',
-        color: 'info',
-        timeout: 5000,
-      });
+      dispatch('infoMessage', 'Wylogowano');
       clearTimeout(state.timeout);
       commit('setTimeout', null);
     },
@@ -128,38 +118,28 @@ const userModule: Module<any, any> = {
       beAxios
         .post('rest-auth/registration/', data)
         .then((res) => {
-          dispatch('setSnackbarState', {
-            state: true,
-            msg:
-              'Rejestracja przebiegła pomyslnie. Teraz możesz się zalogować.',
-            color: 'success',
-            timeout: 7500,
-          });
+          dispatch(
+            'successMessage',
+            'Rejestracja przebiegła pomyslnie. Teraz możesz się zalogować.',
+          );
           router.replace('/login');
         })
         .catch((error) => {
           if (error.response.data.hasOwnProperty('username')) {
-            dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Użytkownik o takim loginie już istnieje!',
-              color: 'error',
-              timeout: 7500,
-            });
+            dispatch(
+              'errorMessage',
+              'Użytkownik o takim loginie już istnieje!',
+            );
           } else if (error.response.data.hasOwnProperty('email')) {
-            dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Użytkownik o takim adresie e-mail już istnieje!',
-              color: 'error',
-              timeout: 7500,
-            });
+            dispatch(
+              'errorMessage',
+              'Użytkownik o takim adresie e-mail już istnieje!',
+            );
           } else {
-            dispatch('setSnackbarState', {
-              state: true,
-              msg:
-                'Wystąpił nieznany błąd podczas rejestracji. Skontaktuj się z administratorem lub spróbuj ponownie później.',
-              color: 'error',
-              timeout: 7500,
-            });
+            dispatch(
+              'errorMessage',
+              'Wystąpił nieznany błąd podczas rejestracji. Skontaktuj się z administratorem lub spróbuj ponownie później.',
+            );
           }
         });
     },
@@ -177,23 +157,16 @@ const userModule: Module<any, any> = {
             },
           },
         )
-        .then((res) => {
+        .then(() => {
           dispatch('logout');
           router.replace('/login');
-          dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Hasło zostało zmienione. Zaloguj się ponownie.',
-            color: 'success',
-            timeout: 7500,
-          });
+          dispatch(
+            'successMessage',
+            'Hasło zostało zmienione. Zaloguj się ponownie.',
+          );
         })
-        .catch((error) => {
-          dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Wystąpił problem ze zmiana hasła!',
-            color: 'error',
-            timeout: 7500,
-          });
+        .catch(() => {
+          dispatch('errorMessage', 'Wystąpił problem ze zmiana hasła!');
         });
     },
   },

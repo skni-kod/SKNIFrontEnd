@@ -29,91 +29,40 @@ const snackbarModule: Module<any, any> = {
         commit('setComments', { articleId: payload, comments });
       });
     },
-    addComment({ commit, dispatch }, payload) {
+    addComment({ dispatch }, payload) {
       CS.addComment(payload)
         .then((res: any) => {
           if (res.status === 201) {
             dispatch('refreshComments');
-            dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Komentarz został dodany',
-              color: 'success',
-              timeout: 7500,
-            });
-          } else {
-            dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Błąd poczas zapisywania komentarza!',
-              color: 'error',
-              timeout: 7500,
-            });
+            dispatch('successMessage', 'Komentarz został dodany');
           }
         })
         .catch(() => {
-          dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas zapisywania komentarza!',
-            color: 'error',
-            timeout: 7500,
-          });
+          dispatch('errorMessage', 'Błąd poczas zapisywania komentarza!');
         });
     },
-    editComment({ commit, dispatch }, { id, body }) {
+    editComment({ dispatch }, { id, body }) {
       CS.editComment(id, body)
         .then((res: any) => {
           if (res.status === 200) {
             dispatch('refreshComments');
-            dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Komentarz został dodany',
-              color: 'success',
-              timeout: 7500,
-            });
-          } else {
-            dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Błąd poczas zapisywania komentarza!',
-              color: 'error',
-              timeout: 7500,
-            });
+            dispatch('successMessage', 'Komentarz został dodany');
           }
         })
         .catch(() => {
-          dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas zapisywania komentarza!',
-            color: 'error',
-            timeout: 7500,
-          });
+          dispatch('errorMessage', 'Błąd poczas zapisywania komentarza!');
         });
     },
-    deleteComment({ commit, dispatch }, payload) {
+    deleteComment({ dispatch }, payload) {
       CS.deleteComment(payload)
         .then((res: any) => {
           if (res.status === 204) {
             dispatch('refreshComments');
-            dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Komentarz został usunięty',
-              color: 'success',
-              timeout: 7500,
-            });
-          } else {
-            dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Błąd poczas usuwania komentarza!',
-              color: 'error',
-              timeout: 7500,
-            });
+            dispatch('successMessage', 'Komentarz został usunięty');
           }
         })
         .catch(() => {
-          dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas usuwania komentarza!',
-            color: 'error',
-            timeout: 7500,
-          });
+          dispatch('errorMessage', 'Błąd poczas usuwania komentarza!');
         });
     },
     refreshComments({ state, dispatch }) {

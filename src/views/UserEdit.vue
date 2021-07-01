@@ -54,21 +54,14 @@ export default class UserEdit extends Vue {
       )
       .then(() => {
         this.$store.dispatch('fetchUserProfile');
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Opis profilu został zaktualizowany',
-          color: 'success',
-          timeout: 7500,
-        });
+        this.$store.dispatch(
+          'successMessage',
+          'Opis profilu został zaktualizowany',
+        );
         this.$router.push({ name: 'userPanel' });
       })
       .catch(() => {
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Błąd przy aktualizacji profilu!',
-          color: 'error',
-          timeout: 7500,
-        });
+        this.$store.dispatch('errorMessage', 'Błąd przy aktualizacji profilu!');
       });
   }
 

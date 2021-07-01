@@ -10,11 +10,7 @@
           class="ma-2 fill-height"
         >
           <v-col lg="9">
-            <tags-list
-              :list="tags"
-              @remove="deleteTag($event)"
-              >Test</tags-list
-            >
+            <tags-list :list="tags" @remove="deleteTag($event)">Test</tags-list>
           </v-col>
         </v-row>
       </v-col>
@@ -56,12 +52,7 @@ export default class AdminPanelTags extends Vue {
         this.$data.tags = res.data;
       })
       .catch(() => {
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Błąd przy pobieraniu tagów!',
-          color: 'error',
-          timeout: 7500,
-        });
+        this.$store.dispatch('errorMessage', 'Błąd przy pobieraniu tagów!');
       });
   }
 
@@ -70,20 +61,10 @@ export default class AdminPanelTags extends Vue {
       .addTag(name)
       .then(() => {
         this.getTags();
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Tag został dodany',
-          color: 'success',
-          timeout: 5000,
-        });
+        this.$store.dispatch('successMessage', 'Tag został dodany');
       })
       .catch(() => {
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Błąd przy dodawaniu tagu!',
-          color: 'error',
-          timeout: 7500,
-        });
+        this.$store.dispatch('errorMessage', 'Błąd przy dodawaniu tagu!');
       });
     this.$data.newTagName = '';
     this.$data.addNew = false;
@@ -94,20 +75,10 @@ export default class AdminPanelTags extends Vue {
       .deleteTag(id)
       .then(() => {
         this.getTags();
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Tag został usunięty',
-          color: 'success',
-          timeout: 5000,
-        });
+        this.$store.dispatch('successMessage', 'Tag został usunięty');
       })
       .catch(() => {
-        this.$store.dispatch('setSnackbarState', {
-          state: true,
-          msg: 'Błąd przy usuwaniu tagu!',
-          color: 'error',
-          timeout: 7500,
-        });
+        this.$store.dispatch('errorMessage', 'Błąd przy usuwaniu tagu!');
       });
   }
 

@@ -68,40 +68,24 @@ export default class ProjectEdit extends Vue {
         })
         .then((res: any) => {
           if (res.status === 201) {
-            this.$store.dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Sekcja została dodana',
-              color: 'success',
-              timeout: 7500,
-            });
+            this.$store.dispatch('successMessage', 'Sekcja została dodana');
             this.$router.replace({
               name: 'section',
               params: { id: res.data.id },
             });
-          } else {
-            this.$store.dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Błąd poczas zapisywania sekcji!',
-              color: 'error',
-              timeout: 7500,
-            });
           }
         })
         .catch(() => {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas zapisywania sekcji!',
-            color: 'error',
-            timeout: 7500,
-          });
+          this.$store.dispatch(
+            'errorMessage',
+            'Błąd poczas zapisywania sekcji!',
+          );
         });
     } else {
-      this.$store.dispatch('setSnackbarState', {
-        state: true,
-        msg: 'Formularz nie zostal poprawnie wypełniony!',
-        color: 'warning',
-        timeout: 7500,
-      });
+      this.$store.dispatch(
+        'warningMessage',
+        'Formularz nie zostal poprawnie wypełniony!',
+      );
     }
   }
 
@@ -115,37 +99,21 @@ export default class ProjectEdit extends Vue {
         })
         .then((res: any) => {
           if (res.status === 200) {
-            this.$store.dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Sekcja została zaktualizowana',
-              color: 'success',
-              timeout: 7500,
-            });
+            this.$store.dispatch(
+              'successMessage',
+              'Sekcja została zaktualizowana',
+            );
             this.returnFromEditor();
-          } else {
-            this.$store.dispatch('setSnackbarState', {
-              state: true,
-              msg: 'Błąd poczas edycji sekcji!',
-              color: 'error',
-              timeout: 7500,
-            });
           }
         })
         .catch(() => {
-          this.$store.dispatch('setSnackbarState', {
-            state: true,
-            msg: 'Błąd poczas edycji sekcji!',
-            color: 'error',
-            timeout: 7500,
-          });
+          this.$store.dispatch('errorMessage', 'Błąd poczas edycji sekcji!');
         });
     } else {
-      this.$store.dispatch('setSnackbarState', {
-        state: true,
-        msg: 'Formularz nie został poprawnie wypełniony!',
-        color: 'warning',
-        timeout: 7500,
-      });
+      this.$store.dispatch(
+        'warningMessage',
+        'Formularz nie został poprawnie wypełniony!',
+      );
     }
   }
 
