@@ -23,10 +23,10 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                <v-icon>{{ link.icon }}</v-icon>
+                <v-icon :color="link.color">{{ link.icon }}</v-icon>
               </v-btn>
             </template>
-            <span>{{ link.text }}</span>
+            <span>{{ link.title }}</span>
           </v-tooltip>
         </v-col>
       </v-row>
@@ -36,23 +36,32 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { FooterService } from '@/services/FooterService';
+import { FooterModel } from '@/models/FooterModel';
 
 @Component
 export default class Footer extends Vue {
+  private footerService!: FooterService;
+  private footer!: FooterModel[];
+
+  private beforeCreate() {
+    this.footerService = new FooterService();
+  }
+
+  private mounted() {
+    this.footerService
+      .getLinks()
+      .then((res) => {
+        this.$data.links = res
+      })
+      .catch(() => {
+        this.$router.replace({ name: 'error404' });
+      });
+  }
+
   private data() {
     return {
-      links: [
-        {
-          link: 'https://www.facebook.com/skni.kod/',
-          icon: 'mdi-facebook',
-          text: 'Facebook SKNI KOD\'u',
-        },
-        {
-          link: 'https://www.linkedin.com/company/skni-kod/',
-          icon: 'mdi-linkedin',
-          text: 'LinkedIn SKNI KOD\'u',
-        },
-      ],
+      links: [],
     };
   }
 }
