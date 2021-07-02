@@ -39,6 +39,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
 import { TagsService } from '@/services/TagsService';
 import { ArticleModel } from '@/models/ArticleModel';
+import { GalleryModelImage } from '@/models/GalleryModelImage';
 import ArticleEditor from '@/components/ArticleEditor.vue';
 
 @Component({
@@ -121,6 +122,9 @@ export default class ArticleEdit extends Vue {
           authors: this.$data.authors,
           text: this.$data.article.text,
           tags: this.$data.selectedTags,
+          gallery: this.$data.article.gallery.map((el: GalleryModelImage) => {
+            return el.id;
+          }),
         })
         .then((res: any) => {
           if (res.status === 200) {

@@ -15,6 +15,7 @@ const ArticleCard = () => import(/* webpackChunkName: "ComponentArticleCard" */ 
 const MarkdownEditor = () => import(/* webpackChunkName: "ComponentMarkdownEditor" */ '@/components/MarkdownEditor.vue');  // tslint:disable-line
 const PasswordValidator = () => import(/* webpackChunkName: "ComponentPasswordValidator" */ '@/components/PasswordValidator.vue');
 const Gallery = () => import(/* webpackChunkName: "ComponentGallery" */ '@/components/Gallery.vue');
+const GalleryEditor = () => import(/* webpackChunkName: "ComponentGalleryEditor" */ '@/components/GalleryEditor.vue');
 const ElementSelector = () => import(/* webpackChunkName: "ComponentElementSelector" */ '@/components/ElementSelector.vue');
 const ConfirmationDialog = () => import(/* webpackChunkName: "ComponentConfirmationDialog" */ '@/components/ConfirmationDialog.vue');
 const LinkListInput = () => import(/* webpackChunkName: "ComponentLinkListInput" */ '@/components/LinkListInput.vue');
@@ -43,6 +44,7 @@ Vue.component('comments-list', CommentsList);
 Vue.component('hardwares-list', HardwaresList);
 Vue.component('article-card', ArticleCard);
 Vue.component('gallery', Gallery);
+Vue.component('gallery-editor', GalleryEditor);
 Vue.component('element-selector', ElementSelector);
 Vue.component('confirmation-dialog', ConfirmationDialog);
 Vue.component('link-list-input', LinkListInput);

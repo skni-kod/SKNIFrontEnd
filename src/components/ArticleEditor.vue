@@ -62,6 +62,7 @@
           label="Treść artykułu"
         ></markdown-editor>
       </v-form>
+      <gallery-editor class="mt-2" v-model="Article.gallery"></gallery-editor>
     </v-card-text>
   </v-card>
 </template>

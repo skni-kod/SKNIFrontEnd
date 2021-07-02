@@ -48,7 +48,6 @@
               contain
               :src="be + img.image"
               aspect-ratio="1.7778"
-              height="75vh"
             ></v-img>
           </v-carousel-item>
         </v-carousel>
@@ -84,7 +83,7 @@ export default class Gallery extends Vue {
   @Prop({ default: undefined }) public readonly bXl!: number;
 
   get be() {
-    return process.env.VUE_APP_BACK_URL.slice(0, -1);
+    return process.env.VUE_APP_BACK_URL;
   }
 
   public data() {
