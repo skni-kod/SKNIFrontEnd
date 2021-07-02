@@ -143,8 +143,8 @@ export default class ArticleEdit extends Vue {
   }
 
   private getAllTags() {
-    this.tagsService.getAllTags().then((tags) => {
-      this.$data.allTags = tags;
+    this.tagsService.getAllTags().then((res) => {
+      this.$data.allTags = res.data;
     });
   }
 

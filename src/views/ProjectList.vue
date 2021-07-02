@@ -107,6 +107,9 @@ export default class ProjectList extends Vue {
         }
         this.pagination.itemCount = paginationContainer.count;
         this.$data.loading = false;
+      })
+      .catch(() => {
+        this.$data.loading = false;
       });
   }
 

@@ -26,7 +26,7 @@
                 </v-row>
               </v-col>
               <v-col cols="auto" class="mx-2 py-1">
-                {{ article.tags === 1 ? 'Tag:' : 'Tagi:' }}
+                {{ article.tags.length === 1 ? 'Tag:' : 'Tagi:' }}
                 <a
                   :href="'/#/tag/' + tag.name"
                   class="text-decoration-none"
