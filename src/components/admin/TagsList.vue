@@ -21,14 +21,37 @@
                     >
                   </v-col>
                 </v-row>
-                <v-fade-transition>
+                               <v-fade-transition>
                   <v-overlay
                     v-if="hover"
                     absolute
-                    color="error"
                     opacity="0.8"
-                    @click.native="removeClicked(el.id)"
-                    style="cursor: pointer"
+                    color="success"
+                    @click.native="edit()"
+                    style="cursor: pointer; width: 50%;"
+                  >
+                    <v-row
+                      no-gutters
+                      class="fill-height"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-col cols="auto">
+                        <v-icon x-large class="white--text pa-0 ma-0"
+                          >mdi-pencil</v-icon
+                        >
+                      </v-col>
+                    </v-row>
+                  </v-overlay>
+                </v-fade-transition>
+                <v-fade-transition>
+                    <v-overlay
+                    v-if="hover"
+                    absolute
+                    opacity="0.8"
+                    color="error"
+                    @click.native="removeClicked()"
+                    style="cursor: pointer;width:50%;left:50%"
                   >
                     <v-row
                       no-gutters
