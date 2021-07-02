@@ -67,7 +67,6 @@ export default class HardwareEdit extends Vue {
     }
   }
   private addHardware() {
-    alert(this.$data.status);
     if (this.$data.inputValidated) {
       this.hardwareService
         .addHardware({
