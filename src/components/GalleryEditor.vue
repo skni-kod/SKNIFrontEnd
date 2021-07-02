@@ -14,7 +14,12 @@
           ></v-file-input>
         </v-col>
         <v-col cols="auto">
-          <v-btn-cap :disabled="!file" :loading="uploadState" class="success" @click="upload()">
+          <v-btn-cap
+            :disabled="!file"
+            :loading="uploadState"
+            class="success"
+            @click="upload()"
+          >
             <span>Wgraj</span>
             <v-icon right>mdi-upload</v-icon>
           </v-btn-cap>
@@ -31,7 +36,13 @@
       >
         <strong>Wgrywanie: {{ progress }}%</strong>
       </v-progress-linear>
-      <gallery :imgs="images" v-if="images" class="my-2"></gallery>
+      <gallery
+        :imgs="images"
+        :deleteMode="true"
+        @delete="removeImg($event)"
+        v-if="images"
+        class="my-2"
+      ></gallery>
     </v-card-text>
   </v-card>
 </template>
@@ -68,16 +79,38 @@ export default class GalleryEditor extends Vue {
         this.$data.progress = Math.round((100 * event.loaded) / event.total);
       })
       .then((res) => {
-        if(res.status === 201) {
+        if (res.status === 201) {
           this.images.push(res.data);
           this.$store.dispatch('successMessage', 'Wgrano obrazek');
+          this.$store.dispatch(
+            'warningMessage',
+            'Pamiętaj o zapisaniu artykułu aby zapisać zmiany w galerii!',
+          );
           this.$data.file = undefined;
           this.$data.progress = undefined;
         }
       })
       .catch((err) => {
         this.$store.dispatch('errorMessage', 'Błąd przy wgrywaniu obrazka!');
-      }).then(() => this.$data.uploadState = false);
+      })
+      .then(() => (this.$data.uploadState = false));
+  }
+
+  private removeImg(id: number) {
+    this.galleryService
+      .deleteImage(this.images[id].id)
+      .then((res) => {
+        if (res.status === 204) {
+          this.images.splice(id, 1);
+          this.$store.dispatch('successMessage', 'Obrazek został usunięty');
+        }
+      })
+      .catch(() => {
+        this.$store.dispatch(
+          'errorMessage',
+          'Wystapił problem z usunięciem obrazka!',
+        );
+      });
   }
 
   private data() {

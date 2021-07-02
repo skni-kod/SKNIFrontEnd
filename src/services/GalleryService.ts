@@ -18,7 +18,7 @@ export class GalleryService {
   }
 
   public async deleteImage(id: number): Promise<AxiosResponse> {
-    const del = await beAxios.delete('api/tags/' + id + '/', {
+    const del = await beAxios.delete('api/gallery/' + id + '/', {
       headers: {
         Authorization: 'Bearer ' + store.getters.token,
       },

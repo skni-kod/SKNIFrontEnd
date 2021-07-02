@@ -17,50 +17,51 @@
             v-for="(img, n) in imgs"
             :key="n"
           >
-            <v-img
-              class="clickable"
-              style="cursor: pointer;"
-              :src="be + img.thumbnail"
-              aspect-ratio="1"
-              @click.native="
-                dialog = true;
-                img_num = n;
-              "
-            >
-              <template v-slot:placeholder>
-                <v-layout fill-height align-center justify-center ma-0>
-                  <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                  ></v-progress-circular>
-                </v-layout>
-              </template>
-            </v-img>
+            <v-hover v-slot="{ hover }">
+              <v-img
+                class="clickable"
+                style="cursor: pointer"
+                :src="be + img.thumbnail"
+                aspect-ratio="1"
+                @click.native="imgClicked(n)"
+              >
+                <template v-slot:placeholder>
+                  <v-layout fill-height align-center justify-center ma-0>
+                    <v-progress-circular
+                      indeterminate
+                      color="primary"
+                    ></v-progress-circular>
+                  </v-layout>
+                </template>
+                <v-overlay absolute color="error" v-if="deleteMode && hover">
+                  <v-row align="center" justify="center">
+                    <v-col>
+                      <v-avatar color="error">
+                        <v-icon x-large>mdi-delete</v-icon>
+                      </v-avatar>
+                    </v-col>
+                  </v-row>
+                </v-overlay>
+              </v-img>
+            </v-hover>
           </v-col>
         </v-row>
       </v-card-text>
     </v-card>
     <v-dialog max-width="100%" v-model="dialog" content-class="elevation-0">
       <v-card color="rgba(0,0,0,0)" flat>
-        <v-carousel hide-delimiters height="75vh" v-model="img_num">
+        <v-carousel
+          hide-delimiters
+          :show-arrows="imgs.length > 1"
+          height="75vh"
+          v-model="img_num"
+        >
           <v-carousel-item v-for="(img, i) in imgs" :key="i">
-            <v-img
-              contain
-              :src="be + img.image"
-              aspect-ratio="1.7778"
-            ></v-img>
+            <v-img contain :src="be + img.image" aspect-ratio="1.7778"></v-img>
           </v-carousel-item>
         </v-carousel>
       </v-card>
-      <v-btn-cap
-        fab
-        fixed
-        top
-        right
-        dark
-        color="red"
-        @click="dialog = false"
-      >
+      <v-btn-cap fab fixed top right dark color="red" @click="dialog = false">
         <v-icon large>mdi-close</v-icon>
       </v-btn-cap>
     </v-dialog>
@@ -81,12 +82,22 @@ export default class Gallery extends Vue {
   @Prop({ default: 4 }) public readonly bMd!: number;
   @Prop({ default: undefined }) public readonly bLg!: number;
   @Prop({ default: undefined }) public readonly bXl!: number;
+  @Prop({ default: false }) public readonly deleteMode!: boolean;
 
   get be() {
     return process.env.VUE_APP_BACK_URL;
   }
 
-  public data() {
+  private imgClicked(num: number) {
+    if (this.deleteMode) {
+      this.$emit('delete', num);
+    } else {
+      this.$data.dialog = true;
+      this.$data.img_num = num;
+    }
+  }
+
+  private data() {
     return {
       dialog: false,
       img_num: 0,

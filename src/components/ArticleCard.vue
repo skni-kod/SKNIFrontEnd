@@ -103,7 +103,7 @@ export default class ArticleCard extends Vue {
   }
 
   get be() {
-    return process.env.VUE_APP_BACK_URL.slice(0, -1);
+    return process.env.VUE_APP_BACK_URL;
   }
 
   private deleteArticle() {
