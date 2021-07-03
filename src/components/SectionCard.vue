@@ -80,7 +80,7 @@
             fab
             x-small
             color="orange"
-            :to="{ name: 'editSection', params: { id: section.id } }"
+            :to="{ name: 'sectionEdit', params: { id: section.id } }"
           >
             <v-icon>mdi-pen</v-icon>
           </v-btn-cap>

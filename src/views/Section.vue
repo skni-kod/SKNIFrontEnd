@@ -91,7 +91,7 @@
       <v-btn-cap
         fab
         color="orange"
-        :to="{ name: 'editsection', params: { id: $route.params.id } }"
+        :to="{ name: 'sectionEdit', params: { id: $route.params.id } }"
       >
         <v-icon>mdi-pen</v-icon>
       </v-btn-cap>
