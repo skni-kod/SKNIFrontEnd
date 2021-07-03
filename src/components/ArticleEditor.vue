@@ -7,19 +7,17 @@
         v-if="Article.creation_date && Article.publication_date"
       >
         <v-col cols="12" sm="auto">
-          <p>
-            Data utworzenia:
-            {{ Article.creation_date | moment('DD.MM.YYYY hh:mm:ss') }}
-          </p>
+          Data utworzenia:
+          {{ Article.creation_date | moment('DD.MM.YYYY hh:mm:ss') }}
         </v-col>
         <v-col cols="12" sm="auto">
-          <p>
-            Data publikacji:
-            {{ Article.publication_date | moment('DD.MM.YYYY hh:mm:ss') }}
-          </p>
+          Data publikacji:
+          {{ Article.publication_date | moment('DD.MM.YYYY hh:mm:ss') }}
         </v-col>
       </v-row>
-      <v-divider></v-divider>
+    </v-card-text>
+    <v-divider></v-divider>
+    <v-card-text>
       <v-form v-model="inputValidated">
         <v-text-field
           clearable
@@ -62,7 +60,10 @@
           label="Treść artykułu"
         ></markdown-editor>
       </v-form>
-      <gallery-editor class="mt-2" v-model="Article.gallery"></gallery-editor>
+    </v-card-text>
+    <v-divider></v-divider>
+    <v-card-text>
+      <gallery-editor v-model="Article.gallery"></gallery-editor>
     </v-card-text>
   </v-card>
 </template>
