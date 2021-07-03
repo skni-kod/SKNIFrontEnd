@@ -15,9 +15,6 @@
           {{ Article.publication_date | moment('DD.MM.YYYY hh:mm:ss') }}
         </v-col>
       </v-row>
-    </v-card-text>
-    <v-divider></v-divider>
-    <v-card-text>
       <v-form v-model="inputValidated">
         <v-text-field
           clearable
