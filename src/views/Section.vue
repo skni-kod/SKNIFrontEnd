@@ -18,12 +18,7 @@
               <v-col class="pa-0">
                 <v-row justify="center" class="flex-column ma-0 fill-height">
                   <p
-                    class="
-                      white--text
-                      text-left text-h6
-                      font-weight-black
-                      my-auto
-                    "
+                    class="white--text text-left text-h6 font-weight-black my-auto"
                   >
                     {{ section.name }}
                   </p>
@@ -60,11 +55,7 @@
                       @click.native="route(project.id)"
                     >
                       <v-card-text
-                        class="
-                          font-weight-thin
-                          justify-center
-                          text-center text-subtitle-1
-                        "
+                        class="font-weight-thin justify-center text-center text-subtitle-1"
                         >{{ project.title }}
                       </v-card-text>
                     </v-card>
@@ -113,33 +104,38 @@ import { Component, Vue } from 'vue-property-decorator';
 import { SectionsService } from '@/services/SectionsService';
 import { ProjectsService } from '@/services/ProjectsService';
 import { SectionModel } from '@/models/SectionModel';
+import { ProjectModel } from '@/models/ProjectModel';
 
 @Component
-export default class section extends Vue {
+export default class Section extends Vue {
   private projectsService!: ProjectsService;
   private sectionsService!: SectionsService;
-  private section!: SectionModel[];
+  private section!: SectionModel;
 
   private beforeCreate() {
     this.projectsService = new ProjectsService();
     this.sectionsService = new SectionsService();
   }
 
-  private mounted() {
-    this.sectionsService
-      .getSection(+this.$route.params.id)
-      .then((section) => {
-        this.projectsService.getAllProjects().then((res) => {
-          const filtered = res.filter((el: any) => {
-            return el.section.name === section.name;
+  private created() {
+    if (this.$route.params.id) {
+      this.sectionsService
+        .getSection(+this.$route.params.id)
+        .then((res) => {
+          this.projectsService.getAllProjects().then((proj) => {
+            const filtered = proj.filter((el: ProjectModel) => {
+              return el.section.name === res.data.name;
+            });
+            this.$data.projects = filtered;
           });
-          this.$data.projects = filtered;
+          this.$data.section = res.data;
+        })
+        .catch(() => {
+          this.$router.replace({ name: 'error404' });
         });
-        this.section = section;
-      })
-      .catch(() => {
-        this.$router.replace({ name: 'error404' });
-      });
+    } else {
+      this.$router.replace({ name: 'sections' });
+    }
   }
 
   get auth(): boolean {
@@ -149,7 +145,9 @@ export default class section extends Vue {
     return this.$store.getters.isAdministrator;
   }
   get dialogText() {
-    return 'Czy na pewno chcesz usunąć artykuł "' + this.section.title + '"?';
+    return (
+      'Czy na pewno chcesz usunąć artykuł "' + this.$data.section.title + '"?'
+    );
   }
 
   private deletesection(id: number) {
