@@ -80,7 +80,7 @@
         </v-btn-cap>
         <v-card outlined>
           <v-card-title
-            class="primary text-h6 white--text font-weight-bold py-1"
+            class="primary text-h6 white--text justify-center font-weight-bold py-1"
             >Podgląd</v-card-title
           >
           <markdown-it-vue
@@ -90,7 +90,11 @@
             "
             :options="markdownOptions"
           />
+          
         </v-card>
+      </v-col>
+      <v-col class="py-1">
+        <img-adder></img-adder>
       </v-col>
     </v-row>
   </div>
@@ -98,8 +102,13 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+import ImgAdder from './MdImgAdd.vue';
 
-@Component
+@Component({
+  components: {
+    ImgAdder,
+  }
+})
 export default class MarkdownEditor extends Vue {
   @Prop() public readonly value!: string;
   @Prop() public readonly label!: string;
