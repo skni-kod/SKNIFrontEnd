@@ -90,7 +90,6 @@
             "
             :options="markdownOptions"
           />
-          
         </v-card>
       </v-col>
       <v-col class="py-1">
@@ -107,12 +106,16 @@ import ImgAdder from './MdImgAdd.vue';
 @Component({
   components: {
     ImgAdder,
-  }
+  },
 })
 export default class MarkdownEditor extends Vue {
   @Prop() public readonly value!: string;
   @Prop() public readonly label!: string;
   @Prop({ default: false }) public readonly rules!: any;
+
+  private created() {
+    this.$data.preview = this.markdown;
+  }
 
   get markdown() {
     return this.value;
