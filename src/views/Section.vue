@@ -121,7 +121,7 @@ export default class Section extends Vue {
         .then((res) => {
           this.projectsService.getAllProjects().then((proj) => {
             const filtered = proj.filter((el: ProjectModel) => {
-              return el.section.name === res.data.name;
+              return (el.section as SectionModel).name === res.data.name;
             });
             this.$data.projects = filtered;
           });
