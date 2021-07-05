@@ -139,6 +139,9 @@ export default class ArticleEditor extends Vue {
         },
       );
     }
+    if (this.Article.gallery === undefined) {
+      this.Article.gallery = [];
+    }
   }
 
   private getAllTags() {

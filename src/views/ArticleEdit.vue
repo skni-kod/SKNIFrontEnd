@@ -7,6 +7,7 @@
       {{ add ? 'Nowy artykuł' : 'Edycja artykułu nr ' + this.$route.params.id }}
     </p>
     <article-editor
+      v-if="article"
       v-model="article"
       @validation="inputValidated = $event"
     ></article-editor>
@@ -44,7 +45,6 @@ export default class ArticleEdit extends Vue {
 
   private created() {
     this.articlesService = new ArticlesService();
-    this.$data.article = new ArticleModel();
 
     if (this.$route.path.includes('add')) {
       this.$data.add = true;
@@ -59,9 +59,6 @@ export default class ArticleEdit extends Vue {
         .getArticle(+this.$route.params.id, false)
         .then((article) => {
           this.$data.article = article;
-          this.$data.selectedTags = this.$data.article.tags.map(
-            (p: any) => p.id,
-          );
         })
         .catch(() => {
           this.$store.dispatch(
@@ -158,7 +155,7 @@ export default class ArticleEdit extends Vue {
   private data() {
     return {
       inputValidated: false,
-      article: { text: '' },
+      article: undefined,
       add: false,
     };
   }
