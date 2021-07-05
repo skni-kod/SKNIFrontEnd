@@ -7,15 +7,8 @@
       {{ add ? 'Nowy projekt' : 'Edycja projektu nr ' + this.$route.params.id }}
     </p>
     <project-editor
-      :project="project"
-      @articleEdited="project = $event"
-      :authors="authors"
-      @authorsEdited="authors = $event"
-      :section="section"
-      @sectionUpdated="section = $event"
-      :links="links"
-      @linksEdited="links = $event"
-      :allSections="allSections"
+      v-if="project"
+      v-model="project"
       @validation="inputValidated = $event"
     ></project-editor>
     <editor-menu
@@ -39,8 +32,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ProjectsService } from '@/services/ProjectsService';
 import { ProjectModel } from '@/models/ProjectModel';
-import { SectionsService } from '@/services/SectionsService';
 import { SectionModel } from '@/models/SectionModel';
+import { GalleryModelImage } from '@/models/GalleryModelImage';
 import ProjectEditor from '@/components/ProjectEditor.vue';
 
 @Component({
@@ -48,30 +41,33 @@ import ProjectEditor from '@/components/ProjectEditor.vue';
 })
 export default class ProjectEdit extends Vue {
   private projectsService!: ProjectsService;
-  private sectionsService!: SectionsService;
 
   private created() {
     this.projectsService = new ProjectsService();
-    this.sectionsService = new SectionsService();
-    this.$data.article = new ProjectModel();
 
     if (this.$route.path.includes('add')) {
       this.$data.add = true;
-      this.getAllSections();
     } else {
+      this.getProject();
+    }
+  }
+
+  private getProject() {
+    if (this.$route.params.id !== undefined) {
       this.projectsService
         .getProject(+this.$route.params.id, false)
         .then((project) => {
           this.$data.project = project;
-          this.getAllSections();
-          project.authors.forEach((element: any) => {
-            this.$data.authors.push(element.id);
-          });
-          this.$data.section = project.section.id;
         })
-        .catch((err) => {
-          this.$router.replace({ name: 'error404' });
+        .catch(() => {
+          this.$store.dispatch(
+            'errorMessage',
+            'Wystąpił błąd przy pobieraniu projektu!',
+          );
+          this.$router.replace({ name: 'projects' });
         });
+    } else {
+      this.$router.replace({ name: 'error404' });
     }
   }
 
@@ -80,11 +76,14 @@ export default class ProjectEdit extends Vue {
       this.projectsService
         .addProject({
           title: this.$data.project.title,
-          authors: this.$data.authors,
+          authors: this.$data.project.authors,
           text: this.$data.project.text,
-          section: this.$data.section,
+          section: this.$data.project.section,
           creator: this.$store.getters.user.id,
-          repository_links: this.$data.links,
+          repository_links: this.$data.project.links,
+          gallery: this.$data.project.gallery.map((el: GalleryModelImage) => {
+            return el.id;
+          }),
           creation_date: new Date(),
           publication_date: new Date(),
         })
@@ -116,9 +115,13 @@ export default class ProjectEdit extends Vue {
       this.projectsService
         .editProject(this.$data.project.id, {
           title: this.$data.project.title,
-          authors: this.$data.authors,
-          section: this.$data.section,
+          authors: this.$data.project.authors,
           text: this.$data.project.text,
+          section: this.$data.project.section,
+          repository_links: this.$data.project.links,
+          gallery: this.$data.project.gallery.map((el: GalleryModelImage) => {
+            return el.id;
+          }),
         })
         .then((res: any) => {
           if (res.status === 200) {
@@ -140,12 +143,6 @@ export default class ProjectEdit extends Vue {
     }
   }
 
-  private getAllSections() {
-    this.sectionsService.getAllSections().then((res) => {
-      this.$data.allSections = res.data;
-    });
-  }
-
   private returnFromEditor() {
     if (this.$data.add) {
       this.$router.replace({ name: 'projects', params: { page: '1' } });
@@ -160,11 +157,7 @@ export default class ProjectEdit extends Vue {
   private data() {
     return {
       inputValidated: false,
-      project: { text: '' },
-      authors: [],
-      section: undefined,
-      links: [],
-      allSections: [],
+      project: undefined,
       add: false,
     };
   }

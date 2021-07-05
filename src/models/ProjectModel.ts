@@ -1,5 +1,6 @@
 import { SectionModel } from './SectionModel';
-import { UserModel } from './UserModel';
+import { ProfileModel } from './ProfileModel';
+import { GalleryModelImage } from '@/models/GalleryModelImage';
 /* tslint:disable */
 export class ProjectModel {
     public id!: number;
@@ -8,7 +9,8 @@ export class ProjectModel {
     public creation_date!: Date;
     public publication_date!: Date;
     public repository_link!: string;
-    public creator!: UserModel;
-    public authors!: UserModel[];
-    public section!: SectionModel;
+    public gallery!: GalleryModelImage[];
+    public creator!: ProfileModel;
+    public authors!: ProfileModel[] | number[];
+    public section!: SectionModel | number;
 }

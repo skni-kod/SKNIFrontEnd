@@ -4,7 +4,7 @@
       >Dodaj linki do projektu</v-card-title
     >
     <v-divider />
-    <v-card-text v-if="list.length > 0" class="pt-2 pb-0">
+    <v-card-text v-if="list && list.length > 0" class="pt-2 pb-0">
       <div v-for="(item, i) in list" :key="i">
         <v-divider />
         <v-row align="center">
