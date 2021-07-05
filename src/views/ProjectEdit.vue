@@ -141,8 +141,8 @@ export default class ProjectEdit extends Vue {
   }
 
   private getAllSections() {
-    this.sectionsService.getAllSections().then((sections) => {
-      this.$data.allSections = sections;
+    this.sectionsService.getAllSections().then((res) => {
+      this.$data.allSections = res.data;
     });
   }
 

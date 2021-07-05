@@ -48,8 +48,8 @@ export default class ProjectEdit extends Vue {
     } else {
       this.sectionService
         .getSection(Number(this.$route.params.id))
-        .then((section) => {
-          this.$data.section = section;
+        .then((res) => {
+          this.$data.section = res.data;
         })
         .catch((err) => {
           this.$router.replace({ name: 'error404' });
