@@ -36,7 +36,7 @@ import SectionEditor from '@/components/SectionEditor.vue';
 @Component({
   components: { SectionEditor },
 })
-export default class ProjectEdit extends Vue {
+export default class SectionEdit extends Vue {
   private sectionService!: SectionsService;
 
   private created() {

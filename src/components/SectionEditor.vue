@@ -35,7 +35,7 @@ import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import beAxios from '@/axios';
 
 @Component
-export default class ProjectEditor extends Vue {
+export default class SectionEditor extends Vue {
   @Prop({ required: true }) public readonly section!: number;
 
   private created() {
