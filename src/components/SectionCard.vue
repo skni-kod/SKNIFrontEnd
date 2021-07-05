@@ -35,7 +35,7 @@
                     large
                     :color="hover ? 'grey lighten-1' : ''"
                     style="cursor: pointer"
-                    @click.native="route(project.id)"
+                    :to='{ name: "project", params: { id: project.id } }'
                   >
                     <v-icon left>mdi-file-cog</v-icon>
                     <span>{{ project.title }}</span>
@@ -107,10 +107,6 @@ export default class SectionCard extends Vue {
 
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
-  }
-
-  private route(id: number) {
-    this.$router.push({ name: 'project', params: { id: String(id) } });
   }
 
   private removeMarkdown(text: string) {

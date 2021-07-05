@@ -2,9 +2,9 @@
   <div class="mt-2">
     <v-row justify="center" v-if="section != undefined">
       <v-col cols="12" sm="10" md="8" lg="6" xl="4">
-        <v-card tile elevation="0">
+        <v-card tile outlined class="rounded-lg">
           <v-card-title
-            class="mb-2 primary rounded-lg"
+            class="mb-2 primary elevation-5"
             style="word-break: break-word"
           >
             <v-row class="mx-auto">
@@ -33,37 +33,34 @@
               :content="section.description"
               :options="markdownOptions"
             />
-            <v-row justify="center" class="ma-0 fill-height">
-              <v-col
-                cols="12"
-                class="black--text text-left text-h6 my-auto text-center"
-              >
-                Nasze projekty:
-              </v-col>
-              <v-col
-                cols="12"
-                lg="4"
-                v-for="project in projects"
-                :key="project.title"
-              >
-                <v-hover>
-                  <template v-slot:default="{ hover }">
-                    <v-card
-                      class="fill-height rounded-xl"
-                      :color="hover ? 'grey lighten-2' : ''"
-                      style="cursor: pointer"
-                      @click.native="route(project.id)"
-                    >
-                      <v-card-text
-                        class="font-weight-thin justify-center text-center text-subtitle-1"
-                        >{{ project.title }}
-                      </v-card-text>
-                    </v-card>
-                  </template>
-                </v-hover>
-              </v-col>
-            </v-row>
           </v-card-text>
+          <div v-if="projects.length > 0">
+            <v-divider></v-divider>
+            <v-card-title class="justify-center">Nasze projekty</v-card-title>
+            <v-card-text>
+              <v-row justify="center">
+                <v-col
+                  cols="auto"
+                  v-for="project in projects"
+                  :key="project.title"
+                >
+                  <v-hover>
+                    <template v-slot:default="{ hover }">
+                      <v-chip
+                        large
+                        :color="hover ? 'grey lighten-1' : ''"
+                        style="cursor: pointer"
+                        :to='{ name: "project", params: { id: project.id } }'
+                      >
+                        <v-icon left>mdi-file-cog</v-icon>
+                        <span>{{ project.title }}</span>
+                      </v-chip>
+                    </template>
+                  </v-hover>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </div>
         </v-card>
         <gallery breakpoints="xs6" :imgs="section.gallery" />
       </v-col>
