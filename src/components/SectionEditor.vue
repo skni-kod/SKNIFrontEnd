@@ -27,6 +27,10 @@
         ></markdown-editor>
       </v-form>
     </v-card-text>
+    <v-divider></v-divider>
+    <v-card-text>
+      <gallery-editor v-model="Section.gallery"></gallery-editor>
+    </v-card-text>
   </v-card>
 </template>
 

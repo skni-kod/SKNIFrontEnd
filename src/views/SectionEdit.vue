@@ -31,6 +31,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { SectionsService } from '@/services/SectionsService';
 import { SectionModel } from '@/models/SectionModel';
+import { GalleryModelImage } from '@/models/GalleryModelImage';
 import SectionEditor from '@/components/SectionEditor.vue';
 
 @Component({
@@ -64,6 +65,9 @@ export default class SectionEdit extends Vue {
           name: this.$data.section.name,
           description: this.$data.section.description,
           icon: this.$data.section.icon,
+          gallery: this.$data.section.gallery.map((el: GalleryModelImage) => {
+            return el.id;
+          }),
           isVisible: true,
         })
         .then((res: any) => {
@@ -96,6 +100,9 @@ export default class SectionEdit extends Vue {
           name: this.$data.section.name,
           description: this.$data.section.description,
           icon: this.$data.section.icon,
+          gallery: this.$data.section.gallery.map((el: GalleryModelImage) => {
+            return el.id;
+          }),
         })
         .then((res: any) => {
           if (res.status === 200) {
