@@ -2,7 +2,10 @@
   <v-card outlined tile>
     <v-card-title>Edytor galerii</v-card-title>
     <v-card-text>
-      <image-uploader :service="galleryService" @img="receiveImage($event)"></image-uploader>
+      <image-uploader
+        :service="galleryService"
+        @img="receiveImage($event)"
+      ></image-uploader>
       <gallery
         :imgs="images"
         :deleteMode="true"
@@ -38,7 +41,11 @@ export default class GalleryEditor extends Vue {
   }
 
   private receiveImage(img: GalleryModelImage) {
-    this.images.push(img);
+    if (this.images !== undefined) {
+      this.images.push(img);
+    } else {
+      this.images = [img];
+    }
   }
 
   private removeImg(id: number) {
