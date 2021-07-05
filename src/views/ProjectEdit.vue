@@ -47,6 +47,7 @@ export default class ProjectEdit extends Vue {
 
     if (this.$route.path.includes('add')) {
       this.$data.add = true;
+      this.$data.project = new ProjectModel();
     } else {
       this.getProject();
     }
