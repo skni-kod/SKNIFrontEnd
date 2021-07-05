@@ -3,11 +3,13 @@
     <p
       class="text-h4 text-center font-weight-bold justify-center ma-2"
       style="word-break: break-word"
+      v-if="this.section"
     >
       {{ add ? 'Nowa sekcja' : 'Edycja sekcji: ' + this.section.name }}
     </p>
     <section-editor
-      :section="section"
+      v-if="section"
+      v-model="section"
       @validation="inputValidated = $event"
     ></section-editor>
     <editor-menu
@@ -42,10 +44,10 @@ export default class SectionEdit extends Vue {
 
   private created() {
     this.sectionService = new SectionsService();
-    this.$data.section = new SectionModel();
 
     if (this.$route.path.includes('add')) {
       this.$data.add = true;
+      this.$data.section = new SectionModel();
     } else {
       this.sectionService
         .getSection(Number(this.$route.params.id))
@@ -138,7 +140,6 @@ export default class SectionEdit extends Vue {
   private data() {
     return {
       inputValidated: false,
-      authors: [],
       section: undefined,
       add: false,
     };

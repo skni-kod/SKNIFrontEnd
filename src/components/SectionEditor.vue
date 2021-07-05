@@ -4,7 +4,7 @@
       <v-form v-model="inputValidated">
         <v-text-field
           clearable
-          label="Ikonka sekcji (używaj tych: https://materialdesignicons.com)"
+          label="Ikonka sekcji (mdi-)(https://materialdesignicons.com)"
           v-model="Section.icon"
           :rules="[required]"
         ></v-text-field>
@@ -14,12 +14,6 @@
           v-model="Section.name"
           :rules="[required]"
         ></v-text-field>
-        <element-selector
-          v-model="sectionCoordinators"
-          :items="users"
-          itemtext="fullname"
-          label="Wyszukaj i wybierz koordynatorów sekcji"
-        ></element-selector>
         <markdown-editor
           v-model="Section.description"
           rules="true"
@@ -36,41 +30,24 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+import { SectionModel } from '@/models/SectionModel';
 import beAxios from '@/axios';
 
 @Component
 export default class SectionEditor extends Vue {
-  @Prop({ required: true }) public readonly section!: number;
+  @Prop({ required: true }) public readonly value!: SectionModel;
 
   private created() {
-    this.getAllusers();
+    if (this.Section.gallery === undefined) {
+      this.Section.gallery = [];
+    }
   }
   get Section() {
-    return this.section;
+    return this.value;
   }
 
-  set Section(val: number) {
-    this.$emit('sectionUpdated', val);
-  }
-
-  private getAllusers() {
-    beAxios
-      .get('api/users/', {
-        headers: {
-          Authorization: 'Bearer ' + this.$store.getters.token,
-        },
-      })
-      .then((res) => {
-        this.$data.users = res.data;
-        this.$data.users.forEach((element: any) => {
-          element.fullname =
-            element.first_name +
-            ' "' +
-            element.username +
-            '" ' +
-            element.last_name;
-        });
-      });
+  set Section(val: SectionModel) {
+    this.$emit('input', val);
   }
 
   @Watch('$data.inputValidated')
@@ -80,9 +57,7 @@ export default class SectionEditor extends Vue {
 
   private data() {
     return {
-      sectionCoordinators: [],
       inputValidated: false,
-      users: [],
       required: (value: string) => !!value || 'Pole wymagane',
     };
   }
