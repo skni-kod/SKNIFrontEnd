@@ -89,6 +89,9 @@ export default class ArticleEdit extends Vue {
           authors: this.$data.authors,
           text: this.$data.article.text,
           tags: this.$data.selectedTags,
+          gallery: this.$data.article.gallery.map((el: GalleryModelImage) => {
+            return el.id;
+          }),
           creator: this.$store.getters.user.id,
           creation_date: new Date(),
           publication_date: new Date(),
