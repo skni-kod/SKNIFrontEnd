@@ -48,6 +48,7 @@ export default class ArticleEdit extends Vue {
 
     if (this.$route.path.includes('add')) {
       this.$data.add = true;
+      this.$data.article = new ArticleModel();
     } else {
       this.getArticle();
     }
