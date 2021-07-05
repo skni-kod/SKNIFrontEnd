@@ -38,13 +38,13 @@
           </v-col>
         </v-row>
         <element-selector
-          v-model="selectedTags"
-          :items="allTags"
+          v-model="Article.tags"
+          :items="tags"
           itemtext="name"
           label="Wyszukaj i wybierz tagi artykułu"
         ></element-selector>
         <element-selector
-          v-model="artAuthors"
+          v-model="Article.authors"
           :items="users"
           itemtext="fullname"
           rules="true"
@@ -68,54 +68,33 @@
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
+import { TagsService } from '@/services/TagsService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { TagModel } from '@/models/TagModel';
+import { ProfileModel } from '@/models/ProfileModel';
 import beAxios from '@/axios';
 
 @Component
 export default class ArticleEditor extends Vue {
-  @Prop() public readonly article!: ArticleModel;
-  @Prop() public readonly authors!: number[];
-  @Prop() public readonly tags!: TagModel;
-  @Prop() public readonly selTags!: number[];
+  @Prop({ required: true }) public readonly value!: ArticleModel;
 
   private articlesService!: ArticlesService;
+  private tagsService!: TagsService;
 
   private created() {
     this.articlesService = new ArticlesService();
+    this.tagsService = new TagsService();
     this.getAllusers();
+    this.getAllTags();
+    this.cleanData();
   }
 
   get Article() {
-    return this.article;
+    return this.value;
   }
 
   set Article(article: ArticleModel) {
-    this.$emit('articleEdited', article);
-  }
-
-  get allTags() {
-    return this.tags;
-  }
-
-  set allTags(tags: TagModel) {
-    this.$emit('tagListEdited', tags);
-  }
-
-  get artAuthors() {
-    return this.authors;
-  }
-
-  set artAuthors(data: number[]) {
-    this.$emit('authorsEdited', data);
-  }
-
-  get selectedTags() {
-    return this.selTags;
-  }
-
-  set selectedTags(tags: number[]) {
-    this.$emit('selectedTags', tags);
+    this.$emit('input', article);
   }
 
   private generateAlias() {
@@ -145,6 +124,29 @@ export default class ArticleEditor extends Vue {
       });
   }
 
+  private cleanData() {
+    if (this.Article.authors !== undefined) {
+      this.Article.authors = (this.Article.authors as ProfileModel[]).map(
+        (el: ProfileModel) => {
+          return el.id;
+        },
+      );
+    }
+    if (this.Article.tags !== undefined) {
+      this.Article.tags = (this.Article.tags as TagModel[]).map(
+        (el: TagModel) => {
+          return el.id;
+        },
+      );
+    }
+  }
+
+  private getAllTags() {
+    this.tagsService.getAllTags().then((res) => {
+      this.$data.tags = res.data;
+    });
+  }
+
   @Watch('$data.inputValidated')
   private validationchanged() {
     this.$emit('validation', this.$data.inputValidated);
@@ -154,6 +156,7 @@ export default class ArticleEditor extends Vue {
     return {
       inputValidated: false,
       users: [],
+      tags: [],
       required: (value: string) => !!value || 'Pole wymagane',
     };
   }

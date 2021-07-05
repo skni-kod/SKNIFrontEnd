@@ -7,14 +7,7 @@
       {{ add ? 'Nowy artykuł' : 'Edycja artykułu nr ' + this.$route.params.id }}
     </p>
     <article-editor
-      :article="article"
-      @articleEdited="article = $event"
-      :authors="authors"
-      @authorsEdited="authors = $event"
-      :tags="allTags"
-      @tagListEdited="allTags = $event"
-      :selTags="selectedTags"
-      @selectedTags="selectedTags = $event"
+      v-model="article"
       @validation="inputValidated = $event"
     ></article-editor>
     <editor-menu
@@ -37,7 +30,6 @@
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
-import { TagsService } from '@/services/TagsService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { GalleryModelImage } from '@/models/GalleryModelImage';
 import ArticleEditor from '@/components/ArticleEditor.vue';
@@ -49,34 +41,37 @@ import ArticleEditor from '@/components/ArticleEditor.vue';
 })
 export default class ArticleEdit extends Vue {
   private articlesService!: ArticlesService;
-  private tagsService!: TagsService;
 
   private created() {
     this.articlesService = new ArticlesService();
-    this.tagsService = new TagsService();
     this.$data.article = new ArticleModel();
 
     if (this.$route.path.includes('add')) {
       this.$data.add = true;
-      this.getAllTags();
     } else {
-      if (this.$route.params.id !== undefined) {
-        this.articlesService
-          .getArticle(+this.$route.params.id, false)
-          .then((article) => {
-            this.$data.article = article;
-            this.$data.selectedTags = this.$data.article.tags.map(
-              (p: any) => p.id,
-            );
-            this.getAllTags();
-            article.authors.forEach((element: any) => {
-              this.$data.authors.push(element.id);
-            });
-          })
-          .catch(() => {
-            this.$router.replace({ name: 'error404' });
-          });
-      }
+      this.getArticle();
+    }
+  }
+
+  private getArticle() {
+    if (this.$route.params.id !== undefined) {
+      this.articlesService
+        .getArticle(+this.$route.params.id, false)
+        .then((article) => {
+          this.$data.article = article;
+          this.$data.selectedTags = this.$data.article.tags.map(
+            (p: any) => p.id,
+          );
+        })
+        .catch(() => {
+          this.$store.dispatch(
+            'errorMessage',
+            'Wystąpił błąd przy pobieraniu artykułu!',
+          );
+          this.$router.replace({ name: 'articles' });
+        });
+    } else {
+      this.$router.replace({ name: 'error404' });
     }
   }
 
@@ -86,9 +81,9 @@ export default class ArticleEdit extends Vue {
         .addArticle(this.$data.article.id, {
           title: this.$data.article.title,
           alias: this.$data.article.alias,
-          authors: this.$data.authors,
+          authors: this.$data.article.authors,
           text: this.$data.article.text,
-          tags: this.$data.selectedTags,
+          tags: this.$data.article.tags,
           gallery: this.$data.article.gallery.map((el: GalleryModelImage) => {
             return el.id;
           }),
@@ -122,9 +117,9 @@ export default class ArticleEdit extends Vue {
         .editArticle(this.$data.article.id, {
           title: this.$data.article.title,
           alias: this.$data.article.alias,
-          authors: this.$data.authors,
+          authors: this.$data.article.authors,
           text: this.$data.article.text,
-          tags: this.$data.selectedTags,
+          tags: this.$data.article.tags,
           gallery: this.$data.article.gallery.map((el: GalleryModelImage) => {
             return el.id;
           }),
@@ -149,12 +144,6 @@ export default class ArticleEdit extends Vue {
     }
   }
 
-  private getAllTags() {
-    this.tagsService.getAllTags().then((res) => {
-      this.$data.allTags = res.data;
-    });
-  }
-
   private returnFromEditor() {
     if (this.$data.add) {
       this.$router.replace({ name: 'articles' });
@@ -170,9 +159,6 @@ export default class ArticleEdit extends Vue {
     return {
       inputValidated: false,
       article: { text: '' },
-      authors: [],
-      allTags: [],
-      selectedTags: [],
       add: false,
     };
   }

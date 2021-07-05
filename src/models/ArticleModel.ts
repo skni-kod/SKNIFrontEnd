@@ -16,9 +16,9 @@ export class ArticleModel {
     public publication_date!: Date;
 
     public creator!: CreatorModel;
-    public authors!: ProfileModel[];
+    public authors!: ProfileModel[] | number[];
     public gallery!: GalleryModelImage[];
-    public tags!: TagModel[];
+    public tags!: TagModel[] | number[];
 
     // tslint:disable-next-line:variable-name
     public comments_number!: number;
