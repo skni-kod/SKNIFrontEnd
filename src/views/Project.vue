@@ -133,7 +133,7 @@ export default class Project extends Vue {
       .deleteProject(id)
       .then((res) => {
         if (res.status === 204) {
-          this.$store.dispatch('successMessage', 'Porjekt został usunięty');
+          this.$store.dispatch('successMessage', 'Projekt został usunięty');
           this.$router.replace({ name: 'projects', params: { page: '1' } });
         }
       })

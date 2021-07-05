@@ -152,7 +152,7 @@ export default class Section extends Vue {
       .deleteSection(id)
       .then((res) => {
         if (res.status === 204) {
-          this.$store.dispatch('successMessage', 'Porjekt został usunięty');
+          this.$store.dispatch('successMessage', 'Sekcja została usunięta');
           this.$router.replace({ name: 'sections', params: { page: '1' } });
         }
       })
