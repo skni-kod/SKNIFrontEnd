@@ -11,8 +11,9 @@
           v-model="file"
         ></v-file-input>
       </v-col>
-      <v-col cols="auto">
+      <v-col cols="12" sm="auto">
         <v-btn-cap
+          block
           :disabled="!file"
           :loading="uploadState"
           class="success"
