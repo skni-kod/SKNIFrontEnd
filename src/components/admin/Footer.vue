@@ -1,79 +1,88 @@
 <template>
   <div>
-    <v-row align="center" class="fill-height">
-      <v-col>
-        <v-row
-          no-gutters
-          align="center"
-          justify="center"
-          class="ma-2 fill-height"
-        >
-          <v-col lg="9">
-            <footer-links-list
-              :list="links"
-              @remove="deleteLink($event)"
-              @edit="showEditForm($event)"
-              >Test</footer-links-list
-            >
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-    <v-btn fab fixed bottom right class="success" @click="addNew = true">
-      <v-icon large>mdi-plus</v-icon>
-    </v-btn>
-    <v-form v-if="addNew || edit">
-      <v-container>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field
-              label="Tytuł"
-              counter="128"
-              v-model="linkForm.title"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field
-              label="Adres URL"
-              v-model="linkForm.link"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field
-              label="Ikonka (mdi-)(https://materialdesignicons.com)"
-              counter="64"
-              v-model="linkForm.icon"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="linkForm.color"
-              label="Kolor"
-              counter="64"
-              required
-            ></v-text-field>
-          </v-col>
+    <footer-links-list
+      class="ma-2"
+      :list="links"
+      @remove="deleteLink($event)"
+      @edit="showEditForm($event)"
+      >Test</footer-links-list
+    >
+    <v-card class="ma-2 rounded-lg" v-if="addNew || edit">
+      <v-card-title
+        class="text-h4 white--text justify-center font-weight-bold primary pa-1"
+        >Edytor linku</v-card-title
+      >
+      <v-form v-model="valid">
+        <v-card-text class="pt-4 pb-0">
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-text-field
+                outlined
+                clearable
+                prepend-inner-icon="mdi-rename-box"
+                label="Tytuł"
+                counter="128"
+                v-model="linkForm.title"
+                :rules="[required, counter(linkForm.title, 128)]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                outlined
+                clearable
+                prepend-inner-icon="mdi-link"
+                label="Adres URL"
+                v-model="linkForm.link"
+                :rules="[required, linkMinLength, isValidLink]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                outlined
+                clearable
+                prepend-inner-icon="mdi-star-circle"
+                label="Ikonka (mdi-)(https://materialdesignicons.com)"
+                counter="64"
+                v-model="linkForm.icon"
+                :rules="[required, counter(linkForm.icon, 64), isIcon]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                outlined
+                clearable
+                prepend-inner-icon="mdi-palette"
+                v-model="linkForm.color"
+                label="Kolor"
+                counter="64"
+                :rules="[required, counter(linkForm.color, 64)]"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
           <v-row justify="end" class="my-3">
-            <v-btn
+            <v-btn-cap
               color="success"
               class="mr-4"
+              :disabled="!valid"
               @click="addLink()"
               v-if="addNew"
             >
-              Dodaj link
-            </v-btn>
-            <v-btn
+              <span>Dodaj link</span>
+              <v-icon right>mdi-link-plus</v-icon>
+            </v-btn-cap>
+            <v-btn-cap
               color="success"
               class="mr-4"
+              :disabled="!valid"
               @click="editLink()"
               v-if="edit"
             >
-              Edytuj link
-            </v-btn>
-            <v-btn
+              <span>Edytuj link</span>
+              <v-icon right>mdi-pencil</v-icon>
+            </v-btn-cap>
+            <v-btn-cap
               color="error"
               class="mr-4"
               @click="
@@ -82,12 +91,16 @@
                 linkForm = { title: '', link: '', icon: '', color: '' };
               "
             >
-              Anuluj
-            </v-btn>
+              <span>Anuluj</span>
+              <v-icon right>mdi-cancel</v-icon>
+            </v-btn-cap>
           </v-row>
-        </v-row>
-      </v-container>
-    </v-form>
+        </v-card-actions>
+      </v-form>
+    </v-card>
+    <v-btn fab fixed bottom right class="success" @click="addNew = true">
+      <v-icon large>mdi-plus</v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -139,17 +152,22 @@ export default class AdminPanelFooter extends Vue {
     this.$data.newTagName = '';
     this.$data.addNew = false;
   }
-  showEditForm(data: any) {
+
+  private showEditForm(data: any) {
     this.$data.edit = true;
     this.$data.linkForm = data;
   }
+
   private editLink() {
     this.footerService
-      .editLink(this.$data.linkForm.id,this.$data.linkForm)
+      .editLink(this.$data.linkForm.id, this.$data.linkForm)
       .then(() => {
         this.getLinks();
         this.$store.dispatch('successMessage', 'Link został zmieniony');
-        this.$store.dispatch('infoMessage', 'Zmiany będą widoczne po odświeżeniu strony');
+        this.$store.dispatch(
+          'infoMessage',
+          'Zmiany będą widoczne po odświeżeniu strony',
+        );
       })
       .catch(() => {
         this.$store.dispatch('errorMessage', 'Błąd przy edycji linku!');
@@ -172,11 +190,52 @@ export default class AdminPanelFooter extends Vue {
 
   private data() {
     return {
+      valid: false,
       addNew: false,
       edit: false,
       links: [],
       validate: false,
-      linkForm: { title: '', link: '', icon: '', color: '' },
+      linkForm: {},
+      required: (v: string) => !!v || 'Pole wymagane',
+      linkMinLength: (v: string) =>
+        (v && v.length >= 4) || 'Pole musi zawierać minimum 4 znaki',
+      counter: (v: string, num: number) =>
+        (!!v && v.length <= num) ||
+        'Pole może zawierać maksymalnie ' + num + ' znaki',
+      isValidLink: (v: string) => {
+        // https://gist.github.com/dperini/729294
+        const pattern = new RegExp(
+          '^' +
+            '(?:(?:(?:https?|ftp):)?\\/\\/)' +
+            '(?:\\S+(?::\\S*)?@)?' +
+            '(?:' +
+            '(?!(?:10|127)(?:\\.\\d{1,3}){3})' +
+            '(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})' +
+            '(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})' +
+            '(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])' +
+            '(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}' +
+            '(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))' +
+            '|' +
+            '(?:' +
+            '(?:' +
+            '[a-z0-9\\u00a1-\\uffff]' +
+            '[a-z0-9\\u00a1-\\uffff_-]{0,62}' +
+            ')?' +
+            '[a-z0-9\\u00a1-\\uffff]\\.' +
+            ')+' +
+            '(?:[a-z\\u00a1-\\uffff]{2,}\\.?)' +
+            ')' +
+            '(?::\\d{2,5})?' +
+            '(?:[/?#]\\S*)?' +
+            '$',
+          'i',
+        );
+        return pattern.test(v) || 'Link nie jest poprawny';
+      },
+      isIcon: (v: string) => {
+        const pattern = /^mdi-[a-zA-Z\-]+$/;
+        return pattern.test(v) || 'Niepoprawna ikona';
+      },
     };
   }
 }

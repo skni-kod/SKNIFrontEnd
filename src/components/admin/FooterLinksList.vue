@@ -1,7 +1,7 @@
 <template>
   <v-card outlined class="rounded-lg">
     <v-card-title
-      class="text-h4 white--text justify-center font-weight-bold primary pa-0"
+      class="text-h4 white--text justify-center font-weight-bold primary pa-1"
       >Lista linków</v-card-title
     >
     <v-card-text class="pa-2" v-if="list.length > 0">
@@ -86,8 +86,8 @@
         </v-col>
       </v-row>
     </v-card-text>
-    <v-card-text class="text-h3 text-center my-2" v-else
-      >Brak linków! Dodaj jakiś :)</v-card-text
+    <v-card-text class="text-h3 text-center py-2" v-else
+      >Brak linków! Dodaj jakieś :)</v-card-text
     >
   </v-card>
 </template>
