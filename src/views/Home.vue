@@ -53,8 +53,8 @@ export default class Home extends Vue {
     this.articles = [];
   }
   public mounted() {
-    this.sectionsService.getAllSections().then((p) => {
-      this.sections = p;
+    this.sectionsService.getAllSections().then((res) => {
+      this.sections = res.data;
       for (let i = 0; i < this.sections.length; ) {
         if (this.sections[i].isVisible === false) {
           this.sections.splice(i, 1);

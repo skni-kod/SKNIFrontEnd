@@ -4,10 +4,14 @@
       <v-card-title class="grey lighten-4">
         <v-row align="center" justify="start">
           <v-col cols="auto" class="py-0 pr-0">
-            <v-icon x-large left class="primary--text">{{ section.icon }}</v-icon>
+            <v-icon x-large left class="primary--text">{{
+              section.icon
+            }}</v-icon>
           </v-col>
           <v-col class="pl-1">
-            <h3 class="headline" style="word-break: break-word;">{{ section.name }}</h3>
+            <h3 class="headline" style="word-break: break-word">
+              {{ section.name }}
+            </h3>
           </v-col>
         </v-row>
       </v-card-title>
@@ -19,43 +23,29 @@
           :options="markdownOptions"
         />
       </v-card-text>
-      <v-divider></v-divider>
-      <v-card-text>
-        <v-row class="mx-auto">
-          <v-col class="pa-0">
-            <v-row justify="center" class="ma-0 fill-height">
-              <v-col
-                cols="12"
-                class="black--text text-left text-h6 my-auto text-center"
-              >
-                Nasze projekty:
-              </v-col>
-              <v-col
-                cols="12"
-                lg="4"
-                v-for="project in Projects"
-                :key="project.title"
-              >
-                <v-hover>
-                  <template v-slot:default="{ hover }">
-                    <v-card
-                      class="fill-height rounded-xl"
-                      :color="hover ? 'grey lighten-2' : ''"
-                      style="cursor: pointer"
-                      @click.native="route(project.id)"
-                    >
-                      <v-card-text
-                        class="font-weight-thin justify-center text-center text-subtitle-1"
-                        >{{ project.title }}
-                      </v-card-text>
-                    </v-card>
-                  </template>
-                </v-hover>
-              </v-col>
-            </v-row></v-col
-          >
-        </v-row>
-      </v-card-text>
+      <div v-if="Projects.length > 0">
+        <v-divider></v-divider>
+        <v-card-title class="justify-center">Nasze projekty</v-card-title>
+        <v-card-text>
+          <v-row justify="center">
+            <v-col cols="auto" v-for="project in Projects" :key="project.title">
+              <v-hover>
+                <template v-slot:default="{ hover }">
+                  <v-chip
+                    large
+                    :color="hover ? 'grey lighten-1' : ''"
+                    style="cursor: pointer"
+                    :to='{ name: "project", params: { id: project.id } }'
+                  >
+                    <v-icon left>mdi-file-cog</v-icon>
+                    <span>{{ project.title }}</span>
+                  </v-chip>
+                </template>
+              </v-hover>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </div>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn-cap
@@ -80,7 +70,7 @@
             fab
             x-small
             color="orange"
-            :to="{ name: 'editSection', params: { id: section.id } }"
+            :to="{ name: 'sectionEdit', params: { id: section.id } }"
           >
             <v-icon>mdi-pen</v-icon>
           </v-btn-cap>
@@ -117,10 +107,6 @@ export default class SectionCard extends Vue {
 
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
-  }
-
-  private route(id: number) {
-    this.$router.push({ name: 'project', params: { id: String(id) } });
   }
 
   private removeMarkdown(text: string) {

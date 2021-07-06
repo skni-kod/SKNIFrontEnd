@@ -1,42 +1,43 @@
-import { SectionModel } from '@/models/SectionModel';
 import beAxios from '@/axios';
 import store from '../store';
+import { AxiosResponse } from 'axios';
 
 export class SectionsService {
-    public async getAllSections(): Promise<SectionModel[]> {
-        return (await beAxios('api/section/')).data;
-    }
-    public async getSection(id: number): Promise<SectionModel[]> {
-        return (await beAxios('api/section/' + id)).data;
-    }
+  public async getAllSections(): Promise<AxiosResponse> {
+    return await beAxios('api/section/');
+  }
 
-    public async editSection(id: number, data: object): Promise<any> {
-        const edit = await beAxios.patch('api/section/' + id + '/', data, {
-            headers: {
-                Authorization: 'Bearer ' + store.getters.token,
-            },
-        });
+  public async getSection(id: number): Promise<AxiosResponse> {
+    return await beAxios('api/section/' + id);
+  }
 
-        return edit;
-    }
+  public async editSection(id: number, data: object): Promise<any> {
+    const edit = await beAxios.patch('api/section/' + id + '/', data, {
+      headers: {
+        Authorization: 'Bearer ' + store.getters.token,
+      },
+    });
 
-    public async addSection(data: object): Promise<any> {
-        const save = await beAxios.post('api/section/', data, {
-            headers: {
-                Authorization: 'Bearer ' + store.getters.token,
-            },
-        });
+    return edit;
+  }
 
-        return save;
-    }
+  public async addSection(data: object): Promise<any> {
+    const save = await beAxios.post('api/section/', data, {
+      headers: {
+        Authorization: 'Bearer ' + store.getters.token,
+      },
+    });
 
-    public async deleteSection(id: number): Promise<any> {
-        const edit = await beAxios.delete('api/section/' + id + '/', {
-            headers: {
-                Authorization: 'Bearer ' + store.getters.token,
-            },
-        });
+    return save;
+  }
 
-        return edit;
-    }
+  public async deleteSection(id: number): Promise<any> {
+    const edit = await beAxios.delete('api/section/' + id + '/', {
+      headers: {
+        Authorization: 'Bearer ' + store.getters.token,
+      },
+    });
+
+    return edit;
+  }
 }

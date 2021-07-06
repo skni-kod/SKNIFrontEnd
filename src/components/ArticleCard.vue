@@ -15,7 +15,15 @@
         <v-row align="end" style="height: 100%" class="card-text ma-0">
           <v-col cols="12">
             <v-card-title
-              class="text-h5 white--text darken-2 font-weight-bold justify-left pb-0 px-0"
+              class="
+                text-h5
+                white--text
+                darken-2
+                font-weight-bold
+                justify-left
+                pb-0
+                px-0
+              "
               >{{ article.title }}</v-card-title
             >
             <v-card-text class="px-0">
@@ -24,7 +32,10 @@
             <v-card-actions class="pa-0">
               <v-spacer />
               <v-btn-cap
-                :to="{name:'article', params:{id:article.id,alias:article.alias}}"
+                :to="{
+                  name: 'article',
+                  params: { id: article.id, alias: article.alias },
+                }"
                 color="primary"
               >
                 <v-icon left>mdi-page-next</v-icon>
@@ -51,7 +62,7 @@
                   fab
                   x-small
                   color="orange"
-                  :to="{name:'articleEdit', params:{id:article.id}}"
+                  :to="{ name: 'articleEdit', params: { id: article.id } }"
                 >
                   <v-icon>mdi-pen</v-icon>
                 </v-btn-cap>
@@ -103,7 +114,7 @@ export default class ArticleCard extends Vue {
   }
 
   get be() {
-    return process.env.VUE_APP_BACK_URL.slice(0, -1);
+    return process.env.VUE_APP_BACK_URL;
   }
 
   private deleteArticle() {

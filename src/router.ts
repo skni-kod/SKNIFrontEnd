@@ -63,6 +63,12 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "Sections" */ './views/SectionList.vue'),
   },
   {
+    path: '/section/:id',
+    name: 'section',
+    component: () =>
+      import(/* webpackChunkName: "Section" */ './views/Section.vue'),
+  },
+  {
     path: '/section/edit/:id?',
     name: 'sectionEdit',
     component: () =>

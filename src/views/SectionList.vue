@@ -71,8 +71,8 @@ export default class SectionList extends Vue {
     });
     this.sectionsService
       .getAllSections()
-      .then((p) => {
-        this.sections = p;
+      .then((res) => {
+        this.sections = res.data;
         for (let i = 0; i < this.sections.length; ) {
           if (this.sections[i].isVisible === false) {
             this.sections.splice(i, 1);
