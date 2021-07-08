@@ -30,7 +30,7 @@
             </v-btn-cap>
             <v-btn-cap color="error" class="mb-10 mt-10" @click="logout">
               <v-icon left>mdi-logout</v-icon>
-              <span>wyloguj</span>
+              <span>Wyloguj</span>
             </v-btn-cap>
           </v-row>
         </v-card>
