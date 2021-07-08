@@ -17,11 +17,8 @@
       </v-card-title>
       <v-divider />
       <v-card-text class="text-left">
-        <markdown-it-vue
-          class="md-body"
-          :content="section.description"
-          :options="markdownOptions"
-        />
+        <markdown-it-vue class="md-body" :content="section.description+ '...'" 
+        :options="markdownOptions" />
       </v-card-text>
       <div v-if="Projects.length > 0">
         <v-divider></v-divider>
@@ -35,7 +32,7 @@
                     large
                     :color="hover ? 'grey lighten-1' : ''"
                     style="cursor: pointer"
-                    :to='{ name: "project", params: { id: project.id } }'
+                    :to="{ name: 'project', params: { id: project.id } }"
                   >
                     <v-icon left>mdi-file-cog</v-icon>
                     <span>{{ project.title }}</span>

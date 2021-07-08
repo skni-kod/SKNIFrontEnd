@@ -50,7 +50,7 @@ export default class SectionEdit extends Vue {
       this.$data.section = new SectionModel();
     } else {
       this.sectionService
-        .getSection(Number(this.$route.params.id))
+        .getSection(Number(this.$route.params.id), false)
         .then((res) => {
           this.$data.section = res.data;
         })

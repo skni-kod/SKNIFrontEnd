@@ -7,4 +7,5 @@ export class SectionModel {
   public isVisible!: boolean;
   public icon!: string;
   public gallery!: GalleryModelImage[];
+  public readMore!: boolean;
 }
