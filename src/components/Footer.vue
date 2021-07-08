@@ -6,7 +6,7 @@
         <v-col cols="auto" class="pa-0">
           <div>
             <strong>SKNI KOD</strong>
-            &nbsp; &copy;{{ new Date().getFullYear() }}
+            &nbsp; &copy;{{ new Date().getFullYear() }} &nbsp; 
           </div>
         </v-col>
         <v-col cols="auto" class="pa-0" v-for="link in links" :key="link.link">
