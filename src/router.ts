@@ -172,7 +172,7 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/project/add',
-    name: 'addProject',
+    name: 'projectAdd',
     component: () =>
       import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
     beforeEnter: authGuard,
