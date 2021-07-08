@@ -1,29 +1,31 @@
 <template>
-  <div>
-    <v-img
-      v-if="$vuetify.breakpoint.mdAndUp"
-      :src="require('../assets/strona_bg.png')"
-      :asspect-ratio="3.55"
-    >
-      <v-row>
-        <v-col>
-          <v-img
-            :src="require('../assets/logo_color.png')"
-            :width="'30%'"
-            style="margin-left: 10vw; margin-top: 5vh"
-          ></v-img>
-        </v-col>
-      </v-row>
-    </v-img>
-    <v-img
-      v-else
-      class="background"
-      :src="require('../assets/logo_color.png')"
-    ></v-img>
-    <home-section-list :sections="sections"></home-section-list>
-    <home-article-list :articles="articles"></home-article-list>
-    <sponsors></sponsors>
-  </div>
+  <v-row justify="center">
+    <v-col cols="12" lg="8" xl="6">
+      <v-img
+        v-if="$vuetify.breakpoint.mdAndUp"
+        :src="require('../assets/strona_bg.png')"
+        :asspect-ratio="3.55"
+      >
+        <v-row>
+          <v-col>
+            <v-img
+              :src="require('../assets/logo_color.png')"
+              :width="'30%'"
+              style="margin-left: 10vw; margin-top: 5vh"
+            ></v-img>
+          </v-col>
+        </v-row>
+      </v-img>
+      <v-img
+        v-else
+        class="background"
+        :src="require('../assets/logo_color.png')"
+      ></v-img>
+      <home-section-list :sections="sections"></home-section-list>
+      <home-article-list :articles="articles"></home-article-list>
+      <sponsors></sponsors>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang='ts'>
