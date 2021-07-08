@@ -230,7 +230,7 @@ export default class AdminPanelFooter extends Vue {
         return pattern.test(v) || 'Link nie jest poprawny';
       },
       isIcon: (v: string) => {
-        const pattern = /^[a-zA-Z\-]+$/;
+        const pattern = /^[a-zA-Z0-9\-]+$/;
         return pattern.test(v) || 'Niepoprawna ikona';
       },
     };
