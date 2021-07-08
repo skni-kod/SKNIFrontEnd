@@ -1,7 +1,14 @@
 <template>
   <div>
     <component v-if="module" :is="module"></component>
-    <v-navigation-drawer dark absolute height="100%" width="300" v-model="menu">
+    <v-navigation-drawer
+      dark
+      absolute
+      :permanent="!module"
+      height="100%"
+      width="300"
+      v-model="menu"
+    >
       <v-list>
         <v-list-item>
           <v-list-item-icon>
