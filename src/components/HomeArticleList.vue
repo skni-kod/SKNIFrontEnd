@@ -1,6 +1,6 @@
 <template>
   <v-card tile elevation="0" class="ma-1">
-    <v-card-title class="text-h3 justify-center py-1"
+    <v-card-title class="text-h3 justify-center py-1" style="word-break: break-word"
       >Najnowsze artykuły</v-card-title
     >
     <v-card-text class="pa-0">
