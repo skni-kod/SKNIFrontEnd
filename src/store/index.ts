@@ -1,6 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import snackbars from './modules/snackbars';
+import user from './modules/user';
+import comments from './modules/comments';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -21,6 +25,8 @@ export default new Vuex.Store({
     navDrawer: (state) => state.navDrawer,
   },
   modules: {
-
+    snackbars,
+    user,
+    comments,
   },
 });

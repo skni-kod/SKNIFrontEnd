@@ -1,6 +1,7 @@
 import { CreatorModel } from '@/models/CreatorModel';
-import { ArticleTagsModel } from '@/models/ArticleTagsModel';
+import { TagModel } from '@/models/TagModel';
 import { GalleryModelImage } from '@/models/GalleryModelImage';
+import { ProfileModel } from './ProfileModel';
 /* tslint:disable */
 export class ArticleModel {
     public id!: number;
@@ -15,8 +16,9 @@ export class ArticleModel {
     public publication_date!: Date;
 
     public creator!: CreatorModel;
+    public authors!: ProfileModel[] | number[];
     public gallery!: GalleryModelImage[];
-    public tags!: ArticleTagsModel[];
+    public tags!: TagModel[] | number[];
 
     // tslint:disable-next-line:variable-name
     public comments_number!: number;

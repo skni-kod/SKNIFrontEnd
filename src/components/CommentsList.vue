@@ -1,21 +1,53 @@
 <template>
-  <div v-if="comments != undefined">
-    <h3 class="text-xs-left" style="margin-top: 20px;">Komentarze:</h3>
-    <div v-for="comment in comments" :key="comment.id">
-      <v-card style="margin-top: 5px">
-        <v-card-title primary-title>
-          <div>
-            <div>
-              <v-icon>person</v-icon>
-              {{comment.user.user.username}}
-              <v-icon>calendar_today</v-icon>
-              {{comment.creation_date | moment('DD-MM-YYYY HH:mm:SS')}}
-            </div>
-            <div class="text-xs-left" style="margin-top: 10px;">{{comment.text}}</div>
-          </div>
-        </v-card-title>
-      </v-card>
-    </div>
+  <div>
+    <v-card class="my-2">
+      <v-card-title
+        class="text-h5 font-weight-bold justify-center white--text primary py-1"
+        >Komentarze</v-card-title
+      >
+      <v-card-actions>
+        <v-btn-cap
+          v-if="auth && !addComment"
+          block
+          color="primary"
+          @click="addComment = true"
+        >
+          <span>Dodaj komentarz</span>
+          <v-icon right>mdi-comment-plus</v-icon>
+        </v-btn-cap>
+        <v-row v-if="!auth" no-gutters>
+          <v-col>
+            <v-alert dense dismissible type="info" class="mb-0"
+              >Zaloguj się aby dodac komentarz</v-alert
+            >
+          </v-col>
+        </v-row>
+        <v-row v-if="addComment" no-gutters>
+          <v-col>
+            <comment-editor
+              @close="addComment = false"
+            ></comment-editor>
+          </v-col>
+        </v-row>
+      </v-card-actions>
+      <v-divider></v-divider>
+      <v-card-text class="py-1">
+        <div v-if="comments.length > 0">
+          <comment
+            v-for="comment in comments"
+            :key="comment.id"
+            :nick="comment.user.username"
+            :date="comment.creation_date"
+            :text="comment.text"
+            :commentId="comment.id"
+            :children="comment.children"
+          />
+        </div>
+        <p v-else class="text-h4 font-weight-thin text-center mb-0 pa-2">
+          Brak komentarzy
+        </p>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
@@ -26,5 +58,15 @@ import { CommentModel } from '@/models/CommentModel';
 @Component
 export default class CommentsList extends Vue {
   @Prop() public comments!: CommentModel[];
+
+  get auth(): boolean {
+    return this.$store.getters.isAuthenticated;
+  }
+
+  private data() {
+    return {
+      addComment: false,
+    };
+  }
 }
 </script>

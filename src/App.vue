@@ -2,48 +2,27 @@
   <v-app id="app">
     <Navbar />
     <v-main>
-      <router-view />
+      <router-view :key="$route.fullPath" />
     </v-main>
     <Footer />
+    <Snackbars />
   </v-app>
 </template>
 
 <script lang='ts'>
 import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component } from 'vue-property-decorator';
 
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
+const Snackbars = () =>
+  import(
+    /* webpackChunkName: "ComponentSnackbar" */ '@/components/Snackbar.vue'
+  );
 
 @Component({
-  components: { Navbar, Footer },
+  components: { Navbar, Footer, Snackbars },
 })
 export default class App extends Vue {}
 </script>
 
-<style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-* {
-  box-sizing: border-box;
-}
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-html,
-body {
-  height: 100%;
-  position: relative;
-}
-
-.section-title {
-  font-size: 300%;
-}
-</style>

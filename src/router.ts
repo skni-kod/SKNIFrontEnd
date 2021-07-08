@@ -1,86 +1,213 @@
 import Vue from 'vue';
-import Router from 'vue-router';
-import Home from './views/Home.vue';
+import VueRouter, { RouteConfig, Route, NavigationGuardNext } from 'vue-router';
+import store from './store';
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
-    },
-    {
-      path: '/articles/:page?',
-      name: 'articles',
-      component: () => import(/* webpackChunkName: "article" */ './views/Articles.vue'),
-    },
-    {
-      path: '/article/:id-:alias',
-      name: 'article',
-      component: () => import(/* webpackChunkName: "article" */ './views/Article.vue'),
-    },
-    {
-      path: '/editarticle/:id?',
-      name: 'editarticle',
-      component: () => import(/* webpackChunkName: "article-editor" */ './views/EditArticle.vue'),
-    },
-    {
-      path: '/tag/:tag/:page?',
-      name: 'tag',
-      component: () => import(/* webpackChunkName: "article" */ './views/Tag.vue'),
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import(/* webpackChunkName: "user" */ './views/Login.vue'),
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: () => import(/* webpackChunkName: "user-register" */ './views/Register.vue'),
-    },
-    {
-      path: '/sections',
-      name: 'sections',
-      component: () => import(/* webpackChunkName: "sections" */ './views/Sections.vue'),
-    },
-    {
-      path: '/hardware/:page?',
-      name: 'hardware',
-      component: () => import(/* webpackChunkName: "hardware" */ './views/Hardware.vue'),
-    },
-    {
-      path: '/profiles/:page?',
-      name: 'profiles',
-      component: () => import(/* webpackChunkName: "profile" */ './views/Profiles.vue'),
-    },
-    {
-      path: '/profile/:id',
-      name: 'profile',
-      component: () => import(/* webpackChunkName: "profile" */ './views/Profile.vue'),
-    },
-    {
-      path: '/projects/:page?',
-      name: 'projects',
-      component: () => import(/* webpackChunkName: "project" */ './views/Projects.vue'),
-    },
-    {
-      path: '/project/:id',
-      name: 'project',
-      component: () => import(/* webpackChunkName: "project" */ './views/Project.vue'),
-    },
-    {
-      path: '/404',
-      name: '404',
-      component: () => import(/* webpackChunkName: "404" */ './views/404.vue'),
-    },
-    { path: '*', redirect: '/404' },
-  ],
+const authGuard = (to: Route, from: Route, next: NavigationGuardNext) => {
+  if (!store.getters.isAdministrator) {
+    next({ name: 'error403' });
+  } else {
+    next();
+  }
+};
+
+const routes: RouteConfig[] = [
+  {
+    path: '/',
+    name: 'home',
+    component: () => import(/* webpackChunkName: "Home" */ './views/Home.vue'),
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () =>
+      import(/* webpackChunkName: "About" */ './views/About.vue'),
+  },
+  {
+    path: '/articles/:page?',
+    name: 'articles',
+    component: () =>
+      import(/* webpackChunkName: "Article" */ './views/ArticleList.vue'),
+  },
+  {
+    path: '/article/:id-:alias',
+    name: 'article',
+    component: () =>
+      import(/* webpackChunkName: "ArticlePage" */ './views/Article.vue'),
+  },
+  {
+    path: '/article/edit/:id?',
+    name: 'articleEdit',
+    component: () =>
+      import(/* webpackChunkName: "ArticleEdit" */ './views/ArticleEdit.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/article/add',
+    name: 'articleAdd',
+    component: () =>
+      import(/* webpackChunkName: "ArticleEdit" */ './views/ArticleEdit.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/tag/:tag/:page?',
+    name: 'tag',
+    component: () =>
+      import(/* webpackChunkName: "Article" */ './views/Tag.vue'),
+  },
+  {
+    path: '/sections',
+    name: 'sections',
+    component: () =>
+      import(/* webpackChunkName: "Sections" */ './views/SectionList.vue'),
+  },
+  {
+    path: '/section/:id',
+    name: 'section',
+    component: () =>
+      import(/* webpackChunkName: "Section" */ './views/Section.vue'),
+  },
+  {
+    path: '/section/edit/:id?',
+    name: 'sectionEdit',
+    component: () =>
+      import(/* webpackChunkName: "SectionEdit" */ './views/SectionEdit.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/section/add',
+    name: 'sectionAdd',
+    component: () =>
+      import(/* webpackChunkName: "SectionEdit" */ './views/SectionEdit.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/hardware/edit/:id?',
+    name: 'hardwareEdit',
+    component: () =>
+      import(/* webpackChunkName: "HardwareEdit" */ './views/HardwareEdit.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/hardware/add',
+    name: 'hardwareAdd',
+    component: () =>
+      import(/* webpackChunkName: "HardwareEdit" */ './views/HardwareEdit.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/hardware/:page?',
+    name: 'hardwareList',
+    component: () =>
+      import(/* webpackChunkName: "Hardware" */ './views/HardwareList.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/hardwareCard/:id?',
+    name: 'hardware',
+    component: () =>
+      import(/* webpackChunkName: "Hardware" */ './views/Hardware.vue'),
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "User" */ './views/Login.vue'),
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () =>
+      import(/* webpackChunkName: "UserRegister" */ './views/Register.vue'),
+  },
+  {
+    path: '/user/panel',
+    name: 'userPanel',
+    component: () =>
+      import(/* webpackChunkName: "UserPanel" */ './views/UserPanel.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/admin/panel/:module?',
+    name: 'adminPanel',
+    component: () =>
+      import(/* webpackChunkName: "AdminPanel" */ './views/AdminPanel.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/user/passchange',
+    name: 'UserPassChange',
+    component: () =>
+      import(
+        /* webpackChunkName: "UserPassChange" */ './views/UserPassChange.vue'
+      ),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/user/descriptionchange',
+    name: 'UserEditChange',
+    component: () =>
+      import(/* webpackChunkName: "UserEdit" */ './views/UserEdit.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/user/profile/:id',
+    name: 'userProfile',
+    component: () =>
+      import(/* webpackChunkName: "UserProfile" */ './views/UserProfile.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/projects/:page?',
+    name: 'projects',
+    component: () =>
+      import(/* webpackChunkName: "Project" */ './views/ProjectList.vue'),
+  },
+  {
+    path: '/project/edit/:id?',
+    name: 'editProject',
+    component: () =>
+      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/project/add',
+    name: 'projectAdd',
+    component: () =>
+      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/project/:id',
+    name: 'project',
+    component: () =>
+      import(/* webpackChunkName: "ProjectPage" */ './views/Project.vue'),
+  },
+  {
+    path: '/403',
+    name: 'error403',
+    component: () =>
+      import(/* webpackChunkName: "Eror403" */ './views/403.vue'),
+  },
+  {
+    path: '/404',
+    name: 'error404',
+    component: () =>
+      import(/* webpackChunkName: "Error404" */ './views/404.vue'),
+  },
+  { path: '*', redirect: '/404' },
+];
+
+const router = new VueRouter({
+  base: process.env.BASE_URL,
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  },
 });
+
+export default router;

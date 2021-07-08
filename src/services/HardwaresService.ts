@@ -1,12 +1,10 @@
 import { HardwareModel } from '@/models/HardwareModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
-import { API_MAIN_URL_BASE } from '@/parameters';
+import beAxios from '@/axios';
 
 export class HardwaresService {
-    private axios = require('axios');
-
     public async getAllHardware(): Promise<HardwareModel[]> {
-        return (await this.axios(API_MAIN_URL_BASE + '/hardwares/', {
+        return (await beAxios('api/hardwares/', {
             params: {
                 format: 'json',
             },
@@ -14,7 +12,7 @@ export class HardwaresService {
     }
 
     public async getHardwareByPage(pageNumber: number, pageSize: number): Promise<PaginationContainer<HardwareModel>> {
-        const data = (await this.axios(API_MAIN_URL_BASE + '/hardwares/', {
+        const data = (await beAxios('api/hardwares/', {
             params: {
                 format: 'json',
                 offset: (pageNumber - 1) * pageSize,

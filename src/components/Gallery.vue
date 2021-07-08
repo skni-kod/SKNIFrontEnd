@@ -1,50 +1,69 @@
 <template>
   <div v-if="imgs.length > 0" class="my-1">
-    <v-card :dark="dark" :color="color" class="elevation-0">
-      <v-card v-if="title" :color="color">
-        <div v-if="title">
-          <h1 block class="text-center">{{ title }}</h1>
-          <v-divider class="VueDivider"></v-divider>
-        </div>
-      </v-card>
-      <v-container grid-list-sm fluid class="pa-1">
-        <v-layout row wrap justify-center>
-          <v-flex v-for="(img, n) in imgs" :key="n" :class="breakpoints">
-            <v-card flat tile class="d-flex elevation-2">
+    <v-card outlined :dark="dark" :color="color">
+      <v-card-title class="text-h4 font-weight-bold justify-center pa-0">{{
+        title
+      }}</v-card-title>
+      <v-divider></v-divider>
+      <v-card-text class="pa-0">
+        <v-row no-gutters justify="center">
+          <v-col
+            class="pa-1"
+            :cols="bCols"
+            :sm="bSm"
+            :md="bMd"
+            :lg="bLg"
+            :xl="bXl"
+            v-for="(img, n) in imgs"
+            :key="n"
+          >
+            <v-hover v-slot="{ hover }">
               <v-img
                 class="clickable"
-                :src="img.thumbnail"
+                style="cursor: pointer"
+                :src="be + img.thumbnail"
                 aspect-ratio="1"
-                @click.native="dialog = true; img_num = n;"
+                @click.native="imgClicked(n)"
               >
                 <template v-slot:placeholder>
                   <v-layout fill-height align-center justify-center ma-0>
-                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                    <v-progress-circular
+                      indeterminate
+                      color="primary"
+                    ></v-progress-circular>
                   </v-layout>
                 </template>
+                <v-overlay absolute color="error" v-if="deleteMode && hover">
+                  <v-row align="center" justify="center">
+                    <v-col>
+                      <v-avatar color="error">
+                        <v-icon x-large>mdi-delete</v-icon>
+                      </v-avatar>
+                    </v-col>
+                  </v-row>
+                </v-overlay>
               </v-img>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
+            </v-hover>
+          </v-col>
+        </v-row>
+      </v-card-text>
     </v-card>
-    <v-dialog max-width="100%" v-model="dialog">
-      <v-card>
-        <v-carousel hide-delimiters height="75vh" v-model="img_num">
+    <v-dialog max-width="100%" v-model="dialog" content-class="elevation-0">
+      <v-card color="rgba(0,0,0,0)" flat>
+        <v-carousel
+          hide-delimiters
+          :show-arrows="imgs.length > 1"
+          height="75vh"
+          v-model="img_num"
+        >
           <v-carousel-item v-for="(img, i) in imgs" :key="i">
-            <v-img
-              contain
-              :src="img.image"
-              aspect-ratio="1.7778"
-              style="backbackground-color:rgba(0, 0, 0, 0.5);"
-              height="75vh"
-            ></v-img>
+            <v-img contain :src="be + img.image" aspect-ratio="1.7778"></v-img>
           </v-carousel-item>
         </v-carousel>
       </v-card>
-      <v-btn large dark color="red" @click="dialog = false" class="mt-2">
-        <v-icon large>mdi-close</v-icon>Zamknij
-      </v-btn>
+      <v-btn-cap fab fixed top right dark color="red" @click="dialog = false">
+        <v-icon large>mdi-close</v-icon>
+      </v-btn-cap>
     </v-dialog>
   </div>
 </template>
@@ -54,21 +73,33 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { GalleryModelImage } from '@/models/GalleryModelImage';
 @Component
 export default class Gallery extends Vue {
-  @Prop({ default: '' }) public readonly title!: undefined;
-  @Prop({ default: 'secondary' }) public readonly categoryColor!: string;
-  @Prop({ default: 'accent' }) public readonly categoryColorHovered!: string;
-  @Prop({ default: 'primary' }) public readonly categoryColorSelected!: string;
+  @Prop({ default: 'Galeria' }) public readonly title!: undefined;
   @Prop({ default: '' }) public readonly color!: string;
   @Prop({ default: false }) public readonly dark!: boolean;
   @Prop({ default: [] }) public readonly imgs!: GalleryModelImage[];
-  @Prop({ default: 'xs6 md4 sm3 lg2 xl1' })
-  public readonly breakpoints!: string;
+  @Prop({ default: 12 }) public readonly bCols!: number;
+  @Prop({ default: 6 }) public readonly bSm!: number;
+  @Prop({ default: 4 }) public readonly bMd!: number;
+  @Prop({ default: undefined }) public readonly bLg!: number;
+  @Prop({ default: undefined }) public readonly bXl!: number;
+  @Prop({ default: false }) public readonly deleteMode!: boolean;
 
-  public data() {
+  get be() {
+    return process.env.VUE_APP_BACK_URL;
+  }
+
+  private imgClicked(num: number) {
+    if (this.deleteMode) {
+      this.$emit('delete', num);
+    } else {
+      this.$data.dialog = true;
+      this.$data.img_num = num;
+    }
+  }
+
+  private data() {
     return {
-      category: null,
       dialog: false,
-      dialogSrc: null,
       img_num: 0,
     };
   }

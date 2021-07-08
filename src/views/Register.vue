@@ -1,130 +1,177 @@
 <template>
-  <v-container>
-    <v-layout row class="text-xs-center">
-      <v-flex xs4 class="grey lighten-4">
-        <v-container class="text-xs-center">
-          <v-card text>
-            <v-card-title primary-title>
-              <h4>Register</h4>
-            </v-card-title>
-
-            <v-form v-model="formValid" ref="form">
-              <!-- EMAIL -->
+  <v-row class="fill-height" align="center">
+    <v-col cols="12" class="pa-0">
+      <v-row justify="center" class="mx-2">
+        <v-card class="elevation-12 ma-2" width="600">
+          <v-toolbar color="primary">
+            <v-toolbar-title class="white--text font-weight-bold"
+              >Zarejestruj się</v-toolbar-title
+            >
+          </v-toolbar>
+          <v-form v-model="inputValidated" @submit.prevent="registerUser()">
+            <v-card-text class="pb-0">
               <v-text-field
-                prepend-icon="email"
-                name="Email"
-                label="E-mail"
+                outlined
                 v-model="email"
-                :rules="[requiredRule, emailRule]"
+                prepend-icon="mdi-at"
+                :rules="[rules.required, rules.email]"
+                label="E-mail"
+                color="primary"
+                type="text"
+                class="my-2"
               ></v-text-field>
-
-              <!-- LOGIN -->
               <v-text-field
-                prepend-icon="person"
-                name="Username"
-                label="Username"
+                outlined
                 v-model="login"
-                :rules="[requiredRule]"
+                prepend-icon="mdi-account"
+                :rules="[rules.required, rules.counter(login, 3, 'i')]"
+                label="Login"
+                color="primary"
+                type="text"
+                class="my-2"
               ></v-text-field>
-
-              <!-- PASSWORD -->
-              <v-text-field
-                prepend-icon="lock"
-                name="Password"
-                label="Password"
-                type="password"
-                v-model="password"
-                :rules="[requiredRule]"
-              ></v-text-field>
-
-              <!-- CONFIRM PASSWORD -->
-              <v-text-field
-                prepend-icon="lock"
-                name="ConfirmPassword"
-                label="Confirm Password"
-                type="password"
-                :rules="[requiredRule, passwordMatchRule]"
-                v-model="confirmPassword"
-              ></v-text-field>
-
-              <!-- FIRST NAME -->
-              <v-text-field
-                prepend-icon="person"
-                name="firstName"
-                label="First Name"
-                v-model="firstName"
-              ></v-text-field>
-
-              <!-- LAST NAME -->
-              <v-text-field
-                prepend-icon="person"
-                name="lastName"
-                label="Last Name"
-                v-model="lastName"
-              ></v-text-field>
-
-              <v-card-actions>
-                <v-btn primary large block @click="registerUser()">Register</v-btn>
-              </v-card-actions>
-            </v-form>
-          </v-card>
-        </v-container>
-      </v-flex>
-    </v-layout>
-  </v-container>
+              <v-row align="center" justify="center" class="mx-0">
+                <v-col class="pa-0">
+                  <v-text-field
+                    outlined
+                    v-model="first_name"
+                    prepend-icon="mdi-card-account-details"
+                    :rules="[rules.required]"
+                    label="Imię"
+                    color="primary"
+                    type="text"
+                  ></v-text-field>
+                </v-col>
+                <v-col class="py-0 pr-0">
+                  <v-text-field
+                    outlined
+                    v-model="last_name"
+                    :rules="[rules.required]"
+                    label="Nazwisko"
+                    color="primary"
+                    type="text"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row align="center" justify="center" class="mx-0">
+                <v-col class="pa-0">
+                  <v-text-field
+                    outlined
+                    v-model="password1"
+                    prepend-icon="mdi-lock"
+                    :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="showPass = !showPass"
+                    :rules="[rules.required, passwdValid]"
+                    label="Hasło"
+                    color="primary"
+                    :type="showPass ? 'text' : 'password'"
+                    class="my-2"
+                    @focus="passwdFocus = true"
+                    @blur="passwdFocus = false"
+                  ></v-text-field>
+                </v-col>
+                <v-col class="py-0 pr-0">
+                  <v-text-field
+                    outlined
+                    v-model="password2"
+                    :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="showPass = !showPass"
+                    :rules="[
+                      rules.required,
+                      rules.identical(password1, password2),
+                    ]"
+                    label="Powtórz hasło"
+                    color="primary"
+                    :type="showPass ? 'text' : 'password'"
+                    class="my-2"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <transition
+                enter-active-class="animate__animated animate__zoomIn animate__fast"
+                leave-active-class="animate__animated animate__zoomOut animate__fast"
+                mode="in-out"
+                ><div v-if="passwdFocus">
+                  <password-validator
+                    :password="password1"
+                    @validation="passwdValid = $event"
+                  ></password-validator>
+                </div>
+              </transition>
+            </v-card-text>
+            <v-card-actions class="pt-0">
+              <v-spacer></v-spacer>
+              <v-btn-cap :disabled="!inputValidated" color="primary" type="submit">
+                <span class="font-weight-bold">Zarejestruj się</span>
+                <v-icon right>mdi-database-plus</v-icon>
+              </v-btn-cap>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-row>
+      <v-row justify="center">
+        <!-- TODO -->
+        <v-btn-cap disabled class="white--text mx-2 mt-4 mb-2" color="purple">
+          <v-icon left>mdi-github</v-icon>
+          <span>Zarejestruj się poprzez GitHub</span>
+        </v-btn-cap>
+      </v-row>
+      <v-row align="center" justify="center">
+        <v-col cols="auto">
+          <p class="my-auto">Masz już konto?</p>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn-cap text color="primary" @click="$router.push({name:'login'})">
+            <v-icon left>mdi-login</v-icon>
+            <span>Zaloguj się!</span>
+          </v-btn-cap>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang='ts'>
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import { registerUser } from '../helpers/auth';
-import Axios from 'axios';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Register extends Vue {
-  private login: string = '';
-  private password: string = '';
-  private confirmPassword: string = '';
-  private email: string = '';
-  private firstName: string = '';
-  private lastName: string = '';
-
-  private formValid: boolean = false;
-
-  private requiredRule = (v: string) => v.length > 0 || 'Required.';
-
-  private emailRule = (value: string) => {
-    // tslint:disable-next-line
-    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return pattern.test(value) || 'Invalid e-mail.';
+  private data() {
+    return {
+      inputValidated: false,
+      email: '',
+      login: '',
+      first_name: '',
+      last_name: '',
+      password1: '',
+      password2: '',
+      showPass: false,
+      passwdFocus: false,
+      passwdValid: false,
+      rules: {
+        required: (value: string) => !!value || 'Pole wymagane',
+        identical: (value1: string, value2: string) =>
+          value1 === value2 || 'Hasła nie są identyczne',
+        counter: (value: string, num: number, end: string) =>
+          value.length >= num || 'Minimum ' + num + ' znak' + end,
+        email: (value: string) => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || 'Adres e-mail nie jest poprawny';
+        },
+      },
+    };
   }
 
-  // ugly hack, because rules don't have access to members so
-  // you need another fuction to return proper value
-  private passwordMatchRule = () => {
-    return this.checkPasswords();
-  }
-
-  private checkPasswords() {
-    return this.password === this.confirmPassword || 'Password must match';
-  }
-
-  private async registerUser() {
-    const form = this.$refs.form as any;
-    if (!form.validate()) {
-      return;
-    }
-
-    const res = await registerUser({
-      username: this.login,
-      email: this.email,
-      password: this.password,
-      first_name: this.firstName,
-      last_name: this.lastName,
-    });
-
-    if (res.status === 201) {
-      this.$router.push('/');
+  private registerUser() {
+    if (this.$data.inputValidated) {
+      this.$store.dispatch('register', {
+        username: this.$data.login,
+        email: this.$data.email,
+        password1: this.$data.password1,
+        password2: this.$data.password2,
+        first_name: this.$data.first_name,
+        last_name: this.$data.last_name,
+      });
     }
   }
 }

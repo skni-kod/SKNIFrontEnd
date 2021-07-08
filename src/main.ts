@@ -2,29 +2,33 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import vuetify from './plugins/vuetify';
-import MarkdownItVue from 'markdown-it-vue';
-import 'markdown-it-vue/dist/markdown-it-vue.css';
-import VueMoment from 'vue-moment';
-import ArticlesList from '@/components/ArticlesList.vue';
-import CommentsList from '@/components/CommentsList.vue';
-import SingleArticle from '@/components/SingleArticle.vue';
-import SectionsList from '@/components/SectionsList.vue';
-import HardwaresList from '@/components/HardwaresList.vue';
-import SingleProfile from '@/components/SingleProfile.vue';
-import ProfilesList from '@/components/ProfilesList.vue';
-import ProjectsList from '@/components/ProjectsList.vue';
-import SingleProject from '@/components/SingleProject.vue';
-import HomeSectionList from '@/components/homePageComponents/HomeSectionList.vue';
-import HomeArticleList from '@/components/homePageComponents/HomeArticleList.vue';
-import ArticleCard from '@/components/ArticleCard.vue';
-import Gallery from '@/components/Gallery.vue';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 import store from './store';
+import 'animate.css';
+const MarkdownItVue = () => import(/* webpackChunkName: "PluginMarkdown" */ 'markdown-it-vue');
+import 'markdown-it-vue/dist/markdown-it-vue.css';
+import VueMoment from 'vue-moment';
+const CommentsList = () => import(/* webpackChunkName: "ComponentCommentsList" */ '@/components/CommentsList.vue');
+const HardwaresList = () => import(/* webpackChunkName: "ComponentHardwaresList" */ '@/components/HardwaresList.vue');
+const ArticleCard = () => import(/* webpackChunkName: "ComponentArticleCard" */ '@/components/ArticleCard.vue');
+const MarkdownEditor = () => import(/* webpackChunkName: "ComponentMarkdownEditor" */ '@/components/MarkdownEditor.vue');  // tslint:disable-line
+const PasswordValidator = () => import(/* webpackChunkName: "ComponentPasswordValidator" */ '@/components/PasswordValidator.vue');
+const Gallery = () => import(/* webpackChunkName: "ComponentGallery" */ '@/components/Gallery.vue');
+const GalleryEditor = () => import(/* webpackChunkName: "ComponentGalleryEditor" */ '@/components/GalleryEditor.vue');
+const ImageUploader = () => import(/* webpackChunkName: "ComponentImageUploader" */ '@/components/ImageUploader.vue');
+const ElementSelector = () => import(/* webpackChunkName: "ComponentElementSelector" */ '@/components/ElementSelector.vue');
+const ConfirmationDialog = () => import(/* webpackChunkName: "ComponentConfirmationDialog" */ '@/components/ConfirmationDialog.vue');
+const LinkListInput = () => import(/* webpackChunkName: "ComponentLinkListInput" */ '@/components/LinkListInput.vue');
+const EditorMenu = () => import(/* webpackChunkName: "ComponentEditorMenu" */ '@/components/EditorMenu.vue');
+const Comment = () => import(/* webpackChunkName: "ComponentComment" */ '@/components/Comment.vue');
+const CommentEditor = () => import(/* webpackChunkName: "ComponentCommentEditor" */ '@/components/CommentEditor.vue');
+
+const VBtnCap = () => import(/* webpackChunkName: "CustomVBtnCap" */ '@/components/base/VBtnCap.vue');
 
 Vue.config.productionTip = false;
 
-Vue.use(MarkdownItVue);
+// Vue.use(MarkdownItVue);
 Vue.use(VueMoment, 'vue-moment');
 
 new Vue({
@@ -34,16 +38,19 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 
-Vue.component('articles-list', ArticlesList);
+Vue.component('markdown-it-vue', MarkdownItVue);
+Vue.component('password-validator', PasswordValidator);
+Vue.component('markdown-editor', MarkdownEditor);
 Vue.component('comments-list', CommentsList);
-Vue.component('single-article', SingleArticle);
-Vue.component('sections-list', SectionsList);
 Vue.component('hardwares-list', HardwaresList);
-Vue.component('single-profile', SingleProfile);
-Vue.component('profiles-list', ProfilesList);
-Vue.component('projects-list', ProjectsList);
-Vue.component('single-project', SingleProject);
-Vue.component('home-section-list', HomeSectionList);
-Vue.component('home-article-list', HomeArticleList);
 Vue.component('article-card', ArticleCard);
 Vue.component('gallery', Gallery);
+Vue.component('gallery-editor', GalleryEditor);
+Vue.component('image-uploader', ImageUploader);
+Vue.component('element-selector', ElementSelector);
+Vue.component('confirmation-dialog', ConfirmationDialog);
+Vue.component('link-list-input', LinkListInput);
+Vue.component('editor-menu', EditorMenu);
+Vue.component('comment', Comment);
+Vue.component('comment-editor', CommentEditor);
+Vue.component('v-btn-cap', VBtnCap);
