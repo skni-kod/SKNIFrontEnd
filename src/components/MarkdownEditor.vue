@@ -46,8 +46,8 @@
             </li>
             <li>
               <b
-                >Podczas edycji artykułu oraz projektu, należy do tekstu dodać
-                znacznik ---readmore---</b
+                >Podczas edycji artykułu, sekcji oraz projektu, należy do tekstu
+                dodać znacznik ---readmore---</b
               >, aby podgląd artykułu lub projektu na liście nie był zbyt długi.
               Można stosować składnię języka markdown przed tym znacznikiem.
               Podczas wyświetlania listy artykułów / projektów skladnia ta
@@ -80,7 +80,14 @@
         </v-btn-cap>
         <v-card outlined>
           <v-card-title
-            class="primary text-h6 white--text justify-center font-weight-bold py-1"
+            class="
+              primary
+              text-h6
+              white--text
+              justify-center
+              font-weight-bold
+              py-1
+            "
             >Podgląd</v-card-title
           >
           <markdown-it-vue

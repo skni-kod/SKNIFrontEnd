@@ -8,7 +8,7 @@
       <v-card-text class="text-left">
         <markdown-it-vue
           class="md-body"
-          :content="project.text.substring(0, 300) + '...'"
+          :content="project.text + '...'"
           :options="markdownOptions"
         />
       </v-card-text>
