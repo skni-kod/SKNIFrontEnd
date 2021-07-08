@@ -24,7 +24,7 @@
               <v-col cols="12" sm="4" class="text-center py-0">
                 <v-btn-cap
                   depressed
-                  :disabled="hardware.status !== 'Available'"
+                  disabled
                   class="primary"
                 >
                   <span>Wypożycz</span>
