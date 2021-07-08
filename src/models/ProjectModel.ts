@@ -13,4 +13,5 @@ export class ProjectModel {
     public creator!: ProfileModel;
     public authors!: ProfileModel[] | number[];
     public section!: SectionModel | number;
+    public readMore!: boolean;
 }
