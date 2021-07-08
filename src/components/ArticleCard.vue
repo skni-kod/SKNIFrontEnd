@@ -87,7 +87,6 @@
 <script lang='ts'>
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { ArticleModel } from '@/models/ArticleModel';
-import { CommentModel } from '@/models/CommentModel';
 
 @Component
 export default class ArticleCard extends Vue {
