@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <v-row justify="center" class="text-h3 font-weight-black ma-2">TODO</v-row>
 </template>
 
 <script lang="ts">
