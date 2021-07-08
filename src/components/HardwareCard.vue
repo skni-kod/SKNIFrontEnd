@@ -24,15 +24,7 @@
           sm="2"
           :class="{ 'text-center': $vuetify.breakpoint.xs }"
         >
-          <v-btn
-            small
-            plain
-            rounded
-            outlined
-            v-if="hardware.status == 'Available'"
-            >Wypożycz</v-btn
-          >
-          <v-btn small plain rounded outlined v-else disabled>Wypożycz</v-btn>
+          <v-btn small plain rounded outlined disabled>Wypożycz</v-btn>
         </v-col>
       </v-row>
     </v-card-title>
