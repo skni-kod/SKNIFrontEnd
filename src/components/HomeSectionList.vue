@@ -19,7 +19,7 @@
                 <v-col cols="auto" class="text-center py-0">
                   <v-row justify="center" class="flex-column ma-0 fill-height">
                     <v-icon x-large left color="primary">{{
-                      section.icon
+                      'mdi-' + section.icon
                     }}</v-icon>
                   </v-row>
                 </v-col>

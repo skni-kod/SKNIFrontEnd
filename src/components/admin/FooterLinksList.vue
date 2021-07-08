@@ -20,7 +20,7 @@
               <v-card-text>
                 <v-row align="center" justify="center">
                   <v-col cols="auto" class="pa-0">
-                    <v-icon x-large :color="el.color">{{ el.icon }}</v-icon>
+                    <v-icon x-large :color="el.color">{{ 'mdi-' + el.icon }}</v-icon>
                   </v-col>
                   <v-col cols="auto" class="pa-0">
                     <v-card-title

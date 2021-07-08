@@ -4,7 +4,7 @@
       <v-form v-model="inputValidated">
         <v-text-field
           clearable
-          label="Ikonka sekcji (mdi-)(https://materialdesignicons.com)"
+          label="Ikonka sekcji (https://materialdesignicons.com)"
           v-model="Section.icon"
           :rules="[required]"
         ></v-text-field>

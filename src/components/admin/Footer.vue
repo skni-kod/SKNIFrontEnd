@@ -41,7 +41,7 @@
                 outlined
                 clearable
                 prepend-inner-icon="mdi-star-circle"
-                label="Ikonka (mdi-)(https://materialdesignicons.com)"
+                label="Ikonka (https://materialdesignicons.com)"
                 counter="64"
                 v-model="linkForm.icon"
                 :rules="[required, counter(linkForm.icon, 64), isIcon]"
@@ -230,7 +230,7 @@ export default class AdminPanelFooter extends Vue {
         return pattern.test(v) || 'Link nie jest poprawny';
       },
       isIcon: (v: string) => {
-        const pattern = /^mdi-[a-zA-Z\-]+$/;
+        const pattern = /^[a-zA-Z\-]+$/;
         return pattern.test(v) || 'Niepoprawna ikona';
       },
     };

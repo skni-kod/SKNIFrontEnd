@@ -5,7 +5,7 @@
         <v-row align="center" justify="start">
           <v-col cols="auto" class="py-0 pr-0">
             <v-icon x-large left class="primary--text">{{
-              section.icon
+              'mdi-' + section.icon
             }}</v-icon>
           </v-col>
           <v-col class="pl-1">

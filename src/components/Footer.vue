@@ -23,7 +23,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                <v-icon :color="link.color">{{ link.icon }}</v-icon>
+                <v-icon :color="link.color">{{ 'mdi-' + link.icon }}</v-icon>
               </v-btn>
             </template>
             <span>{{ link.title }}</span>
@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { FooterService } from '@/services/FooterService';
 import { FooterModel } from '@/models/FooterModel';
 
