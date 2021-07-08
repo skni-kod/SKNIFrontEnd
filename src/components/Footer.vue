@@ -6,7 +6,7 @@
         <v-col cols="auto" class="pa-0">
           <div>
             <strong>SKNI KOD</strong>
-            &nbsp; &copy;{{ new Date().getFullYear() }} &nbsp; 
+            &nbsp; &copy;{{ new Date().getFullYear() }} &nbsp;
           </div>
         </v-col>
         <v-col cols="auto" class="pa-0" v-for="link in links" :key="link.link">
@@ -52,7 +52,7 @@ export default class Footer extends Vue {
     this.footerService
       .getLinks()
       .then((res) => {
-        this.$data.links = res
+        this.$data.links = res;
       })
       .catch(() => {
         this.$router.replace({ name: 'error404' });
