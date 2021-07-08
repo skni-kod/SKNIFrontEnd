@@ -82,15 +82,7 @@
               <span>Edytuj link</span>
               <v-icon right>mdi-pencil</v-icon>
             </v-btn-cap>
-            <v-btn-cap
-              color="error"
-              class="mr-4"
-              @click="
-                addNew = false;
-                edit = false;
-                linkForm = { title: '', link: '', icon: '', color: '' };
-              "
-            >
+            <v-btn-cap color="error" class="mr-4" @click="cancelEdit()">
               <span>Anuluj</span>
               <v-icon right>mdi-cancel</v-icon>
             </v-btn-cap>
@@ -108,7 +100,6 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import FooterLinksList from './FooterLinksList.vue';
 import { FooterService } from '@/services/FooterService';
-import beAxios from '@/axios';
 
 @Component({
   components: {
@@ -137,6 +128,12 @@ export default class AdminPanelFooter extends Vue {
       .catch(() => {
         this.$store.dispatch('errorMessage', 'Błąd przy pobieraniu linków!');
       });
+  }
+
+  private cancelEdit() {
+    this.$data.addNew = false;
+    this.$data.edit = false;
+    this.$data.linkForm = {};
   }
 
   private addLink() {
