@@ -24,6 +24,7 @@
                 pb-0
                 px-0
               "
+              style="word-break: break-word"
               >{{ article.title }}</v-card-title
             >
             <v-card-text class="px-0">

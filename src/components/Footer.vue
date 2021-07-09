@@ -53,9 +53,6 @@ export default class Footer extends Vue {
       .getLinks()
       .then((res) => {
         this.$data.links = res;
-      })
-      .catch(() => {
-        this.$router.replace({ name: 'error404' });
       });
   }
 

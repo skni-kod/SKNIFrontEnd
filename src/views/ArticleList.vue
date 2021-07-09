@@ -1,13 +1,8 @@
 <template>
-  <div>
-    <v-row justify="center">
-      <v-col mx="12" sm="10" md="8" lg="6" xl="4">
-        <v-row
-          align="center"
-          justify="center"
-          class="ma-2"
-          v-if="articles && articles.length > 0"
-        >
+  <div class="mt-4 mb-2 mx-4 fill-height">
+    <v-row justify="center" v-if="articles && articles.length > 0">
+      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+        <v-row align="center" justify="center" class="ma-2">
           <v-col cols="12" class="pa-0">
             <article-card
               class="my-2"
@@ -16,18 +11,6 @@
               :article="article"
               @delete="deleteArticle"
             ></article-card>
-          </v-col>
-        </v-row>
-        <v-row align="center" class="fill-height" v-else>
-          <v-col>
-            <div class="text-h3 font-weight-bold text-center">
-              {{ loading ? 'Ładowanie danych' : 'Brak artykułów' }}
-              <v-progress-circular
-                indeterminate
-                color="primary"
-                v-if="loading"
-              ></v-progress-circular>
-            </div>
           </v-col>
         </v-row>
         <v-pagination
@@ -39,6 +22,18 @@
           next-icon="mdi-chevron-right"
           v-if="articles && articles.length > 0"
         ></v-pagination>
+      </v-col>
+    </v-row>
+    <v-row align="center" class="fill-height" v-else>
+      <v-col>
+        <div class="text-h3 font-weight-bold text-center">
+          {{ loading ? 'Ładowanie danych' : 'Brak artykułów' }}
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            v-if="loading"
+          ></v-progress-circular>
+        </div>
       </v-col>
     </v-row>
     <v-btn-cap
