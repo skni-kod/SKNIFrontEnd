@@ -1,22 +1,14 @@
 <template>
   <div>
     <v-card class="elevation-3">
-      <v-card-title class="grey lighten-4">
+      <v-card-title class="primary white--text">
         <h3 class="headline">{{ project.title }}</h3>
       </v-card-title>
-      <v-divider />
-      <v-card-text class="text-left">
-        <markdown-it-vue
-          class="md-body"
-          :content="project.text + '...'"
-          :options="markdownOptions"
-        />
-      </v-card-text>
-      <v-card-text class="primary">
+      <v-card-text class="secondary py-0 pl-1">
         <v-row class="mx-auto">
-          <v-col cols="auto" class="text-center py-0">
+          <v-col cols="auto" class="text-center py-1">
             <v-row justify="center" class="flex-column ma-0 fill-height">
-              <v-icon x-large left class="white--text">{{
+              <v-icon left class="white--text">{{
                 'mdi-' + project.section.icon
               }}</v-icon>
             </v-row>
@@ -24,13 +16,26 @@
           <v-col class="pa-0">
             <v-row justify="center" class="flex-column ma-0 fill-height">
               <p
-                class="white--text text-left text-h6 font-weight-black my-auto"
+                class="
+                  text-body-1
+                  white--text
+                  text-left
+                  font-weight-black
+                  my-auto
+                "
               >
                 {{ project.section.name }}
               </p>
             </v-row>
           </v-col>
         </v-row>
+      </v-card-text>
+      <v-card-text class="text-left">
+        <markdown-it-vue
+          class="md-body"
+          :content="project.text + '...'"
+          :options="markdownOptions"
+        />
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>

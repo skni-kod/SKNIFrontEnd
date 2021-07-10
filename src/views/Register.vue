@@ -56,6 +56,7 @@
               <v-row align="center" justify="center" class="mx-0">
                 <v-col class="pa-0">
                   <v-text-field
+                    ref="pass1"
                     outlined
                     v-model="password1"
                     prepend-icon="mdi-lock"
@@ -68,10 +69,12 @@
                     class="my-2"
                     @focus="passwdFocus = true"
                     @blur="passwdFocus = false"
+                    @input="input()"
                   ></v-text-field>
                 </v-col>
                 <v-col class="py-0 pr-0">
                   <v-text-field
+                    ref="pass2"
                     outlined
                     v-model="password2"
                     :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
@@ -84,6 +87,7 @@
                     color="primary"
                     :type="showPass ? 'text' : 'password'"
                     class="my-2"
+                    @input="input()"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -101,7 +105,11 @@
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
-              <v-btn-cap :disabled="!inputValidated" color="primary" type="submit">
+              <v-btn-cap
+                :disabled="!inputValidated"
+                color="primary"
+                type="submit"
+              >
                 <span class="font-weight-bold">Zarejestruj się</span>
                 <v-icon right>mdi-database-plus</v-icon>
               </v-btn-cap>
@@ -109,19 +117,22 @@
           </v-form>
         </v-card>
       </v-row>
-      <v-row justify="center">
-        <!-- TODO -->
+      <!-- <v-row justify="center"> TODO
         <v-btn-cap disabled class="white--text mx-2 mt-4 mb-2" color="purple">
           <v-icon left>mdi-github</v-icon>
           <span>Zarejestruj się poprzez GitHub</span>
         </v-btn-cap>
-      </v-row>
+      </v-row> -->
       <v-row align="center" justify="center">
         <v-col cols="auto">
           <p class="my-auto">Masz już konto?</p>
         </v-col>
         <v-col cols="auto">
-          <v-btn-cap text color="primary" @click="$router.push({name:'login'})">
+          <v-btn-cap
+            text
+            color="primary"
+            @click="$router.push({ name: 'login' })"
+          >
             <v-icon left>mdi-login</v-icon>
             <span>Zaloguj się!</span>
           </v-btn-cap>
@@ -155,11 +166,17 @@ export default class Register extends Vue {
         counter: (value: string, num: number, end: string) =>
           value.length >= num || 'Minimum ' + num + ' znak' + end,
         email: (value: string) => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          const pattern =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return pattern.test(value) || 'Adres e-mail nie jest poprawny';
         },
       },
     };
+  }
+
+  private input() {
+    (this.$refs.pass1 as Vue & { validate: () => boolean }).validate();
+    (this.$refs.pass2 as Vue & { validate: () => boolean }).validate();
   }
 
   private registerUser() {

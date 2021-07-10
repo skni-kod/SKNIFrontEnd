@@ -142,11 +142,11 @@ export default class AdminPanelFooter extends Vue {
       .then(() => {
         this.getLinks();
         this.$store.dispatch('successMessage', 'Link został dodany');
+        this.$data.linkForm = {};
       })
       .catch(() => {
         this.$store.dispatch('errorMessage', 'Błąd przy dodawaniu linku!');
       });
-    this.$data.newTagName = '';
     this.$data.addNew = false;
   }
 
@@ -165,11 +165,11 @@ export default class AdminPanelFooter extends Vue {
           'infoMessage',
           'Zmiany będą widoczne po odświeżeniu strony',
         );
+        this.$data.linkForm = {};
       })
       .catch(() => {
         this.$store.dispatch('errorMessage', 'Błąd przy edycji linku!');
       });
-    this.$data.newTagName = '';
     this.$data.edit = false;
   }
 
