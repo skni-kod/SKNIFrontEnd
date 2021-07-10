@@ -117,13 +117,12 @@
           </v-form>
         </v-card>
       </v-row>
-      <v-row justify="center">
-        <!-- TODO -->
+      <!-- <v-row justify="center"> TODO
         <v-btn-cap disabled class="white--text mx-2 mt-4 mb-2" color="purple">
           <v-icon left>mdi-github</v-icon>
           <span>Zarejestruj się poprzez GitHub</span>
         </v-btn-cap>
-      </v-row>
+      </v-row> -->
       <v-row align="center" justify="center">
         <v-col cols="auto">
           <p class="my-auto">Masz już konto?</p>
