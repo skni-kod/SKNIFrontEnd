@@ -96,6 +96,7 @@ const userModule: Module<any, any> = {
             dispatch('fetchUserProfile');
           })
           .catch(() => {
+            dispatch('errorMessage', 'Błąd przy pobieraniu danych użytkownika!');
             dispatch('logout');
           });
       }
@@ -110,6 +111,7 @@ const userModule: Module<any, any> = {
             commit('storeProfile', res.data);
           })
           .catch(() => {
+            dispatch('errorMessage', 'Błąd przy pobieraniu profilu użytkownika!');
             dispatch('logout');
           });
       }
