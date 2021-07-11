@@ -22,7 +22,7 @@
               <v-col cols="auto" class="mx-2 py-1">
                 <v-row align-content="center" justify="center" class="my-auto">
                   <v-icon left color="primary">mdi-account</v-icon>
-                  <p class="my-auto">{{ article.creator.username }}</p>
+                  <p class="my-auto">{{ article.creator.first_name }} {{ article.creator.last_name }}</p>
                 </v-row>
               </v-col>
               <v-col cols="auto" class="mx-2 py-1">
@@ -64,7 +64,7 @@
                       :color="hover ? 'primary' : 'grey'"
                     >
                       <v-icon small left>mdi-account</v-icon>
-                      {{ author.username }}
+                      {{ author.first_name }} {{ author.last_name }}
                     </v-chip>
                   </v-hover>
                 </a>
