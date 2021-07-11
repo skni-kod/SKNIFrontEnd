@@ -91,9 +91,10 @@ export default class ProjectList extends Vue {
   }
 
   private getProjects() {
-    let pageNumber = +this.$route.params.page;
-    if (pageNumber === undefined || isNaN(pageNumber)) {
-      pageNumber = 1;
+    const pageNumber = +this.$route.params.page;
+    if (pageNumber === undefined || isNaN(pageNumber) || pageNumber < 1) {
+      this.paginationClicked(1);
+      return;
     }
 
     this.pagination.currentPage = pageNumber;
