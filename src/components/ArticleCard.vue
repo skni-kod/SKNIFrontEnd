@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-card v-if="article != undefined">
+    <v-card v-if="article != undefined" :width="width">
       <v-img
         class="white--text"
-        height="300px"
+        height="400px"
         :src="
           article.gallery
             ? article.gallery[0]
@@ -28,7 +28,7 @@
               >{{ article.title }}</v-card-title
             >
             <v-card-text class="px-0">
-              <p class="text-left mb-0">{{ text }}</p>
+              <p class="text-left mb-0">{{ text + '...' }}</p>
             </v-card-text>
             <v-card-actions class="pa-0">
               <v-spacer />
@@ -44,7 +44,7 @@
               </v-btn-cap>
               <v-speed-dial
                 direction="top"
-                v-if="role"
+                v-if="role && !hideControls"
                 v-model="fab"
                 class="ml-2"
               >
@@ -91,7 +91,10 @@ import { ArticleModel } from '@/models/ArticleModel';
 
 @Component
 export default class ArticleCard extends Vue {
-  @Prop() public article!: ArticleModel;
+  @Prop({ required: true }) public article!: ArticleModel;
+  @Prop({ default: false }) public hideControls!: boolean;
+  @Prop({ default: '' }) public width!: string;
+
   get auth(): boolean {
     return this.$store.getters.isAuthenticated;
   }
