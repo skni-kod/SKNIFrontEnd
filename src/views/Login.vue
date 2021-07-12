@@ -1,8 +1,8 @@
 <template>
-  <v-row class="fill-height" align="center">
+  <v-row class="fill-height pa-4" align="center">
     <v-col cols="12" class="pa-0">
-      <v-row justify="center" class="mx-2">
-        <v-card class="elevation-12 ma-2" width="500">
+      <v-row no-gutters justify="center">
+        <v-card class="elevation-12" width="500">
           <v-toolbar color="primary">
             <v-toolbar-title class="white--text font-weight-bold"
               >Zaloguj się</v-toolbar-title
@@ -36,7 +36,11 @@
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
-              <v-btn-cap :disabled="!inputValidated" color="primary" type="submit">
+              <v-btn-cap
+                :disabled="!inputValidated"
+                color="primary"
+                type="submit"
+              >
                 <span class="font-weight-bold">Zaloguj</span>
                 <v-icon right>mdi-key</v-icon>
               </v-btn-cap>
@@ -55,7 +59,11 @@
           <p class="my-auto">Nie masz konta?</p>
         </v-col>
         <v-col cols="auto">
-          <v-btn-cap text color="primary" @click="$router.push({name:'register'})">
+          <v-btn-cap
+            text
+            color="primary"
+            @click="$router.push({ name: 'register' })"
+          >
             <v-icon left>mdi-database-plus</v-icon>
             <span>Zarejestruj się!</span>
           </v-btn-cap>

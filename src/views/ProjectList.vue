@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4 mb-2 mx-4 fill-height">
     <v-row justify="center" v-if="projects && projects.length > 0">
-      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+      <v-col cols="12" sm="11" md="10" lg="9" xl="8">
         <project-card
           class="my-2"
           :project="project"
@@ -91,9 +91,10 @@ export default class ProjectList extends Vue {
   }
 
   private getProjects() {
-    let pageNumber = +this.$route.params.page;
-    if (pageNumber === undefined || isNaN(pageNumber)) {
-      pageNumber = 1;
+    const pageNumber = +this.$route.params.page;
+    if (pageNumber === undefined || isNaN(pageNumber) || pageNumber < 1) {
+      this.paginationClicked(1);
+      return;
     }
 
     this.pagination.currentPage = pageNumber;

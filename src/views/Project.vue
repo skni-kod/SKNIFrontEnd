@@ -1,7 +1,7 @@
 <template>
   <div class="mt-2">
     <v-row justify="center" v-if="project != undefined">
-      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+      <v-col cols="12" sm="11" md="10" lg="9" xl="8">
         <v-card tile elevation="0">
           <v-card-title class="mb-2" style="word-break: break-word">
             <p class="text-h2 text-left mb-0">{{ project.title }}</p>
@@ -11,7 +11,7 @@
               <v-avatar left>
                 <v-icon>mdi-account-circle</v-icon>
               </v-avatar>
-              <span>{{ project.creator.username }}</span>
+              <span>{{ project.creator.first_name }} {{ project.creator.last_name }}</span>
             </v-chip>
             <p class="mb-0">
               Data publikacji:
@@ -43,7 +43,7 @@
       </v-col>
     </v-row>
     <v-row justify="center" v-if="project != undefined">
-      <v-col cols="12" sm="10" md="8" lg="6" xl="4" class="text-center">
+      <v-col cols="12" sm="11" md="10" lg="9" xl="8" class="text-center">
         <p>
           Made with
           <v-icon color="red">mdi-heart</v-icon> by

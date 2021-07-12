@@ -1,8 +1,8 @@
 <template>
-  <v-row class="fill-height" align="center">
+  <v-row class="fill-height pa-4" align="center">
     <v-col cols="12" class="pa-0">
-      <v-row justify="center" class="mx-2">
-        <v-card class="elevation-12 ma-2" width="600">
+      <v-row no-gutters justify="center">
+        <v-card class="elevation-12" width="600">
           <v-toolbar color="primary">
             <v-toolbar-title class="white--text font-weight-bold"
               >Zarejestruj się</v-toolbar-title

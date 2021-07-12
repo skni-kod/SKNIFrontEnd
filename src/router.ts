@@ -101,10 +101,9 @@ const routes: RouteConfig[] = [
     name: 'hardwareList',
     component: () =>
       import(/* webpackChunkName: "Hardware" */ './views/HardwareList.vue'),
-    beforeEnter: authGuard,
   },
   {
-    path: '/hardwareCard/:id?',
+    path: '/hardware/:id?',
     name: 'hardware',
     component: () =>
       import(/* webpackChunkName: "Hardware" */ './views/Hardware.vue'),
@@ -125,7 +124,6 @@ const routes: RouteConfig[] = [
     name: 'userPanel',
     component: () =>
       import(/* webpackChunkName: "UserPanel" */ './views/UserPanel.vue'),
-    beforeEnter: authGuard,
   },
   {
     path: '/admin/panel/:module?',
@@ -141,21 +139,18 @@ const routes: RouteConfig[] = [
       import(
         /* webpackChunkName: "UserPassChange" */ './views/UserPassChange.vue'
       ),
-    beforeEnter: authGuard,
   },
   {
     path: '/user/descriptionchange',
     name: 'UserEditChange',
     component: () =>
       import(/* webpackChunkName: "UserEdit" */ './views/UserEdit.vue'),
-    beforeEnter: authGuard,
   },
   {
     path: '/user/profile/:id',
     name: 'userProfile',
     component: () =>
       import(/* webpackChunkName: "UserProfile" */ './views/UserProfile.vue'),
-    beforeEnter: authGuard,
   },
   {
     path: '/projects/:page?',

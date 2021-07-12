@@ -11,6 +11,25 @@
       v-model="article"
       @validation="inputValidated = $event"
     ></article-editor>
+    <v-card class="ma-2" flat outlined v-if="article">
+      <v-card-title primary-title>Podgląd karty artykułu</v-card-title>
+      <v-card-text>
+        <v-alert prominent type="warning"
+          >Skróć podgląd artykułu używając znacznika '---readmore---' na tyle,
+          aby cały podgląd wraz z przyciskiem 'Czytaj więcej...' był widoczny na
+          małej, mobilnej karcie podglądu artykułu.</v-alert
+        >
+        <v-row justify="center">
+          <v-col cols="auto">
+            <article-card
+              :article="preview"
+              :hideControls="true"
+              :width="300"
+            ></article-card>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
     <editor-menu
       @saveChanges="addArticle"
       @discardChanges="returnFromEditor"
@@ -151,6 +170,18 @@ export default class ArticleEdit extends Vue {
         params: { id: this.$data.article.id, alias: this.$data.article.alias },
       });
     }
+  }
+
+  get preview() {
+    const preview = Object.assign({}, this.$data.article);
+
+    if (preview.text) {
+      const readMoreIndex = preview.text.indexOf('---readmore---');
+      preview.text = preview.text.slice(0, readMoreIndex);
+      preview.text = preview.text.replace('---readmore---', '');
+    }
+
+    return preview;
   }
 
   private data() {
