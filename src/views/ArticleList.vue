@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4 mb-2 mx-4 fill-height">
     <v-row justify="center" v-if="articles && articles.length > 0">
-      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+      <v-col cols="12" sm="11" md="10" lg="9" xl="8">
         <v-row align="center" justify="center">
           <v-col cols="12" class="pa-0">
             <article-card

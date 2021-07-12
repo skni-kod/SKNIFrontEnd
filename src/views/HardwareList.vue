@@ -2,7 +2,7 @@
   <div class="mt-4 mb-2 mx-4 fill-height">
     <div v-if="hardware && hardware.length > 0">
       <v-row justify="center" v-for="item in hardware" :key="item.id">
-        <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+        <v-col cols="12" sm="11" md="10" lg="9" xl="8">
           <hardware-card :hardware="item"></hardware-card>
         </v-col>
       </v-row>
