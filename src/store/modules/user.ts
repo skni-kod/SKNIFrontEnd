@@ -2,6 +2,8 @@ import { Module } from 'vuex';
 import beAxios from '@/axios';
 import router from '../../router';
 
+import jwtDecode from 'jwt-decode';
+
 const userModule: Module<any, any> = {
   state: {
     token: null,
@@ -34,11 +36,33 @@ const userModule: Module<any, any> = {
   },
 
   actions: {
-    setRefreshTimer({ commit, dispatch }) {
+    setRefreshTimer({ commit, dispatch }, time = 3590000) {
       const to = setTimeout(() => {
         dispatch('refreshToken');
-      }, 3300000);
+      }, time + Math.floor(Math.random() * (5 - -5 + 1)) + -5);
       commit('setTimeout', to);
+    },
+    autoLogin({ state, dispatch }) {
+      if (state.token) {
+        beAxios
+          .post('verify-token/', { token: state.token })
+          .then(() => {
+            const decoded: any = jwtDecode(state.token);
+            const now = Date.now();
+            const timeLeft = decoded.exp * 1000 - now;
+            if (timeLeft > 30000) {
+              dispatch('setRefreshTimer', timeLeft - 10000);
+              dispatch('fetchUserData');
+            } else {
+              dispatch('logout');
+            }
+          })
+          .catch(() => {
+            dispatch('logout');
+          });
+      } else {
+        localStorage.clear();
+      }
     },
     login({ commit, dispatch }, authData) {
       beAxios
@@ -67,19 +91,27 @@ const userModule: Module<any, any> = {
       dispatch('infoMessage', 'Wylogowano');
       clearTimeout(state.timeout);
       commit('setTimeout', null);
+      localStorage.clear();
     },
     refreshToken({ dispatch, commit, state }) {
-      beAxios
-        .post('refresh-token/', {
-          refresh: state.refreshToken,
-        })
-        .then((res) => {
-          commit('authUser', {
-            token: res.data.access,
-            refreshToken: res.data.refresh,
+      const decoded: any = jwtDecode(state.token);
+      const now = Date.now();
+      const timeLeft = decoded.exp * 1000 - now;
+      if (timeLeft < 20000) {
+        beAxios
+          .post('refresh-token/', {
+            refresh: state.refreshToken,
+          })
+          .then((res) => {
+            commit('authUser', {
+              token: res.data.access,
+              refreshToken: res.data.refresh,
+            });
+            dispatch('setRefreshTimer');
           });
-          dispatch('setRefreshTimer');
-        });
+      } else {
+        dispatch('setRefreshTimer', timeLeft - 10000);
+      }
     },
     fetchUserData({ dispatch, commit, state }) {
       if (!state.token) {
@@ -96,7 +128,10 @@ const userModule: Module<any, any> = {
             dispatch('fetchUserProfile');
           })
           .catch(() => {
-            dispatch('errorMessage', 'Błąd przy pobieraniu danych użytkownika!');
+            dispatch(
+              'errorMessage',
+              'Błąd przy pobieraniu danych użytkownika!',
+            );
             dispatch('logout');
           });
       }
@@ -111,7 +146,10 @@ const userModule: Module<any, any> = {
             commit('storeProfile', res.data);
           })
           .catch(() => {
-            dispatch('errorMessage', 'Błąd przy pobieraniu profilu użytkownika!');
+            dispatch(
+              'errorMessage',
+              'Błąd przy pobieraniu profilu użytkownika!',
+            );
             dispatch('logout');
           });
       }
