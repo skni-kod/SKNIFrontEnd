@@ -5,6 +5,8 @@ import snackbars from './modules/snackbars';
 import user from './modules/user';
 import comments from './modules/comments';
 
+import createMultiTabState from 'vuex-multi-tab-state';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -29,4 +31,7 @@ export default new Vuex.Store({
     user,
     comments,
   },
+  plugins: [
+    createMultiTabState({ statesPaths: ['user.token', 'user.refreshToken'] }),
+  ],
 });
