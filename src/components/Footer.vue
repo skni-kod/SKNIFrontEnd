@@ -49,11 +49,9 @@ export default class Footer extends Vue {
   }
 
   private mounted() {
-    this.footerService
-      .getLinks()
-      .then((res) => {
-        this.$data.links = res;
-      });
+    this.footerService.getLinks().then((res) => {
+      this.$data.links = res;
+    });
   }
 
   private data() {

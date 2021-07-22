@@ -4,7 +4,14 @@
       <v-col md="6">
         <v-card outlined class="ma-4" v-if="!loading && hardware">
           <v-card-title
-            class="primary text-h4 white--text font-weight-bold justify-center py-1"
+            class="
+              primary
+              text-h4
+              white--text
+              font-weight-bold
+              justify-center
+              py-1
+            "
             >{{ hardware.name }}</v-card-title
           >
           <v-card-text>
@@ -22,11 +29,7 @@
                 >Numer seryjny: {{ hardware.serial_number }}
               </v-col>
               <v-col cols="12" sm="4" class="text-center py-0">
-                <v-btn-cap
-                  depressed
-                  disabled
-                  class="primary"
-                >
+                <v-btn-cap depressed disabled class="primary">
                   <span>Wypożycz</span>
                   <v-icon right>mdi-dolly</v-icon>
                 </v-btn-cap>

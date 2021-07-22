@@ -17,8 +17,11 @@
       </v-card-title>
       <v-divider />
       <v-card-text class="text-left">
-        <markdown-it-vue class="md-body" :content="section.description+ '...'" 
-        :options="markdownOptions" />
+        <markdown-it-vue
+          class="md-body"
+          :content="section.description + '...'"
+          :options="markdownOptions"
+        />
       </v-card-text>
       <div v-if="Projects.length > 0">
         <v-divider></v-divider>

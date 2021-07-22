@@ -29,7 +29,10 @@
                     v-model="password2"
                     :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="showPass = !showPass"
-                    :rules="[rules.required, rules.identical(password1, password2)]"
+                    :rules="[
+                      rules.required,
+                      rules.identical(password1, password2),
+                    ]"
                     label="Powtórz hasło"
                     color="primary"
                     :type="showPass ? 'text' : 'password'"
@@ -38,12 +41,19 @@
                 </v-col>
               </v-row>
               <div v-if="passwdFocus">
-                <password-validator :password="password1" @validation="passwdValid = $event"></password-validator>
+                <password-validator
+                  :password="password1"
+                  @validation="passwdValid = $event"
+                ></password-validator>
               </div>
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
-              <v-btn-cap :disabled="!inputValidated" color="primary" type="submit">
+              <v-btn-cap
+                :disabled="!inputValidated"
+                color="primary"
+                type="submit"
+              >
                 <span class="font-weight-bold">Zmień hasło</span>
                 <v-icon right>mdi-lock-reset</v-icon>
               </v-btn-cap>
@@ -52,7 +62,11 @@
         </v-card>
       </v-row>
       <v-row align="center" justify="center" class="ma-5">
-        <v-btn-cap outlined color="error" @click="$router.push({name:'userPanel'})">
+        <v-btn-cap
+          outlined
+          color="error"
+          @click="$router.push({ name: 'userPanel' })"
+        >
           <v-icon left>mdi-cancel</v-icon>
           <span>Anuluj zmianę hasła</span>
         </v-btn-cap>
@@ -66,7 +80,6 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class UserPassChange extends Vue {
-
   get user() {
     return this.$store.getters.user;
   }

@@ -20,7 +20,9 @@
               <v-card-text>
                 <v-row align="center" justify="center">
                   <v-col cols="auto" class="pa-0">
-                    <v-icon x-large :color="el.color">{{ 'mdi-' + el.icon }}</v-icon>
+                    <v-icon x-large :color="el.color">{{
+                      'mdi-' + el.icon
+                    }}</v-icon>
                   </v-col>
                   <v-col cols="auto" class="pa-0">
                     <v-card-title
@@ -100,7 +102,7 @@ import FooterModel from '@/models/FooterModel.vue';
 export default class FooterLinksList extends Vue {
   @Prop({ required: true }) private list!: object;
 
-  private edit(link:any) {
+  private edit(link: any) {
     this.$emit('edit', link);
   }
   private remove(id: number) {

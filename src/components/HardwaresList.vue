@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div v-for="hardware in hardwares" :key="hardware.name" style="border: 1px solid gray">
+    <div
+      v-for="hardware in hardwares"
+      :key="hardware.name"
+      style="border: 1px solid gray"
+    >
       <p>{{ hardware.name }}</p>
       <p>{{ hardware.description }}</p>
       <p>{{ hardware.serial_number }}</p>

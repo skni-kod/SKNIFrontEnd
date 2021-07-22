@@ -24,7 +24,7 @@ const Snackbars = () =>
   components: { Navbar, Footer, Snackbars },
 })
 export default class App extends Vue {
-  created() {
+  private created() {
     this.$store.dispatch('autoLogin');
   }
 }

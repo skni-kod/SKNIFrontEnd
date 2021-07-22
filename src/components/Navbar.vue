@@ -44,11 +44,7 @@
               </v-list-item-action>
               <v-list-item-title>Panel użytkownika</v-list-item-title>
             </v-list-item>
-            <v-list-item
-              v-if="role"
-              link
-              :to="{ name: 'adminPanel' }"
-            >
+            <v-list-item v-if="role" link :to="{ name: 'adminPanel' }">
               <v-list-item-action>
                 <v-icon>mdi-duck</v-icon>
               </v-list-item-action>

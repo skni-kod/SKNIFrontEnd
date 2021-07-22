@@ -1,9 +1,9 @@
 <template>
   <v-row justify="center" align="center" class="fill-height">
     <v-col class="py-0">
-      <p
-        class="text-h5 font-weight-bold text-center ma-2"
-      >Artykuły dla tagu #{{ $route.params.tag }}</p>
+      <p class="text-h5 font-weight-bold text-center ma-2">
+        Artykuły dla tagu #{{ $route.params.tag }}
+      </p>
       <article-card
         class="ma-2"
         v-for="article in articles"
