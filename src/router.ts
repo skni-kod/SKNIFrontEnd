@@ -194,13 +194,13 @@ const routes: RouteConfig[] = [
     path: '/403',
     name: 'error403',
     component: () =>
-      import(/* webpackChunkName: "Eror403" */ './views/Error403.vue'),
+      import(/* webpackChunkName: "ErrorPage" */ './views/ErrorPage.vue'),
   },
   {
     path: '/404',
     name: 'error404',
     component: () =>
-      import(/* webpackChunkName: "Error404" */ './views/Error404.vue'),
+      import(/* webpackChunkName: "ErrorPage" */ './views/ErrorPage.vue'),
   },
   { path: '*', redirect: '/404' },
 ];
