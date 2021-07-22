@@ -91,6 +91,32 @@ const routes: RouteConfig[] = [
     beforeEnter: adminGuard,
   },
   {
+    path: '/projects/:page?',
+    name: 'projects',
+    component: () =>
+      import(/* webpackChunkName: "Project" */ './views/ProjectList.vue'),
+  },
+  {
+    path: '/project/edit/:id?',
+    name: 'editProject',
+    component: () =>
+      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
+    beforeEnter: adminGuard,
+  },
+  {
+    path: '/project/add',
+    name: 'projectAdd',
+    component: () =>
+      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
+    beforeEnter: adminGuard,
+  },
+  {
+    path: '/project/:id',
+    name: 'project',
+    component: () =>
+      import(/* webpackChunkName: "ProjectPage" */ './views/Project.vue'),
+  },
+  {
     path: '/hardware/edit/:id?',
     name: 'hardwareEdit',
     component: () =>
@@ -135,13 +161,6 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "UserPanel" */ './views/UserPanel.vue'),
   },
   {
-    path: '/admin/panel/:module?',
-    name: 'adminPanel',
-    component: () =>
-      import(/* webpackChunkName: "AdminPanel" */ './views/AdminPanel.vue'),
-    beforeEnter: adminGuard,
-  },
-  {
     path: '/user/passchange',
     name: 'UserPassChange',
     beforeEnter: authGuard,
@@ -164,30 +183,11 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "UserProfile" */ './views/UserProfile.vue'),
   },
   {
-    path: '/projects/:page?',
-    name: 'projects',
+    path: '/admin/panel/:module?',
+    name: 'adminPanel',
     component: () =>
-      import(/* webpackChunkName: "Project" */ './views/ProjectList.vue'),
-  },
-  {
-    path: '/project/edit/:id?',
-    name: 'editProject',
-    component: () =>
-      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
+      import(/* webpackChunkName: "AdminPanel" */ './views/AdminPanel.vue'),
     beforeEnter: adminGuard,
-  },
-  {
-    path: '/project/add',
-    name: 'projectAdd',
-    component: () =>
-      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
-    beforeEnter: adminGuard,
-  },
-  {
-    path: '/project/:id',
-    name: 'project',
-    component: () =>
-      import(/* webpackChunkName: "ProjectPage" */ './views/Project.vue'),
   },
   {
     path: '/403',
