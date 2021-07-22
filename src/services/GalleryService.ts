@@ -9,7 +9,7 @@ export class GalleryService {
     const save = beAxios.post('api/gallery/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: 'Bearer ' + store.getters.token,
+        Authorization: 'Bearer ' + store.getters.token, // tslint:disable-line
       },
       onUploadProgress: progress,
     });

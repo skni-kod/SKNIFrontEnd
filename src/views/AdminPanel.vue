@@ -55,35 +55,35 @@ import beAxios from '@/axios';
 @Component({
   components: {
     settings: () =>
-      import(
+      import( // tslint:disable-next-line
         /* webpackChunkName: "AdminPanelSettings" */ '@/components/admin/Settings.vue'
       ),
     users: () =>
-      import(
+      import( // tslint:disable-next-line
         /* webpackChunkName: "AdminPanelUsers" */ '@/components/admin/Users.vue'
       ),
     rentals: () =>
-      import(
+      import( // tslint:disable-next-line
         /* webpackChunkName: "AdminPanelRentals" */ '@/components/admin/Rentals.vue'
       ),
     history: () =>
-      import(
+      import( // tslint:disable-next-line
         /* webpackChunkName: "AdminPanelHistory" */ '@/components/admin/History.vue'
       ),
     sponsors: () =>
-      import(
+      import( // tslint:disable-next-line
         /* webpackChunkName: "AdminPanelSponsors" */ '@/components/admin/Sponsors.vue'
       ),
     tags: () =>
-      import(
+      import( // tslint:disable-next-line
         /* webpackChunkName: "AdminPanelTags" */ '@/components/admin/Tags.vue'
       ),
     footerlinks: () =>
-      import(
+      import( // tslint:disable-next-line
         /* webpackChunkName: "AdminPanelFooter" */ '@/components/admin/Footer.vue'
       ),
     anothers: () =>
-      import(
+      import( // tslint:disable-next-line
         /* webpackChunkName: "AdminPanelAnothers" */ '@/components/admin/Anothers.vue'
       ),
   },

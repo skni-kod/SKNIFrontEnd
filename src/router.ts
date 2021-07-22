@@ -166,6 +166,7 @@ const routes: RouteConfig[] = [
     beforeEnter: authGuard,
     component: () =>
       import(
+        // tslint:disable-next-line
         /* webpackChunkName: "UserPassChange" */ './views/UserPassChange.vue'
       ),
   },
@@ -193,13 +194,13 @@ const routes: RouteConfig[] = [
     path: '/403',
     name: 'error403',
     component: () =>
-      import(/* webpackChunkName: "Eror403" */ './views/403.vue'),
+      import(/* webpackChunkName: "Eror403" */ './views/Error403.vue'),
   },
   {
     path: '/404',
     name: 'error404',
     component: () =>
-      import(/* webpackChunkName: "Error404" */ './views/404.vue'),
+      import(/* webpackChunkName: "Error404" */ './views/Error404.vue'),
   },
   { path: '*', redirect: '/404' },
 ];
