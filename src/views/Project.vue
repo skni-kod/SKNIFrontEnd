@@ -11,7 +11,10 @@
               <v-avatar left>
                 <v-icon>mdi-account-circle</v-icon>
               </v-avatar>
-              <span>{{ project.creator.first_name }} {{ project.creator.last_name }}</span>
+              <span
+                >{{ project.creator.first_name }}
+                {{ project.creator.last_name }}</span
+              >
             </v-chip>
             <p class="mb-0">
               Data publikacji:

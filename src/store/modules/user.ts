@@ -8,7 +8,7 @@ const userModule: Module<any, any> = {
   state: {
     token: null,
     refreshToken: null,
-    user: { id: 0 },
+    user: undefined,
     profile: undefined,
     timeout: null,
   },
@@ -27,8 +27,8 @@ const userModule: Module<any, any> = {
     clearAuthData(state) {
       state.token = null;
       state.refreshToken = null;
-      state.user = { id: 0 };
-      state.profile = {};
+      state.user = undefined;
+      state.profile = undefined;
     },
     setTimeout(state, data) {
       state.timeout = data;
@@ -214,7 +214,7 @@ const userModule: Module<any, any> = {
   getters: {
     token: (state) => state.token,
     isAuthenticated: (state) => state.token !== null,
-    isAdministrator: (state) => state.user.is_admin_user,
+    isAdministrator: (state) => state.user && state.user.is_admin_user,
     user: (state) => state.user,
     profile: (state) => state.profile,
   },

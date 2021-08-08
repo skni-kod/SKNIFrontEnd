@@ -85,7 +85,7 @@ export default class Gallery extends Vue {
   @Prop({ default: false }) public readonly deleteMode!: boolean;
 
   get be() {
-    return process.env.VUE_APP_BACK_URL;
+    return process.env.VUE_APP_MEDIA_URL;
   }
 
   private imgClicked(num: number) {

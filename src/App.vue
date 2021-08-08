@@ -16,7 +16,7 @@ import { Component } from 'vue-property-decorator';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 const Snackbars = () =>
-  import(
+  import( // tslint:disable-next-line
     /* webpackChunkName: "ComponentSnackbar" */ '@/components/Snackbar.vue'
   );
 
@@ -24,7 +24,7 @@ const Snackbars = () =>
   components: { Navbar, Footer, Snackbars },
 })
 export default class App extends Vue {
-  created() {
+  private created() {
     this.$store.dispatch('autoLogin');
   }
 }

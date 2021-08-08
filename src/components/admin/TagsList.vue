@@ -6,7 +6,15 @@
     >
     <v-card-text class="pa-2" v-if="list.length > 0">
       <v-row align="center" justify="center" class="ma-2">
-        <v-col cols="12" sm="6" lg="4" xl="3" v-for="el in list" :key="el.id" class="pa-1">
+        <v-col
+          cols="12"
+          sm="6"
+          lg="4"
+          xl="3"
+          v-for="el in list"
+          :key="el.id"
+          class="pa-1"
+        >
           <v-hover v-slot:default="{ hover }">
             <v-card class="px-2">
               <v-card-text>
@@ -21,14 +29,14 @@
                     >
                   </v-col>
                 </v-row>
-                               <v-fade-transition>
+                <v-fade-transition>
                   <v-overlay
                     v-if="hover"
                     absolute
                     opacity="0.8"
                     color="success"
                     @click.native="edit()"
-                    style="cursor: pointer; width: 50%;"
+                    style="cursor: pointer; width: 50%"
                   >
                     <v-row
                       no-gutters
@@ -45,13 +53,13 @@
                   </v-overlay>
                 </v-fade-transition>
                 <v-fade-transition>
-                    <v-overlay
+                  <v-overlay
                     v-if="hover"
                     absolute
                     opacity="0.8"
                     color="error"
                     @click.native="removeClicked()"
-                    style="cursor: pointer;width:50%;left:50%"
+                    style="cursor: pointer; width: 50%; left: 50%"
                   >
                     <v-row
                       no-gutters

@@ -53,7 +53,7 @@ export default class MdImgAdd extends Vue {
   }
 
   get be() {
-    return process.env.VUE_APP_BACK_URL;
+    return process.env.VUE_APP_MEDIA_URL;
   }
 
   get generatedCode() {

@@ -32,6 +32,6 @@ export default new Vuex.Store({
     comments,
   },
   plugins: [
-    createMultiTabState({ statesPaths: ['user.token', 'user.refreshToken'] }),
+    createMultiTabState({ statesPaths: ['user'] }),
   ],
 });

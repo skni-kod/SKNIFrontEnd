@@ -24,9 +24,7 @@
         </v-row>
         <v-row v-if="addComment" no-gutters>
           <v-col>
-            <comment-editor
-              @close="addComment = false"
-            ></comment-editor>
+            <comment-editor @close="addComment = false"></comment-editor>
           </v-col>
         </v-row>
       </v-card-actions>

@@ -4,8 +4,16 @@ import store from './store';
 
 Vue.use(VueRouter);
 
-const authGuard = (to: Route, from: Route, next: NavigationGuardNext) => {
+const adminGuard = (to: Route, from: Route, next: NavigationGuardNext) => {
   if (!store.getters.isAdministrator) {
+    next({ name: 'error403' });
+  } else {
+    next();
+  }
+};
+
+const authGuard = (to: Route, from: Route, next: NavigationGuardNext) => {
+  if (!store.getters.isAuthenticated) {
     next({ name: 'error403' });
   } else {
     next();
@@ -41,14 +49,14 @@ const routes: RouteConfig[] = [
     name: 'articleEdit',
     component: () =>
       import(/* webpackChunkName: "ArticleEdit" */ './views/ArticleEdit.vue'),
-    beforeEnter: authGuard,
+    beforeEnter: adminGuard,
   },
   {
     path: '/article/add',
     name: 'articleAdd',
     component: () =>
       import(/* webpackChunkName: "ArticleEdit" */ './views/ArticleEdit.vue'),
-    beforeEnter: authGuard,
+    beforeEnter: adminGuard,
   },
   {
     path: '/tag/:tag/:page?',
@@ -73,28 +81,54 @@ const routes: RouteConfig[] = [
     name: 'sectionEdit',
     component: () =>
       import(/* webpackChunkName: "SectionEdit" */ './views/SectionEdit.vue'),
-    beforeEnter: authGuard,
+    beforeEnter: adminGuard,
   },
   {
     path: '/section/add',
     name: 'sectionAdd',
     component: () =>
       import(/* webpackChunkName: "SectionEdit" */ './views/SectionEdit.vue'),
-    beforeEnter: authGuard,
+    beforeEnter: adminGuard,
+  },
+  {
+    path: '/projects/:page?',
+    name: 'projects',
+    component: () =>
+      import(/* webpackChunkName: "Project" */ './views/ProjectList.vue'),
+  },
+  {
+    path: '/project/edit/:id?',
+    name: 'editProject',
+    component: () =>
+      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
+    beforeEnter: adminGuard,
+  },
+  {
+    path: '/project/add',
+    name: 'projectAdd',
+    component: () =>
+      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
+    beforeEnter: adminGuard,
+  },
+  {
+    path: '/project/:id',
+    name: 'project',
+    component: () =>
+      import(/* webpackChunkName: "ProjectPage" */ './views/Project.vue'),
   },
   {
     path: '/hardware/edit/:id?',
     name: 'hardwareEdit',
     component: () =>
       import(/* webpackChunkName: "HardwareEdit" */ './views/HardwareEdit.vue'),
-    beforeEnter: authGuard,
+    beforeEnter: adminGuard,
   },
   {
     path: '/hardware/add',
     name: 'hardwareAdd',
     component: () =>
       import(/* webpackChunkName: "HardwareEdit" */ './views/HardwareEdit.vue'),
-    beforeEnter: authGuard,
+    beforeEnter: adminGuard,
   },
   {
     path: '/hardware/:page?',
@@ -122,27 +156,24 @@ const routes: RouteConfig[] = [
   {
     path: '/user/panel',
     name: 'userPanel',
+    beforeEnter: authGuard,
     component: () =>
       import(/* webpackChunkName: "UserPanel" */ './views/UserPanel.vue'),
   },
   {
-    path: '/admin/panel/:module?',
-    name: 'adminPanel',
-    component: () =>
-      import(/* webpackChunkName: "AdminPanel" */ './views/AdminPanel.vue'),
-    beforeEnter: authGuard,
-  },
-  {
     path: '/user/passchange',
     name: 'UserPassChange',
+    beforeEnter: authGuard,
     component: () =>
       import(
+        // tslint:disable-next-line
         /* webpackChunkName: "UserPassChange" */ './views/UserPassChange.vue'
       ),
   },
   {
     path: '/user/descriptionchange',
     name: 'UserEditChange',
+    beforeEnter: authGuard,
     component: () =>
       import(/* webpackChunkName: "UserEdit" */ './views/UserEdit.vue'),
   },
@@ -153,42 +184,23 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "UserProfile" */ './views/UserProfile.vue'),
   },
   {
-    path: '/projects/:page?',
-    name: 'projects',
+    path: '/admin/panel/:module?',
+    name: 'adminPanel',
     component: () =>
-      import(/* webpackChunkName: "Project" */ './views/ProjectList.vue'),
-  },
-  {
-    path: '/project/edit/:id?',
-    name: 'editProject',
-    component: () =>
-      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
-    beforeEnter: authGuard,
-  },
-  {
-    path: '/project/add',
-    name: 'projectAdd',
-    component: () =>
-      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
-    beforeEnter: authGuard,
-  },
-  {
-    path: '/project/:id',
-    name: 'project',
-    component: () =>
-      import(/* webpackChunkName: "ProjectPage" */ './views/Project.vue'),
+      import(/* webpackChunkName: "AdminPanel" */ './views/AdminPanel.vue'),
+    beforeEnter: adminGuard,
   },
   {
     path: '/403',
     name: 'error403',
     component: () =>
-      import(/* webpackChunkName: "Error403" */ './views/403.vue'),
+      import(/* webpackChunkName: "ErrorPage" */ './views/ErrorPage.vue'),
   },
   {
     path: '/404',
     name: 'error404',
     component: () =>
-      import(/* webpackChunkName: "Error404" */ './views/404.vue'),
+      import(/* webpackChunkName: "ErrorPage" */ './views/ErrorPage.vue'),
   },
   { path: '*', redirect: '/404' },
 ];
