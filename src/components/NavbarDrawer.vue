@@ -42,6 +42,18 @@
           <v-list-item-title>Hardware</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item
+        router
+        href="https://kod.prz.edu.pl/junior"
+        @click="drawer = !drawer"
+      >
+        <v-list-item-action>
+          <v-icon large class="primary--text">mdi-school</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>SKNI Junior</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
 
     <v-list subheader shaped>
