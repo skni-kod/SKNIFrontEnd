@@ -11,6 +11,8 @@
           >{{ item.title }}</v-btn
         >
         <v-btn text :to="{ name: 'hardwareList' }" v-if="auth">Hardware</v-btn>
+        <v-btn text href="https://kod.prz.edu.pl/junior">Junior</v-btn>
+
       </v-toolbar-items>
       <v-toolbar-title v-else>SKNI KOD</v-toolbar-title>
       <v-spacer />
