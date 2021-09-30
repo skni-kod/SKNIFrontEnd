@@ -28,7 +28,7 @@
   </v-row>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { SectionsService } from '@/services/SectionsService';
 import { SectionModel } from '@/models/SectionModel';
@@ -73,7 +73,7 @@ export default class Home extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .background {
   background: linear-gradient(
       rgba(255, 255, 255, 0),

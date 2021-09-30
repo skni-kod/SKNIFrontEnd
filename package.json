@@ -13,6 +13,7 @@
     "babel-runtime": "^6.26.0",
     "jwt-decode": "^3.1.2",
     "markdown-it-vue": "^1.1.6",
+    "node-sass": "^6.0.1",
     "remove-markdown": "^0.3.0",
     "v-snackbars": "^3.2.4",
     "vue": "^2.6.14",
