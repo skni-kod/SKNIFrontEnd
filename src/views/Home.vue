@@ -21,6 +21,7 @@
         class="background"
         :src="require('../assets/logo_color.png')"
       ></v-img>
+      <Section />
       <home-section-list :sections="sections"></home-section-list>
       <home-article-list :articles="articles"></home-article-list>
       <sponsors></sponsors>
@@ -38,9 +39,10 @@ import { ArticlesService } from '@/services/ArticlesService';
 import homeArticleList from '@/components/HomeArticleList.vue';
 import homeSectionList from '@/components/HomeSectionList.vue';
 import Sponsors from '@/components/Sponsors.vue';
+import Section from '@/components/NewDesign/Section.vue';
 
 @Component({
-  components: { homeArticleList, homeSectionList, Sponsors },
+  components: { homeArticleList, homeSectionList, Sponsors, Section },
 })
 export default class Home extends Vue {
   private sectionsService!: SectionsService;
