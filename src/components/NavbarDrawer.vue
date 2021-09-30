@@ -19,6 +19,7 @@
         v-for="item in items"
         :key="item.title"
         router
+        :exact="item.exact"
         :to="item.link"
         @click="drawer = !drawer"
       >

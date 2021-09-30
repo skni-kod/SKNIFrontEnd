@@ -4,6 +4,7 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-items v-if="$vuetify.breakpoint.mdAndUp">
         <v-btn
+          :exact="item.exact"
           text
           v-for="(item, i) in toolbarItems"
           :key="i"
@@ -12,7 +13,6 @@
         >
         <v-btn text :to="{ name: 'hardwareList' }" v-if="auth">Hardware</v-btn>
         <v-btn text href="https://kod.prz.edu.pl/junior">Junior</v-btn>
-
       </v-toolbar-items>
       <v-toolbar-title v-else>SKNI KOD</v-toolbar-title>
       <v-spacer />
@@ -84,19 +84,36 @@ import Vue from 'vue';
 })
 export default class Navbar extends Vue {
   private toolbarItems = [
-    { link: { name: 'home' }, title: 'Strona główna', icon: 'mdi-home' },
-    { link: { name: 'about' }, title: 'O nas', icon: 'mdi-account-group' },
+    {
+      link: { name: 'home' },
+      title: 'Strona główna',
+      icon: 'mdi-home',
+      exact: true,
+    },
+    {
+      link: { name: 'about' },
+      title: 'O nas',
+      icon: 'mdi-account-group',
+      exact: false,
+    },
     {
       link: { name: 'articles', params: { page: 1 } },
       title: 'Artykuły',
       icon: 'mdi-text-box-multiple',
+      exact: false,
     },
     {
       link: { name: 'sections' },
       title: 'Sekcje',
       icon: 'mdi-vector-intersection',
+      exact: false,
     },
-    { link: { name: 'projects' }, title: 'Projekty', icon: 'mdi-cog' },
+    {
+      link: { name: 'projects' },
+      title: 'Projekty',
+      icon: 'mdi-cog',
+      exact: false,
+    },
   ];
 
   get drawer(): boolean {
