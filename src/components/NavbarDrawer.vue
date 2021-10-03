@@ -7,7 +7,7 @@
     width="300px"
   >
     <v-toolbar text dark class="px-3" height="64px">
-      <v-btn large block text outlined @click="drawer = !drawer">
+      <v-btn large block text outlined @click="drawer = false">
         Zamknij
         <v-icon large>mdi-close</v-icon>
       </v-btn>
@@ -21,7 +21,7 @@
         router
         :exact="item.exact"
         :to="item.link"
-        @click="drawer = !drawer"
+        @click="drawer = false"
       >
         <v-list-item-action>
           <v-icon large class="primary--text">{{ item.icon }}</v-icon>
@@ -33,7 +33,7 @@
       <v-list-item
         router
         :to="{ name: 'hardware' }"
-        @click="drawer = !drawer"
+        @click="drawer = false"
         v-if="auth"
       >
         <v-list-item-action>
@@ -46,7 +46,7 @@
       <v-list-item
         router
         href="https://kod.prz.edu.pl/junior"
-        @click="drawer = !drawer"
+        @click="drawer = false"
       >
         <v-list-item-action>
           <v-icon large class="primary--text">mdi-school</v-icon>
@@ -61,7 +61,7 @@
       <v-subheader>Użytkownik</v-subheader>
       <v-list-item
         router
-        @click="drawer = !drawer"
+        @click="drawer = false"
         :to="{ name: 'login' }"
         v-if="!auth"
       >
@@ -74,7 +74,7 @@
       </v-list-item>
       <v-list-item
         router
-        @click="drawer = !drawer"
+        @click="drawer = false"
         :to="{ name: 'register' }"
         v-if="!auth"
       >
@@ -87,7 +87,7 @@
       </v-list-item>
       <v-list-item
         router
-        @click="drawer = !drawer"
+        @click="drawer = false"
         :to="{ name: 'userProfile', params: { id: user.id } }"
         v-if="auth"
       >
@@ -100,7 +100,7 @@
       </v-list-item>
       <v-list-item
         router
-        @click="drawer = !drawer"
+        @click="drawer = false"
         :to="{ name: 'userPanel' }"
         v-if="auth"
       >
@@ -113,7 +113,7 @@
       </v-list-item>
       <v-list-item
         router
-        @click="drawer = !drawer"
+        @click="drawer = false"
         :to="{ name: 'adminPanel' }"
         v-if="role"
       >
@@ -127,7 +127,7 @@
       <v-list-item
         @click="
           logout();
-          drawer = !drawer;
+          drawer = false;
         "
         v-if="auth"
       >
