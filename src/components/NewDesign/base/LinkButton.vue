@@ -36,3 +36,13 @@ export default class LinkButton extends Vue {
   @include buttons.button-theme($primary, $body-bg);
 }
 </style>
+
+<style lang="scss">
+@use '@/styles/helpers' as *;
+@use '@/styles/components/buttons';
+
+.btn.primary,
+.btn-primary {
+  @include buttons.button-theme($primary, $body-bg);
+}
+</style>
