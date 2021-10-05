@@ -9,6 +9,7 @@
   </v-app>-->
 
   <v-app id="app">
+    <app-header />
     <main>
       <router-view :key="$route.fullPath" />
     </main>
@@ -22,9 +23,10 @@ import { Component } from 'vue-property-decorator';
 
 import '@/styles/global.scss';
 
+import AppHeader from '@/components/NewDesign/AppHeader.vue';
 
 @Component({
-  components: { Navbar, Footer, Snackbars },
+  components: { AppHeader },
 })
 export default class App extends Vue {
   private created() {
