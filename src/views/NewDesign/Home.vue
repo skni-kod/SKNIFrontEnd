@@ -1,6 +1,7 @@
 <template>
   <div class="home-container">
-      <Section />
+    <hero-section />
+    <Section />
   </div>
 </template>
 
@@ -15,9 +16,16 @@ import homeArticleList from '@/components/HomeArticleList.vue';
 import homeSectionList from '@/components/HomeSectionList.vue';
 import Sponsors from '@/components/Sponsors.vue';
 import Section from '@/components/NewDesign/Section.vue';
+import HeroSection from '@/components/NewDesign/HeroSection.vue';
 
 @Component({
-  components: { homeArticleList, homeSectionList, Sponsors, Section },
+  components: {
+    homeArticleList,
+    homeSectionList,
+    Sponsors,
+    Section,
+    HeroSection,
+  },
 })
 export default class Home extends Vue {
   private sectionsService!: SectionsService;
