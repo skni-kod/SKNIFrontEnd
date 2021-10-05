@@ -19,10 +19,10 @@ import { Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class Sponsors extends Vue {
-  @Prop(String) readonly title!: string;
-  @Prop(String) readonly text!: string;
-  @Prop(String) readonly link!: string;
-  @Prop(String) readonly icon!: string;
+  @Prop(String) private readonly title!: string;
+  @Prop(String) private readonly text!: string;
+  @Prop(String) private readonly link!: string;
+  @Prop(String) private readonly icon!: string;
 
   private data() {
     return {
