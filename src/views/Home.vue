@@ -21,7 +21,12 @@
         class="background"
         :src="require('../assets/logo_color.png')"
       ></v-img>
-      <Section />
+      <Section
+        title="Sekcja Game-Dev"
+        text="Sekcja zajmująca się tworzeniem gier komputerowych, głównie opartych o silnik Unity. Dodatkowo w pracy wykorzystuję technologię wirtualnej rzeczywistości. "
+        icon="game"
+        link="/section/2"
+      />
       <home-section-list :sections="sections"></home-section-list>
       <home-article-list :articles="articles"></home-article-list>
       <sponsors></sponsors>
