@@ -24,7 +24,7 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     name: 'home',
-    component: () => import(/* webpackChunkName: "Home" */ './views/Home.vue'),
+    component: () => import(/* webpackChunkName: "Home" */ './views/NewDesign/Home.vue'),
   },
   {
     path: '/about',
@@ -206,6 +206,7 @@ const routes: RouteConfig[] = [
 ];
 
 const router = new VueRouter({
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
   scrollBehavior(to, from, savedPosition) {

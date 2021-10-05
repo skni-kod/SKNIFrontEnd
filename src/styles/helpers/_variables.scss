@@ -1,0 +1,26 @@
+$primary: #55ACEE;
+$text-color: #2B2B2B;
+$body-bg: #FFFFFF;
+$shadow-color: #aaa;
+
+// TODO: Ciemny motyw
+// $body-bg: #1C1C1C;
+// $text-color: #DDD;
+// $shadow-color: #090909;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1500px,
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1420px,
+);
