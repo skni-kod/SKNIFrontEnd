@@ -42,6 +42,9 @@ export default class Sponsors extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/helpers' as *;
+@use '@/styles/components/buttons';
+
 .card {
   border-radius: 20px;
   max-width: 350px;
@@ -68,7 +71,7 @@ export default class Sponsors extends Vue {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background-color: #55acee;
+    background-color: $primary;
     fill: white;
     margin-bottom: 40px;
 
@@ -86,7 +89,7 @@ export default class Sponsors extends Vue {
       transition: color 0.3s;
     }
     &:hover .svg {
-      color: #55acee;
+      color: $primary;
     }
   }
 }

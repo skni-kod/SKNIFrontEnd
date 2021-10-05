@@ -1,7 +1,48 @@
 <template>
   <div class="home-container">
     <hero-section />
-    <Section />
+    <div class="sections-container">
+      <div class="sections-grid">
+        <Section
+          class="section-game-dev"
+          title="Sekcja Game-Dev"
+          text="Sekcja zajmująca się tworzeniem gier komputerowych, głównie opartych o silnik Unity. Dodatkowo w pracy wykorzystuję technologię wirtualnej rzeczywistości. "
+          icon="game"
+          link="/section/2"
+        />
+        <Section
+          class="section-apps"
+          title="Sekcja Aplikacji Desktopowych Mobilnych i Webowych "
+          text="Sekcja zajmująca się budową aplikacji na różnego rodzaju urządzenia, wykorzystując szeroką gamę technologii."
+          icon="monitor"
+          link="/section/1"
+        />
+        <Section
+          class="section-retro"
+          title="Sekcja Elektroniki i Retro "
+          text="Sekcja zajmująca się odrestaurowywaniem starego sprzętu, łączenie przeszłości z teraźniejszością oraz prowadzeniem działalności edukacyjnej. Dodatkowo realizowane są tutaj różne projekty elektroniczne."
+          icon="cpu"
+          link="/section/3"
+        />
+      </div>
+      <div class="join-us">
+        <h5 class="subtitle">Sekcje w SKNI KOD</h5>
+        <h2 class="section-title">
+          Dołącz do naszego koła<br />i zaangażuj się!
+        </h2>
+        <p class="text">
+          Jest wiele powodów aby dołączyć do SKNI KOD. Jednym z nich są sekcje!
+          W każdej z nich realizowane są przeróżne projekty, które mogą Cię
+          zainteresować. To Ty wybierasz do którego projektu chciałbyś dołączyć.
+        </p>
+        <p class="text">
+          Dołącz już dziś - skontaktuj się z nami poprzez fanpage na facebooku
+          lub przyjdź na spotkanie.
+        </p>
+
+        <link-button class="btn" :to="{ name: 'contact' }">Kontakt</link-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -60,9 +101,70 @@ export default class Home extends Vue {
 
 <style lang="scss" scoped>
 @use '@/styles/helpers' as *;
+@use '@/styles/components/buttons';
 
 .home-container {
   @include responsiveLayout();
   row-gap: 50px;
+}
+
+.sections-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  width: 100%;
+  padding: 50px 0;
+  .sections-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 50px;
+
+    .section-game-dev {
+      grid-row-start: 2;
+      grid-row-end: 4;
+    }
+    .section-apps {
+      grid-column-start: 2;
+      grid-row-start: 1;
+      grid-row-end: 3;
+    }
+    .section-retro {
+      grid-column-start: 2;
+      grid-row-start: 3;
+      grid-row-end: 5;
+    }
+  }
+
+  .join-us {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+
+    .subtitle {
+      color: $primary;
+      font-size: 16px;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-size: 38px;
+      font-weight: 500;
+      margin-bottom: 50px;
+    }
+
+    .text {
+      font-size: 16px;
+    }
+
+    .btn {
+      @include buttons.button-theme($primary, $body-bg);
+      width: auto;
+      margin-top: 50px;
+    }
+  }
 }
 </style>
