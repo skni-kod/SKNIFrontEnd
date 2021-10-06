@@ -43,6 +43,29 @@
         <link-button class="btn" :to="{ name: 'contact' }">Kontakt</link-button>
       </div>
     </div>
+
+    <div class="equipment-container full-bleed">
+      <img
+        :src="require('@/assets/home-images/equipment.jpg')"
+        alt="Drukarka 3D"
+        class="equipment-image"
+      />
+      <div class="equipment-inner">
+        <h2 class="section-title">Potrzebujesz sprzętu?</h2>
+        <p class="text">
+          Nasze koło posiada specjalistyczny sprzęt! Druki 3D czy rozwijanie
+          gier na platformę VR to dla nas drobnostka. Dzieki temu, że posiadamy
+          własny sprzęt możemy bez probelemy rozwijać nasze umiejęstności w tych
+          dziedzinach.
+        </p>
+        <p class="text">
+          Posiadamy także specjalistyczne lutownice, moduły arduino oraz
+          raspberry, sprzęt retro, drukarka 3D, google VR.
+        </p>
+
+        <link-button class="btn" :to="{ name: 'contact' }">Kontakt</link-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,6 +75,7 @@ import { SectionsService } from '@/services/SectionsService';
 import { SectionModel } from '@/models/SectionModel';
 import { ArticleModel } from '@/models/ArticleModel';
 import { ArticlesService } from '@/services/ArticlesService';
+import LinkButton from '@/components/NewDesign/base/LinkButton.vue';
 
 import homeArticleList from '@/components/HomeArticleList.vue';
 import homeSectionList from '@/components/HomeSectionList.vue';
@@ -66,6 +90,7 @@ import HeroSection from '@/components/NewDesign/HeroSection.vue';
     Sponsors,
     Section,
     HeroSection,
+    LinkButton,
   },
 })
 export default class Home extends Vue {
@@ -164,6 +189,61 @@ export default class Home extends Vue {
       @include buttons.button-theme($primary, $body-bg);
       width: auto;
       margin-top: 50px;
+    }
+  }
+}
+
+.equipment-container {
+  position: relative;
+  height: 600px;
+  margin: 50px 0;
+
+  .equipment-image {
+    width: 100%;
+    position: absolute;
+    height: 600px;
+    object-fit: cover;
+  }
+
+  .equipment-inner {
+    max-width: 600px;
+    margin: auto;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    height: 100%;
+
+    .section-title {
+      font-size: 48px;
+      font-size: 700;
+      margin-bottom: 35px;
+    }
+
+    .text {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .section-title,
+    .text {
+      color: #fff;
+    }
+
+    .btn {
+      @include buttons.button-theme($primary, $body-bg);
+      background-color: #fff;
+      color: $primary;
+      border-color: #fff;
+      margin-top: 30px;
+
+      &:hover {
+        border-color: #fff;
+        color: #fff;
+      }
     }
   }
 }
