@@ -69,6 +69,7 @@ export default class ProjectsGrid extends Vue {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto 6fr 2fr 6fr auto;
   gap: 50px;
+  margin: 50px 0;
   .grid-header {
     display: flex;
     flex-direction: column;
