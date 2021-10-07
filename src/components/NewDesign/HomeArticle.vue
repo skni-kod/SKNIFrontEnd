@@ -60,7 +60,7 @@ import { pl } from 'date-fns/locale';
 import { ArticleModel } from '@/models/ArticleModel';
 
 @Component
-export default class Sponsors extends Vue {
+export default class Article extends Vue {
   @Prop(Object) readonly article!: ArticleModel;
 
   private removeMarkdown(text: string) {

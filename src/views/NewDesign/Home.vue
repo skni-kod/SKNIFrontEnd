@@ -74,6 +74,16 @@
         <HomeArticle v-for="article in articles.results" :article="article" />
       </div>
     </div>
+
+    <div class="sponsors-container">
+      <h3 class="sponsors-subtitle">Wspierają nas</h3>
+      <h2 class="sponsors-title">Nasi partnerzy</h2>
+      <div class="sponsors-inner">
+        <Sponsor />
+        <Sponsor />
+        <Sponsor />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -91,6 +101,7 @@ import homeSectionList from '@/components/HomeSectionList.vue';
 import Sponsors from '@/components/Sponsors.vue';
 import Section from '@/components/NewDesign/Section.vue';
 import HomeArticle from '@/components/NewDesign/HomeArticle.vue';
+import Sponsor from '@/components/NewDesign/Sponsor.vue';
 import HeroSection from '@/components/NewDesign/HeroSection.vue';
 import HomeArticleList from '@/components/HomeArticleList.vue';
 
@@ -103,6 +114,7 @@ import HomeArticleList from '@/components/HomeArticleList.vue';
     HeroSection,
     LinkButton,
     HomeArticle,
+    Sponsor,
   },
 
   computed: {
@@ -274,6 +286,32 @@ export default class Home extends Vue {
   .articles-inner {
     display: flex;
     justify-content: space-between;
+  }
+}
+
+.sponsors-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+
+  .sponsors-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .sponsors-subtitle {
+    color: $primary;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .sponsors-title {
+    font-size: 41px;
+    margin-top: 20px;
+    text-align: center;
   }
 }
 </style>
