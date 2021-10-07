@@ -18,7 +18,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
 @Component
-export default class Sponsors extends Vue {
+export default class Section extends Vue {
   @Prop(String) private readonly title!: string;
   @Prop(String) private readonly text!: string;
   @Prop(String) private readonly link!: string;
