@@ -66,6 +66,10 @@
         <link-button class="btn" :to="{ name: 'contact' }">Kontakt</link-button>
       </div>
     </div>
+
+    <div class="articles-container">
+      <HomeArticle />
+    </div>
   </div>
 </template>
 
@@ -81,7 +85,9 @@ import homeArticleList from '@/components/HomeArticleList.vue';
 import homeSectionList from '@/components/HomeSectionList.vue';
 import Sponsors from '@/components/Sponsors.vue';
 import Section from '@/components/NewDesign/Section.vue';
+import HomeArticle from '@/components/NewDesign/HomeArticle.vue';
 import HeroSection from '@/components/NewDesign/HeroSection.vue';
+import HomeArticleList from '@/components/HomeArticleList.vue';
 
 @Component({
   components: {
@@ -91,6 +97,7 @@ import HeroSection from '@/components/NewDesign/HeroSection.vue';
     Section,
     HeroSection,
     LinkButton,
+    HomeArticle,
   },
 })
 export default class Home extends Vue {
