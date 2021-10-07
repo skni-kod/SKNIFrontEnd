@@ -1,25 +1,40 @@
 <template>
   <div class="card">
-    <router-link class="card-link" to="/article">
+    <router-link
+      class="card-link"
+      :to="{
+        name: 'article',
+        params: { id: article.id, alias: article.alias },
+      }"
+    >
       <div class="card-image">
         <img
-          :src="require('@/assets/article.jpg')"
+          :src="'https://kod.prz.edu.pl' + article.gallery[0].thumbnail"
           alt="Drukarka 3D"
           class="equipment-image"
         />
       </div>
     </router-link>
 
-    <div class="card-date">6 września 2021</div>
-    <router-link class="card-link" to="/article">
-      <h3 class="card-title">Projekt SKNI Junior wystartował</h3>
+    <div class="card-date" v-html="date"></div>
+    <router-link
+      class="card-link card-link-title"
+      :to="{
+        name: 'article',
+        params: { id: article.id, alias: article.alias },
+      }"
+    >
+      <h3 class="card-title" v-html="article.title"></h3>
     </router-link>
 
-    <p class="card-text">
-      Z przyjemnością informujemy, że wreszcie udaje się nam wystartować z
-      projektem, nad którym długo pracowaliśmy...
-    </p>
-    <router-link class="card-link card-arrow" to="/article">
+    <p v-html="text" class="card-text"></p>
+    <router-link
+      class="card-link card-arrow"
+      :to="{
+        name: 'article',
+        params: { id: article.id, alias: article.alias },
+      }"
+    >
       <div class="svg" v-html="arrowRight"></div>
     </router-link>
 
@@ -27,7 +42,12 @@
       <div class="card-icon">
         <div class="svg" v-html="user"></div>
       </div>
-      <div class="signature">Paweł Miękina</div>
+      <div
+        v-html="
+          article.authors[0].first_name + ' ' + article.authors[0].last_name
+        "
+        class="signature"
+      ></div>
     </div>
   </div>
 </template>
@@ -35,22 +55,31 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { format } from 'date-fns';
+import { pl } from 'date-fns/locale';
+import { ArticleModel } from '@/models/ArticleModel';
 
 @Component
 export default class Sponsors extends Vue {
-  @Prop(String) private readonly title!: string;
-  @Prop(String) private readonly text!: string;
-  @Prop(String) private readonly link!: string;
-  @Prop(String) private readonly icon!: string;
+  @Prop(Object) readonly article!: ArticleModel;
 
-  private data() {
-    return {
-      user:
-        '<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.21 21v-2a4 4 0 00-4-4h-8a4 4 0 00-4 4v2M12.21 11a4 4 0 100-8 4 4 0 000 8z" stroke="#55ACEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-      arrowRight:
-        '<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m15.352 10.185 5.024 4.988-5.024 4.987" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.299 4.201v6.982c0 1.058.423 2.073 1.177 2.821a4.035 4.035 0 0 0 2.842 1.169h12.058" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    };
+  private removeMarkdown(text: string) {
+    const removeMd = require('remove-markdown');
+    return removeMd(text);
   }
+  get text(): string {
+    return this.removeMarkdown(this.article.text);
+  }
+
+  get date(): string {
+    return format(new Date(this.article.creation_date), 'd MMMMMMM yyyy', {
+      locale: pl,
+    });
+  }
+  user =
+    '<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.21 21v-2a4 4 0 00-4-4h-8a4 4 0 00-4 4v2M12.21 11a4 4 0 100-8 4 4 0 000 8z" stroke="#55ACEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  arrowRight =
+    '<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m15.352 10.185 5.024 4.988-5.024 4.987" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.299 4.201v6.982c0 1.058.423 2.073 1.177 2.821a4.035 4.035 0 0 0 2.842 1.169h12.058" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 }
 </script>
 
@@ -80,6 +109,7 @@ export default class Sponsors extends Vue {
       width: 100%;
       border-radius: 20px 20px 0 0;
       object-fit: cover;
+      height: 200px;
     }
   }
 
@@ -92,6 +122,10 @@ export default class Sponsors extends Vue {
 
   .card-link {
     text-decoration: none;
+  }
+
+  .card-link-title {
+    width: 100%;
   }
   .card-title {
     font-size: 18px;

@@ -68,7 +68,11 @@
     </div>
 
     <div class="articles-container">
-      <HomeArticle />
+      <h3 class="articles-subtitle">Co słychać w SKNI KOD?</h3>
+      <h2 class="articles-title">Najnowsze artykuły</h2>
+      <div class="articles-inner">
+        <HomeArticle v-for="article in articles.results" :article="article" />
+      </div>
     </div>
   </div>
 </template>
@@ -80,6 +84,7 @@ import { SectionModel } from '@/models/SectionModel';
 import { ArticleModel } from '@/models/ArticleModel';
 import { ArticlesService } from '@/services/ArticlesService';
 import LinkButton from '@/components/NewDesign/base/LinkButton.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 import homeArticleList from '@/components/HomeArticleList.vue';
 import homeSectionList from '@/components/HomeSectionList.vue';
@@ -99,34 +104,25 @@ import HomeArticleList from '@/components/HomeArticleList.vue';
     LinkButton,
     HomeArticle,
   },
+
+  computed: {
+    ...mapGetters(['articles']),
+  },
 })
 export default class Home extends Vue {
   private sectionsService!: SectionsService;
   private articleService!: ArticlesService;
   private sections!: SectionModel[];
-  private articles!: ArticleModel[];
+  // private articles!: ArticleModel[];
   constructor() {
     super();
     this.sectionsService = new SectionsService();
     this.articleService = new ArticlesService();
     this.sections = [];
-    this.articles = [];
   }
-  public mounted() {
-    this.sectionsService.getAllSections().then((res) => {
-      this.sections = res.data;
-      for (let i = 0; i < this.sections.length; ) {
-        if (this.sections[i].isVisible === false) {
-          this.sections.splice(i, 1);
-        } else {
-          i++;
-        }
-      }
-    });
 
-    this.articleService.getArticles(0, 3, false).then((a) => {
-      this.articles = a.results;
-    });
+  public created() {
+    this.$store.dispatch('getArticles');
   }
 }
 </script>
@@ -252,6 +248,32 @@ export default class Home extends Vue {
         color: #fff;
       }
     }
+  }
+}
+
+.articles-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 50px;
+
+  .articles-subtitle {
+    color: $primary;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .articles-title {
+    font-size: 41px;
+    margin: 20px 0 50px 0;
+    text-align: center;
+  }
+
+  .articles-inner {
+    display: flex;
+    justify-content: space-between;
   }
 }
 </style>
