@@ -315,6 +315,11 @@ export default class AppHeader extends Vue {
         padding: 10px;
         color: $text-color;
 
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+
         &:hover {
           color: $primary;
         }
