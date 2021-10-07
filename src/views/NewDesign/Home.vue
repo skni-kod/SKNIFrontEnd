@@ -1,6 +1,7 @@
 <template>
   <div class="home-container">
     <hero-section />
+
     <div class="sections-container">
       <div class="sections-grid">
         <Section
@@ -28,7 +29,8 @@
       <div class="join-us">
         <h5 class="subtitle">Sekcje w SKNI KOD</h5>
         <h2 class="section-title">
-          Dołącz do naszego koła<br />i zaangażuj się!
+          Dołącz do naszego koła
+          <br />i zaangażuj się!
         </h2>
         <p class="text">
           Jest wiele powodów aby dołączyć do SKNI KOD. Jednym z nich są sekcje!
@@ -66,6 +68,8 @@
         <link-button class="btn" :to="{ name: 'contact' }">Kontakt</link-button>
       </div>
     </div>
+
+    <projects-grid :projects="projects" :projectsCount="projectsCount" />
   </div>
 </template>
 
@@ -82,6 +86,7 @@ import homeSectionList from '@/components/HomeSectionList.vue';
 import Sponsors from '@/components/Sponsors.vue';
 import Section from '@/components/NewDesign/Section.vue';
 import HeroSection from '@/components/NewDesign/HeroSection.vue';
+import ProjectsGrid, { ProjectInfo } from '@/components/NewDesign/ProjectsGrid.vue';
 
 @Component({
   components: {
@@ -91,6 +96,7 @@ import HeroSection from '@/components/NewDesign/HeroSection.vue';
     Section,
     HeroSection,
     LinkButton,
+    ProjectsGrid
   },
 })
 export default class Home extends Vue {
@@ -108,7 +114,7 @@ export default class Home extends Vue {
   public mounted() {
     this.sectionsService.getAllSections().then((res) => {
       this.sections = res.data;
-      for (let i = 0; i < this.sections.length; ) {
+      for (let i = 0; i < this.sections.length;) {
         if (this.sections[i].isVisible === false) {
           this.sections.splice(i, 1);
         } else {
@@ -121,6 +127,53 @@ export default class Home extends Vue {
       this.articles = a.results;
     });
   }
+
+  // TODO: Use real data
+  projects: ProjectInfo[] = [
+    {
+      id: 13,
+      name: 'Roguelike',
+      description: 'Roguelike to wyjątkowa przygoda podczas której spotkasz wielu unikatowych NPC, którzy będą niezbędni do rozwoju postaci! Walcz z wieloma przeciwnikami i bossami którzy potrafią napsuć sporo krwi. Zbieraj pieniądze i materiały które pomogą ci rozwinąć postać i posiadłość. Walcz postacią którą chcesz oferujemy wiele różnorodnych postaci - od rycerza przez barbarzyńcę po maga!',
+      section: {
+        id: '1',
+        name: 'Sekcja Aplikacji Desktopowych Mobilnych i Webowych'
+      },
+      image: 'https://skni-kod.github.io/roguelike/img/scrin1.e3eb872f.png'
+    },
+    {
+      id: 13,
+      name: 'Roguelike',
+      description: 'Roguelike to wyjątkowa przygoda podczas której spotkasz wielu unikatowych NPC, którzy będą niezbędni do rozwoju postaci! Walcz z wieloma przeciwnikami i bossami którzy potrafią napsuć sporo krwi. Zbieraj pieniądze i materiały które pomogą ci rozwinąć postać i posiadłość. Walcz postacią którą chcesz oferujemy wiele różnorodnych postaci - od rycerza przez barbarzyńcę po maga!',
+      section: {
+        id: '1',
+        name: 'Sekcja Aplikacji Desktopowych Mobilnych i Webowych'
+      },
+      image: 'https://skni-kod.github.io/roguelike/img/scrin1.e3eb872f.png'
+    },
+    {
+      id: 13,
+      name: 'Roguelike',
+      description: 'Roguelike to wyjątkowa przygoda podczas której spotkasz wielu unikatowych NPC, którzy będą niezbędni do rozwoju postaci! Walcz z wieloma przeciwnikami i bossami którzy potrafią napsuć sporo krwi. Zbieraj pieniądze i materiały które pomogą ci rozwinąć postać i posiadłość. Walcz postacią którą chcesz oferujemy wiele różnorodnych postaci - od rycerza przez barbarzyńcę po maga!',
+      section: {
+        id: '1',
+        name: 'Sekcja Aplikacji Desktopowych Mobilnych i Webowych'
+      },
+      image: 'https://skni-kod.github.io/roguelike/img/scrin1.e3eb872f.png'
+    },
+    {
+      id: 13,
+      name: 'Roguelike',
+      description: 'Roguelike to wyjątkowa przygoda podczas której spotkasz wielu unikatowych NPC, którzy będą niezbędni do rozwoju postaci! Walcz z wieloma przeciwnikami i bossami którzy potrafią napsuć sporo krwi. Zbieraj pieniądze i materiały które pomogą ci rozwinąć postać i posiadłość. Walcz postacią którą chcesz oferujemy wiele różnorodnych postaci - od rycerza przez barbarzyńcę po maga!',
+      section: {
+        id: '1',
+        name: 'Sekcja Aplikacji Desktopowych Mobilnych i Webowych'
+      },
+      image: 'https://skni-kod.github.io/roguelike/img/scrin1.e3eb872f.png'
+    }
+  ];
+
+  // TODO: Use real data
+  projectsCount = 15;
 }
 </script>
 
