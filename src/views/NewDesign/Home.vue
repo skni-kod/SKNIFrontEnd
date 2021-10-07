@@ -118,7 +118,7 @@ import HomeArticleList from '@/components/HomeArticleList.vue';
   },
 
   computed: {
-    ...mapGetters(['articles']),
+    ...mapGetters(['articles', 'projects']),
   },
 })
 export default class Home extends Vue {
@@ -135,6 +135,7 @@ export default class Home extends Vue {
 
   public created() {
     this.$store.dispatch('getArticles');
+    this.$store.dispatch('getProjects');
   }
 }
 </script>
