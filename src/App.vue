@@ -10,7 +10,7 @@
 
   <v-app id="app" class="app">
     <app-header />
-    <main>
+    <main class="main">
       <router-view :key="$route.fullPath" />
     </main>
     <app-footer></app-footer>
@@ -49,5 +49,13 @@ export default class App extends Vue {
   @include media-breakpoint-down("md") {
     background-position-x: 60%;
   }
+}
+
+.main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>
