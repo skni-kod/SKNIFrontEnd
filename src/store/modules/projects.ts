@@ -12,9 +12,8 @@ const projectsModule: Module<any, any> = {
   },
 
   actions: {
-    getArticles({ commit }) {
+    getProjects({ commit }) {
       CS.getAllProjects().then((projects) => {
-        console.log(projects);
         commit('setProjects', { projects: projects });
       });
     },
