@@ -77,9 +77,8 @@
       </div>
     </div>
 
-    <<<<<<< HEAD
     <projects-grid :projects="projects" :projectsCount="projectsCount" />
-    =======
+
     <div class="sponsors-container">
       <h3 class="sponsors-subtitle">Wspierają nas</h3>
       <h2 class="sponsors-title">Nasi partnerzy</h2>
@@ -89,7 +88,6 @@
         <Sponsor />
       </div>
     </div>
-    >>>>>>> feat/sponsors
   </div>
 </template>
 
@@ -145,7 +143,7 @@ export default class Home extends Vue {
   public mounted() {
     this.sectionsService.getAllSections().then((res) => {
       this.sections = res.data;
-      for (let i = 0; i < this.sections.length; ) {
+      for (let i = 0; i < this.sections.length;) {
         if (this.sections[i].isVisible === false) {
           this.sections.splice(i, 1);
         } else {
