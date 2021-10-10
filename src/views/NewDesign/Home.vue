@@ -27,11 +27,11 @@
         />
       </div>
       <div class="join-us">
-        <h5 class="subtitle">Sekcje w SKNI KOD</h5>
-        <h2 class="section-title">
-          Dołącz do naszego koła
-          <br />i zaangażuj się!
-        </h2>
+        <SectionHeader
+          title="Dołącz do naszego koła
+          <br />i zaangażuj się!"
+          subtitle="Sekcje w SKNI KOD"
+        ></SectionHeader>
         <p class="text">
           Jest wiele powodów aby dołączyć do SKNI KOD. Jednym z nich są sekcje!
           W każdej z nich realizowane są przeróżne projekty, które mogą Cię
@@ -70,8 +70,8 @@
     </div>
 
     <div class="articles-container">
-      <h3 class="articles-subtitle">Co słychać w SKNI KOD?</h3>
-      <h2 class="articles-title">Najnowsze artykuły</h2>
+      <SectionHeader title="Najnowsze artykuły" subtitle="Co słychać w SKNI KOD?"></SectionHeader>
+
       <div class="articles-inner">
         <HomeArticle v-for="article in articles.results" :article="article" />
       </div>
@@ -80,8 +80,7 @@
     <projects-grid :projects="featuredProjects" :projectsCount="projectsCount - 1" />
 
     <div class="sponsors-container">
-      <h3 class="sponsors-subtitle">Wspierają nas</h3>
-      <h2 class="sponsors-title">Nasi partnerzy</h2>
+      <SectionHeader title="Wspierają nas" subtitle="Nasi partnerzy"></SectionHeader>
       <div class="sponsors-inner">
         <Sponsor />
         <Sponsor />
@@ -109,6 +108,7 @@ import Sponsor from '@/components/NewDesign/Sponsor.vue';
 import HeroSection from '@/components/NewDesign/HeroSection.vue';
 import HomeArticleList from '@/components/HomeArticleList.vue';
 import ProjectsGrid from '@/components/NewDesign/ProjectsGrid.vue';
+import SectionHeader from '../../components/NewDesign/SectionHeader.vue';
 
 @Component({
   components: {
@@ -121,6 +121,7 @@ import ProjectsGrid from '@/components/NewDesign/ProjectsGrid.vue';
     HomeArticle,
     ProjectsGrid,
     Sponsor,
+    SectionHeader,
   },
 
   computed: {
@@ -183,6 +184,10 @@ export default class Home extends Vue {
   gap: 50px;
   width: 100%;
   padding: 50px 0;
+
+  .section-header {
+    margin-bottom: 50px;
+  }
   .sections-grid {
     width: 100%;
     display: grid;
@@ -235,6 +240,36 @@ export default class Home extends Vue {
       margin-top: 50px;
     }
   }
+
+  @media only screen and (max-width: 1499px) {
+    grid-template-columns: 1fr;
+
+    .join-us {
+      grid-row-start: 1;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .sections-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      .section-game-dev {
+        grid-row: 1/2;
+        grid-column: 1/2;
+        margin: auto;
+      }
+      .section-apps {
+        grid-row: 2/3;
+        margin: auto;
+        grid-column: 1/2;
+      }
+      .section-retro {
+        grid-row: 3/4;
+        grid-column: 1/2;
+        margin: auto;
+      }
+    }
+  }
 }
 
 .equipment-container {
@@ -251,6 +286,7 @@ export default class Home extends Vue {
 
   .equipment-inner {
     max-width: 600px;
+    width: 80%;
     margin: auto;
     position: relative;
     z-index: 1;
@@ -290,6 +326,19 @@ export default class Home extends Vue {
       }
     }
   }
+
+  @media only screen and (max-width: 768px) {
+    position: relative;
+    height: 675px;
+    margin: 50px 0;
+
+    .equipment-image {
+      width: 100%;
+      position: absolute;
+      height: 675px;
+      object-fit: cover;
+    }
+  }
 }
 
 .articles-container {
@@ -298,23 +347,24 @@ export default class Home extends Vue {
   flex-direction: column;
   margin-bottom: 50px;
 
-  .articles-subtitle {
-    color: $primary;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-align: center;
-    font-size: 16px;
-  }
-
-  .articles-title {
-    font-size: 41px;
-    margin: 20px 0 50px 0;
+  .section-header {
+    margin-bottom: 75px;
     text-align: center;
   }
-
   .articles-inner {
     display: flex;
     justify-content: space-between;
+  }
+
+  @media only screen and (max-width: 1199px) {
+    .articles-inner {
+      flex-direction: column;
+      align-items: center;
+      .card {
+        margin-bottom: 25px;
+        max-width: 400px;
+      }
+    }
   }
 }
 
@@ -324,23 +374,23 @@ export default class Home extends Vue {
   align-items: center;
   flex-direction: column;
 
+  .section-header {
+    margin-bottom: 50px;
+    text-align: center;
+  }
   .sponsors-inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .sponsors-subtitle {
-    color: $primary;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-align: center;
-    font-size: 16px;
-  }
 
-  .sponsors-title {
-    font-size: 41px;
-    margin-top: 20px;
-    text-align: center;
+  @media only screen and (max-width: 768px) {
+    .sponsors-inner {
+      flex-direction: column;
+    }
+    .sponsor {
+      padding: 25px;
+    }
   }
 }
 </style>
