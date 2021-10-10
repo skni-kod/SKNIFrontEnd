@@ -2,7 +2,7 @@
   <div class="home-container">
     <hero-section />
 
-    <div class="sections-container">
+    <div class="sections-container" id="sections">
       <div class="sections-grid">
         <Section
           class="section-game-dev"

@@ -16,7 +16,7 @@
           nibh.
         </p>
 
-        <link-button :to="{ name: 'home' }">Zobacz więcej</link-button>
+        <link-button :to="{ hash: 'sections' }">Zobacz więcej</link-button>
       </div>
 
       <div class="hero-image-wrapper">
