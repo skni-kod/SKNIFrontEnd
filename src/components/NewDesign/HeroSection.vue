@@ -129,7 +129,8 @@ export default class HeroSection extends Vue {
   position: relative;
 
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 800px;
   background-image: url("~@/assets/hex.png");
   background-position: right bottom;
 
