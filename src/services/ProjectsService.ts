@@ -4,7 +4,7 @@ import beAxios from '@/axios';
 import store from '../store';
 
 export class ProjectsService {
-  private readMoreGuard = '---readmore---';
+  public readMoreGuard = '---readmore---';
 
   public async getAllProjects(): Promise<ProjectModel[]> {
     return (

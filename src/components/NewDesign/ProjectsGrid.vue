@@ -39,17 +39,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import LinkButton from './base/LinkButton.vue';
 import SectionHeader from '@/components/NewDesign/SectionHeader.vue';
-
-export type ProjectInfo = {
-  id: number,
-  name: string,
-  section: {
-    id: string,
-    name: string
-  },
-  description: string,
-  image: string
-}
+import { ProjectInfo } from '@/store/modules/projects';
 
 @Component({
   components: {

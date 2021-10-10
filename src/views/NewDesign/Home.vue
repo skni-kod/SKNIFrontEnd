@@ -77,7 +77,7 @@
       </div>
     </div>
 
-    <projects-grid :projects="projects" :projectsCount="projectsCount" />
+    <projects-grid :projects="featuredProjects" :projectsCount="projectsCount - 1" />
 
     <div class="sponsors-container">
       <h3 class="sponsors-subtitle">Wspierają nas</h3>
@@ -108,9 +108,7 @@ import HomeArticle from '@/components/NewDesign/HomeArticle.vue';
 import Sponsor from '@/components/NewDesign/Sponsor.vue';
 import HeroSection from '@/components/NewDesign/HeroSection.vue';
 import HomeArticleList from '@/components/HomeArticleList.vue';
-import ProjectsGrid, {
-  ProjectInfo,
-} from '@/components/NewDesign/ProjectsGrid.vue';
+import ProjectsGrid from '@/components/NewDesign/ProjectsGrid.vue';
 
 @Component({
   components: {
@@ -134,12 +132,22 @@ export default class Home extends Vue {
   private articleService!: ArticlesService;
   private sections!: SectionModel[];
   // private articles!: ArticleModel[];
+
+  get featuredProjects() {
+    return this.$store.getters.featuredProjects;
+  }
+
+  get projectsCount() {
+    return this.$store.getters.projectsCount;
+  }
+
   constructor() {
     super();
     this.sectionsService = new SectionsService();
     this.articleService = new ArticlesService();
     this.sections = [];
   }
+
   public mounted() {
     this.sectionsService.getAllSections().then((res) => {
       this.sections = res.data;
@@ -157,57 +165,6 @@ export default class Home extends Vue {
     this.$store.dispatch('getArticles');
     this.$store.dispatch('getProjects');
   }
-
-  // TODO: Use real data
-  projects: ProjectInfo[] = [
-    {
-      id: 13,
-      name: 'Roguelike',
-      description:
-        'Roguelike to wyjątkowa przygoda podczas której spotkasz wielu unikatowych NPC, którzy będą niezbędni do rozwoju postaci! Walcz z wieloma przeciwnikami i bossami którzy potrafią napsuć sporo krwi. Zbieraj pieniądze i materiały które pomogą ci rozwinąć postać i posiadłość. Walcz postacią którą chcesz oferujemy wiele różnorodnych postaci - od rycerza przez barbarzyńcę po maga!',
-      section: {
-        id: '1',
-        name: 'Sekcja Aplikacji Desktopowych Mobilnych i Webowych',
-      },
-      image: 'https://skni-kod.github.io/roguelike/img/scrin1.e3eb872f.png',
-    },
-    {
-      id: 13,
-      name: 'Roguelike',
-      description:
-        'Roguelike to wyjątkowa przygoda podczas której spotkasz wielu unikatowych NPC, którzy będą niezbędni do rozwoju postaci! Walcz z wieloma przeciwnikami i bossami którzy potrafią napsuć sporo krwi. Zbieraj pieniądze i materiały które pomogą ci rozwinąć postać i posiadłość. Walcz postacią którą chcesz oferujemy wiele różnorodnych postaci - od rycerza przez barbarzyńcę po maga!',
-      section: {
-        id: '1',
-        name: 'Sekcja Aplikacji Desktopowych Mobilnych i Webowych',
-      },
-      image: 'https://skni-kod.github.io/roguelike/img/scrin1.e3eb872f.png',
-    },
-    {
-      id: 13,
-      name: 'Roguelike',
-      description:
-        'Roguelike to wyjątkowa przygoda podczas której spotkasz wielu unikatowych NPC, którzy będą niezbędni do rozwoju postaci! Walcz z wieloma przeciwnikami i bossami którzy potrafią napsuć sporo krwi. Zbieraj pieniądze i materiały które pomogą ci rozwinąć postać i posiadłość. Walcz postacią którą chcesz oferujemy wiele różnorodnych postaci - od rycerza przez barbarzyńcę po maga!',
-      section: {
-        id: '1',
-        name: 'Sekcja Aplikacji Desktopowych Mobilnych i Webowych',
-      },
-      image: 'https://skni-kod.github.io/roguelike/img/scrin1.e3eb872f.png',
-    },
-    {
-      id: 13,
-      name: 'Roguelike',
-      description:
-        'Roguelike to wyjątkowa przygoda podczas której spotkasz wielu unikatowych NPC, którzy będą niezbędni do rozwoju postaci! Walcz z wieloma przeciwnikami i bossami którzy potrafią napsuć sporo krwi. Zbieraj pieniądze i materiały które pomogą ci rozwinąć postać i posiadłość. Walcz postacią którą chcesz oferujemy wiele różnorodnych postaci - od rycerza przez barbarzyńcę po maga!',
-      section: {
-        id: '1',
-        name: 'Sekcja Aplikacji Desktopowych Mobilnych i Webowych',
-      },
-      image: 'https://skni-kod.github.io/roguelike/img/scrin1.e3eb872f.png',
-    },
-  ];
-
-  // TODO: Use real data
-  projectsCount = 15;
 }
 </script>
 

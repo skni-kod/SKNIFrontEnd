@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@mdi/font": "^5.9.55",
+    "@types/remove-markdown": "^0.3.1",
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-typescript": "^4.5.13",
     "@vue/cli-plugin-vuex": "^4.5.13",
