@@ -176,6 +176,7 @@ export default class Home extends Vue {
 .home-container {
   @include responsiveLayout();
   row-gap: 50px;
+  width: 100%;
 }
 
 .sections-container {
