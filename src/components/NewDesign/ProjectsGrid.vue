@@ -1,9 +1,10 @@
 <template>
   <section class="projects-grid">
-    <div class="grid-header">
-      <span class="section-subtitle">Nasze projekty</span>
-      <h2 class="section-title">Prowadzimy wiele ciekawych projektów</h2>
-    </div>
+    <section-header
+      class="grid-header"
+      subtitle="Nasze projekty"
+      title="Prowadzimy wiele ciekawych projektów"
+    />
 
     <div
       class="project-tile"
@@ -37,6 +38,7 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import LinkButton from './base/LinkButton.vue';
+import SectionHeader from '@/components/NewDesign/SectionHeader.vue';
 
 export type ProjectInfo = {
   id: number,
@@ -52,6 +54,7 @@ export type ProjectInfo = {
 @Component({
   components: {
     LinkButton,
+    SectionHeader
   }
 })
 export default class ProjectsGrid extends Vue {
@@ -71,23 +74,7 @@ export default class ProjectsGrid extends Vue {
   gap: 50px;
   margin: 50px 0;
   .grid-header {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
     grid-column: 1;
-
-    .section-subtitle {
-      font-weight: 700;
-      font-size: 16px;
-      color: $primary;
-    }
-
-    .section-title {
-      font-family: "Montserrat";
-      font-weight: 500;
-      font-size: 41px;
-      line-height: 1.2;
-    }
   }
 
   .project-tile {
