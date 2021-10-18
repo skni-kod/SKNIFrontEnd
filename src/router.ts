@@ -24,19 +24,22 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     name: 'home',
-    component: () => import(/* webpackChunkName: "Home" */ './views/NewDesign/Home.vue'),
+    component: () =>
+      import(/* webpackChunkName: "Home" */ './views/NewDesign/Home.vue'),
   },
   {
     path: '/about',
     name: 'about',
     component: () =>
-      import(/* webpackChunkName: "About" */ './views/About.vue'),
+      import(/* webpackChunkName: "About" */ './views/NewDesign/About.vue'),
   },
   {
     path: '/articles/:page?',
     name: 'articles',
     component: () =>
-      import(/* webpackChunkName: "Article" */ './views/ArticleList.vue'),
+      import(
+        /* webpackChunkName: "Article" */ './views/NewDesign/ArticleList.vue'
+      ),
   },
   {
     path: '/article/:id-:alias',
@@ -210,7 +213,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
   scrollBehavior(to, from, savedPosition) {
-    if (to.hash) return { selector: to.hash }
+    if (to.hash) return { selector: to.hash };
 
     if (savedPosition) {
       return savedPosition;

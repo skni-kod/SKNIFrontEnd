@@ -42,11 +42,11 @@ export default class App extends Vue {
 /* TODO: Change to .app after removing Vuetify */
 .app.app {
   background-color: $body-bg;
-  background-image: url("~@/assets/page-footer.png");
+  background-image: url('~@/assets/page-footer.png');
   background-position: bottom;
   background-repeat: no-repeat;
 
-  @include media-breakpoint-down("md") {
+  @include media-breakpoint-down('md') {
     background-position-x: 60%;
   }
 }

@@ -50,7 +50,7 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
@@ -70,9 +70,10 @@ export default class ArticleList extends Vue {
     return this.$store.getters.isAdministrator;
   }
 
-  private beforeCreate() {
+  private created() {
     this.articlesService = new ArticlesService();
-    this.pagination = new PaginationModel(1, 3, 3);
+    this.pagination = new PaginationModel(1, 6, 6);
+    console.log(this.pagination);
   }
 
   private mounted() {

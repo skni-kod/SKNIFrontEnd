@@ -6,15 +6,15 @@ import removeMarkdown from 'remove-markdown';
 import projectPlaceholder from '@/assets/project_placeholder.jpg';
 
 export type ProjectInfo = {
-  id: number,
-  name: string,
+  id: number;
+  name: string;
   section: {
-    id: number,
-    name: string
-  },
-  description: string,
-  image: string
-}
+    id: number;
+    name: string;
+  };
+  description: string;
+  image: string;
+};
 
 const projectsService = new ProjectsService();
 
@@ -32,30 +32,35 @@ const projectsModule: Module<any, any> = {
       const featuredProjects: ProjectInfo[] = state.projects
         .slice(0, 4)
         .map((project: ProjectModel) => {
-          const image = project.gallery.length > 0 ? `${process.env.VUE_APP_MEDIA_URL}/${project.gallery[0].image}` : projectPlaceholder;
+          const image =
+            project.gallery.length > 0
+              ? `${process.env.VUE_APP_MEDIA_URL}/${project.gallery[0].image}`
+              : projectPlaceholder;
 
           return {
             id: project.id,
-            description: removeMarkdown(project.text.split(projectsService.readMoreGuard)[0]),
+            description: removeMarkdown(
+              project.text.split(projectsService.readMoreGuard)[0],
+            ),
             name: project.title,
             section: {
               id: (project.section as SectionModel).id,
-              name: (project.section as SectionModel).name
+              name: (project.section as SectionModel).name,
             },
-            image
+            image,
           };
         });
 
       return featuredProjects;
     },
 
-    projectsCount: (state) => state.projects.length
+    projectsCount: (state) => state.projects.length,
   },
 
   actions: {
     getProjects({ commit }) {
       projectsService.getAllProjects().then((projects) => {
-        commit('setProjects', { projects: projects });
+        commit('setProjects', { projects });
       });
     },
   },

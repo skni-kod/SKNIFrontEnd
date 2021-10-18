@@ -1,7 +1,14 @@
 <template>
-  <header class="header" :class="{ 'is-pinned': isPinned, 'menu-open': menuOpen }">
+  <header
+    class="header"
+    :class="{ 'is-pinned': isPinned, 'menu-open': menuOpen }"
+  >
     <div class="header-wrapper">
-      <router-link class="header-nav-item-link" :to="{ name: 'home' }" @click="handleNavLinkClick">
+      <router-link
+        class="header-nav-item-link"
+        :to="{ name: 'home' }"
+        @click="handleNavLinkClick"
+      >
         <img :src="require('@/assets/logo_small.png')" class="header-logo" />
       </router-link>
 
@@ -11,28 +18,43 @@
           :to="{ name: 'home' }"
           @click="handleNavLinkClick"
         >
-          <img :src="require('@/assets/logo_small.png')" class="mobile-drawer-logo" />
+          <img
+            :src="require('@/assets/logo_small.png')"
+            class="mobile-drawer-logo"
+          />
         </router-link>
 
         <ul class="header-nav-wrapper">
           <li class="header-nav-item" @click="handleNavLinkClick">
-            <router-link class="header-nav-item-link" :to="{ name: 'about' }">O nas</router-link>
+            <router-link class="header-nav-item-link" :to="{ name: 'about' }"
+              >O nas</router-link
+            >
           </li>
 
           <li class="header-nav-item" @click="handleNavLinkClick">
-            <router-link class="header-nav-item-link" :to="{ name: 'articles' }">Artykuły</router-link>
+            <router-link class="header-nav-item-link" :to="{ name: 'articles' }"
+              >Artykuły</router-link
+            >
           </li>
 
-          <li class="header-nav-item" @click="handleNavLinkClick">
+          <!-- <li class="header-nav-item" @click="handleNavLinkClick">
             <router-link class="header-nav-item-link" :to="{ name: 'sections' }">Sekcje</router-link>
-          </li>
+          </li> -->
 
           <li class="header-nav-item" @click="handleNavLinkClick">
-            <router-link class="header-nav-item-link" :to="{ name: 'projects' }">Projekty</router-link>
+            <router-link class="header-nav-item-link" :to="{ name: 'projects' }"
+              >Projekty</router-link
+            >
           </li>
 
-          <li class="header-nav-item" @click="handleNavLinkClick" v-if="isLoggedIn">
-            <router-link class="header-nav-item-link" :to="{ name: 'hardware' }">Sprzęt</router-link>
+          <li
+            class="header-nav-item"
+            @click="handleNavLinkClick"
+            v-if="isLoggedIn"
+          >
+            <router-link class="header-nav-item-link" :to="{ name: 'hardware' }"
+              >Sprzęt</router-link
+            >
           </li>
 
           <li class="header-nav-item junior" @click="handleNavLinkClick">
@@ -40,39 +62,72 @@
               class="header-nav-item-link"
               href="https://kod.prz.edu.pl/junior"
               target="_blank"
-            >Junior</a>
+              >Junior</a
+            >
           </li>
 
-          <li class="header-nav-item" @click="handleNavLinkClick" v-if="!isLoggedIn">
-            <router-link class="header-nav-item-link" :to="{ name: 'login' }">Logowanie</router-link>
+          <li
+            class="header-nav-item"
+            @click="handleNavLinkClick"
+            v-if="!isLoggedIn"
+          >
+            <router-link class="header-nav-item-link" :to="{ name: 'login' }"
+              >Logowanie</router-link
+            >
           </li>
 
-          <li class="header-nav-item" @click="handleNavLinkClick" v-if="isLoggedIn">
-            <router-link class="header-nav-item-link" :to="{ name: 'panel' }">Panel</router-link>
+          <li
+            class="header-nav-item"
+            @click="handleNavLinkClick"
+            v-if="isLoggedIn"
+          >
+            <router-link class="header-nav-item-link" :to="{ name: 'panel' }"
+              >Panel</router-link
+            >
           </li>
 
-          <li class="header-nav-item" @click="handleLogoutClick" v-if="isLoggedIn">
+          <li
+            class="header-nav-item"
+            @click="handleLogoutClick"
+            v-if="isLoggedIn"
+          >
             <button class="header-nav-item-link">Wyloguj</button>
           </li>
         </ul>
 
         <div class="drawer-links">
-          <a href="https://www.facebook.com/skni.kod" class="drawer-link" target="_blank">
+          <a
+            href="https://www.facebook.com/skni.kod"
+            class="drawer-link"
+            target="_blank"
+          >
             <facebook-icon />
           </a>
 
-          <a href="https://www.instagram.com/skni.kod/" class="drawer-link" target="_blank">
+          <a
+            href="https://www.instagram.com/skni.kod/"
+            class="drawer-link"
+            target="_blank"
+          >
             <instagram-icon />
           </a>
 
-          <a href="https://www.linkedin.com/company/78064192" class="drawer-link" target="_blank">
+          <a
+            href="https://www.linkedin.com/company/78064192"
+            class="drawer-link"
+            target="_blank"
+          >
             <linkedin-icon />
           </a>
         </div>
       </nav>
 
       <button
-        :class="{ 'hamburger': true, 'hamburger--squeeze': true, 'is-active': menuOpen }"
+        :class="{
+          hamburger: true,
+          'hamburger--squeeze': true,
+          'is-active': menuOpen,
+        }"
         type="button"
         @click="toggleMenu"
       >
@@ -98,8 +153,8 @@ import LinkedinIcon from '@/assets/icons/linkedin.svg?inline';
   components: {
     FacebookIcon,
     LinkedinIcon,
-    InstagramIcon
-  }
+    InstagramIcon,
+  },
 })
 export default class AppHeader extends Vue {
   isPinned = false;
@@ -196,7 +251,7 @@ export default class AppHeader extends Vue {
     }
   }
 
-  @include media-breakpoint-down("lg") {
+  @include media-breakpoint-down('lg') {
     .hamburger {
       display: block;
 
@@ -258,7 +313,7 @@ export default class AppHeader extends Vue {
 
         &.router-link-active {
           &::after {
-            content: "";
+            content: '';
             display: block;
             width: 100%;
             height: 3px;
@@ -285,7 +340,7 @@ export default class AppHeader extends Vue {
     display: none;
   }
 
-  @include media-breakpoint-down("lg") {
+  @include media-breakpoint-down('lg') {
     position: fixed;
     left: 0;
     top: 0;
