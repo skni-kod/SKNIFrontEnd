@@ -212,7 +212,8 @@ export default class AppHeader extends Vue {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 99;
+
   transition: height 0.3s, box-shadow 0.3s;
   height: 150px;
 

@@ -45,7 +45,9 @@ const routes: RouteConfig[] = [
     path: '/article/:id-:alias',
     name: 'article',
     component: () =>
-      import(/* webpackChunkName: "ArticlePage" */ './views/Article.vue'),
+      import(
+        /* webpackChunkName: "ArticlePage" */ './views/NewDesign/Article.vue'
+      ),
   },
   {
     path: '/article/edit/:id?',
@@ -77,7 +79,7 @@ const routes: RouteConfig[] = [
     path: '/section/:id',
     name: 'section',
     component: () =>
-      import(/* webpackChunkName: "Section" */ './views/Section.vue'),
+      import(/* webpackChunkName: "Section" */ './views/NewDesign/Section.vue'),
   },
   {
     path: '/section/edit/:id?',
