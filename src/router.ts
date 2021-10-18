@@ -99,7 +99,9 @@ const routes: RouteConfig[] = [
     path: '/projects/:page?',
     name: 'projects',
     component: () =>
-      import(/* webpackChunkName: "Project" */ './views/ProjectList.vue'),
+      import(
+        /* webpackChunkName: "Project" */ './views/NewDesign/ProjectList.vue'
+      ),
   },
   {
     path: '/project/edit/:id?',
@@ -119,7 +121,9 @@ const routes: RouteConfig[] = [
     path: '/project/:id',
     name: 'project',
     component: () =>
-      import(/* webpackChunkName: "ProjectPage" */ './views/Project.vue'),
+      import(
+        /* webpackChunkName: "ProjectPage" */ './views/NewDesign/Project.vue'
+      ),
   },
   {
     path: '/hardware/edit/:id?',
