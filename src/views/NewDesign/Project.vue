@@ -20,8 +20,8 @@
     </div>
 
     <div class="project-info" v-if="project">
-      <h2 class="authors-label">Autorzy</h2>
-      <div class="authors">
+      <h2 class="authors-label" v-if="project.authors.length > 0">Autorzy</h2>
+      <div class="authors" v-if="project.authors.length > 0">
         <v-chip label v-for="author in project.authors">
           <v-avatar left>
             <v-icon>mdi-account-circle</v-icon>
