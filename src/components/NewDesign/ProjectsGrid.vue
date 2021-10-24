@@ -15,12 +15,18 @@
         <h3 class="project-name">{{ project.name }}</h3>
 
         <div class="section">
+          <apps-section-icon class="icon" v-if="project.section.id === 1" />
+          <gamedev-section-icon class="icon" v-if="project.section.id === 2" />
+          <retro-section-icon class="icon" v-if="project.section.id === 3" />
+
           <p class="name">{{ project.section.name }}</p>
         </div>
 
         <p class="project-description">{{ project.description }}</p>
 
-        <router-link :to="{ name: 'project', params: { id: project.id } }" class="project-link">LINK</router-link>
+        <router-link :to="{ name: 'project', params: { id: project.id } }" class="project-link">
+          <arrow-right-icon class="project-link-icon" />
+        </router-link>
       </div>
     </div>
 
@@ -40,11 +46,19 @@ import { Component, Prop } from 'vue-property-decorator';
 import LinkButton from './base/LinkButton.vue';
 import SectionHeader from '@/components/NewDesign/SectionHeader.vue';
 import { ProjectInfo } from '@/store/modules/projects';
+import AppsSectionIcon from '@/assets/icons/apps.svg?inline';
+import RetroSectionIcon from '@/assets/icons/retro.svg?inline';
+import GamedevSectionIcon from '@/assets/icons/gamedev.svg?inline';
+import ArrowRightIcon from '@/assets/icons/arrow-right.svg?inline';
 
 @Component({
   components: {
     LinkButton,
-    SectionHeader
+    SectionHeader,
+    AppsSectionIcon,
+    GamedevSectionIcon,
+    RetroSectionIcon,
+    ArrowRightIcon
   }
 })
 export default class ProjectsGrid extends Vue {
@@ -116,6 +130,7 @@ export default class ProjectsGrid extends Vue {
         .icon {
           width: 40px;
           height: 40px;
+          color: $body-bg;
         }
       }
 
@@ -125,11 +140,11 @@ export default class ProjectsGrid extends Vue {
       }
 
       .project-link {
-        width: 50px;
-        height: 50px;
         align-self: flex-end;
         color: $body-bg;
         transition: color 0.3s;
+        width: 30px;
+        height: 30px;
 
         &:hover {
           color: $primary;
