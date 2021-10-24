@@ -42,7 +42,9 @@
           lub przyjdź na spotkanie.
         </p>
 
-        <link-button class="btn" :to="{ name: 'contact' }">Kontakt</link-button>
+        <link-button class="btn" :to="{ name: 'about' }"
+          >Zobacz więcej</link-button
+        >
       </div>
     </div>
 
@@ -65,22 +67,33 @@
           raspberry, sprzęt retro, drukarka 3D, google VR.
         </p>
 
-        <link-button class="btn" :to="{ name: 'contact' }">Kontakt</link-button>
+        <link-button class="btn" :to="{ name: 'about' }"
+          >Zobacz więcej</link-button
+        >
       </div>
     </div>
 
     <div class="articles-container">
-      <SectionHeader title="Najnowsze artykuły" subtitle="Co słychać w SKNI KOD?"></SectionHeader>
+      <SectionHeader
+        title="Najnowsze artykuły"
+        subtitle="Co słychać w SKNI KOD?"
+      ></SectionHeader>
 
       <div class="articles-inner">
         <HomeArticle v-for="article in articles.results" :article="article" />
       </div>
     </div>
 
-    <projects-grid :projects="featuredProjects" :projectsCount="projectsCount - 1" />
+    <projects-grid
+      :projects="featuredProjects"
+      :projectsCount="projectsCount - 1"
+    />
 
     <div class="sponsors-container">
-      <SectionHeader title="Wspierają nas" subtitle="Nasi partnerzy"></SectionHeader>
+      <SectionHeader
+        title="Wspierają nas"
+        subtitle="Nasi partnerzy"
+      ></SectionHeader>
       <div class="sponsors-inner">
         <Sponsor />
         <Sponsor />
@@ -152,7 +165,7 @@ export default class Home extends Vue {
   public mounted() {
     this.sectionsService.getAllSections().then((res) => {
       this.sections = res.data;
-      for (let i = 0; i < this.sections.length;) {
+      for (let i = 0; i < this.sections.length; ) {
         if (this.sections[i].isVisible === false) {
           this.sections.splice(i, 1);
         } else {

@@ -1,5 +1,5 @@
 <template>
-  <v-row class="fill-height pa-4" align="center">
+  <v-row class="login-section fill-height pa-4" align="center">
     <v-col cols="12" class="pa-0">
       <v-row no-gutters justify="center">
         <v-card class="elevation-12" width="500">
@@ -73,7 +73,7 @@
   </v-row>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import beAxios from 'axios';
@@ -104,3 +104,9 @@ export default class Login extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.login-section {
+  margin-top: 200px;
+}
+</style>
