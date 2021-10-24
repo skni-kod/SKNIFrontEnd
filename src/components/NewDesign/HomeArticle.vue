@@ -89,7 +89,7 @@ export default class Article extends Vue {
 
 .card {
   border-radius: 20px;
-  max-width: 350px;
+  max-width: 450px;
   width: 100%;
   display: flex;
   justify-content: center;
