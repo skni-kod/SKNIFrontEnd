@@ -16,11 +16,37 @@ export type ProjectInfo = {
   image: string;
 };
 
+const convertProject = (project: ProjectModel): ProjectInfo => {
+  const image = project.gallery.length > 0
+    ? `${process.env.VUE_APP_MEDIA_URL}/${project.gallery[0].image}`
+    : projectPlaceholder;
+
+  return {
+    id: project.id,
+    description: removeMarkdown(
+      project.text.split(projectsService.readMoreGuard)[0],
+    ),
+    name: project.title,
+    section: {
+      id: (project.section as SectionModel).id,
+      name: (project.section as SectionModel).name,
+    },
+    image,
+  };
+}
+
 const projectsService = new ProjectsService();
 
 const projectsModule: Module<any, any> = {
   state: {
     projects: [],
+
+    paginatedProjects: {
+      loading: true,
+      projects: {},
+      page: 0,
+      count: 0
+    }
   },
 
   getters: {
@@ -31,30 +57,25 @@ const projectsModule: Module<any, any> = {
 
       const featuredProjects: ProjectInfo[] = state.projects
         .slice(0, 4)
-        .map((project: ProjectModel) => {
-          const image =
-            project.gallery.length > 0
-              ? `${process.env.VUE_APP_MEDIA_URL}/${project.gallery[0].image}`
-              : projectPlaceholder;
-
-          return {
-            id: project.id,
-            description: removeMarkdown(
-              project.text.split(projectsService.readMoreGuard)[0],
-            ),
-            name: project.title,
-            section: {
-              id: (project.section as SectionModel).id,
-              name: (project.section as SectionModel).name,
-            },
-            image,
-          };
-        });
+        .map(convertProject);
 
       return featuredProjects;
     },
 
     projectsCount: (state) => state.projects.length,
+
+    paginatedProjects: (state) => {
+      const tempProjects: Record<number, ProjectModel[]> = state.paginatedProjects.projects;
+
+      const projects = Object.fromEntries(Object.entries(tempProjects).map(([page, projects]) => {
+        return [page, projects.map(convertProject)]
+      }));
+
+      return {
+        ...state.paginatedProjects,
+        projects
+      }
+    },
   },
 
   actions: {
@@ -63,12 +84,30 @@ const projectsModule: Module<any, any> = {
         commit('setProjects', { projects });
       });
     },
+
+    getPaginatedProjects({ commit }, { page, pageSize }) {
+      commit('loadPaginatedProjects');
+
+      projectsService.getProjectsByPage(page, pageSize, false).then(({ count, results }) => {
+        commit('setPaginatedProjects', { count, results, page });
+      });
+    },
   },
 
   mutations: {
     setProjects(state, payload) {
       state.projects = payload.projects;
     },
+
+    setPaginatedProjects(state, { count, results, page }) {
+      state.paginatedProjects.projects[page] = results;
+      state.paginatedProjects.count = count;
+      state.paginatedProjects.loading = false;
+    },
+
+    loadPaginatedProjects(state) {
+      state.paginatedProjects.loading = true;
+    }
   },
 };
 

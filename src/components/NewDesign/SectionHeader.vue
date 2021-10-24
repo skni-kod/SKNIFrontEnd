@@ -1,6 +1,6 @@
 <template>
   <div class="section-header">
-    <span class="section-subtitle">{{ subtitle }}</span>
+    <span class="section-subtitle" v-if="subtitle">{{ subtitle }}</span>
     <h2 class="section-title" v-html="title"></h2>
   </div>
 </template>
@@ -12,7 +12,7 @@ import { Component, Prop } from 'vue-property-decorator';
 @Component({})
 export default class SectionHeader extends Vue {
   @Prop({ required: true }) title!: string;
-  @Prop({ required: true }) subtitle!: string;
+  @Prop() subtitle: string | undefined;
 }
 </script>
 
@@ -32,7 +32,7 @@ export default class SectionHeader extends Vue {
   }
 
   .section-title {
-    font-family: 'Montserrat';
+    font-family: "Montserrat";
     font-weight: 500;
     font-size: clamp(35px, 3vw, 41px);
     line-height: 1.2;

@@ -120,7 +120,7 @@ import HomeArticle from '@/components/NewDesign/HomeArticle.vue';
 import Sponsor from '@/components/NewDesign/Sponsor.vue';
 import HeroSection from '@/components/NewDesign/HeroSection.vue';
 import HomeArticleList from '@/components/HomeArticleList.vue';
-import ProjectsGrid from '@/components/NewDesign/ProjectsGrid.vue';
+import ProjectsGrid from '@/components/NewDesign/projects/ProjectsGrid.vue';
 import SectionHeader from '../../components/NewDesign/SectionHeader.vue';
 
 @Component({
