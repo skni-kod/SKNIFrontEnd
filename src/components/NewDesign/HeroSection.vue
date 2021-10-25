@@ -8,12 +8,11 @@
         </h1>
 
         <p class="hero-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere
-          ex id lobortis ultricies. Aenean in pharetra diam. Vivamus fermentum
-          at nunc facilisis commodo. Fusce porttitor erat magna, sit amet
-          dignissim velit vestibulum sit amet. Sed efficitur aliquam lacus quis
-          efficitur. Aliquam leo eros, tincidunt a eros eget, rutrum accumsan
-          nibh.
+          Celem pracy Koła jest poszerzenie wiedzy z dziedziny optymalnego
+          rozwiązywania zagadnień programowania oraz poznawanie nowoczesnych
+          technologii informatycznych. W ramach regularnych spotkań studenci
+          samodzielnie przygotowują referaty oraz organizują wewnętrzne
+          współzawodnictwo w rozwiązywaniu interesujących ich zagadnień.
         </p>
 
         <link-button :to="{ hash: 'sections' }">Zobacz więcej</link-button>
@@ -52,8 +51,8 @@ import LinkButton from '@/components/NewDesign/base/LinkButton.vue';
 
 @Component({
   components: {
-    LinkButton
-  }
+    LinkButton,
+  },
 })
 export default class HeroSection extends Vue {
   images = [arduino, gamepad, keyboard, python];
@@ -95,8 +94,7 @@ export default class HeroSection extends Vue {
     this.parallax(new MouseEvent(''));
 
     const isTouchDevice =
-      'ontouchstart' in window ||
-      navigator.maxTouchPoints > 0;
+      'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     if (!isTouchDevice)
       sectionContainer.addEventListener('mousemove', this.parallax);
@@ -106,8 +104,7 @@ export default class HeroSection extends Vue {
     const sectionContainer = this.$refs.sectionContainer as HTMLDivElement;
 
     const isTouchDevice =
-      'ontouchstart' in window ||
-      navigator.maxTouchPoints > 0;
+      'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (!isTouchDevice)
       sectionContainer.removeEventListener('mousemove', this.parallax);
   }
@@ -131,7 +128,7 @@ export default class HeroSection extends Vue {
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background-image: url("~@/assets/hex.png");
+  background-image: url('~@/assets/hex.png');
   background-position: right bottom;
 
   .hero-section-wrapper {
@@ -186,7 +183,7 @@ export default class HeroSection extends Vue {
 
       &::before {
         display: block;
-        content: "";
+        content: '';
         width: calc(100% - 20px);
         height: calc(100% - 20px);
         position: absolute;
@@ -211,7 +208,7 @@ export default class HeroSection extends Vue {
     }
   }
 
-  @include media-breakpoint-down("md") {
+  @include media-breakpoint-down('md') {
     padding-top: 150px;
 
     .hero-section-wrapper {
