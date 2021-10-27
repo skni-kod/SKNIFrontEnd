@@ -170,5 +170,11 @@ export default class ProjectTile extends Vue {
       }
     }
   }
+
+  @include media-breakpoint-down("md") {
+    .tile-content {
+      opacity: 1;
+    }
+  }
 }
 </style>
