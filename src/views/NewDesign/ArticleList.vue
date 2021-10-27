@@ -155,7 +155,7 @@ export default class ArticleList extends Vue {
   .section-header {
     text-align: center;
   }
-  margin-top: 200px;
+  margin-top: 50px;
   @include responsiveLayout();
   row-gap: 50px;
   width: 100%;

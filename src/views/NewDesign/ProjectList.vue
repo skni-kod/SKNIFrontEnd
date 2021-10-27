@@ -98,7 +98,7 @@ export default class ProjectList extends Vue {
 .projects-list {
   @include responsiveLayout();
 
-  margin-top: 200px;
+  margin-top: 50px;
   height: 100%;
   width: 100%;
 

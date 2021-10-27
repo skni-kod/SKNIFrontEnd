@@ -63,5 +63,6 @@ export default class App extends Vue {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 150px;
 }
 </style>

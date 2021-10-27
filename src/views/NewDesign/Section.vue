@@ -191,7 +191,7 @@ export default class Section extends Vue {
 @use '@/styles/components/buttons';
 
 .section {
-  margin-top: 200px;
+  margin-top: 50px;
   @include responsiveLayout();
   row-gap: 50px;
   width: 100%;

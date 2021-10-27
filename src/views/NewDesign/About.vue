@@ -116,7 +116,7 @@ export default class Page404 extends Vue {
 @use '@/styles/helpers' as *;
 @use '@/styles/components/buttons';
 .about-section {
-  margin-top: 200px;
+  margin-top: 50px;
   @include responsiveLayout();
   row-gap: 50px;
   width: 100%;

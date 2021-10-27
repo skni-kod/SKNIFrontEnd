@@ -107,6 +107,5 @@ export default class Login extends Vue {
 
 <style lang="scss" scoped>
 .login-section {
-  margin-top: 200px;
 }
 </style>

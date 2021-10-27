@@ -125,7 +125,7 @@ export default class Project extends Vue {
 .project-page {
   @include responsiveLayout();
 
-  margin-top: 200px;
+  margin-top: 50px;
   height: 100%;
   width: 100%;
 
