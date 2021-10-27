@@ -81,8 +81,18 @@
             @click="handleNavLinkClick"
             v-if="isLoggedIn"
           >
-            <router-link class="header-nav-item-link" :to="{ name: 'panel' }"
+            <router-link class="header-nav-item-link" :to="{ name: 'userPanel' }"
               >Panel</router-link
+            >
+          </li>
+
+          <li
+            class="header-nav-item"
+            @click="handleNavLinkClick"
+            v-if="isAdministrator"
+          >
+            <router-link class="header-nav-item-link" :to="{ name: 'adminPanel' }"
+              >Panel admina</router-link
             >
           </li>
 
@@ -163,6 +173,10 @@ export default class AppHeader extends Vue {
 
   get isLoggedIn() {
     return this.$store.getters.isAuthenticated;
+  }
+
+  get isAdministrator() {
+    return this.$store.getters.isAdministrator;
   }
 
   toggleMenu() {
