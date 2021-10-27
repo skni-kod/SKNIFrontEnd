@@ -14,6 +14,7 @@
       <router-view :key="$route.fullPath" />
     </main>
     <app-footer></app-footer>
+    <Snackbars />
   </v-app>
 </template>
 
@@ -26,8 +27,13 @@ import '@/styles/global.scss';
 import AppHeader from '@/components/NewDesign/AppHeader.vue';
 import AppFooter from '@/components/NewDesign/AppFooter.vue';
 
+const Snackbars = () =>
+  import( // tslint:disable-next-line
+    /* webpackChunkName: "ComponentSnackbar" */ '@/components/Snackbar.vue'
+  );
+
 @Component({
-  components: { AppHeader, AppFooter },
+  components: { AppHeader, AppFooter, Snackbars },
 })
 export default class App extends Vue {
   private created() {
@@ -42,11 +48,11 @@ export default class App extends Vue {
 /* TODO: Change to .app after removing Vuetify */
 .app.app {
   background-color: $body-bg;
-  background-image: url('~@/assets/page-footer.png');
+  background-image: url("~@/assets/page-footer.png");
   background-position: bottom;
   background-repeat: no-repeat;
 
-  @include media-breakpoint-down('md') {
+  @include media-breakpoint-down("md") {
     background-position-x: 60%;
   }
 }
