@@ -46,7 +46,7 @@
       right
       v-if="role"
       :to="{ name: 'articleAdd' }"
-      class="success"
+      class="success btn-add"
     >
       <v-icon class="white--text">mdi-plus</v-icon>
     </v-btn-cap>
@@ -180,5 +180,9 @@ export default class ArticleList extends Vue {
       }
     }
   }
+}
+
+.btn-add {
+  width: 50px;
 }
 </style>
