@@ -97,12 +97,6 @@ export default class ProjectTile extends Vue {
   background-size: cover;
   background-position: center;
 
-  &:hover {
-    .tile-content {
-      opacity: 1;
-    }
-  }
-
   .tile-content {
     background-color: color.change($primary, $alpha: 0.8);
     display: flex;
@@ -112,7 +106,7 @@ export default class ProjectTile extends Vue {
     color: $body-bg;
     border-radius: 20px;
     height: 100%;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.3s;
 
     .project-name {
@@ -168,12 +162,6 @@ export default class ProjectTile extends Vue {
       &:hover {
         color: $primary;
       }
-    }
-  }
-
-  @include media-breakpoint-down("md") {
-    .tile-content {
-      opacity: 1;
     }
   }
 }
