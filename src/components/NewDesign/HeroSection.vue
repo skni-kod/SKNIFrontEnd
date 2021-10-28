@@ -128,8 +128,9 @@ export default class HeroSection extends Vue {
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background-image: url('~@/assets/hex.png');
+  background-image: url("~@/assets/hex.png");
   background-position: right bottom;
+  padding-top: 150px;
 
   .hero-section-wrapper {
     display: flex;
@@ -183,7 +184,7 @@ export default class HeroSection extends Vue {
 
       &::before {
         display: block;
-        content: '';
+        content: "";
         width: calc(100% - 20px);
         height: calc(100% - 20px);
         position: absolute;
@@ -208,9 +209,7 @@ export default class HeroSection extends Vue {
     }
   }
 
-  @include media-breakpoint-down('md') {
-    padding-top: 150px;
-
+  @include media-breakpoint-down("md") {
     .hero-section-wrapper {
       flex-direction: column-reverse;
       gap: 50px;
