@@ -92,7 +92,7 @@ export default class Article extends Vue {
   max-width: 450px;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: column;
   box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.35);
   padding: 40px 40px;
