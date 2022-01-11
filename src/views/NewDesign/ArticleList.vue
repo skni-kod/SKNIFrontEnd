@@ -13,8 +13,8 @@
       />
     </toolbar>
 
-    <v-row justify="center" v-if="articles && articles.length > 0">
-      <v-col cols="12" sm="11" md="10" lg="9" xl="8">
+    <div justify="center" v-if="articles && articles.length > 0">
+      <div>
         <div class="articles-container">
           <div class="articles-inner">
             <HomeArticle
@@ -33,8 +33,8 @@
           next-icon="mdi-chevron-right"
           v-if="articles && articles.length > 0"
         ></v-pagination>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
     <v-row align="center" class="fill-height" v-else>
       <v-col>
         <div class="text-h3 font-weight-bold text-center">
@@ -89,9 +89,11 @@ export default class ArticleList extends Vue {
 
   private mounted() {
     this.getArticles();
+    
   }
 
   private paginationClicked(pageNumber: number) {
+    console.log(this.articles)
     this.$router.replace({
       name: 'articles',
       params: { page: '' + pageNumber },
@@ -186,5 +188,6 @@ export default class ArticleList extends Vue {
 
 .btn-add {
   width: 50px;
+  height: 50px;
 }
 </style>

@@ -30,7 +30,7 @@
         <div cols="auto" class=" py-1">
           {{ article.tags.length === 1 ? 'Tag:' : 'Tagi:' }}
           <a
-            :href="'/#/tag/' + tag.name"
+            :href="'/tag/' + tag.name"
             class="text-decoration-none"
             v-for="(tag, i) in article.tags"
             :key="i"
