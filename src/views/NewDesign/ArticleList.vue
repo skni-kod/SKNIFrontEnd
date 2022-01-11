@@ -87,9 +87,11 @@ export default class ArticleList extends Vue {
 
   private mounted() {
     this.getArticles();
+    
   }
 
   private paginationClicked(pageNumber: number) {
+    console.log(this.articles)
     this.$router.replace({
       name: 'articles',
       params: { page: '' + pageNumber },

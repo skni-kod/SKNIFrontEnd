@@ -13,7 +13,7 @@
           :alt="article.title"
           class="equipment-image"
         />
-        <img v-else  :src="require('@/assets/project_placeholder.jpg')" />
+        <img v-else  :src="require('@/assets/placeholder.png')" />
       </div>
     </router-link>
 
