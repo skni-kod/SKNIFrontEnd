@@ -2,12 +2,13 @@
   <section class="projects-list">
     <section-header title="Nasze projekty" subtitle="Projekty małe i duże" class="header" />
 
-    <div class="projects-toolbar" v-if="isAdministrator">
-      <router-link :to="{ name: 'projectAdd' }" class="link">
-        <add-icon class="icon" />
-        <span class="text">Dodaj projekt</span>
-      </router-link>
-    </div>
+    <toolbar v-if="isAdministrator">
+      <toolbar-item
+        text="Dodaj projekt"
+        :link="{ name: 'projectAdd' }"
+        :icon="require('@/assets/icons/plus.svg?inline')"
+      />
+    </toolbar>
 
     <div class="projects" v-if="!loading">
       <project-tile class="project-tile" v-for="project in projects" :project="project" />
@@ -33,13 +34,15 @@ import { Component, Vue } from 'vue-property-decorator';
 import { ProjectsService } from '@/services/ProjectsService';
 import ProjectTile from '@/components/NewDesign/projects/ProjectTile.vue';
 import SectionHeader from '@/components/NewDesign/SectionHeader.vue';
-import AddIcon from '@/assets/icons/plus.svg?inline';
+import Toolbar from '@/components/NewDesign/Toolbar.vue';
+import ToolbarItem from '@/components/NewDesign/ToolbarItem.vue';
 
 @Component({
   components: {
     ProjectTile,
     SectionHeader,
-    AddIcon,
+    Toolbar,
+    ToolbarItem
   },
 })
 export default class ProjectList extends Vue {
@@ -119,34 +122,6 @@ export default class ProjectList extends Vue {
     grid-template-columns: 1fr 1fr;
     gap: 50px;
     margin-bottom: 50px;
-  }
-
-  .projects-toolbar {
-    background-color: $primary;
-    width: 100%;
-    margin-bottom: 50px;
-    border-radius: 10px;
-    padding: 10px 20px;
-    display: flex;
-
-    .link {
-      display: flex;
-      align-items: center;
-      .icon {
-        width: 30px;
-        height: 30px;
-        color: $body-bg;
-        display: block;
-        margin-right: 10px;
-      }
-
-      .text {
-        font-weight: 600;
-        color: $body-bg;
-        text-decoration: none;
-        display: block;
-      }
-    }
   }
 
   @include media-breakpoint-down("md") {

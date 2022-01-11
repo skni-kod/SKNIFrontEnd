@@ -4,6 +4,15 @@
       title="Najnowsze artykuły"
       subtitle="Co słychać w SKNI KOD?"
     ></SectionHeader>
+
+    <toolbar v-if="role">
+      <toolbar-item
+        text="Dodaj artykuł"
+        :link="{ name: 'articleAdd' }"
+        :icon="require('@/assets/icons/plus.svg?inline')"
+      />
+    </toolbar>
+
     <v-row justify="center" v-if="articles && articles.length > 0">
       <v-col cols="12" sm="11" md="10" lg="9" xl="8">
         <div class="articles-container">
@@ -39,17 +48,6 @@
         </div>
       </v-col>
     </v-row>
-    <v-btn-cap
-      fab
-      fixed
-      bottom
-      right
-      v-if="role"
-      :to="{ name: 'articleAdd' }"
-      class="success btn-add"
-    >
-      <v-icon class="white--text">mdi-plus</v-icon>
-    </v-btn-cap>
   </div>
 </template>
 
@@ -61,11 +59,15 @@ import { PaginationModel } from '@/models/PaginationModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
 import HomeArticle from '@/components/NewDesign/HomeArticle.vue';
 import SectionHeader from '../../components/NewDesign/SectionHeader.vue';
+import Toolbar from '@/components/NewDesign/Toolbar.vue';
+import ToolbarItem from '@/components/NewDesign/ToolbarItem.vue';
 
 @Component({
   components: {
     HomeArticle,
     SectionHeader,
+    Toolbar,
+    ToolbarItem
   },
 })
 export default class ArticleList extends Vue {

@@ -7,17 +7,18 @@
       class="project-title"
     />
 
-    <div class="project-toolbar" v-if="isAdministrator">
-      <router-link :to="{ name: 'editProject', params: { id: $route.params.id } }" class="link">
-        <edit-icon class="icon" />
-        <span class="text">Edytuj projekt</span>
-      </router-link>
-
-      <span class="link" @click="deleteDialogOpen = true">
-        <trash-icon class="icon" />
-        <span class="text">Usuń projekt</span>
-      </span>
-    </div>
+    <toolbar v-if="isAdministrator">
+      <toolbar-item
+        text="Edytuj projekt"
+        :link="{ name: 'editProject', params: { id: $route.params.id } }"
+        :icon="require('@/assets/icons/edit.svg?inline')"
+      />
+      <toolbar-item
+        text="Usuń projekt"
+        @click="deleteDialogOpen = true"
+        :icon="require('@/assets/icons/trash.svg?inline')"
+      />
+    </toolbar>
 
     <div class="project-info" v-if="project">
       <h2 class="authors-label" v-if="project.authors.length > 0">Autorzy</h2>
@@ -57,16 +58,16 @@ import { Component, Vue } from 'vue-property-decorator';
 import { ProjectsService } from '@/services/ProjectsService';
 import { ProjectModel } from '@/models/ProjectModel';
 import SectionHeader from '@/components/NewDesign/SectionHeader.vue';
-import EditIcon from '@/assets/icons/edit.svg?inline';
-import TrashIcon from '@/assets/icons/trash.svg?inline';
 import Gallery from '@/components/NewDesign/Gallery.vue';
+import Toolbar from '@/components/NewDesign/Toolbar.vue';
+import ToolbarItem from '@/components/NewDesign/ToolbarItem.vue';
 
 @Component({
   components: {
     SectionHeader,
-    EditIcon,
-    TrashIcon,
-    Gallery
+    Gallery,
+    Toolbar,
+    ToolbarItem
   }
 })
 export default class Project extends Vue {
@@ -138,40 +139,6 @@ export default class Project extends Vue {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .project-toolbar {
-    background-color: $primary;
-    width: 100%;
-    margin-bottom: 50px;
-    border-radius: 10px;
-    padding: 10px 20px;
-    display: flex;
-    height: min-content;
-
-    & > * + * {
-      margin-left: 20px;
-    }
-
-    .link {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      .icon {
-        width: 30px;
-        height: 30px;
-        color: $body-bg;
-        display: block;
-        margin-right: 10px;
-      }
-
-      .text {
-        font-weight: 600;
-        color: $body-bg;
-        text-decoration: none;
-        display: block;
-      }
-    }
   }
 
   .project-info {

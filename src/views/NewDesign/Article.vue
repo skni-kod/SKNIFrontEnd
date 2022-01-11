@@ -5,6 +5,20 @@
         :title="article.title"
         subtitle="artykuły SKNI"
       ></SectionHeader>
+
+      <toolbar v-if="role">
+        <toolbar-item
+          text="Edytuj artykuł"
+          :link="{ name: 'articleEdit', params: { id: $route.params.id } }"
+          :icon="require('@/assets/icons/edit.svg?inline')"
+        />
+        <toolbar-item
+          text="Usuń artykuł"
+          @click="dialog = true"
+          :icon="require('@/assets/icons/trash.svg?inline')"
+        />
+      </toolbar>
+
       <div class="article-actions">
         <div class="article-date">
           <v-icon left color="primary">mdi-calendar-today</v-icon>
@@ -71,34 +85,13 @@
       <gallery class="gallery" breakpoints="xs6" :imgs="article.gallery" />
       <comments-list class="comments" :comments="comments" />
     </div>
-    <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="role">
-      <template v-slot:activator>
-        <v-btn-cap
-          fab
-          v-model="fab"
-          class="text-body-1 font-weight-bold"
-          color="primary"
-        >
-          <v-icon>mdi-cog</v-icon>
-        </v-btn-cap>
-      </template>
-      <v-btn-cap
-        fab
-        color="orange"
-        :to="{ name: 'articleEdit', params: { id: $route.params.id } }"
-      >
-        <v-icon>mdi-pen</v-icon>
-      </v-btn-cap>
-      <v-btn-cap fab color="error" @click="dialog = true">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn-cap>
-    </v-speed-dial>
+
     <confirmation-dialog
       v-if="dialog"
       @yes="deleteArticle($route.params.id)"
       @no="dialog = false"
-      :text="dialogText"
-    ></confirmation-dialog>
+      text="Czy na pewno chcesz usunąć ten artykuł?"
+    />
   </div>
 </template>
 
@@ -108,15 +101,20 @@ import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
 import SectionHeader from '../../components/NewDesign/SectionHeader.vue';
 import Gallery from '../../components/NewDesign/Gallery.vue';
+import Toolbar from '@/components/NewDesign/Toolbar.vue';
+import ToolbarItem from '@/components/NewDesign/ToolbarItem.vue';
 @Component({
   components: {
     SectionHeader,
     Gallery,
+    Toolbar,
+    ToolbarItem
   },
 })
 export default class Article extends Vue {
   private articlesService!: ArticlesService;
   private article!: ArticleModel;
+  dialog = false;
 
   private beforeCreate() {
     this.articlesService = new ArticlesService();
@@ -172,8 +170,6 @@ export default class Article extends Vue {
   private data() {
     return {
       article: this.article,
-      fab: false,
-      dialog: false,
       user:
         '<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.21 21v-2a4 4 0 00-4-4h-8a4 4 0 00-4 4v2M12.21 11a4 4 0 100-8 4 4 0 000 8z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
       markdownOptions: {
@@ -201,7 +197,7 @@ export default class Article extends Vue {
   width: 100%;
 
   .section-header {
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     text-align: center;
   }
   .article-actions {
