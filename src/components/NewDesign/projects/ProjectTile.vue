@@ -109,6 +109,9 @@ export default class ProjectTile extends Vue {
     opacity: 1;
     transition: opacity 0.3s;
 
+     @include media-breakpoint-down("sm") {
+       padding: 20px;
+     }
     .project-name {
       font-size: 45px;
       font-family: Montserrat;

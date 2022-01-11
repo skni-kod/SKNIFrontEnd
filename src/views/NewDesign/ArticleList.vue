@@ -4,8 +4,8 @@
       title="Najnowsze artykuły"
       subtitle="Co słychać w SKNI KOD?"
     ></SectionHeader>
-    <v-row justify="center" v-if="articles && articles.length > 0">
-      <v-col cols="12" sm="11" md="10" lg="9" xl="8">
+    <div justify="center" v-if="articles && articles.length > 0">
+      <div>
         <div class="articles-container">
           <div class="articles-inner">
             <HomeArticle
@@ -24,8 +24,8 @@
           next-icon="mdi-chevron-right"
           v-if="articles && articles.length > 0"
         ></v-pagination>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
     <v-row align="center" class="fill-height" v-else>
       <v-col>
         <div class="text-h3 font-weight-bold text-center">
