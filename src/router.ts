@@ -67,7 +67,7 @@ const routes: RouteConfig[] = [
     path: '/tag/:tag/:page?',
     name: 'tag',
     component: () =>
-      import(/* webpackChunkName: "Article" */ './views/Tag.vue'),
+      import(/* webpackChunkName: "Article" */ './views/NewDesign/Tag.vue'),
   },
   {
     path: '/sections',

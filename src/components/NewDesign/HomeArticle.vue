@@ -8,11 +8,12 @@
       }"
     >
       <div class="card-image">
-        <img
+        <img v-if="article.gallery[0].thumbnail"
           :src="'https://kod.prz.edu.pl' + article.gallery[0].thumbnail"
-          alt="Drukarka 3D"
+          :alt="article.title"
           class="equipment-image"
         />
+        <img v-else  :src="require('@/assets/placeholder.png')" />
       </div>
     </router-link>
 

@@ -49,14 +49,15 @@
     </v-card>
     <v-dialog max-width="100%" v-model="dialog" content-class="elevation-0">
       <v-card color="rgba(0,0,0,0)" flat>
-        <v-carousel
+        <v-carousel align="center" justify="center"
+        class="carousel-content"
           hide-delimiters
           :show-arrows="imgs.length > 1"
           height="75vh"
           v-model="img_num"
         >
-          <v-carousel-item v-for="(img, i) in imgs" :key="i">
-            <v-img contain :src="be + img.image" aspect-ratio="1.7778"></v-img>
+          <v-carousel-item align="center" justify="center" v-for="(img, i) in imgs" :key="i">
+            <img class="gallery-image" :src="be + img.image" aspect-ratio="1.7778"/>
           </v-carousel-item>
         </v-carousel>
       </v-card>
@@ -106,11 +107,25 @@ export default class Gallery extends Vue {
 </script>
 
 <style scoped lang="scss">
+
+
+
+img.gallery-image{
+    margin: auto;
+    width: 100%;
+    max-width: 800px;
+    object-fit: contain;
+    height: 100%;
+}
 .gallery {
   margin: 50px 0;
+
+
+
   .v-image {
     max-width: 300px;
     margin: auto;
+
   }
   .image {
     transition: filter 0.3s;
