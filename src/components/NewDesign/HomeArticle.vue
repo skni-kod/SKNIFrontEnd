@@ -8,7 +8,7 @@
       }"
     >
       <div class="card-image">
-        <img v-if="article.gallery[0].thumbnail"
+        <img v-if="article.gallery[0] && article.gallery[0].thumbnail"
           :src="'https://kod.prz.edu.pl' + article.gallery[0].thumbnail"
           :alt="article.title"
           class="equipment-image"
@@ -40,7 +40,7 @@
     </router-link>
 
     <div class="card-author">
-      <div class="card-icon">
+      <div v-if="article.author[0]" class="card-icon">
         <div class="svg" v-html="user"></div>
       </div>
       <div
