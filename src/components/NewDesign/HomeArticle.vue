@@ -8,12 +8,13 @@
       }"
     >
       <div class="card-image">
-        <img v-if="article.gallery[0] && article.gallery[0].thumbnail"
+        <img
+          v-if="article.gallery[0] && article.gallery[0].thumbnail"
           :src="'https://kod.prz.edu.pl' + article.gallery[0].thumbnail"
           :alt="article.title"
           class="equipment-image"
         />
-        <img v-else  :src="require('@/assets/placeholder.png')" />
+        <img v-else :src="require('@/assets/placeholder.png')" />
       </div>
     </router-link>
 
@@ -40,7 +41,7 @@
     </router-link>
 
     <div class="card-author">
-      <div v-if="article.author[0]" class="card-icon">
+      <div v-if="article.authors[0]" class="card-icon">
         <div class="svg" v-html="user"></div>
       </div>
       <div
