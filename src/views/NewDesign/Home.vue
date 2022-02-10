@@ -80,7 +80,7 @@
       ></SectionHeader>
 
       <div class="articles-inner">
-        <HomeArticle v-for="article in articles.results" :article="article" />
+        <HomeArticle v-for="article in articles.results" :article="article" :key="article.id" />
       </div>
     </div>
 
@@ -229,7 +229,7 @@ export default class Home extends Vue {
   .join-us {
     display: flex;
     justify-content: center;
-    align-items: start;
+    align-items: flex-start;
     flex-direction: column;
 
     .subtitle {

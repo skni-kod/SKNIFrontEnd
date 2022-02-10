@@ -14,7 +14,7 @@ const articlesModule: Module<any, any> = {
   actions: {
     getArticles({ commit }) {
       CS.getArticles(0, 3, false).then((articles) => {
-        commit('setArticles', { articles: articles });
+        commit('setArticles', { articles });
       });
     },
   },

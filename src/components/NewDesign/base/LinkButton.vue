@@ -23,7 +23,7 @@ export default class LinkButton extends Vue {
   @Prop([String, Object]) readonly to: string | object | undefined;
 
   get isExternalLink() {
-    return typeof this.to === 'string' && this.to.startsWith('http')
+    return typeof this.to === 'string' && this.to.startsWith('http');
   }
 }
 </script>

@@ -8,11 +8,7 @@
       <div>
         <div class="articles-container">
           <div class="articles-inner">
-            <HomeArticle
-              v-for="article in articles"
-              :article="article"
-              @delete="deleteArticle"
-            />
+            <HomeArticle v-for="article in articles" :article="article" @delete="deleteArticle" :key="article.id" />
           </div>
         </div>
         <v-pagination
@@ -87,11 +83,10 @@ export default class ArticleList extends Vue {
 
   private mounted() {
     this.getArticles();
-    
   }
 
   private paginationClicked(pageNumber: number) {
-    console.log(this.articles)
+    // console.log(this.articles)
     this.$router.replace({
       name: 'articles',
       params: { page: '' + pageNumber },

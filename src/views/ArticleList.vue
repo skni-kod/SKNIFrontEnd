@@ -73,7 +73,7 @@ export default class ArticleList extends Vue {
   private created() {
     this.articlesService = new ArticlesService();
     this.pagination = new PaginationModel(1, 6, 6);
-    console.log(this.pagination);
+    // console.log(this.pagination);
   }
 
   private mounted() {

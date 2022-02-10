@@ -10,7 +10,7 @@
     </div>
 
     <div class="projects" v-if="!loading">
-      <project-tile class="project-tile" v-for="project in projects" :project="project" />
+      <project-tile class="project-tile" v-for="project in projects" :project="project" :key="project.id"/>
     </div>
 
     <div class="loading-wrapper" v-if="loading">
@@ -52,8 +52,11 @@ export default class ProjectList extends Vue {
 
   get loading() {
     const projects = this.$store.getters.paginatedProjects.projects[this.currentPageNumber];
-    if (projects && projects.length > 0) return false;
-    else return this.$store.getters.paginatedProjects.loading;
+    if (projects && projects.length > 0) {
+      return false;
+    } else {
+      return this.$store.getters.paginatedProjects.loading;
+    }
   }
 
   get projectsCount() {
@@ -61,7 +64,7 @@ export default class ProjectList extends Vue {
   }
 
   get currentPageNumber() {
-    const page = Number.parseInt(this.$route.params.page);
+    const page = Number.parseInt(this.$route.params.page, 10);
     return Number.isNaN(page) ? 1 : page;
   }
 
@@ -74,7 +77,7 @@ export default class ProjectList extends Vue {
 
   fetchProjects(page: number) {
     this.$store.dispatch('getPaginatedProjects', {
-      page: page, pageSize: this.itemsPerPage
+      page: page, pageSize: this.itemsPerPage,
     });
   }
 

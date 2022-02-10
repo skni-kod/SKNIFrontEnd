@@ -37,17 +37,13 @@ const routes: RouteConfig[] = [
     path: '/articles/:page?',
     name: 'articles',
     component: () =>
-      import(
-        /* webpackChunkName: "Article" */ './views/NewDesign/ArticleList.vue'
-      ),
+      import(/* webpackChunkName: "Article" */ './views/NewDesign/ArticleList.vue'),
   },
   {
     path: '/article/:id-:alias',
     name: 'article',
     component: () =>
-      import(
-        /* webpackChunkName: "ArticlePage" */ './views/NewDesign/Article.vue'
-      ),
+      import(/* webpackChunkName: "ArticlePage" */ './views/NewDesign/Article.vue'),
   },
   {
     path: '/article/edit/:id?',
@@ -99,9 +95,7 @@ const routes: RouteConfig[] = [
     path: '/projects/:page?',
     name: 'projects',
     component: () =>
-      import(
-        /* webpackChunkName: "Project" */ './views/NewDesign/ProjectList.vue'
-      ),
+      import(/* webpackChunkName: "Project" */ './views/NewDesign/ProjectList.vue'),
   },
   {
     path: '/project/edit/:id?',
@@ -121,9 +115,7 @@ const routes: RouteConfig[] = [
     path: '/project/:id',
     name: 'project',
     component: () =>
-      import(
-        /* webpackChunkName: "ProjectPage" */ './views/NewDesign/Project.vue'
-      ),
+      import(/* webpackChunkName: "ProjectPage" */ './views/NewDesign/Project.vue'),
   },
   {
     path: '/hardware/edit/:id?',
@@ -174,10 +166,7 @@ const routes: RouteConfig[] = [
     name: 'UserPassChange',
     beforeEnter: authGuard,
     component: () =>
-      import(
-        // tslint:disable-next-line
-        /* webpackChunkName: "UserPassChange" */ './views/UserPassChange.vue'
-      ),
+      import(/* webpackChunkName: "UserPassChange" */ './views/UserPassChange.vue'),
   },
   {
     path: '/user/descriptionchange',
@@ -219,7 +208,9 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
   scrollBehavior(to, from, savedPosition) {
-    if (to.hash) return { selector: to.hash };
+    if (to.hash) {
+      return { selector: to.hash };
+    }
 
     if (savedPosition) {
       return savedPosition;

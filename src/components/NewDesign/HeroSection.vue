@@ -67,8 +67,8 @@ export default class HeroSection extends Vue {
     const imageElements = this.$refs.imageElements as HTMLImageElement[];
 
     for (const imgElement of imageElements) {
-      const strength = Number.parseInt(imgElement.dataset.strength || '1');
-      const rotation = Number.parseInt(imgElement.dataset.rotation || '0');
+      const strength = Number.parseInt(imgElement.dataset.strength || '1', 10);
+      const rotation = Number.parseInt(imgElement.dataset.rotation || '0', 10);
       const x = (window.innerWidth - event.pageX * strength) / 100;
       const y = (window.innerHeight - event.pageY * strength) / 100;
 
@@ -85,7 +85,7 @@ export default class HeroSection extends Vue {
       imgElement.style.left = `${this.positions[i].x}%`;
 
       const strength = this.getRandomInt(-10, 10);
-      imgElement.dataset.strength = (strength != 0 ? strength : 1).toString();
+      imgElement.dataset.strength = (strength !== 0 ? strength : 1).toString();
 
       const rotation = this.getRandomInt(-50, 50);
       imgElement.dataset.rotation = rotation.toString();
@@ -96,23 +96,24 @@ export default class HeroSection extends Vue {
     const isTouchDevice =
       'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-    if (!isTouchDevice)
+    if (!isTouchDevice) {
       sectionContainer.addEventListener('mousemove', this.parallax);
+    }
   }
 
   beforeDestroy() {
     const sectionContainer = this.$refs.sectionContainer as HTMLDivElement;
+    const isTouchDevice    = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-    const isTouchDevice =
-      'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (!isTouchDevice)
+    if (!isTouchDevice) {
       sectionContainer.removeEventListener('mousemove', this.parallax);
+    }
   }
 
   getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+    return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
   }
 }
 </script>

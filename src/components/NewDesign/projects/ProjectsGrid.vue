@@ -6,7 +6,7 @@
       title="Prowadzimy wiele ciekawych projektów"
     />
 
-    <project-tile class="project-tile" v-for="project in projects" :project="project" />
+    <project-tile class="project-tile" v-for="project in projects" :project="project" :key="project.id"/>
 
     <div class="grid-footer">
       <p class="projects-count">
@@ -30,8 +30,8 @@ import ProjectTile from '@/components/NewDesign/projects/ProjectTile.vue';
   components: {
     LinkButton,
     SectionHeader,
-    ProjectTile
-  }
+    ProjectTile,
+  },
 })
 export default class ProjectsGrid extends Vue {
   @Prop() projects!: ProjectInfo[];

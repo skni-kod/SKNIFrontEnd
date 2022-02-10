@@ -33,8 +33,8 @@ import LinkedinIcon from '@/assets/icons/linkedin.svg?inline';
   components: {
     FacebookIcon,
     LinkedinIcon,
-    InstagramIcon
-  }
+    InstagramIcon,
+  },
 })
 export default class AppFooter extends Vue {
 

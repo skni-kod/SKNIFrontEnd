@@ -22,7 +22,7 @@
     <div class="project-info" v-if="project">
       <h2 class="authors-label" v-if="project.authors.length > 0">Autorzy</h2>
       <div class="authors" v-if="project.authors.length > 0">
-        <v-chip label v-for="author in project.authors">
+        <v-chip label v-for="author in project.authors" :key="author.id">
           <v-avatar left>
             <v-icon>mdi-account-circle</v-icon>
           </v-avatar>
@@ -66,8 +66,8 @@ import Gallery from '@/components/NewDesign/Gallery.vue';
     SectionHeader,
     EditIcon,
     TrashIcon,
-    Gallery
-  }
+    Gallery,
+  },
 })
 export default class Project extends Vue {
   projectsService = new ProjectsService();
@@ -82,14 +82,14 @@ export default class Project extends Vue {
     githubToc: {
       anchorLink: false,
     },
-  }
+  };
 
   get loading() {
     return !this.project;
   }
 
   async mounted() {
-    const projectId = Number.parseInt(this.$route.params.id);
+    const projectId = Number.parseInt(this.$route.params.id, 10);
 
     try {
       const project = await this.projectsService.getProject(projectId);

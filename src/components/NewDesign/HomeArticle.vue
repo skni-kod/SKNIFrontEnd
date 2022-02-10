@@ -40,8 +40,8 @@
       <div class="svg" v-html="arrowRight"></div>
     </router-link>
 
-    <div class="card-author">
-      <div v-if="article.authors[0]" class="card-icon">
+    <div class="card-author" v-if="article.authors[0]">
+      <div class="card-icon">
         <div class="svg" v-html="user"></div>
       </div>
       <div
@@ -63,6 +63,10 @@ import { ArticleModel } from '@/models/ArticleModel';
 
 @Component
 export default class Article extends Vue {
+
+  user = '<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.21 21v-2a4 4 0 00-4-4h-8a4 4 0 00-4 4v2M12.21 11a4 4 0 100-8 4 4 0 000 8z" stroke="#55ACEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  arrowRight = '<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m15.352 10.185 5.024 4.988-5.024 4.987" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.299 4.201v6.982c0 1.058.423 2.073 1.177 2.821a4.035 4.035 0 0 0 2.842 1.169h12.058" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
   @Prop(Object) readonly article!: ArticleModel;
 
   private removeMarkdown(text: string) {
@@ -78,10 +82,6 @@ export default class Article extends Vue {
       locale: pl,
     });
   }
-  user =
-    '<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.21 21v-2a4 4 0 00-4-4h-8a4 4 0 00-4 4v2M12.21 11a4 4 0 100-8 4 4 0 000 8z" stroke="#55ACEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  arrowRight =
-    '<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m15.352 10.185 5.024 4.988-5.024 4.987" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.299 4.201v6.982c0 1.058.423 2.073 1.177 2.821a4.035 4.035 0 0 0 2.842 1.169h12.058" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 }
 </script>
 

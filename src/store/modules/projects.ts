@@ -5,7 +5,7 @@ import { ProjectModel } from '@/models/ProjectModel';
 import removeMarkdown from 'remove-markdown';
 import projectPlaceholder from '@/assets/project_placeholder.jpg';
 
-export type ProjectInfo = {
+export interface ProjectInfo {
   id: number;
   name: string;
   section: {
@@ -14,7 +14,7 @@ export type ProjectInfo = {
   };
   description: string;
   image: string;
-};
+}
 
 const convertProject = (project: ProjectModel): ProjectInfo => {
   const image = project.gallery.length > 0
@@ -33,7 +33,7 @@ const convertProject = (project: ProjectModel): ProjectInfo => {
     },
     image,
   };
-}
+};
 
 const projectsService = new ProjectsService();
 
@@ -45,15 +45,17 @@ const projectsModule: Module<any, any> = {
       loading: true,
       projects: {},
       page: 0,
-      count: 0
-    }
+      count: 0,
+    },
   },
 
   getters: {
     projects: (state) => state.projects,
 
     featuredProjects: (state) => {
-      if (!state.projects) return [];
+      if (!state.projects) {
+          return [];
+      }
 
       const featuredProjects: ProjectInfo[] = state.projects
         .slice(0, 4)
@@ -67,14 +69,14 @@ const projectsModule: Module<any, any> = {
     paginatedProjects: (state) => {
       const tempProjects: Record<number, ProjectModel[]> = state.paginatedProjects.projects;
 
-      const projects = Object.fromEntries(Object.entries(tempProjects).map(([page, projects]) => {
-        return [page, projects.map(convertProject)]
+      const projects = Object.fromEntries(Object.entries(tempProjects).map(([page, proj]) => {
+        return [page, proj.map(convertProject)];
       }));
 
       return {
         ...state.paginatedProjects,
-        projects
-      }
+        projects,
+      };
     },
   },
 
@@ -107,7 +109,7 @@ const projectsModule: Module<any, any> = {
 
     loadPaginatedProjects(state) {
       state.paginatedProjects.loading = true;
-    }
+    },
   },
 };
 

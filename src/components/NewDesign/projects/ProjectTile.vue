@@ -60,8 +60,8 @@ import { ProjectsService } from '@/services/ProjectsService';
     RetroSectionIcon,
     ArrowRightIcon,
     EditIcon,
-    TrashIcon
-  }
+    TrashIcon,
+  },
 })
 export default class ProjectTile extends Vue {
   @Prop() project!: ProjectInfo;
