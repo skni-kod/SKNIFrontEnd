@@ -86,7 +86,7 @@
 
     <projects-grid
       :projects="featuredProjects"
-      :projectsCount="projectsCount - 1"
+      :projectsCount="projectsCount"
     />
 
     <div class="sponsors-container">
@@ -152,6 +152,7 @@ export default class Home extends Vue {
   }
 
   get projectsCount() {
+    console.log(this.$store.getters.projectsCount);
     return this.$store.getters.projectsCount;
   }
 

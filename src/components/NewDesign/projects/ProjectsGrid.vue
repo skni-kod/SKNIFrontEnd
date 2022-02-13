@@ -11,7 +11,7 @@
     <div class="grid-footer">
       <p class="projects-count">
         Mamy ich już ponad
-        <strong>{{ projectsCount - 1 }}</strong>
+        <strong>{{ projectsCount }}</strong>
       </p>
       <link-button :to="{ name: 'projects' }" class="projects-button">Zobacz wszystkie!</link-button>
     </div>
