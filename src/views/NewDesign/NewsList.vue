@@ -1,11 +1,11 @@
 <template>
   <div class="article-container">
     <SectionHeader
-      title="Artykuły"
-      subtitle="Skondensowana wiedza studentów"
+      title="Aktualności"
+      subtitle="Co słychać w SKNI KOD?"
     ></SectionHeader>
 
-    <EntriesList group="Article" />
+    <EntriesList group="News" />
    
     <v-btn-cap
       fab

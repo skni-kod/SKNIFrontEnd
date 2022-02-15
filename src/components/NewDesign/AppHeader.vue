@@ -32,6 +32,12 @@
           </li>
 
           <li class="header-nav-item" @click="handleNavLinkClick">
+            <router-link class="header-nav-item-link" :to="{ name: 'news' }"
+              >Aktualności</router-link
+            >
+          </li>
+
+          <li class="header-nav-item" @click="handleNavLinkClick">
             <router-link class="header-nav-item-link" :to="{ name: 'articles' }"
               >Artykuły</router-link
             >

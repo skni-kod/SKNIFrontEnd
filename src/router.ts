@@ -34,6 +34,12 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "About" */ './views/NewDesign/About.vue'),
   },
   {
+    path: '/news/:page?',
+    name: 'news',
+    component: () =>
+      import(/* webpackChunkName: "Article" */ './views/NewDesign/NewsList.vue'),
+  },
+  {
     path: '/articles/:page?',
     name: 'articles',
     component: () =>

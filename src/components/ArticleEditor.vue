@@ -37,12 +37,14 @@
             >
           </v-col>
         </v-row>
+
         <element-selector
           v-model="Article.tags"
           :items="tags"
           itemtext="name"
           label="Wyszukaj i wybierz tagi artykułu"
         ></element-selector>
+
         <element-selector
           v-model="Article.authors"
           :items="users"
@@ -51,11 +53,19 @@
           label="Wyszukaj i wybierz autorów"
           class="mt-4"
         ></element-selector>
+
+        <v-combobox label="Typ" 
+          v-model="select"
+          :items="groups"
+          :rules="[required]"
+        />
+
         <markdown-editor
           v-model="Article.text"
           rules="true"
           label="Treść artykułu"
         ></markdown-editor>
+
       </v-form>
     </v-card-text>
     <v-divider></v-divider>
@@ -161,6 +171,7 @@ export default class ArticleEditor extends Vue {
       users: [],
       tags: [],
       required: (value: string) => !!value || 'Pole wymagane',
+      groups: ["News", "Article"],
     };
   }
 }

@@ -62,6 +62,30 @@ export class ArticlesService {
     return data;
   }
 
+  public async getGroupArticles(
+    group: string,
+    pageNumber: number,
+    pageSize: number,
+    fullText: boolean,
+  ): Promise<PaginationContainer<ArticleModel>> {
+    const data = (
+      await beAxios('api/articles/', {
+        params: {
+          group: group,
+          format: 'json',
+          offset: (pageNumber - 1) * pageSize,
+          limit: pageSize,
+        },
+      })
+    ).data as PaginationContainer<ArticleModel>;
+
+    if (!fullText) {
+      this.cutTextAfterReadMore(data.results);
+    }
+
+    return data;
+  }
+
   public async getUserArticles(
     user: number,
     pageNumber: number,
