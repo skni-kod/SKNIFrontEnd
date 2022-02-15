@@ -94,6 +94,8 @@ export default class ArticleEdit extends Vue {
 
   private addArticle() {
     if (this.$data.inputValidated) {
+
+      console.log(this.$data.article);
       this.articlesService
         .addArticle(this.$data.article.id, {
           title: this.$data.article.title,
@@ -101,6 +103,7 @@ export default class ArticleEdit extends Vue {
           authors: this.$data.article.authors,
           text: this.$data.article.text,
           tags: this.$data.article.tags,
+          group: this.$data.article.group,
           gallery: this.$data.article.gallery.map((el: GalleryModelImage) => {
             return el.id;
           }),
@@ -137,6 +140,7 @@ export default class ArticleEdit extends Vue {
           authors: this.$data.article.authors,
           text: this.$data.article.text,
           tags: this.$data.article.tags,
+          group: this.$data.article.group,
           gallery: this.$data.article.gallery.map((el: GalleryModelImage) => {
             return el.id;
           }),

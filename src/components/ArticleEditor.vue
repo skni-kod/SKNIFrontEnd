@@ -54,8 +54,9 @@
           class="mt-4"
         ></element-selector>
 
-        <v-combobox label="Typ" 
-          v-model="select"
+        <v-combobox
+          v-model="Article.group"
+          label="Typ"
           :items="groups"
           :rules="[required]"
         />
