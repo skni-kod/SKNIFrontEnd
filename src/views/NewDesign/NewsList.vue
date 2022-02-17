@@ -23,13 +23,13 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import HomeArticle from '@/components/NewDesign/HomeArticle.vue';
+import ArticleCard from '@/components/NewDesign/ArticleCard.vue';
 import SectionHeader from '../../components/NewDesign/SectionHeader.vue';
 import EntriesList from '@/components/NewDesign/EntriesList.vue';
 
 @Component({
   components: {
-    HomeArticle,
+    ArticleCard,
     SectionHeader,
     EntriesList,
   },

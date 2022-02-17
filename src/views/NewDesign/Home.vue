@@ -80,7 +80,7 @@
       ></SectionHeader>
 
       <div class="articles-inner">
-        <HomeArticle v-for="article in articles.results" :article="article" :key="article.id" />
+        <ArticleCard v-for="article in articles.results" :article="article" :key="article.id" />
       </div>
     </div>
 
@@ -116,10 +116,9 @@ import homeArticleList from '@/components/HomeArticleList.vue';
 import homeSectionList from '@/components/HomeSectionList.vue';
 import Sponsors from '@/components/Sponsors.vue';
 import Section from '@/components/NewDesign/Section.vue';
-import HomeArticle from '@/components/NewDesign/HomeArticle.vue';
+import ArticleCard from '@/components/NewDesign/ArticleCard.vue';
 import Sponsor from '@/components/NewDesign/Sponsor.vue';
 import HeroSection from '@/components/NewDesign/HeroSection.vue';
-import HomeArticleList from '@/components/HomeArticleList.vue';
 import ProjectsGrid from '@/components/NewDesign/projects/ProjectsGrid.vue';
 import SectionHeader from '../../components/NewDesign/SectionHeader.vue';
 
@@ -131,7 +130,7 @@ import SectionHeader from '../../components/NewDesign/SectionHeader.vue';
     Section,
     HeroSection,
     LinkButton,
-    HomeArticle,
+    ArticleCard,
     ProjectsGrid,
     Sponsor,
     SectionHeader,
@@ -152,7 +151,6 @@ export default class Home extends Vue {
   }
 
   get projectsCount() {
-    console.log(this.$store.getters.projectsCount);
     return this.$store.getters.projectsCount;
   }
 

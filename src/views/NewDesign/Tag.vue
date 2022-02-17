@@ -9,7 +9,7 @@
       <div>
         <div class="articles-container">
           <div class="articles-inner">
-            <HomeArticle v-for="article in articles" :article="article" @delete="deleteArticle" :key="article.id"/>
+            <ArticleCard v-for="article in articles" :article="article" @delete="deleteArticle" :key="article.id"/>
           </div>
         </div>
         <v-pagination
@@ -33,13 +33,13 @@ import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationModel } from '@/models/PaginationModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
-import HomeArticle from '@/components/NewDesign/HomeArticle.vue';
+import ArticleCard from '@/components/NewDesign/ArticleCard.vue';
 import SectionHeader from '../../components/NewDesign/SectionHeader.vue';
 
 
 @Component({
   components: {
-    HomeArticle,
+    ArticleCard,
     SectionHeader,
   },
 })

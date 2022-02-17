@@ -106,6 +106,5 @@ export default class Login extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.login-section {
-}
+
 </style>

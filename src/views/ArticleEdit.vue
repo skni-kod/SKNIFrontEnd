@@ -94,8 +94,6 @@ export default class ArticleEdit extends Vue {
 
   private addArticle() {
     if (this.$data.inputValidated) {
-
-      console.log(this.$data.article);
       this.articlesService
         .addArticle(this.$data.article.id, {
           title: this.$data.article.title,

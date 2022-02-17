@@ -172,7 +172,7 @@ export default class ArticleEditor extends Vue {
       users: [],
       tags: [],
       required: (value: string) => !!value || 'Pole wymagane',
-      groups: ["News", "Article"],
+      groups: ['News', 'Article'],
     };
   }
 }
