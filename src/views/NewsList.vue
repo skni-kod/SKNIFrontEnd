@@ -1,11 +1,11 @@
 <template>
   <div class="article-container">
     <SectionHeader
-      title="Artykuły"
-      subtitle="Skondensowana wiedza studentów"
+      title="Aktualności"
+      subtitle="Co słychać w SKNI KOD?"
     ></SectionHeader>
 
-    <EntriesList group="Article" />
+    <EntriesList group="News" />
    
     <v-btn-cap
       fab
@@ -23,9 +23,9 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import ArticleCard from '@/components/NewDesign/ArticleCard.vue';
-import SectionHeader from '../../components/NewDesign/SectionHeader.vue';
-import EntriesList from '@/components/NewDesign/EntriesList.vue';
+import ArticleCard from '@/components/ArticleCard.vue';
+import SectionHeader from '../components/SectionHeader.vue';
+import EntriesList from '@/components/EntriesList.vue';
 
 @Component({
   components: {

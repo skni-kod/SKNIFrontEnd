@@ -1,144 +1,184 @@
 <template>
-  <div>
-    <v-card v-if="article != undefined" :width="width">
-      <v-img
-        class="white--text"
-        height="400px"
-        :src="
-          article.gallery
-            ? article.gallery[0]
-              ? be + article.gallery[0].image
-              : require('../assets/strona_bg.png')
-            : require('../assets/strona_bg.png')
+  <div class="card">
+    <router-link
+      class="card-link"
+      :to="{
+        name: 'article',
+        params: { id: article.id, alias: article.alias },
+      }"
+    >
+      <div class="card-image">
+        <img
+          v-if="article.gallery[0] && article.gallery[0].thumbnail"
+          :src="'https://kod.prz.edu.pl' + article.gallery[0].thumbnail"
+          :alt="article.title"
+          class="equipment-image"
+        />
+        <img v-else :src="require('@/assets/placeholder.png')" />
+      </div>
+    </router-link>
+
+    <div class="card-date" v-html="date"></div>
+    <router-link
+      class="card-link card-link-title"
+      :to="{
+        name: 'article',
+        params: { id: article.id, alias: article.alias },
+      }"
+    >
+      <h3 class="card-title" v-html="article.title"></h3>
+    </router-link>
+
+    <p v-html="text" class="card-text"></p>
+    <router-link
+      class="card-link card-arrow"
+      :to="{
+        name: 'article',
+        params: { id: article.id, alias: article.alias },
+      }"
+    >
+      <div class="svg" v-html="arrowRight"></div>
+    </router-link>
+
+    <div class="card-author" v-if="article.authors[0]">
+      <div class="card-icon">
+        <div class="svg" v-html="user"></div>
+      </div>
+      <div
+        v-html="
+          article.authors[0].first_name + ' ' + article.authors[0].last_name
         "
-      >
-        <v-row align="end" style="height: 100%" class="card-text ma-0">
-          <v-col cols="12">
-            <v-card-title
-              class="
-                text-h5
-                white--text
-                darken-2
-                font-weight-bold
-                justify-left
-                pb-0
-                px-0
-              "
-              style="word-break: break-word"
-              >{{ article.title }}</v-card-title
-            >
-            <v-card-text class="px-0">
-              <p class="text-left mb-0">{{ text + '...' }}</p>
-            </v-card-text>
-            <v-card-actions class="pa-0">
-              <v-spacer />
-              <v-btn-cap
-                :to="{
-                  name: 'article',
-                  params: { id: article.id, alias: article.alias },
-                }"
-                color="primary"
-              >
-                <v-icon left>mdi-page-next</v-icon>
-                <span>Czytaj więcej...</span>
-              </v-btn-cap>
-              <v-speed-dial
-                direction="top"
-                v-if="role && !hideControls"
-                v-model="fab"
-                class="ml-2"
-              >
-                <template v-slot:activator>
-                  <v-btn-cap
-                    x-small
-                    fab
-                    v-model="fab"
-                    class="text-body-1 font-weight-bold"
-                    color="primary"
-                  >
-                    <v-icon>mdi-cog</v-icon>
-                  </v-btn-cap>
-                </template>
-                <v-btn-cap
-                  fab
-                  x-small
-                  color="orange"
-                  :to="{ name: 'articleEdit', params: { id: article.id } }"
-                >
-                  <v-icon>mdi-pen</v-icon>
-                </v-btn-cap>
-                <v-btn-cap fab x-small color="error" @click="dialog = true">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn-cap>
-              </v-speed-dial>
-            </v-card-actions>
-          </v-col>
-        </v-row>
-      </v-img>
-    </v-card>
-    <confirmation-dialog
-      v-if="dialog"
-      @yes="deleteArticle"
-      @no="dialog = false"
-      :text="dialogText"
-    ></confirmation-dialog>
+        class="signature"
+      ></div>
+    </div>
   </div>
 </template>
 
-<script lang='ts'>
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script lang="ts">
+import Vue from 'vue';
+import { Component, Prop } from 'vue-property-decorator';
+import { format } from 'date-fns';
+import { pl } from 'date-fns/locale';
 import { ArticleModel } from '@/models/ArticleModel';
 
 @Component
 export default class ArticleCard extends Vue {
-  @Prop({ required: true }) public article!: ArticleModel;
-  @Prop({ default: false }) public hideControls!: boolean;
-  @Prop({ default: '' }) public width!: string;
 
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
-  }
+  user = '<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.21 21v-2a4 4 0 00-4-4h-8a4 4 0 00-4 4v2M12.21 11a4 4 0 100-8 4 4 0 000 8z" stroke="#55ACEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  arrowRight = '<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m15.352 10.185 5.024 4.988-5.024 4.987" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.299 4.201v6.982c0 1.058.423 2.073 1.177 2.821a4.035 4.035 0 0 0 2.842 1.169h12.058" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-  get role(): boolean {
-    return this.$store.getters.isAdministrator;
-  }
+  @Prop(Object) readonly article!: ArticleModel;
 
   private removeMarkdown(text: string) {
     const removeMd = require('remove-markdown');
     return removeMd(text);
   }
-
-  get dialogText() {
-    return 'Czy na pewno chcesz usunąć artykuł "' + this.article.title + '"?';
-  }
-
   get text(): string {
     return this.removeMarkdown(this.article.text);
   }
 
-  get be() {
-    return process.env.VUE_APP_MEDIA_URL;
-  }
-
-  private deleteArticle() {
-    this.$data.dialog = false;
-    this.$emit('delete', this.article.id);
-  }
-
-  private data() {
-    return {
-      fab: false,
-      dialog: false,
-    };
+  get date(): string {
+    return format(new Date(this.article.creation_date), 'd MMMMMMM yyyy', {
+      locale: pl,
+    });
   }
 }
 </script>
 
-<style scoped>
-.card-text {
-  background-image: linear-gradient(rgba(12, 12, 12, 0), rgba(12, 12, 12, 0.8));
-  position: absolute;
-  bottom: 0px;
+<style lang="scss" scoped>
+@use '@/styles/helpers' as *;
+@use '@/styles/components/buttons';
+
+.card {
+  border-radius: 20px;
+  max-width: 450px;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.35);
+  padding: 40px 40px;
+  position: relative;
+  padding-top: 220px;
+  .card-image {
+    position: absolute;
+    top: 0;
+    height: 200px;
+    left: 0;
+    width: 100%;
+
+    img {
+      width: 100%;
+      border-radius: 20px 20px 0 0;
+      object-fit: cover;
+      height: 200px;
+    }
+  }
+
+  .card-date {
+    color: $primary;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  .card-link {
+    text-decoration: none;
+  }
+
+  .card-link-title {
+    width: 100%;
+  }
+  .card-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: $text-color;
+    font-weight: 700;
+  }
+  .card-arrow {
+    margin-bottom: 20px;
+  }
+  .card-text {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .card-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+    fill: white;
+    margin-right: 20px;
+    .svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .card-author {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .signature {
+      font-weight: 600;
+      font-size: 18px;
+    }
+  }
+  .card-link {
+    margin-left: auto;
+    margin-right: 0;
+    .svg {
+      color: #d5d3d3;
+      transition: color 0.3s;
+    }
+    &:hover .svg {
+      color: $primary;
+    }
+  }
 }
 </style>

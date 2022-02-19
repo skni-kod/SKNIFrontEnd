@@ -25,31 +25,31 @@ const routes: RouteConfig[] = [
     path: '/',
     name: 'home',
     component: () =>
-      import(/* webpackChunkName: "Home" */ './views/NewDesign/Home.vue'),
+      import(/* webpackChunkName: "Home" */ './views/Home.vue'),
   },
   {
     path: '/about',
     name: 'about',
     component: () =>
-      import(/* webpackChunkName: "About" */ './views/NewDesign/About.vue'),
+      import(/* webpackChunkName: "About" */ './views/About.vue'),
   },
   {
     path: '/news/:page?',
     name: 'news',
     component: () =>
-      import(/* webpackChunkName: "Article" */ './views/NewDesign/NewsList.vue'),
+      import(/* webpackChunkName: "Article" */ './views/NewsList.vue'),
   },
   {
     path: '/articles/:page?',
     name: 'articles',
     component: () =>
-      import(/* webpackChunkName: "Article" */ './views/NewDesign/ArticleList.vue'),
+      import(/* webpackChunkName: "Article" */ './views/ArticleList.vue'),
   },
   {
     path: '/article/:id-:alias',
     name: 'article',
     component: () =>
-      import(/* webpackChunkName: "ArticlePage" */ './views/NewDesign/Article.vue'),
+      import(/* webpackChunkName: "ArticlePage" */ './views/Article.vue'),
   },
   {
     path: '/article/edit/:id?',
@@ -69,7 +69,7 @@ const routes: RouteConfig[] = [
     path: '/tag/:tag/:page?',
     name: 'tag',
     component: () =>
-      import(/* webpackChunkName: "Article" */ './views/NewDesign/Tag.vue'),
+      import(/* webpackChunkName: "Article" */ './views/Tag.vue'),
   },
   {
     path: '/sections',
@@ -81,7 +81,7 @@ const routes: RouteConfig[] = [
     path: '/section/:id',
     name: 'section',
     component: () =>
-      import(/* webpackChunkName: "Section" */ './views/NewDesign/Section.vue'),
+      import(/* webpackChunkName: "Section" */ './views/Section.vue'),
   },
   {
     path: '/section/edit/:id?',
@@ -101,7 +101,7 @@ const routes: RouteConfig[] = [
     path: '/projects/:page?',
     name: 'projects',
     component: () =>
-      import(/* webpackChunkName: "Project" */ './views/NewDesign/ProjectList.vue'),
+      import(/* webpackChunkName: "Project" */ './views/ProjectList.vue'),
   },
   {
     path: '/project/edit/:id?',
@@ -121,7 +121,7 @@ const routes: RouteConfig[] = [
     path: '/project/:id',
     name: 'project',
     component: () =>
-      import(/* webpackChunkName: "ProjectPage" */ './views/NewDesign/Project.vue'),
+      import(/* webpackChunkName: "ProjectPage" */ './views/Project.vue'),
   },
   {
     path: '/hardware/edit/:id?',

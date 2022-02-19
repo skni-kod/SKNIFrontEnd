@@ -1,92 +1,76 @@
 <template>
-  <div class="mt-2">
-    <v-row justify="center" v-if="article != undefined" class="mx-1">
-      <v-col cols="12" sm="11" md="10" lg="9" xl="8">
-        <v-card>
-          <v-card-title
-            class="text-h4 primary--text font-weight-bold justify-center"
-            style="word-break: break-word"
-            >{{ article.title }}
-          </v-card-title>
-          <v-divider />
-          <v-card-text class="grey lighten-3">
-            <v-row align="center" justify="center">
-              <v-col cols="auto" class="mx-2 py-1">
-                <v-row align="center" justify="center" class="my-auto">
-                  <v-icon left color="primary">mdi-calendar-today</v-icon>
-                  <p class="my-auto">
-                    {{ article.creation_date | moment('DD-MM-YYYY') }}
-                  </p>
-                </v-row>
-              </v-col>
-              <v-col cols="auto" class="mx-2 py-1">
-                <v-row align-content="center" justify="center" class="my-auto">
-                  <v-icon left color="primary">mdi-account</v-icon>
-                  <p class="my-auto">
-                    {{ article.creator.first_name }}
-                    {{ article.creator.last_name }}
-                  </p>
-                </v-row>
-              </v-col>
-              <v-col cols="auto" class="mx-2 py-1">
-                {{ article.tags.length === 1 ? 'Tag:' : 'Tagi:' }}
-                <a
-                  :href="'/#/tag/' + tag.name"
-                  class="text-decoration-none"
-                  v-for="(tag, i) in article.tags"
-                  :key="i"
-                >
-                  <v-hover v-slot:default="{ hover }">
-                    <v-chip
-                      small
-                      label
-                      class="white--text mx-1"
-                      style="cursor: pointer"
-                      :color="hover ? 'primary' : 'grey'"
-                    >
-                      <v-icon small left>mdi-tag-outline</v-icon>
-                      {{ tag.name }}
-                    </v-chip>
-                  </v-hover>
-                </a>
-              </v-col>
-              <v-col cols="auto" class="mx-2 py-1">
-                {{ article.authors.length === 1 ? 'Autor:' : 'Autorzy:' }}
-                <a
-                  :href="'/#/user/profile/' + author.id"
-                  class="text-decoration-none"
-                  v-for="(author, i) in article.authors"
-                  :key="i"
-                >
-                  <v-hover v-slot:default="{ hover }">
-                    <v-chip
-                      small
-                      label
-                      class="white--text mx-1"
-                      style="cursor: pointer"
-                      :color="hover ? 'primary' : 'grey'"
-                    >
-                      <v-icon small left>mdi-account</v-icon>
-                      {{ author.first_name }} {{ author.last_name }}
-                    </v-chip>
-                  </v-hover>
-                </a>
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <v-divider />
-          <v-card-text>
-            <markdown-it-vue
-              class="md-body text-left"
-              :content="article.text"
-              :options="markdownOptions"
-            />
-          </v-card-text>
-        </v-card>
-        <gallery breakpoints="xs6" :imgs="article.gallery" />
-        <comments-list :comments="comments" />
-      </v-col>
-    </v-row>
+  <div class="article-section">
+    <div justify="center" v-if="article != undefined" class="mx-1">
+      <SectionHeader
+        :title="article.title"
+        subtitle="artykuły SKNI"
+      ></SectionHeader>
+      <div class="article-actions">
+        <div class="article-date">
+          <v-icon left color="primary">mdi-calendar-today</v-icon>
+          <p class="my-auto">
+            {{ article.creation_date | moment('DD-MM-YYYY') }}
+          </p>
+        </div>
+
+        <div cols="auto" class=" py-1">
+          {{ article.tags.length === 1 ? 'Tag:' : 'Tagi:' }}
+          <a
+            :href="'/tag/' + tag.name"
+            class="text-decoration-none"
+            v-for="(tag, i) in article.tags"
+            :key="i"
+          >
+            <v-hover v-slot:default="{ hover }">
+              <v-chip
+                class="tag"
+                small
+                label
+                style="cursor: pointer"
+                :color="hover ? 'grey' : 'primary'"
+              >
+                <v-icon small left>mdi-tag-outline</v-icon>
+                {{ tag.name }}
+              </v-chip>
+            </v-hover>
+          </a>
+        </div>
+        <div cols="auto" class=" py-1">
+          {{ article.authors.length === 1 ? 'Autor:' : 'Autorzy:' }}
+          <a
+            :href="'/#/user/profile/' + author.id"
+            class="text-decoration-none"
+            v-for="(author, i) in article.authors"
+            :key="i"
+          >
+            <v-hover v-slot:default="{ hover }">
+              <v-chip
+                class="tag"
+                small
+                label
+                style="cursor: pointer"
+                :color="hover ? 'grey' : 'primary'"
+              >
+                <div class="svg" v-html="user"></div>
+
+                {{ author.first_name }} {{ author.last_name }}
+              </v-chip>
+            </v-hover>
+          </a>
+        </div>
+      </div>
+
+      <v-divider />
+      <div class="article-text">
+        <markdown-it-vue
+          class="md-body text-left"
+          :content="article.text"
+          :options="markdownOptions"
+        />
+      </div>
+      <gallery class="gallery" breakpoints="xs6" :imgs="article.gallery" />
+      <comments-list class="comments" :comments="comments" />
+    </div>
     <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="role">
       <template v-slot:activator>
         <v-btn-cap
@@ -118,12 +102,18 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
-
-@Component
+import SectionHeader from '../components/SectionHeader.vue';
+import Gallery from '../components/Gallery.vue';
+@Component({
+  components: {
+    SectionHeader,
+    Gallery,
+  },
+})
 export default class Article extends Vue {
   private articlesService!: ArticlesService;
   private article!: ArticleModel;
@@ -184,6 +174,8 @@ export default class Article extends Vue {
       article: this.article,
       fab: false,
       dialog: false,
+      user:
+        '<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.21 21v-2a4 4 0 00-4-4h-8a4 4 0 00-4 4v2M12.21 11a4 4 0 100-8 4 4 0 000 8z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
       markdownOptions: {
         markdownIt: {
           html: true,
@@ -197,3 +189,68 @@ export default class Article extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@use '@/styles/helpers' as *;
+@use '@/styles/components/buttons';
+
+.article-section {
+  margin-top: 50px;
+  @include responsiveLayout();
+  row-gap: 50px;
+  width: 100%;
+
+  .section-header {
+    margin-bottom: 100px;
+    text-align: center;
+  }
+  .article-actions {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .article-date {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .tag {
+      transition: background-color 0.3s, border-color 0.3s;
+      color: #fff;
+      padding: 15px 20px;
+    }
+  }
+
+  .article-text {
+    margin: 50px 0;
+  }
+  .svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+
+  .gallery {
+    margin: 50px 0;
+  }
+
+  .comments {
+    margin: 50px 0;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .article-actions {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-direction: column;
+      & > div {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+</style>

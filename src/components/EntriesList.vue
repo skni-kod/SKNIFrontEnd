@@ -38,7 +38,7 @@ import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationModel } from '@/models/PaginationModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
-import ArticleCard from '@/components/NewDesign/ArticleCard.vue';
+import ArticleCard from '@/components/ArticleCard.vue';
 
 @Component({
   components: {

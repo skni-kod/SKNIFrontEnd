@@ -21,10 +21,10 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import LinkButton from '../base/LinkButton.vue';
-import SectionHeader from '@/components/NewDesign/SectionHeader.vue';
+import LinkButton from '@/components/base/LinkButton.vue';
+import SectionHeader from '@/components/SectionHeader.vue';
 import { ProjectInfo } from '@/store/modules/projects';
-import ProjectTile from '@/components/NewDesign/projects/ProjectTile.vue';
+import ProjectTile from '@/components/projects/ProjectTile.vue';
 
 @Component({
   components: {

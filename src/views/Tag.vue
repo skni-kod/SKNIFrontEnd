@@ -1,23 +1,28 @@
 <template>
-  <v-row justify="center" align="center" class="fill-height">
+  <v-row class="tag-page" justify="center" align="center">
     <v-col class="py-0">
-      <p class="text-h5 font-weight-bold text-center ma-2">
-        Artykuły dla tagu #{{ $route.params.tag }}
-      </p>
-      <article-card
-        class="ma-2"
-        v-for="article in articles"
-        :key="article.title"
-        :article="article"
-      ></article-card>
-      <v-pagination
-        class="ma-2"
-        v-model="pagination.currentPage"
-        :length="pagination.pageCount"
-        @input="paginationClicked"
-        prev-icon="mdi-chevron-left"
-        next-icon="mdi-chevron-right"
-      ></v-pagination>
+          <SectionHeader
+      :title="'#'+$route.params.tag"
+      subtitle="Artykuły dla tagu"
+    ></SectionHeader>
+      <div class="articles-list" justify="center" v-if="articles && articles.length > 0">
+      <div>
+        <div class="articles-container">
+          <div class="articles-inner">
+            <ArticleCard v-for="article in articles" :article="article" @delete="deleteArticle" :key="article.id"/>
+          </div>
+        </div>
+        <v-pagination
+          v-model="pagination.currentPage"
+          class="mt-2"
+          :length="pagination.pageCount"
+          @input="paginationClicked"
+          prev-icon="mdi-chevron-left"
+          next-icon="mdi-chevron-right"
+          v-if="articles && articles.length > 0"
+        ></v-pagination>
+      </div>
+    </div>
     </v-col>
   </v-row>
 </template>
@@ -28,8 +33,16 @@ import { ArticlesService } from '@/services/ArticlesService';
 import { ArticleModel } from '@/models/ArticleModel';
 import { PaginationModel } from '@/models/PaginationModel';
 import { PaginationContainer } from '@/models/PaginationContainer';
+import ArticleCard from '@/components/ArticleCard.vue';
+import SectionHeader from '../components/SectionHeader.vue';
 
-@Component
+
+@Component({
+  components: {
+    ArticleCard,
+    SectionHeader,
+  },
+})
 export default class Tag extends Vue {
   private articlesService!: ArticlesService;
   private pagination!: PaginationModel;
@@ -80,3 +93,17 @@ export default class Tag extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+.tag-page{
+    .section-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .articles-inner{
+      display: grid;
+      gap: 50px;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;}
+
+}
+</style>

@@ -47,7 +47,7 @@ import arduino from '@/assets/hero-images/arduino.png';
 import gamepad from '@/assets/hero-images/gamepad.png';
 import keyboard from '@/assets/hero-images/keyboard.png';
 import python from '@/assets/hero-images/python.png';
-import LinkButton from '@/components/NewDesign/base/LinkButton.vue';
+import LinkButton from '@/components/base/LinkButton.vue';
 
 @Component({
   components: {
