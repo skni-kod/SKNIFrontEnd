@@ -24,8 +24,8 @@ import { Component } from 'vue-property-decorator';
 
 import '@/styles/global.scss';
 
-import AppHeader from '@/components/NewDesign/AppHeader.vue';
-import AppFooter from '@/components/NewDesign/AppFooter.vue';
+import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue';
 
 const Snackbars = () =>
   import( // tslint:disable-next-line
