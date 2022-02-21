@@ -95,9 +95,17 @@
         subtitle="Nasi partnerzy"
       ></SectionHeader>
       <div class="sponsors-inner">
-        <Sponsor />
-        <Sponsor />
-        <Sponsor />
+       <!-- TODO: Fetch sponsors from API -->
+        <sponsor
+          :image="require('@/assets/ideo.svg')"
+          name="Ideo"
+          link="https://www.ideo.pl/"
+        />
+        <sponsor 
+          :image="require('@/assets/sklep-elektronika.png')" 
+          name="Sklep-Elektronika" 
+          link="https://sklep-elektronika.com/"
+        />
       </div>
     </div>
   </div>
