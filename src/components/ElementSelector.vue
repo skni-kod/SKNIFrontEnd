@@ -11,6 +11,8 @@
     :item-text="itemtext"
     :item-value="itemvalue"
     :multiple="multiple"
+    :search-input.sync="searchQuery"
+    @change="clearSearchValue"
   >
     <template v-slot:selection="data">
       <v-chip small close @click:close="remove(data.item)">{{
@@ -40,6 +42,12 @@ export default class ElementSelector extends Vue {
   @Prop({ default: 'id' }) public readonly itemvalue!: string;
   @Prop({ default: false }) public readonly rules!: any;
   @Prop({ default: true }) public readonly multiple!: boolean;
+
+  public searchQuery = '';
+
+  clearSearchValue() {
+    this.searchQuery = '';
+  }
 
   get selected() {
     return this.value;
