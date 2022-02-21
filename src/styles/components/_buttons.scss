@@ -1,0 +1,43 @@
+@use '../helpers' as *;
+
+%button-base {
+  font-size: 18px;
+  font-weight: 500;
+  padding: 10px 40px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s, border-color 0.3s;
+  appearance: none;
+  border-radius: 50px;
+}
+
+@mixin button-theme (
+  $background-color,
+  $text-color,
+  $border-color: $background-color,
+  $hover-text-color: $background-color,
+  $hover-background-color: transparent,
+  $hover-border-color: $border-color,
+) {
+  @extend %button-base;
+
+  background-color: $background-color;
+  color: $text-color;
+  border-color: $border-color;
+  will-change: transform;
+
+  &:hover,
+  &:focus-visible {
+    background-color: $hover-background-color;
+    color: $hover-text-color;
+    border-color: $hover-border-color;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}

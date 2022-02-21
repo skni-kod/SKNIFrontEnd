@@ -20,6 +20,8 @@ export class ArticleModel {
     public gallery!: GalleryModelImage[];
     public tags!: TagModel[] | number[];
 
+    public group!: string;
+
     // tslint:disable-next-line:variable-name
     public comments_number!: number;
 

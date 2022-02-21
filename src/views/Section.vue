@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-2">
+  <div class="mt-2 section">
     <v-row justify="center" v-if="section != undefined">
       <v-col cols="12" sm="11" md="10" lg="9" xl="8">
         <v-card tile outlined class="rounded-lg">
@@ -101,7 +101,7 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { SectionsService } from '@/services/SectionsService';
 import { ProjectsService } from '@/services/ProjectsService';
@@ -185,3 +185,19 @@ export default class Section extends Vue {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@use '@/styles/helpers' as *;
+@use '@/styles/components/buttons';
+
+.section {
+  margin-top: 50px;
+  @include responsiveLayout();
+  row-gap: 50px;
+  width: 100%;
+
+  .theme--light.v-sheet--outlined {
+    background: transparent;
+  }
+}
+</style>

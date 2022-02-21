@@ -24,13 +24,20 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     name: 'home',
-    component: () => import(/* webpackChunkName: "Home" */ './views/Home.vue'),
+    component: () =>
+      import(/* webpackChunkName: "Home" */ './views/Home.vue'),
   },
   {
     path: '/about',
     name: 'about',
     component: () =>
       import(/* webpackChunkName: "About" */ './views/About.vue'),
+  },
+  {
+    path: '/news/:page?',
+    name: 'news',
+    component: () =>
+      import(/* webpackChunkName: "Article" */ './views/NewsList.vue'),
   },
   {
     path: '/articles/:page?',
@@ -165,10 +172,7 @@ const routes: RouteConfig[] = [
     name: 'UserPassChange',
     beforeEnter: authGuard,
     component: () =>
-      import(
-        // tslint:disable-next-line
-        /* webpackChunkName: "UserPassChange" */ './views/UserPassChange.vue'
-      ),
+      import(/* webpackChunkName: "UserPassChange" */ './views/UserPassChange.vue'),
   },
   {
     path: '/user/descriptionchange',
@@ -206,9 +210,14 @@ const routes: RouteConfig[] = [
 ];
 
 const router = new VueRouter({
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
   scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return { selector: to.hash };
+    }
+
     if (savedPosition) {
       return savedPosition;
     } else {

@@ -1,141 +1,162 @@
 <template>
-  <div class="mt-4 mb-2 mx-4 fill-height">
-    <v-row justify="center" v-if="projects && projects.length > 0">
-      <v-col cols="12" sm="11" md="10" lg="9" xl="8">
-        <project-card
-          class="my-2"
-          :project="project"
-          @delete="deleteProject"
-          v-for="project in projects"
-          :key="project.title"
-        ></project-card>
-      </v-col>
-    </v-row>
-    <v-row align="center" class="fill-height" v-else>
-      <v-col>
-        <div class="text-h3 font-weight-bold text-center">
-          {{ loading ? 'Ładowanie danych' : 'Brak projektów' }}
-          <v-progress-circular
-            indeterminate
-            color="primary"
-            v-if="loading"
-          ></v-progress-circular>
-        </div>
-      </v-col>
-    </v-row>
-    <v-btn-cap
-      fab
-      fixed
-      bottom
-      right
-      v-if="role"
-      :to="{ name: 'projectAdd' }"
-      class="success"
-    >
-      <v-icon class="white--text">mdi-plus</v-icon>
-    </v-btn-cap>
+  <section class="projects-list">
+    <section-header title="Nasze projekty" subtitle="Projekty małe i duże" class="header" />
+
+    <div class="projects-toolbar" v-if="isAdministrator">
+      <router-link :to="{ name: 'projectAdd' }" class="link">
+        <add-icon class="icon" />
+        <span class="text">Dodaj projekt</span>
+      </router-link>
+    </div>
+
+    <div class="projects" v-if="!loading">
+      <project-tile class="project-tile" v-for="project in projects" :project="project" :key="project.id"/>
+    </div>
+
+    <div class="loading-wrapper" v-if="loading">
+      <v-progress-circular indeterminate color="primary" />
+    </div>
+
     <v-pagination
-      v-model="pagination.currentPage"
-      :length="pagination.pageCount"
+      v-model="currentPageNumber"
+      :length="Math.ceil(projectsCount / itemsPerPage)"
       @input="paginationClicked"
       prev-icon="mdi-chevron-left"
       next-icon="mdi-chevron-right"
-      class="mb-3"
-      v-if="projects && projects.length > 0"
+      v-if="projectsCount > 0"
     ></v-pagination>
-  </div>
+  </section>
 </template>
 
-<script lang='ts'>
-import { Component, Vue, Prop } from 'vue-property-decorator';
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
 import { ProjectsService } from '@/services/ProjectsService';
-import { ProjectModel } from '@/models/ProjectModel';
-import { PaginationModel } from '@/models/PaginationModel';
-import { PaginationContainer } from '@/models/PaginationContainer';
-
-import ProjectCard from '@/components/ProjectCard.vue';
+import ProjectTile from '@/components/projects/ProjectTile.vue';
+import SectionHeader from '@/components/SectionHeader.vue';
+import AddIcon from '@/assets/icons/plus.svg?inline';
 
 @Component({
   components: {
-    ProjectCard,
+    ProjectTile,
+    SectionHeader,
+    AddIcon,
   },
 })
 export default class ProjectList extends Vue {
-  private projectsService!: ProjectsService;
-  private pagination!: PaginationModel;
+  projectsService: ProjectsService = new ProjectsService();
+  itemsPerPage = 10;
 
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
+  get projects() {
+    return this.$store.getters.paginatedProjects.projects[this.currentPageNumber] || [];
   }
 
-  get role(): boolean {
-    return this.$store.getters.isAdministrator;
+  get loading() {
+    const projects = this.$store.getters.paginatedProjects.projects[this.currentPageNumber];
+    if (projects && projects.length > 0) {
+      return false;
+    } else {
+      return this.$store.getters.paginatedProjects.loading;
+    }
   }
 
-  private beforeCreate() {
-    this.projectsService = new ProjectsService();
-    this.pagination = new PaginationModel(1, 3, 3);
+  get projectsCount() {
+    return this.$store.getters.paginatedProjects.count;
   }
 
-  private created() {
-    this.getProjects();
+  get currentPageNumber() {
+    const page = Number.parseInt(this.$route.params.page, 10);
+    return Number.isNaN(page) ? 1 : page;
   }
 
-  private paginationClicked(pageNumber: number) {
+  set currentPageNumber(page) {
     this.$router.replace({
       name: 'projects',
-      params: { page: '' + pageNumber },
+      params: { page: page.toString() },
     });
-
-    this.getProjects();
   }
 
-  private getProjects() {
-    const pageNumber = +this.$route.params.page;
-    if (pageNumber === undefined || isNaN(pageNumber) || pageNumber < 1) {
-      this.paginationClicked(1);
-      return;
-    }
-
-    this.pagination.currentPage = pageNumber;
-    this.projectsService
-      .getProjectsByPage(pageNumber, this.pagination.itemsPerPage, false)
-      .then((paginationContainer: PaginationContainer<ProjectModel>) => {
-        this.$data.projects = paginationContainer.results;
-        if (!this.$data.projects.length && pageNumber !== 1) {
-          this.paginationClicked(1);
-          return;
-        }
-        this.pagination.itemCount = paginationContainer.count;
-        this.$data.loading = false;
-      })
-      .catch(() => {
-        this.$data.loading = false;
-      });
+  fetchProjects(page: number) {
+    this.$store.dispatch('getPaginatedProjects', {
+      page: page, pageSize: this.itemsPerPage,
+    });
   }
 
-  private deleteProject(id: number) {
-    this.projectsService
-      .deleteProject(id)
-      .then((res) => {
-        if (res.status === 204) {
-          this.$store.dispatch('successMessage', 'Projekt został usunięty');
-          this.$router.replace({
-            name: 'projects',
-            params: { page: 'reload' },
-          });
-        }
-      })
-      .catch(() => {
-        this.$store.dispatch('errorMessage', 'Błąd poczas usuwania projektu!');
-      });
+  created() {
+    this.fetchProjects(this.currentPageNumber);
   }
 
-  private data() {
-    return {
-      projects: [],
-      loading: true,
-    };
+  paginationClicked(pageNumber: number) {
+    this.fetchProjects(pageNumber);
+  }
+
+  get isAdministrator(): boolean {
+    return this.$store.getters.isAdministrator;
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@use '@/styles/helpers' as *;
+
+.projects-list {
+  @include responsiveLayout();
+
+  margin-top: 50px;
+  height: 100%;
+  width: 100%;
+
+  .loading-wrapper {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .projects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-bottom: 50px;
+  }
+
+  .projects-toolbar {
+    background-color: $primary;
+    width: 100%;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: flex;
+
+    .link {
+      display: flex;
+      align-items: center;
+      .icon {
+        width: 30px;
+        height: 30px;
+        color: $body-bg;
+        display: block;
+        margin-right: 10px;
+      }
+
+      .text {
+        font-weight: 600;
+        color: $body-bg;
+        text-decoration: none;
+        display: block;
+      }
+    }
+  }
+
+  @include media-breakpoint-down("md") {
+    .projects {
+      grid-template-columns: 1fr;
+      grid-template-rows: unset;
+    }
+  }
+}
+</style>

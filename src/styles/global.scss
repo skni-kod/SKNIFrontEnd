@@ -1,0 +1,24 @@
+@use '@/styles/helpers' as *;
+@use '@/styles/fonts';
+@use '@/styles/components/buttons';
+
+html {
+  scroll-behavior: smooth;
+}
+
+body, main {
+  position: relative;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', noto-fonts-emoji, sans-serif;
+  color: $text-color;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+::selection {
+  background-color: $primary;
+  color: $body-bg;
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -141,7 +141,11 @@ const userModule: Module<any, any> = {
         dispatch('logout');
       } else {
         beAxios
-          .get('api/profiles/' + state.user.profile + '/', {})
+          .get('api/profiles/' + state.user.profile + '/', {
+            headers: {
+              Authorization: 'Bearer ' + state.token,
+            },
+          })
           .then((res) => {
             commit('storeProfile', res.data);
           })

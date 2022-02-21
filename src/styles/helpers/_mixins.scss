@@ -1,0 +1,23 @@
+@use './variables' as *;
+@use './breakpoints' as *;
+
+@mixin responsiveLayout () {
+  display: grid;
+  grid-template-columns: 1fr 90% 1fr;
+
+  & > * {
+    grid-column: 2;
+    width: 100%;
+  }
+
+  .full-bleed {
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+
+  @each $name, $size in $container-max-widths {
+    @include media-breakpoint-up($name) {
+      grid-template-columns: 1fr $size 1fr;
+    }
+  }
+}
