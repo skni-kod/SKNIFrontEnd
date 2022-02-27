@@ -1,18 +1,17 @@
 <template>
-  <a :href="link" class="sponsor">
-    <img :src="image" :alt="name" class="image" />
+  <a :href="model.url" class="sponsor">
+    <img :src="model.image" :alt="model.name" class="image" />
   </a>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { SponsorModel } from '@/models/SponsorModel';
 
 @Component
-export default class Section extends Vue {
-  @Prop(String) link!: string;
-  @Prop(String) name!: string;
-  @Prop(String) image!: string;
+export default class Sponsor extends Vue {
+  @Prop(Object) model!: SponsorModel;
 }
 </script>
 

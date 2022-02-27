@@ -96,16 +96,7 @@
       ></SectionHeader>
       <div class="sponsors-inner">
        <!-- TODO: Fetch sponsors from API -->
-        <sponsor
-          :image="require('@/assets/ideo.svg')"
-          name="Ideo"
-          link="https://www.ideo.pl/"
-        />
-        <sponsor 
-          :image="require('@/assets/sklep-elektronika.png')" 
-          name="Sklep-Elektronika" 
-          link="https://sklep-elektronika.com/"
-        />
+        <Sponsors />
       </div>
     </div>
   </div>
