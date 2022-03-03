@@ -8,4 +8,13 @@ export class SponsorsService {
             await beAxios('api/sponsors/')
         ).data;
     }
+
+    public async deleteSponsor(sponsor: SponsorModel) {
+        const del = await beAxios.delete('api/sponsors/' + sponsor.id + '/',
+          {
+              headers: {
+              Authorization: 'Bearer ' + store.getters.token,
+          },
+        });
+    }
 }

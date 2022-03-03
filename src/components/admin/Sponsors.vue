@@ -5,11 +5,15 @@
      <thead>
         <tr>
           <th class="text-left">
+            Id
+          </th>
+
+          <th class="text-left">
             Nazwa
           </th>
-          <th class="text-left">
-            Usuń
-          </th>
+
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -17,18 +21,33 @@
           v-for="item in sponsors"
           :key="item.id"
         >
+          <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
-          <td>
+          
+          <td class="text-center">
             <v-btn
              depressed 
-             color="error">
+             @click="modifySponsor(item)">
+              Modifikuj
+            </v-btn>
+          </td>
+
+
+          <td class="text-center">
+            <v-btn
+             depressed 
+             color="error"
+             @click="deleteSponsor(item)">
               Usuń
             </v-btn>
           </td>
         </tr>
       </tbody>
   </v-simple-table>
-  <v-btn>
+
+  <v-btn 
+   color="primary"
+   @click="newSponsor()">
     Dodaj
   </v-btn>
 </div>
@@ -54,10 +73,25 @@ export default class AdminPanelSponsors extends Vue {
   mounted() {
     this.sponsorsService.getSponsors().then((models: SponsorModel[]) => {
       this.sponsors = models;
-    })
+    });
   }
 
-  
+  newSponsor() {
+
+  }
+
+  async deleteSponsor(sponsor: SponsorModel) {
+    await this.sponsorsService.deleteSponsor(sponsor);
+
+    this.sponsorsService.getSponsors().then((models: SponsorModel[]) => {
+      this.sponsors = models;
+    });
+  }
+
+  modifySponsor(sponsor: SponsorModel) {
+
+  }
+
   private data() {
     return {
       sponsors: this.sponsors,

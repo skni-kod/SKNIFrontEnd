@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <component v-if="module" :is="module"></component>
     <v-navigation-drawer
       dark
@@ -148,3 +148,9 @@ export default class AdminPanel extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.content {
+  width: 80%;
+}
+</style>
