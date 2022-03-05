@@ -95,7 +95,6 @@
         subtitle="Nasi partnerzy"
       ></SectionHeader>
       <div class="sponsors-inner">
-       <!-- TODO: Fetch sponsors from API -->
         <Sponsors />
       </div>
     </div>
@@ -116,7 +115,6 @@ import homeSectionList from '@/components/HomeSectionList.vue';
 import Sponsors from '@/components/Sponsors.vue';
 import Section from '@/components/Section.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
-import Sponsor from '@/components/Sponsor.vue';
 import HeroSection from '@/components/HeroSection.vue';
 import ProjectsGrid from '@/components/projects/ProjectsGrid.vue';
 import SectionHeader from '../components/SectionHeader.vue';
@@ -131,7 +129,6 @@ import SectionHeader from '../components/SectionHeader.vue';
     LinkButton,
     ArticleCard,
     ProjectsGrid,
-    Sponsor,
     SectionHeader,
   },
 

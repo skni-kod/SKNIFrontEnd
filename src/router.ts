@@ -150,6 +150,11 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "Hardware" */ './views/Hardware.vue'),
   },
   {
+    path: '/sponsors/add',
+    name: 'sponsorsAdd',
+    component: () => import('./views/admin/EditSponsor.vue'),
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "User" */ './views/Login.vue'),

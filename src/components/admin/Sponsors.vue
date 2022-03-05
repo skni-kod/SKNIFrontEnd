@@ -37,7 +37,7 @@
             <v-btn
              depressed 
              color="error"
-             @click="deleteSponsor(item)">
+             @click="selectToDelete(item)">
               Usuń
             </v-btn>
           </td>
@@ -47,9 +47,17 @@
 
   <v-btn 
    color="primary"
-   @click="newSponsor()">
+   :to=" {name: 'sponsorsAdd'} ">
     Dodaj
   </v-btn>
+
+
+  <confirmation-dialog
+    v-if="selected !== null"
+    @yes="deleteSponsor(selected)"
+    @no="selected = null"
+    :text=" 'Czy na pewno chcesz usunąć ' + selected.name + '?' "
+  ></confirmation-dialog>
 </div>
 </template>
 
@@ -70,22 +78,20 @@ export default class AdminPanelSponsors extends Vue {
     this.sponsorsService = new SponsorsService();
   }
   
-  mounted() {
-    this.sponsorsService.getSponsors().then((models: SponsorModel[]) => {
-      this.sponsors = models;
-    });
+  async mounted() {
+    this.sponsors = await this.sponsorsService.getSponsors();
+    console.log(this.sponsors);
   }
 
-  newSponsor() {
-
+  selectToDelete(sponsor: SponsorModel) {
+    this.$data.selected = sponsor;
   }
 
   async deleteSponsor(sponsor: SponsorModel) {
     await this.sponsorsService.deleteSponsor(sponsor);
+    this.$data.selected = null;
 
-    this.sponsorsService.getSponsors().then((models: SponsorModel[]) => {
-      this.sponsors = models;
-    });
+    this.sponsors = await this.sponsorsService.getSponsors();
   }
 
   modifySponsor(sponsor: SponsorModel) {
@@ -95,6 +101,7 @@ export default class AdminPanelSponsors extends Vue {
   private data() {
     return {
       sponsors: this.sponsors,
+      selected: null,
     };
   }
 }
