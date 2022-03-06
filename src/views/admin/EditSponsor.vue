@@ -54,6 +54,8 @@
     </v-card>
 
     <v-btn
+    :loading="loading"
+    :disabled="loading"
      @click="add()">
       {{modifing ? "Zaktualizuj" : "Dodaj"}}
     </v-btn>
@@ -71,25 +73,29 @@ export default class EditSponsor extends Vue {
   service!: SponsorsService;
   sponsor!: SponsorModel;
 
-  async created() {
+  created() {
     this.service = new SponsorsService();
 
     if (this.$route.path.includes('add')) {
       this.sponsor = new SponsorModel();
     }
     else {
-      const response = await this.service.getSponsor(this.$route.params.id);
-      if (response.status === 200) {
-        this.sponsor = response.data;
-        this.$data.modifing = true;
-      }
-      else {
+      const response = this.service.getSponsor(this.$route.params.id);
+      response.then((res) => {
+        if(res.status === 200) {
+          this.sponsor = res.data;
+          this.$data.modifing = true;
+        }
+      })
+      .catch((error) => {
         this.$store.dispatch('errorMessage', 'Nie udało się pobrać danych!');
-      }
+      });
     }
   }
 
-  async add() {
+  add() {
+    this.$data.loading = true;
+
     let response: Promise<AxiosResponse<any>>;
     if (this.$data.modifing) {
       response = this.service.modifySponsor(this.sponsor, this.$data.image);
@@ -98,13 +104,22 @@ export default class EditSponsor extends Vue {
       response = this.service.addSponsor(this.sponsor.name, this.sponsor.url, this.$data.image);
     }
 
-    const result = await response;
-    if (result.status === 201 || result.status === 200) {
-      this.$router.replace({name: 'adminPanel', params: {module: 'sponsors'}});
-    }
-    else {
-      this.$store.dispatch('errorMessage', 'Nie udało się dodać/zmodyfikować sponsora!');
-    }
+    response.then((res) => {
+      if (res.status === 201 || res.status === 200) {
+        this.$router.replace({name: 'adminPanel', params: {module: 'sponsors'}});
+        this.$data.loading = false;
+      }
+    })
+    .catch((error) => {
+      if(error.response) {
+        this.$store.dispatch('errorMessage', 'Nie udało się dodać/zmodyfikować sponsora! Kod błędu: ' + error.response.status);
+      }
+      else {
+        this.$store.dispatch('errorMessage', 'Nie udało się dodać/zmodyfikować sponsora! ' + error.message);
+      }
+
+      this.$data.loading = false;
+    })
   }
 
   get mediaURL() {
@@ -118,6 +133,7 @@ export default class EditSponsor extends Vue {
       sponsor: this.sponsor,
       image: undefined,
       modifing: false,
+      loading: false,
     };
   }
 }

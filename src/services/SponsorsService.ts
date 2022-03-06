@@ -4,24 +4,25 @@ import { SponsorModel } from '@/models/SponsorModel';
 import { AxiosResponse } from 'axios';
 
 export class SponsorsService {
-  public async getSponsor(id: string): Promise<AxiosResponse<SponsorModel>> {
-    return (await beAxios.get('api/sponsors/' + id + '/'));
+  public getSponsor(id: string): Promise<AxiosResponse<SponsorModel>> {
+    return beAxios.get('api/sponsors/' + id + '/');
   }
 
   public async getSponsors(): Promise<AxiosResponse<SponsorModel[]>> {
     return (await beAxios.get('api/sponsors/'));
   }
 
-  public async addSponsor(name: string, url: string, logo: File ): Promise<AxiosResponse> {
+  public addSponsor(name: string, url: string, logo: File ): Promise<AxiosResponse> {
     const data = new FormData();
     data.append('name', name);
     data.append('logo', logo);
     data.append('url', url);
 
     return (
-      await beAxios.post('api/sponsors/', data,
+      beAxios.post('api/sponsors/', data,
         {
           headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: 'Bearer ' + store.getters.token,
           },
         },
@@ -29,7 +30,7 @@ export class SponsorsService {
     );
   }
 
-  public async modifySponsor(model: SponsorModel, newLogo?: File) {
+  public modifySponsor(model: SponsorModel, newLogo?: File) {
     const data = new FormData();
     data.append('name', model.name);
     data.append('url', model.url);
@@ -39,9 +40,10 @@ export class SponsorsService {
     }
 
     return (
-      await beAxios.patch('api/sponsors/' + model.id + '/', data,
+      beAxios.patch('api/sponsors/' + model.id + '/', data,
         {
           headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: 'Bearer ' + store.getters.token,
           },
         },
@@ -49,14 +51,12 @@ export class SponsorsService {
     );
   }
 
-  public async deleteSponsor(sponsor: SponsorModel): Promise<AxiosResponse> {
-    const del = await beAxios.delete('api/sponsors/' + sponsor.id + '/',
+  public deleteSponsor(sponsor: SponsorModel): Promise<AxiosResponse> {
+    return beAxios.delete('api/sponsors/' + sponsor.id + '/',
       {
         headers: {
           Authorization: 'Bearer ' + store.getters.token,
         },
       });
-
-    return del;
   }
 }

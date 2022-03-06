@@ -35,11 +35,13 @@ export default class Sponsors extends Vue {
   }
 
   async mounted() {
-    const response = await this.sponsorsService.getSponsors();
-    if (response.status === 200) {
-      this.sponsors = this.shuffleArray(response.data);
+    try {
+      const response = await this.sponsorsService.getSponsors();
+      if (response.status === 200) {
+        this.sponsors = this.shuffleArray(response.data);
+      }
     }
-    else {
+    catch {
       this.sponsors = [];
     }
   }

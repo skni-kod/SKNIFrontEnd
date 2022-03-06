@@ -82,12 +82,19 @@ export default class AdminPanelSponsors extends Vue {
   }
 
   async getSponsors() {
-    const response = await this.sponsorsService.getSponsors();
-    if (response.status === 200) {
-      this.sponsors = response.data;
+    try {
+      const response = await this.sponsorsService.getSponsors();
+      if (response.status === 200) {
+        this.sponsors = response.data;
+      }
     }
-    else {
-      this.$store.dispatch('errorMessage', 'Nie udało się pobrać listy sponsorów!');
+    catch(error: any) {
+      if(error.response) {
+        this.$store.dispatch('errorMessage', 'Nie udało się pobrać listy sponsorów! Kod: ' + error.response.status);
+      }
+      else {
+        this.$store.dispatch('errorMessage', 'Nie udało się pobrać listy sponsorów! ' + error.message);
+      }
     }
   }
 
