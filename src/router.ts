@@ -155,6 +155,11 @@ const routes: RouteConfig[] = [
     component: () => import('./views/admin/EditSponsor.vue'),
   },
   {
+    path: '/sponsors/edit/:id?',
+    name: 'sponsorsEdit',
+    component: () => import('./views/admin/EditSponsor.vue'),
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "User" */ './views/Login.vue'),

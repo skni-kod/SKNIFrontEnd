@@ -27,7 +27,7 @@
           <td class="text-center">
             <v-btn
              depressed 
-             @click="modifySponsor(item)">
+             :to="{name: 'sponsorsEdit', params: {id: item.id}}">
               Modifikuj
             </v-btn>
           </td>
@@ -79,8 +79,17 @@ export default class AdminPanelSponsors extends Vue {
   }
   
   async mounted() {
-    this.sponsors = await this.sponsorsService.getSponsors();
-    console.log(this.sponsors);
+    this.getSponsors();
+  }
+
+  async getSponsors() {
+    const response = await this.sponsorsService.getSponsors();
+    if(response.status == 200) {
+      this.sponsors = response.data;
+    }
+    else {
+      this.$store.dispatch('errorMessage', 'Nie udało się pobrać listy sponsorów!');
+    }
   }
 
   selectToDelete(sponsor: SponsorModel) {
@@ -91,7 +100,7 @@ export default class AdminPanelSponsors extends Vue {
     await this.sponsorsService.deleteSponsor(sponsor);
     this.$data.selected = null;
 
-    this.sponsors = await this.sponsorsService.getSponsors();
+    this.getSponsors();
   }
 
   modifySponsor(sponsor: SponsorModel) {

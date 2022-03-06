@@ -34,18 +34,15 @@ export default class Sponsors extends Vue {
   beforeCreate() {
     this.sponsorsService = new SponsorsService();
   }
-  
-  created() {
-    // this.shuffleArray(this.$data.sponsors);
-  }
 
-  mounted() {
-    this.sponsorsService.getSponsors().then((models: SponsorModel[]) => {
-      this.sponsors = models;
-    console.log(this.sponsors);
-
-    })
-
+  async mounted() {
+    const response = await this.sponsorsService.getSponsors();
+    if(response.status === 200) {
+      this.sponsors = this.shuffleArray(response.data);
+    }
+    else {
+      this.sponsors = [];
+    }
   }
 
   shuffleArray(array: any) {

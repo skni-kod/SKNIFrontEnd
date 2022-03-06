@@ -9,7 +9,15 @@
 
     <v-card outlined>
       <v-card-text>
-        <v-form v-model="inputValidated">
+        <v-form v-if="sponsor" v-model="inputValidated">
+
+          <v-text-field
+            label="id"
+            v-if="modifing"
+            v-model="sponsor.id"
+            :readonly = true
+          ></v-text-field>
+
 
           <v-text-field
             clearable
@@ -25,15 +33,16 @@
             :rules="[required]"
           ></v-text-field>
 
-          <v-img
-            v-if="image"
-            contain
-            width="300"
-            :src="be + image.image"
-            aspect-ratio="1"
-          />
+          <div v-if="sponsor.logo">
+            <p class="font-weight-regular">
+              Poprzednie logo
+            </p>
 
-          <div v-if="image">{{be + image.image}}</div>
+            <v-img
+              contain
+              :src="mediaURL + sponsor.logo"
+            />
+          </div>
 
           <v-file-input
             v-model="image"
@@ -46,7 +55,7 @@
 
     <v-btn
      @click="add()">
-      Dodaj
+      {{modifing ? "Zaktualizuj" : "Dodaj"}}
     </v-btn>
   </div>
 </template>
@@ -54,6 +63,7 @@
 <script lang="ts">
 import { SponsorModel } from '@/models/SponsorModel';
 import { SponsorsService } from '@/services/SponsorsService';
+import { AxiosPromise, AxiosResponse } from 'axios';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
@@ -61,17 +71,40 @@ export default class EditSponsor extends Vue {
   service!: SponsorsService;
   sponsor!: SponsorModel;
 
-  created() {
+  async created() {
     this.service = new SponsorsService();
 
     if (this.$route.path.includes('add')) {
       this.sponsor = new SponsorModel();
     }
+    else {
+      const response = await this.service.getSponsor(this.$route.params.id);
+      if(response.status === 200) {
+        this.sponsor = response.data;
+        this.$data.modifing = true;
+      }
+      else {
+        this.$store.dispatch('errorMessage', 'Nie udało się pobrać danych!');
+      }
+    }
   }
 
   async add() {
-    let response = await this.service.addSponsor(this.sponsor.name, this.sponsor.url, this.$data.image);
-    console.log(response);
+    let response: Promise<AxiosResponse<any>>;
+    if(this.$data.modifing) {
+      response = this.service.modifySponsor(this.sponsor, this.$data.image);
+    }
+    else {
+      response = this.service.addSponsor(this.sponsor.name, this.sponsor.url, this.$data.image);
+    }
+
+    let result = await response;
+    if(result.status === 201 || result.status === 200) {
+      this.$router.replace({name: "adminPanel", params: {module: 'sponsors'}});
+    }
+    else {
+      this.$store.dispatch('errorMessage', 'Nie udało się dodać/zmodyfikować sponsora!');
+    }
   }
 
   get mediaURL() {
@@ -84,6 +117,7 @@ export default class EditSponsor extends Vue {
       required: (value: string) => !!value || 'Pole wymagane',
       sponsor: this.sponsor,
       image: undefined,
+      modifing: false,
     };
   }
 }

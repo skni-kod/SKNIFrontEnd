@@ -4,10 +4,12 @@ import { SponsorModel } from '@/models/SponsorModel';
 import { AxiosResponse } from 'axios';
 
 export class SponsorsService {
-  public async getSponsors(): Promise<SponsorModel[]> {
-    return (
-      await beAxios('api/sponsors/')
-    ).data;
+  public async getSponsor(id: string): Promise<AxiosResponse<SponsorModel>> {
+    return (await beAxios.get('api/sponsors/' + id + '/'));
+  }
+
+  public async getSponsors(): Promise<AxiosResponse<SponsorModel[]>> {
+    return (await beAxios.get('api/sponsors/'));
   }
 
   public async addSponsor(name: string, url: string, logo: File ): Promise<AxiosResponse> {
@@ -24,7 +26,27 @@ export class SponsorsService {
           },
         },
       )
-      );
+    );
+  }
+
+  public async modifySponsor(model: SponsorModel, newLogo?: File) {
+    const data = new FormData();
+    data.append('name', model.name);
+    data.append('url', model.url);
+
+    if(newLogo) {
+      data.append('logo', newLogo);
+    }
+
+    return (
+      await beAxios.patch('api/sponsors/' + model.id + '/', data,
+        {
+          headers: {
+            Authorization: 'Bearer ' + store.getters.token,
+          },
+        },
+      )
+    );
   }
 
   public async deleteSponsor(sponsor: SponsorModel): Promise<AxiosResponse> {

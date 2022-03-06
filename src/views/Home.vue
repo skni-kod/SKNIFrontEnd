@@ -94,6 +94,7 @@
         title="Wspierają nas"
         subtitle="Nasi partnerzy"
       ></SectionHeader>
+
       <div class="sponsors-inner">
         <Sponsors />
       </div>
@@ -379,19 +380,22 @@ export default class Home extends Vue {
 }
 
 .sponsors-container {
-  display: flex;
+  width: 60%;
   justify-content: space-between;
   align-items: center;
-  flex-direction: column;
+  align-self: center;
+  // flex-direction: column;
+  justify-content: center;
 
   .section-header {
     margin-bottom: 50px;
     text-align: center;
   }
   .sponsors-inner {
-    display: flex;
+    // display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0 auto;
   }
 
   @media only screen and (max-width: 768px) {
