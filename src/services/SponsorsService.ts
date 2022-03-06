@@ -23,7 +23,7 @@ export class SponsorsService {
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: 'Bearer ' + store.getters.token,
+            'Authorization': 'Bearer ' + store.getters.token,
           },
         },
       )
@@ -44,7 +44,7 @@ export class SponsorsService {
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: 'Bearer ' + store.getters.token,
+            'Authorization': 'Bearer ' + store.getters.token,
           },
         },
       )

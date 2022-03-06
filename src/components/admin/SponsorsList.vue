@@ -88,8 +88,8 @@ export default class AdminPanelSponsors extends Vue {
         this.sponsors = response.data;
       }
     }
-    catch(error: any) {
-      if(error.response) {
+    catch (error: any) {
+      if (error.response) {
         this.$store.dispatch('errorMessage', 'Nie udało się pobrać listy sponsorów! Kod: ' + error.response.status);
       }
       else {

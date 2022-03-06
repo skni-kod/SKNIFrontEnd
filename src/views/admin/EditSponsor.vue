@@ -82,7 +82,7 @@ export default class EditSponsor extends Vue {
     else {
       const response = this.service.getSponsor(this.$route.params.id);
       response.then((res) => {
-        if(res.status === 200) {
+        if (res.status === 200) {
           this.sponsor = res.data;
           this.$data.modifing = true;
         }
@@ -111,15 +111,16 @@ export default class EditSponsor extends Vue {
       }
     })
     .catch((error) => {
-      if(error.response) {
-        this.$store.dispatch('errorMessage', 'Nie udało się dodać/zmodyfikować sponsora! Kod błędu: ' + error.response.status);
+      if (error.response) {
+        this.$store.dispatch('errorMessage',
+            'Nie udało się dodać/zmodyfikować sponsora! Kod błędu: ' + error.response.status);
       }
       else {
         this.$store.dispatch('errorMessage', 'Nie udało się dodać/zmodyfikować sponsora! ' + error.message);
       }
 
       this.$data.loading = false;
-    })
+    });
   }
 
   get mediaURL() {
