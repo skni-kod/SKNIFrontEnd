@@ -22,12 +22,11 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { SponsorModel } from '@/models/SponsorModel';
-import { SponsorsService } from '@/services/SponsorsService'
+import { SponsorsService } from '@/services/SponsorsService';
 
-@Component({
-})
+@Component
 export default class Sponsors extends Vue {
-  
+
   sponsors!: SponsorModel[];
   sponsorsService!: SponsorsService;
 
@@ -37,7 +36,7 @@ export default class Sponsors extends Vue {
 
   async mounted() {
     const response = await this.sponsorsService.getSponsors();
-    if(response.status === 200) {
+    if (response.status === 200) {
       this.sponsors = this.shuffleArray(response.data);
     }
     else {
@@ -49,11 +48,11 @@ export default class Sponsors extends Vue {
     let ctr = array.length;
 
     while (ctr > 0) {
-      let index = Math.floor(Math.random() * ctr);
+      const index = Math.floor(Math.random() * ctr);
 
       ctr--;
 
-      let temp = array[ctr];
+      const temp = array[ctr];
       array[ctr] = array[index];
       array[index] = temp;
     }

@@ -34,7 +34,7 @@ export class SponsorsService {
     data.append('name', model.name);
     data.append('url', model.url);
 
-    if(newLogo) {
+    if (newLogo) {
       data.append('logo', newLogo);
     }
 

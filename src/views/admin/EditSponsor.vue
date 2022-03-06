@@ -79,7 +79,7 @@ export default class EditSponsor extends Vue {
     }
     else {
       const response = await this.service.getSponsor(this.$route.params.id);
-      if(response.status === 200) {
+      if (response.status === 200) {
         this.sponsor = response.data;
         this.$data.modifing = true;
       }
@@ -91,16 +91,16 @@ export default class EditSponsor extends Vue {
 
   async add() {
     let response: Promise<AxiosResponse<any>>;
-    if(this.$data.modifing) {
+    if (this.$data.modifing) {
       response = this.service.modifySponsor(this.sponsor, this.$data.image);
     }
     else {
       response = this.service.addSponsor(this.sponsor.name, this.sponsor.url, this.$data.image);
     }
 
-    let result = await response;
-    if(result.status === 201 || result.status === 200) {
-      this.$router.replace({name: "adminPanel", params: {module: 'sponsors'}});
+    const result = await response;
+    if (result.status === 201 || result.status === 200) {
+      this.$router.replace({name: 'adminPanel', params: {module: 'sponsors'}});
     }
     else {
       this.$store.dispatch('errorMessage', 'Nie udało się dodać/zmodyfikować sponsora!');

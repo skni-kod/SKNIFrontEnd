@@ -65,26 +65,25 @@
 import { Component, Vue } from 'vue-property-decorator';
 import beAxios from '@/axios';
 import { SponsorModel } from '@/models/SponsorModel';
-import { SponsorsService } from '@/services/SponsorsService'
+import { SponsorsService } from '@/services/SponsorsService';
 
 
 @Component
 export default class AdminPanelSponsors extends Vue {
-    
   sponsors!: SponsorModel[];
   sponsorsService!: SponsorsService;
 
   beforeCreate() {
     this.sponsorsService = new SponsorsService();
   }
-  
+
   async mounted() {
     this.getSponsors();
   }
 
   async getSponsors() {
     const response = await this.sponsorsService.getSponsors();
-    if(response.status == 200) {
+    if (response.status === 200) {
       this.sponsors = response.data;
     }
     else {
@@ -101,10 +100,6 @@ export default class AdminPanelSponsors extends Vue {
     this.$data.selected = null;
 
     this.getSponsors();
-  }
-
-  modifySponsor(sponsor: SponsorModel) {
-
   }
 
   private data() {
