@@ -1,10 +1,10 @@
 <template>
   <v-carousel
     cycle
-    height="400"
     hide-delimiter-background
     show-arrows-on-hover
     v-if="sponsors"
+    height="250"
   >
     <v-carousel-item
       v-for="(item, i) in sponsors"
@@ -81,15 +81,19 @@ export default class Sponsors extends Vue {
 @use '@/styles/components/buttons';
 
 .sponsor {
-  max-width: 300px;
   padding: 0 30px;
+  justify-content: center;
 
   .image {
     max-width: 100%;
-    width: auto;
-    height: 60px;
+    max-height: 100%;
     object-fit: contain;
-    display: block;
+    // display: block;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>

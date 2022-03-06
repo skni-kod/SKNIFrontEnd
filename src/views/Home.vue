@@ -380,12 +380,7 @@ export default class Home extends Vue {
 }
 
 .sponsors-container {
-  width: 60%;
-  justify-content: space-between;
-  align-items: center;
-  align-self: center;
-  // flex-direction: column;
-  justify-content: center;
+  // width: 60%;
 
   .section-header {
     margin-bottom: 50px;
@@ -394,8 +389,9 @@ export default class Home extends Vue {
   .sponsors-inner {
     // display: flex;
     justify-content: space-between;
-    align-items: center;
     margin: 0 auto;
+
+    width: 50%;
   }
 
   @media only screen and (max-width: 768px) {
