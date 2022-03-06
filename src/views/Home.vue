@@ -113,7 +113,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 import homeArticleList from '@/components/HomeArticleList.vue';
 import homeSectionList from '@/components/HomeSectionList.vue';
-import Sponsors from '@/components/Sponsors.vue';
+import Sponsors from '@/components/SponsorsCarousel.vue';
 import Section from '@/components/Section.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
 import HeroSection from '@/components/HeroSection.vue';
