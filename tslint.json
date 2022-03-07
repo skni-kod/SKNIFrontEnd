@@ -16,6 +16,7 @@
     "object-literal-sort-keys": false,
     "no-consecutive-blank-lines": false,
     "member-access": false,
-    "object-literal-shorthand": false
+    "object-literal-shorthand": false,
+    "one-line": false
   }
 }

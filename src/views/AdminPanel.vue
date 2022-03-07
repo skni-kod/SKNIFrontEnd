@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <component v-if="module" :is="module"></component>
     <v-navigation-drawer
       dark
@@ -72,7 +72,7 @@ import beAxios from '@/axios';
       ),
     sponsors: () =>
       import( // tslint:disable-next-line
-        /* webpackChunkName: "AdminPanelSponsors" */ '@/components/admin/Sponsors.vue'
+        /* webpackChunkName: "AdminPanelSponsors" */ '@/components/admin/SponsorsList.vue'
       ),
     tags: () =>
       import( // tslint:disable-next-line
@@ -148,3 +148,9 @@ export default class AdminPanel extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.content {
+  width: 80%;
+}
+</style>

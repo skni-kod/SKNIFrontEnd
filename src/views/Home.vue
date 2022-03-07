@@ -94,18 +94,9 @@
         title="Wspierają nas"
         subtitle="Nasi partnerzy"
       ></SectionHeader>
+
       <div class="sponsors-inner">
-       <!-- TODO: Fetch sponsors from API -->
-        <sponsor
-          :image="require('@/assets/ideo.svg')"
-          name="Ideo"
-          link="https://www.ideo.pl/"
-        />
-        <sponsor 
-          :image="require('@/assets/sklep-elektronika.png')" 
-          name="Sklep-Elektronika" 
-          link="https://sklep-elektronika.com/"
-        />
+        <Sponsors />
       </div>
     </div>
   </div>
@@ -122,10 +113,9 @@ import { mapActions, mapGetters } from 'vuex';
 
 import homeArticleList from '@/components/HomeArticleList.vue';
 import homeSectionList from '@/components/HomeSectionList.vue';
-import Sponsors from '@/components/Sponsors.vue';
+import Sponsors from '@/components/SponsorsCarousel.vue';
 import Section from '@/components/Section.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
-import Sponsor from '@/components/Sponsor.vue';
 import HeroSection from '@/components/HeroSection.vue';
 import ProjectsGrid from '@/components/projects/ProjectsGrid.vue';
 import SectionHeader from '../components/SectionHeader.vue';
@@ -140,7 +130,6 @@ import SectionHeader from '../components/SectionHeader.vue';
     LinkButton,
     ArticleCard,
     ProjectsGrid,
-    Sponsor,
     SectionHeader,
   },
 
@@ -391,19 +380,18 @@ export default class Home extends Vue {
 }
 
 .sponsors-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
+  // width: 60%;
 
   .section-header {
     margin-bottom: 50px;
     text-align: center;
   }
   .sponsors-inner {
-    display: flex;
+    // display: flex;
     justify-content: space-between;
-    align-items: center;
+    margin: 0 auto;
+
+    width: 50%;
   }
 
   @media only screen and (max-width: 768px) {
