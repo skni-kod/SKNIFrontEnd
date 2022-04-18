@@ -64,7 +64,6 @@ export default class EntriesList extends Vue {
 
   private paginationClicked(pageNumber: number) {
     this.$router.replace({
-      name: this.group.toLowerCase(),
       params: { page: '' + pageNumber },
     });
     this.getArticles();
