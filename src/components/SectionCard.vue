@@ -1,141 +1,116 @@
 <template>
-  <div>
-    <v-card class="elevation-3">
-      <v-card-title class="grey lighten-4">
-        <v-row align="center" justify="start">
-          <v-col cols="auto" class="py-0 pr-0">
-            <v-icon x-large left class="primary--text">{{
-              'mdi-' + section.icon
-            }}</v-icon>
-          </v-col>
-          <v-col class="pl-1">
-            <h3 class="headline" style="word-break: break-word">
-              {{ section.name }}
-            </h3>
-          </v-col>
-        </v-row>
-      </v-card-title>
-      <v-divider />
-      <v-card-text class="text-left">
-        <markdown-it-vue
-          class="md-body"
-          :content="section.description + '...'"
-          :options="markdownOptions"
-        />
-      </v-card-text>
-      <div v-if="Projects.length > 0">
-        <v-divider></v-divider>
-        <v-card-title class="justify-center">Nasze projekty</v-card-title>
-        <v-card-text>
-          <v-row justify="center">
-            <v-col cols="auto" v-for="project in Projects" :key="project.title">
-              <v-hover>
-                <template v-slot:default="{ hover }">
-                  <v-chip
-                    large
-                    :color="hover ? 'grey lighten-1' : ''"
-                    style="cursor: pointer"
-                    :to="{ name: 'project', params: { id: project.id } }"
-                  >
-                    <v-icon left>mdi-file-cog</v-icon>
-                    <span>{{ project.title }}</span>
-                  </v-chip>
-                </template>
-              </v-hover>
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </div>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn-cap
-          depressed
-          color="warning"
-          :to="{ name: 'section', params: { id: section.id } }"
-          >Zobacz więcej</v-btn-cap
+  <article class="section-card card">
+    <header class="section-card__head">
+      <span class="section-card__icon" aria-hidden="true"><i class="mdi" :class="`mdi-${section.icon || 'folder-outline'}`"></i></span>
+      <h2 class="section-card__title">
+        <router-link :to="{ name: 'section', params: { id: section.id } }">{{ section.name }}</router-link>
+      </h2>
+      <AdminActions
+        v-if="isAdministrator"
+        class="section-card__admin"
+        :edit-to="{ name: 'sectionEdit', params: { id: section.id } }"
+        :confirm-text="`Czy na pewno chcesz usunąć sekcję ${section.name}?`"
+        @delete="$emit('delete', section.id)"
+      />
+    </header>
+    <MarkdownView class="section-card__text" :content="section.description" />
+    <div v-if="sectionProjects.length" class="section-card__projects">
+      <span class="section-card__label">Projekty sekcji</span>
+      <div class="section-card__chips">
+        <router-link
+          v-for="project in sectionProjects"
+          :key="project.id"
+          :to="{ name: 'project', params: { id: project.id } }"
+          class="chip"
         >
-        <v-speed-dial direction="top" v-if="auth" v-model="fab" class="ml-2">
-          <template v-slot:activator>
-            <v-btn-cap
-              x-small
-              fab
-              v-model="fab"
-              class="text-body-1 font-weight-bold"
-              color="primary"
-            >
-              <v-icon>mdi-cog</v-icon>
-            </v-btn-cap>
-          </template>
-          <v-btn-cap
-            fab
-            x-small
-            color="orange"
-            :to="{ name: 'sectionEdit', params: { id: section.id } }"
-          >
-            <v-icon>mdi-pen</v-icon>
-          </v-btn-cap>
-          <v-btn-cap fab x-small color="error" @click="dialog = true">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn-cap>
-        </v-speed-dial>
-      </v-card-actions>
-    </v-card>
-    <confirmation-dialog
-      v-if="dialog"
-      @yes="deleteSection"
-      @no="dialog = false"
-      :text="dialogText"
-    ></confirmation-dialog>
-  </div>
+          {{ project.title }}
+        </router-link>
+      </div>
+    </div>
+    <footer>
+      <router-link :to="{ name: 'section', params: { id: section.id } }" class="btn btn--soft btn--sm">
+        Zobacz sekcję <i class="mdi mdi-arrow-right" aria-hidden="true"></i>
+      </router-link>
+    </footer>
+  </article>
 </template>
 
-<script lang='ts'>
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { SectionModel } from '@/models/SectionModel';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import type { SectionModel } from '@/models/SectionModel';
+import MarkdownView from '@/components/MarkdownView.vue';
+import AdminActions from '@/components/AdminActions.vue';
 
-@Component
-export default class SectionCard extends Vue {
-  @Prop() public section!: SectionModel;
-  @Prop() public projects!: any;
+const props = defineProps<{ section: SectionModel; projects: any[] }>();
+defineEmits<{ delete: [id: number] }>();
 
-  get Projects() {
-    const filtered = this.projects.filter((el: any) => {
-      return el.section.name === this.section.name;
-    });
-    return filtered;
-  }
-
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
-  }
-
-  private removeMarkdown(text: string) {
-    const removeMd = require('remove-markdown');
-    return removeMd(text);
-  }
-
-  get dialogText() {
-    return 'Czy na pewno chcesz usunąć sekcję "' + this.section.name + '"?';
-  }
-
-  get text(): string {
-    return this.removeMarkdown(this.section.description);
-  }
-
-  private deleteSection() {
-    this.$data.dialog = false;
-    this.$emit('delete', this.section.id);
-  }
-  private data() {
-    return {
-      fab: false,
-      dialog: false,
-      markdownOptions: {
-        githubToc: {
-          anchorLink: false,
-        },
-      },
-    };
-  }
-}
+const store = useStore();
+const isAdministrator = computed<boolean>(() => !!store.getters.isAdministrator);
+const sectionProjects = computed(() =>
+  props.projects.filter((el: any) => el.section && el.section.name === props.section.name),
+);
 </script>
+
+<style scoped>
+.section-card {
+  display: grid;
+  gap: 18px;
+  padding: clamp(22px, 3vw, 32px);
+}
+
+.section-card__head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.section-card__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  font-size: 24px;
+}
+
+.section-card__title {
+  flex: 1;
+  font-size: 21px;
+}
+
+.section-card__title a {
+  color: var(--text);
+}
+
+.section-card__title a:hover {
+  color: var(--primary);
+}
+
+.section-card__text {
+  font-size: 16px;
+  color: var(--text-muted);
+}
+
+.section-card__projects {
+  display: grid;
+  gap: 10px;
+}
+
+.section-card__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.section-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+</style>

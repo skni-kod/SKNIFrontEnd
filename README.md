@@ -1,29 +1,20 @@
 # sknifront
 
-## Project setup
+Frontend strony SKNI KOD: Vue 3, Vite, Vuex 4, TypeScript.
+
+## Uruchomienie
+
 ```
 npm install
+npm run dev
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Adres API i serwera mediów ustawia się w `.env` / `.env.local` (`VUE_APP_BACK_URL`, `VUE_APP_MEDIA_URL`).
 
-### Compiles and minifies for production
+## Build
+
 ```
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+`npm run typecheck` uruchamia samo sprawdzanie typów (`vue-tsc`).

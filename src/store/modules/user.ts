@@ -2,7 +2,7 @@ import { Module } from 'vuex';
 import beAxios from '@/axios';
 import router from '../../router';
 
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const userModule: Module<any, any> = {
   state: {
@@ -85,7 +85,7 @@ const userModule: Module<any, any> = {
     },
     logout({ dispatch, commit, state }) {
       commit('clearAuthData');
-      if (router.currentRoute.name !== 'home') {
+      if (router.currentRoute.value.name !== 'home') {
         router.replace('/');
       }
       dispatch('infoMessage', 'Wylogowano');

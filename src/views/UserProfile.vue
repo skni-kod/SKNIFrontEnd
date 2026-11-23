@@ -1,129 +1,141 @@
 <template>
-  <v-row align="center" class="fill-height ma-2">
-    <v-col class="py-0">
-      <v-row justify="center" class="ma-2">
-        <v-card width="1000" v-if="profile">
-          <div v-if="profile.user">
-            <v-card-title class="white--text primary pb-2"
-              >{{ profile.user.first_name || 'Gal' }}
-              {{ profile.user.last_name || 'Anonim' }}</v-card-title
-            >
-            <v-card-subtitle class="white--text primary">{{
-              profile.user.username || 'anonymous'
-            }}</v-card-subtitle>
-            <v-divider></v-divider>
-          </div>
-          <v-card-text>
-            <p class="text-h4 font-weight-bold text-center ma-0">O mnie</p>
-            <markdown-it-vue
-              class="md-body text-left mx-2"
-              :content="
-                profile.description ||
-                '### <center>Użytkownik nie uzupełnił opisu profilu :\'(</center>'
-              "
-              :options="markdownOptions"
-            ></markdown-it-vue>
-          </v-card-text>
-        </v-card>
-      </v-row>
-      <div class="mx-2" v-if="articles !== undefined && articles.length">
-        <p class="text-h5 font-weight-bold text-center my-2">
-          Moje artykuły{{ $route.params.tag }}
-        </p>
-        <article-card
-          v-for="article in articles"
-          :key="article.id"
-          :article="article"
-          class="my-2"
-        ></article-card>
-        <v-pagination
-          class="ma-2"
-          v-model="pagination.currentPage"
-          :length="pagination.pageCount"
-          @input="paginationClicked"
-          prev-icon="mdi-chevron-left"
-          next-icon="mdi-chevron-right"
-        ></v-pagination>
+  <div>
+    <LoadingState v-if="!loaded" class="page" />
+    <template v-else>
+      <PageHeader eyebrow="Profil użytkownika">
+        <template #title>
+          <span class="who">
+            <UserAvatar :first-name="profileUser.first_name" :last-name="profileUser.last_name" :username="profileUser.username" :size="64" />
+            <span class="who__text">
+              {{ fullName }}
+              <small>@{{ profileUser.username || 'anonymous' }}</small>
+            </span>
+          </span>
+        </template>
+      </PageHeader>
+
+      <div class="page">
+        <div class="container stack">
+          <section class="card card--pad about">
+            <h2 class="block-title">O mnie</h2>
+            <MarkdownView v-if="profile.description" :content="profile.description" />
+            <p v-else class="muted">Użytkownik nie uzupełnił jeszcze opisu profilu.</p>
+          </section>
+
+          <section v-if="articles.length" class="stack">
+            <h2 class="block-title">Artykuły użytkownika</h2>
+            <ArticleGrid
+              :articles="articles"
+              :loading="false"
+              :page="pagination.currentPage"
+              :page-count="pagination.pageCount"
+              @update:page="getUserArticles"
+            />
+          </section>
+        </div>
       </div>
-    </v-col>
-  </v-row>
+    </template>
+  </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, onMounted, reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import beAxios from '@/axios';
-
 import { ArticlesService } from '@/services/ArticlesService';
-import { ArticleModel } from '@/models/ArticleModel';
+import type { ArticleModel } from '@/models/ArticleModel';
 import { PaginationModel } from '@/models/PaginationModel';
-import { PaginationContainer } from '@/models/PaginationContainer';
+import PageHeader from '@/components/ui/PageHeader.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
+import UserAvatar from '@/components/ui/UserAvatar.vue';
+import MarkdownView from '@/components/MarkdownView.vue';
+import ArticleGrid from '@/components/ArticleGrid.vue';
 
-@Component
-export default class UserProfile extends Vue {
-  private articlesService!: ArticlesService;
-  private pagination!: PaginationModel;
-  private articles!: ArticleModel[];
-  private async getUser() {
-    await beAxios
-      .get('api/profiles/' + this.$route.params.id + '/')
-      .then((res) => {
-        if (res.status === 200) {
-          this.$data.profile = res.data;
-        } else {
-          this.$router.replace({ name: 'error404' });
-        }
-      })
-      .catch(() => {
-        this.$router.replace({ name: 'error404' });
-      });
-  }
+const route = useRoute();
+const router = useRouter();
+const articlesService = new ArticlesService();
+const pagination = reactive(new PaginationModel(1, 3, 3));
+const articles = ref<ArticleModel[]>([]);
+const profile = ref<any>({});
+const loaded = ref(false);
 
-  private created() {
-    this.articlesService = new ArticlesService();
-    this.pagination = new PaginationModel(1, 3, 3);
-    this.getUser().then(() => {
-      this.getUserArticles(1);
+const profileUser = computed(() => profile.value.user || {});
+const fullName = computed(
+  () => [profileUser.value.first_name, profileUser.value.last_name].filter(Boolean).join(' ') || 'Gal Anonim',
+);
+
+async function getUser() {
+  await beAxios
+    .get('api/profiles/' + route.params.id + '/')
+    .then((res) => {
+      if (res.status === 200) {
+        profile.value = res.data;
+        document.title = `${fullName.value} | SKNI KOD`;
+      } else {
+        router.replace({ name: 'error404' });
+      }
+    })
+    .catch(() => {
+      router.replace({ name: 'error404' });
     });
-  }
-
-  private paginationClicked(pageNumber: number) {
-    this.getUserArticles(pageNumber);
-  }
-
-  private getUserArticles(pageNumber: number) {
-    if (pageNumber === undefined || isNaN(pageNumber)) {
-      pageNumber = 1;
-    }
-
-    this.pagination.currentPage = pageNumber;
-    this.articlesService
-      .getUserArticles(
-        this.$data.profile.user.id,
-        pageNumber,
-        this.pagination.itemsPerPage,
-        false,
-      )
-      .then((paginationContainer: PaginationContainer<ArticleModel>) => {
-        this.articles = paginationContainer.results;
-        this.pagination.itemCount = paginationContainer.count;
-      });
-  }
-
-  private data() {
-    return {
-      articles: this.articles,
-      pagination: this.pagination,
-      profile: {},
-      markdownOptions: {
-        markdownIt: {
-          html: true,
-          linkify: true,
-        },
-        githubToc: {
-          anchorLink: false,
-        },
-      },
-    };
-  }
 }
+
+function getUserArticles(pageNumber: number) {
+  if (pageNumber === undefined || Number.isNaN(pageNumber)) {
+    pageNumber = 1;
+  }
+  pagination.currentPage = pageNumber;
+  if (!profile.value.user) {
+    return;
+  }
+  articlesService
+    .getUserArticles(profile.value.user.id, pageNumber, pagination.itemsPerPage, false)
+    .then((container) => {
+      articles.value = container.results;
+      pagination.itemCount = container.count;
+    });
+}
+
+onMounted(() => {
+  getUser().then(() => {
+    loaded.value = true;
+    getUserArticles(1);
+  });
+});
 </script>
+
+<style scoped>
+.who {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.who__text {
+  display: grid;
+  line-height: 1.15;
+}
+
+.who__text small {
+  margin-top: 6px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--text-muted);
+}
+
+.stack {
+  display: grid;
+  gap: 32px;
+}
+
+.about {
+  display: grid;
+  gap: 14px;
+}
+
+.block-title {
+  font-size: 22px;
+}
+</style>

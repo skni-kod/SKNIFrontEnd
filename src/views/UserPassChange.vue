@@ -1,114 +1,64 @@
 <template>
-  <v-row class="fill-height" align="center">
-    <v-col cols="12" class="pa-0">
-      <v-row class="fill-height ma-2" align="center" justify="center">
-        <v-card width="600">
-          <v-card-title class="white--text primary">Zmiana hasła</v-card-title>
-          <v-form v-model="inputValidated" @submit.prevent="changePasswd()">
-            <v-card-text>
-              <v-row align="center" justify="center" class="mx-0">
-                <v-col class="pa-0">
-                  <v-text-field
-                    outlined
-                    v-model="password1"
-                    prepend-icon="mdi-lock"
-                    :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                    @click:append="showPass = !showPass"
-                    :rules="[rules.required, passwdValid]"
-                    label="Hasło"
-                    color="primary"
-                    :type="showPass ? 'text' : 'password'"
-                    class="my-2"
-                    @focus="passwdFocus = true"
-                    @blur="passwdFocus = false"
-                  ></v-text-field>
-                </v-col>
-                <v-col class="py-0 pr-0">
-                  <v-text-field
-                    outlined
-                    v-model="password2"
-                    :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                    @click:append="showPass = !showPass"
-                    :rules="[
-                      rules.required,
-                      rules.identical(password1, password2),
-                    ]"
-                    label="Powtórz hasło"
-                    color="primary"
-                    :type="showPass ? 'text' : 'password'"
-                    class="my-2"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <div v-if="passwdFocus">
-                <password-validator
-                  :password="password1"
-                  @validation="passwdValid = $event"
-                ></password-validator>
-              </div>
-            </v-card-text>
-            <v-card-actions class="pt-0">
-              <v-spacer></v-spacer>
-              <v-btn-cap
-                :disabled="!inputValidated"
-                color="primary"
-                type="submit"
-              >
-                <span class="font-weight-bold">Zmień hasło</span>
-                <v-icon right>mdi-lock-reset</v-icon>
-              </v-btn-cap>
-            </v-card-actions>
-          </v-form>
-        </v-card>
-      </v-row>
-      <v-row align="center" justify="center" class="ma-5">
-        <v-btn-cap
-          outlined
-          color="error"
-          @click="$router.push({ name: 'userPanel' })"
-        >
-          <v-icon left>mdi-cancel</v-icon>
-          <span>Anuluj zmianę hasła</span>
-        </v-btn-cap>
-      </v-row>
-    </v-col>
-  </v-row>
+  <AuthLayout title="Zmiana hasła" subtitle="Po zmianie hasła zalogujesz się ponownie" icon="lock-reset">
+    <form class="form" novalidate @submit.prevent="changePasswd">
+      <TextField
+        v-model="password1"
+        label="Nowe hasło"
+        type="password"
+        autocomplete="new-password"
+        :error="errors.password1"
+        :show-error="submitted"
+        @focus="passwdFocus = true"
+      />
+      <TextField
+        v-model="password2"
+        label="Powtórz nowe hasło"
+        type="password"
+        autocomplete="new-password"
+        :error="errors.password2"
+        :show-error="submitted"
+      />
+      <PasswordValidator v-if="passwdFocus || password1" :password="password1" @validation="passwdValid = $event" />
+      <div class="actions">
+        <router-link :to="{ name: 'userPanel' }" class="btn btn--secondary">Anuluj</router-link>
+        <button type="submit" class="btn">Zmień hasło</button>
+      </div>
+    </form>
+  </AuthLayout>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
+import AuthLayout from '@/components/AuthLayout.vue';
+import TextField from '@/components/ui/TextField.vue';
+import PasswordValidator from '@/components/PasswordValidator.vue';
+import { isValid, required, sameAs, validate } from '@/utils/validation';
 
-@Component
-export default class UserPassChange extends Vue {
-  get user() {
-    return this.$store.getters.user;
-  }
+const store = useStore();
+const password1 = ref('');
+const password2 = ref('');
+const passwdFocus = ref(false);
+const passwdValid = ref<true | string>('Hasło nie spełnia wymagań');
+const submitted = ref(false);
 
-  private changePasswd() {
-    if (this.$data.inputValidated) {
-      this.$store.dispatch('changeUserPassword', {
-        password1: this.$data.password1,
-        password2: this.$data.password2,
-      });
-    }
-  }
+const errors = computed(() => ({
+  password1: validate(password1.value, [required, () => passwdValid.value]),
+  password2: validate(password2.value, [required, sameAs(() => password1.value)]),
+}));
 
-  private data() {
-    return {
-      inputValidated: false,
-      password1: '',
-      password2: '',
-      showPass: false,
-      passwdFocus: false,
-      passwdValid: false,
-      rules: {
-        required: (value: string) => !!value || 'Pole wymagane',
-        identical: (value1: string, value2: string) =>
-          value1 === value2 || 'Hasła nie są identyczne',
-        counter: (value: string, num: number, end: string) =>
-          value.length >= num || 'Minimum ' + num + ' znak' + end,
-      },
-    };
+function changePasswd() {
+  submitted.value = true;
+  if (isValid(errors.value)) {
+    store.dispatch('changeUserPassword', { password1: password1.value, password2: password2.value });
   }
 }
 </script>
+
+<style scoped>
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+</style>

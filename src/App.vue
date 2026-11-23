@@ -1,68 +1,55 @@
 <template>
-  <!-- <v-app id="app">
-    <Navbar />
-    <v-main>
-      <router-view :key="$route.fullPath" />
-    </v-main>
-    <Footer />
-    <Snackbars />
-  </v-app>-->
-
-  <v-app id="app" class="app">
-    <app-header />
-    <main class="main">
+  <div class="app">
+    <a href="#main" class="skip-link">Przejdź do treści</a>
+    <AppHeader />
+    <main id="main" class="main">
       <router-view :key="$route.fullPath" />
     </main>
-    <app-footer></app-footer>
-    <Snackbars />
-  </v-app>
+    <AppFooter />
+    <ToastStack />
+  </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
-
-import '@/styles/global.scss';
-
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
+import ToastStack from '@/components/ui/ToastStack.vue';
 
-const Snackbars = () =>
-  import( // tslint:disable-next-line
-    /* webpackChunkName: "ComponentSnackbar" */ '@/components/Snackbar.vue'
-  );
+const store = useStore();
 
-@Component({
-  components: { AppHeader, AppFooter, Snackbars },
-})
-export default class App extends Vue {
-  private created() {
-    this.$store.dispatch('autoLogin');
-  }
-}
+onMounted(() => {
+  store.dispatch('autoLogin');
+});
 </script>
 
-<style lang="scss" scoped>
-@use '@/styles/helpers' as *;
-
-/* TODO: Change to .app after removing Vuetify */
-.app.app {
-  background-color: $body-bg;
-  background-image: url("~@/assets/page-footer.png");
-  background-position: bottom;
-  background-repeat: no-repeat;
-
-  @include media-breakpoint-down("md") {
-    background-position-x: 60%;
-  }
+<style scoped>
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .main {
-  height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 150px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 500;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--navy-900);
+  color: #fff;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 12px;
 }
 </style>

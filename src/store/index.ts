@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { createStore } from 'vuex';
 
 import snackbars from './modules/snackbars';
 import user from './modules/user';
@@ -8,14 +7,12 @@ import articles from './modules/articles';
 import projects from './modules/projects';
 import createMultiTabState from 'vuex-multi-tab-state';
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default createStore({
   state: {
     navDrawer: false,
   },
   mutations: {
-    setNavDrawerState(state, nav) {
+    setNavDrawerState(state: any, nav: boolean) {
       state.navDrawer = nav;
     },
   },
@@ -25,7 +22,7 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    navDrawer: (state) => state.navDrawer,
+    navDrawer: (state: any) => state.navDrawer,
   },
   modules: {
     snackbars,

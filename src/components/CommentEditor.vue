@@ -1,100 +1,73 @@
 <template>
-  <v-card outlined>
-    <v-card-title class="text-body-1 white--text primary py-1"
-      >Dodaj komentarz</v-card-title
-    >
-    <v-divider></v-divider>
-    <v-card-text class="pa-1">
-      <v-textarea
-        outlined
-        hide-details
-        v-model="comment"
-        :value="comment"
-      ></v-textarea>
-    </v-card-text>
-    <v-card-actions>
-      <v-row justify="end" no-gutters>
-        <v-col cols="12" sm="auto" class="px-2 py-1">
-          <v-btn-cap block outlined color="error" @click="close">
-            <span>Anuluj</span>
-            <v-icon right>mdi-cancel</v-icon>
-          </v-btn-cap>
-        </v-col>
-        <v-col cols="12" sm="auto" class="px-2 py-1">
-          <v-btn-cap
-            block
-            outlined
-            v-if="addText == 'Dodaj komentarz'"
-            :disabled="!comment.length"
-            color="primary"
-            @click="addComment"
-          >
-            <span>{{ addText }}</span>
-            <v-icon right>mdi-comment-plus</v-icon>
-          </v-btn-cap>
-          <v-btn-cap
-            block
-            outlined
-            v-else
-            :disabled="!comment.length"
-            color="primary"
-            @click="editComment"
-          >
-            <span>{{ addText }}</span>
-            <v-icon right>mdi-comment-plus</v-icon>
-          </v-btn-cap>
-        </v-col>
-      </v-row>
-    </v-card-actions>
-  </v-card>
+  <form class="comment-editor" @submit.prevent="submit">
+    <label :for="id" class="sr-only">Treść komentarza</label>
+    <textarea
+      :id="id"
+      ref="textarea"
+      v-model="comment"
+      class="input"
+      rows="3"
+      :placeholder="placeholder"
+    ></textarea>
+    <div class="comment-editor__actions">
+      <button type="button" class="btn btn--ghost btn--sm" @click="close">Anuluj</button>
+      <button type="submit" class="btn btn--sm" :disabled="!comment.trim().length">
+        <i class="mdi mdi-send-outline" aria-hidden="true"></i>
+        {{ addText }}
+      </button>
+    </div>
+  </form>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+<script setup lang="ts">
+import { onMounted, ref, useId } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
-@Component
-export default class CommentEditor extends Vue {
-  @Prop() private article!: number;
-  @Prop() private replyfor!: number;
-  @Prop({ default: 'Dodaj komentarz' }) private addText!: string;
-  @Prop({ default: '' }) private editText!: string;
-  @Prop({ default: undefined }) private id!: number;
+const props = withDefaults(
+  defineProps<{ addText?: string; editText?: string; id?: number; mode?: 'add' | 'edit'; placeholder?: string }>(),
+  { addText: 'Dodaj komentarz', editText: '', mode: 'add', placeholder: 'Napisz komentarz…' },
+);
+const emit = defineEmits<{ close: [] }>();
 
-  private close() {
-    this.$emit('close');
-  }
+const store = useStore();
+const route = useRoute();
+const id = useId();
+const textarea = ref<HTMLTextAreaElement>();
+const comment = ref(props.editText);
+const author = store.getters.user && store.getters.user.id;
 
-  private addComment() {
-    if (this.id !== undefined) {
-      this.$store.dispatch('addComment', {
-        text: this.$data.comment,
-        user: this.$data.author,
-        parent: this.id,
-      });
-    } else {
-      this.$store.dispatch('addComment', {
-        text: this.$data.comment,
-        user: this.$data.author,
-        article: this.$route.params.id,
-      });
-    }
-    this.$emit('close');
-  }
-
-  private editComment() {
-    this.$store.dispatch('editComment', {
-      body: { text: this.$data.comment, user: this.$store.getters.user.id },
-      id: this.id,
-    });
-    this.$emit('close');
-  }
-  private data() {
-    return {
-      comment: this.editText,
-      author: this.$store.getters.user.id,
-      data: new Date(),
-      imputValidated: false,
-    };
-  }
+function close() {
+  emit('close');
 }
+
+function submit() {
+  if (props.mode === 'edit') {
+    store.dispatch('editComment', {
+      body: { text: comment.value, user: store.getters.user.id },
+      id: props.id,
+    });
+  } else if (props.id !== undefined) {
+    store.dispatch('addComment', { text: comment.value, user: author, parent: props.id });
+  } else {
+    store.dispatch('addComment', { text: comment.value, user: author, article: route.params.id });
+  }
+  comment.value = '';
+  emit('close');
+}
+
+onMounted(() => textarea.value?.focus());
 </script>
+
+<style scoped>
+.comment-editor {
+  display: grid;
+  gap: 10px;
+}
+
+.comment-editor__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+</style>

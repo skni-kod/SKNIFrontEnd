@@ -1,145 +1,158 @@
 <template>
   <div>
-    <v-row no-gutters justify="center">
-      <v-col md="6">
-        <v-card outlined class="ma-4" v-if="!loading && hardware">
-          <v-card-title
-            class="
-              primary
-              text-h4
-              white--text
-              font-weight-bold
-              justify-center
-              py-1
-            "
-            >{{ hardware.name }}</v-card-title
-          >
-          <v-card-text>
-            <markdown-it-vue
-              class="md-body text-left mb-2"
-              :content="hardware.description"
-              :options="markdownOptions"
-            />
-            <v-divider />
-            <v-row align="center" class="mt-1">
-              <v-col cols="12" sm="4" class="py-0">
-                <h3 class="text-center">Status: {{ hardware.status }}</h3>
-              </v-col>
-              <v-col cols="12" sm="4" class="text-center py-0"
-                >Numer seryjny: {{ hardware.serial_number }}
-              </v-col>
-              <v-col cols="12" sm="4" class="text-center py-0">
-                <v-btn-cap depressed disabled class="primary">
-                  <span>Wypożycz</span>
-                  <v-icon right>mdi-dolly</v-icon>
-                </v-btn-cap>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-        <v-skeleton-loader
-          type="card-heading, card-avatar, article, actions"
-          class="ma-4"
-          v-else
-        ></v-skeleton-loader>
-      </v-col>
-    </v-row>
-    <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="auth">
-      <template v-slot:activator>
-        <v-btn
-          fab
-          v-model="fab"
-          class="text-body-1 font-weight-bold"
-          color="primary"
-        >
-          <v-icon>mdi-cog</v-icon>
-        </v-btn>
-      </template>
-      <v-btn
-        fab
-        color="orange"
-        :to="{ name: 'hardwareEdit', params: { id: $route.params.id } }"
-      >
-        <v-icon>mdi-pen</v-icon>
-      </v-btn>
-      <v-btn fab color="error" @click="dialog = true">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
-    </v-speed-dial>
-    <confirmation-dialog
-      v-if="dialog"
-      @yes="deleteHardware($route.params.id)"
-      @no="dialog = false"
-      :text="dialogText"
-    ></confirmation-dialog>
+    <LoadingState v-if="loading || !hardware" class="page" />
+    <template v-else>
+      <PageHeader :back="{ to: { name: 'hardwareList', params: { page: '1' } }, label: 'Cały sprzęt' }" :title="hardware.name">
+        <template #meta>
+          <span class="badge" :class="`badge--${status.tone}`">{{ status.label }}</span>
+        </template>
+        <template v-if="isAdministrator" #actions>
+          <AdminActions
+            :edit-to="{ name: 'hardwareEdit', params: { id: hardware.id } }"
+            :confirm-text="dialogText"
+            @delete="deleteHardware(hardware.id)"
+          />
+        </template>
+      </PageHeader>
+
+      <div class="page">
+        <div class="container layout">
+          <MarkdownView :content="hardware.description" />
+          <aside class="card card--pad spec">
+            <dl class="spec__list">
+              <div>
+                <dt>Status</dt>
+                <dd><span class="badge" :class="`badge--${status.tone}`">{{ status.label }}</span></dd>
+              </div>
+              <div>
+                <dt>Numer seryjny</dt>
+                <dd class="mono">{{ hardware.serial_number || '–' }}</dd>
+              </div>
+            </dl>
+            <p class="spec__hint">{{ status.hint }}</p>
+            <button type="button" class="btn btn--block" disabled title="Funkcja w przygotowaniu">
+              <i class="mdi mdi-dolly" aria-hidden="true"></i> Wypożycz
+            </button>
+            <small class="spec__soon">Wypożyczenia online będą dostępne wkrótce.</small>
+          </aside>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
-<script lang='ts'>
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { HardwareService } from '@/services/HardwareService';
-import { HardwareModel } from '@/models/HardwareModel';
+import PageHeader from '@/components/ui/PageHeader.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
+import MarkdownView from '@/components/MarkdownView.vue';
+import AdminActions from '@/components/AdminActions.vue';
+import { hardwareStatus } from '@/utils/hardware';
 
-@Component
-export default class Hardware extends Vue {
-  private hardwareService!: HardwareService;
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
+const hardwareService = new HardwareService();
+const hardware = ref<any>(null);
+const loading = ref(true);
 
-  private beforeCreate() {
-    this.hardwareService = new HardwareService();
+const isAdministrator = computed<boolean>(() => !!store.getters.isAdministrator);
+const status = computed(() => hardwareStatus(hardware.value?.status));
+const dialogText = computed(() => `Czy na pewno chcesz usunąć sprzęt "${hardware.value?.name}"?`);
+
+function deleteHardware(id: number) {
+  hardwareService
+    .deleteHardware(id)
+    .then((res) => {
+      if (res.status === 204) {
+        store.dispatch('successMessage', 'Sprzęt został usunięty');
+        router.replace({ name: 'hardwareList', params: { page: '1' } });
+      }
+    })
+    .catch(() => {
+      store.dispatch('errorMessage', 'Błąd poczas usuwania sprzętu!');
+    });
+}
+
+onMounted(() => {
+  hardwareService
+    .getHardware(String(route.params.id))
+    .then((result) => {
+      hardware.value = result;
+      loading.value = false;
+    })
+    .catch(() => {
+      router.replace({ name: 'error404' });
+    });
+});
+</script>
+
+<style scoped>
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 48px;
+  align-items: start;
+}
+
+.spec {
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
+  display: grid;
+  gap: 16px;
+}
+
+.spec__list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.spec__list div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.spec__list dt {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.spec__list dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+.spec__hint {
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.spec__soon {
+  color: var(--text-subtle);
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
   }
 
-  private created() {
-    this.hardwareService
-      .getHardware(this.$route.params.id)
-      .then((hardware) => {
-        this.$data.hardware = hardware;
-        this.$data.loading = false;
-      })
-      .catch(() => {
-        this.$router.replace({ name: 'error404' });
-      });
-  }
-
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
-  }
-
-  get dialogText() {
-    return (
-      'Czy na pewno chcesz usunąć sprzęt "' + this.$data.hardware.name + '"?'
-    );
-  }
-
-  private deleteHardware(id: number) {
-    this.hardwareService
-      .deleteHardware(id)
-      .then((res) => {
-        if (res.status === 204) {
-          this.$store.dispatch('successMessage', 'Sprzęt został usunięty');
-          this.$router.replace({ name: 'hardwareList', params: { page: '1' } });
-        }
-      })
-      .catch(() => {
-        this.$store.dispatch('errorMessage', 'Błąd poczas usuwania sprzętu!');
-      });
-  }
-
-  private data() {
-    return {
-      hardware: [],
-      fab: false,
-      dialog: false,
-      markdownOptions: {
-        markdownIt: {
-          html: true,
-          linkify: true,
-        },
-        githubToc: {
-          anchorLink: false,
-        },
-      },
-      loading: true,
-    };
+  .spec {
+    position: static;
   }
 }
-</script>
+</style>

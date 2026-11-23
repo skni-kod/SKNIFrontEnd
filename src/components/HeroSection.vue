@@ -1,233 +1,238 @@
 <template>
-  <section class="hero-section full-bleed" ref="sectionContainer">
-    <div class="hero-section-wrapper">
-      <div class="content">
-        <h1 class="hero-title">
-          Studenckie Koło Naukowe Informatyków
-          <strong>KOD</strong>
+  <section class="hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <span class="hero__eyebrow">
+          <i class="mdi mdi-school-outline" aria-hidden="true"></i>
+          Politechnika Rzeszowska · od 1997
+        </span>
+        <h1 class="hero__title">
+          Studenckie Koło Naukowe Informatyków <span class="hero__accent">KOD</span>
         </h1>
-
-        <p class="hero-text">
-          Celem pracy Koła jest poszerzenie wiedzy z dziedziny optymalnego
-          rozwiązywania zagadnień programowania oraz poznawanie nowoczesnych
-          technologii informatycznych. W ramach regularnych spotkań studenci
-          samodzielnie przygotowują referaty oraz organizują wewnętrzne
-          współzawodnictwo w rozwiązywaniu interesujących ich zagadnień.
+        <p class="hero__text">
+          Poszerzamy wiedzę z optymalnego rozwiązywania zagadnień programistycznych i poznajemy nowoczesne technologie.
+          Na regularnych spotkaniach przygotowujemy referaty, realizujemy projekty i rywalizujemy w rozwiązywaniu
+          ciekawych problemów.
         </p>
-
-        <link-button :to="{ hash: 'sections' }">Zobacz więcej</link-button>
+        <div class="hero__actions">
+          <router-link :to="{ hash: '#sections' }" class="btn btn--lg btn--light">
+            Poznaj nasze sekcje
+            <i class="mdi mdi-arrow-down" aria-hidden="true"></i>
+          </router-link>
+          <router-link :to="{ name: 'projects' }" class="btn btn--lg btn--outline-light">Zobacz projekty</router-link>
+        </div>
+        <dl class="hero__stats">
+          <div>
+            <dt>Rok założenia</dt>
+            <dd>1997</dd>
+          </div>
+          <div>
+            <dt>Sekcje tematyczne</dt>
+            <dd>3</dd>
+          </div>
+          <div v-if="projectsCount">
+            <dt>Projekty</dt>
+            <dd>{{ projectsCount }}+</dd>
+          </div>
+        </dl>
       </div>
 
-      <div class="hero-image-wrapper">
-        <img
-          :src="require('@/assets/hero-image.jpg')"
-          alt="Studenckie Koło Naukowe Informatyków KOD"
-          class="hero-image"
-        />
+      <div class="hero__visual">
+        <img src="@/assets/hero-image.jpg" alt="Członkowie koła podczas pracy przy laptopach" class="hero__image" />
+        <div class="hero__card">
+          <span class="hero__card-icon" aria-hidden="true"><i class="mdi mdi-code-braces"></i></span>
+          <div>
+            <strong>Gry, aplikacje, elektronika</strong>
+            <span>Wybierz projekt dla siebie</span>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div class="parallax-images full-bleed">
-      <img
-        v-for="image in images"
-        :key="image"
-        :src="image"
-        ref="imageElements"
-        class="parallax-image"
-      />
     </div>
   </section>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
-
-import arduino from '@/assets/hero-images/arduino.png';
-import gamepad from '@/assets/hero-images/gamepad.png';
-import keyboard from '@/assets/hero-images/keyboard.png';
-import python from '@/assets/hero-images/python.png';
-import LinkButton from '@/components/base/LinkButton.vue';
-
-@Component({
-  components: {
-    LinkButton,
-  },
-})
-export default class HeroSection extends Vue {
-  images = [arduino, gamepad, keyboard, python];
-  positions = [
-    { x: 40, y: 60 },
-    { x: 7, y: 80 },
-    { x: 20, y: 15 },
-    { x: 50, y: 30 },
-  ];
-
-  parallax(event: MouseEvent) {
-    const imageElements = this.$refs.imageElements as HTMLImageElement[];
-
-    for (const imgElement of imageElements) {
-      const strength = Number.parseInt(imgElement.dataset.strength || '1', 10);
-      const rotation = Number.parseInt(imgElement.dataset.rotation || '0', 10);
-      const x = (window.innerWidth - event.pageX * strength) / 100;
-      const y = (window.innerHeight - event.pageY * strength) / 100;
-
-      imgElement.style.transform = `translateX(${x}px) translateY(${y}px) rotate(${rotation}deg)`;
-    }
-  }
-
-  mounted() {
-    const imageElements = this.$refs.imageElements as HTMLImageElement[];
-    const sectionContainer = this.$refs.sectionContainer as HTMLDivElement;
-
-    for (const [i, imgElement] of imageElements.entries()) {
-      imgElement.style.top = `${this.positions[i].y}%`;
-      imgElement.style.left = `${this.positions[i].x}%`;
-
-      const strength = this.getRandomInt(-10, 10);
-      imgElement.dataset.strength = (strength !== 0 ? strength : 1).toString();
-
-      const rotation = this.getRandomInt(-50, 50);
-      imgElement.dataset.rotation = rotation.toString();
-    }
-
-    this.parallax(new MouseEvent(''));
-
-    const isTouchDevice =
-      'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-    if (!isTouchDevice) {
-      sectionContainer.addEventListener('mousemove', this.parallax);
-    }
-  }
-
-  beforeDestroy() {
-    const sectionContainer = this.$refs.sectionContainer as HTMLDivElement;
-    const isTouchDevice    = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-    if (!isTouchDevice) {
-      sectionContainer.removeEventListener('mousemove', this.parallax);
-    }
-  }
-
-  getRandomInt(min: number, max: number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
-  }
-}
+<script setup lang="ts">
+defineProps<{ projectsCount?: number }>();
 </script>
 
-<style lang="scss" scoped>
-@use '@/styles/helpers' as *;
-@use '@/styles/components/buttons';
-
-.hero-section {
-  @include responsiveLayout();
+<style scoped>
+.hero {
   position: relative;
+  overflow: hidden;
+  background: var(--navy-950);
+  color: var(--text-inverse);
+}
 
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 85% 10%, rgba(0, 114, 168, 0.45), transparent 65%),
+    radial-gradient(ellipse 50% 50% at 0% 100%, rgba(46, 49, 117, 0.6), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: auto, auto, 44px 44px, 44px 44px;
+  mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
+}
+
+.hero__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: clamp(40px, 6vw, 88px);
+  padding-block: clamp(56px, 9vw, 120px);
+}
+
+.hero__content {
+  display: grid;
+  gap: 24px;
+  justify-items: start;
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-inverse-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.hero__eyebrow .mdi {
+  color: var(--sky);
+  font-size: 16px;
+}
+
+.hero__title {
+  color: #fff;
+  font-size: clamp(36px, 5.2vw, 62px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.hero__accent {
+  background: linear-gradient(90deg, #7dd3fc 0%, var(--sky) 45%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__text {
+  max-width: 560px;
+  color: var(--text-inverse-muted);
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 1.7;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 40px;
+  margin: 20px 0 0;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero__stats div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+}
+
+.hero__stats dt {
+  color: var(--text-inverse-muted);
+  font-size: 13px;
+}
+
+.hero__stats dd {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.hero__visual {
+  position: relative;
+}
+
+.hero__image {
   width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  background-image: url("~@/assets/hex.png");
-  background-position: right bottom;
-  padding-top: 150px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6);
+  outline: 1px solid rgba(255, 255, 255, 0.08);
+  outline-offset: -1px;
+}
 
-  .hero-section-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 100px;
-    z-index: 1;
+.hero__card {
+  position: absolute;
+  left: -28px;
+  bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px 14px 14px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  color: var(--text);
+}
 
-    .content {
-      display: flex;
-      flex-direction: column;
-      gap: 50px;
-      align-items: flex-start;
+.hero__card div {
+  display: grid;
+  font-size: 13px;
+  color: var(--text-muted);
+}
 
-      .hero-title {
-        font-family: Montserrat;
-        font-size: clamp(40px, 3vw, 55px);
-        font-weight: 700;
-        line-height: 1.3;
+.hero__card strong {
+  font-size: 15px;
+  color: var(--text);
+}
 
-        strong {
-          color: $primary;
-        }
-      }
+.hero__card-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  font-size: 22px;
+}
 
-      .hero-text {
-        font-size: 16px;
-        font-weight: 400;
-        margin: 0;
-      }
-
-      .btn {
-        @include buttons.button-theme($primary, $body-bg);
-        width: auto;
-      }
-    }
-
-    .hero-image-wrapper {
-      padding-right: 20px;
-      padding-bottom: 20px;
-      position: relative;
-
-      .hero-image {
-        width: 400px;
-        height: 500px;
-        object-fit: cover;
-        position: relative;
-        display: block;
-      }
-
-      &::before {
-        display: block;
-        content: "";
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
-        position: absolute;
-        right: 0px;
-        bottom: 0px;
-        background-color: $primary;
-      }
-    }
+@media (max-width: 960px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
   }
 
-  .parallax-images {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-
-    .parallax-image {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      position: absolute;
-      opacity: 0.25;
-    }
+  .hero__visual {
+    max-width: 560px;
   }
 
-  @include media-breakpoint-down("md") {
-    .hero-section-wrapper {
-      flex-direction: column-reverse;
-      gap: 50px;
+  .hero__image {
+    aspect-ratio: 16 / 10;
+  }
 
-      .content {
-        gap: 30px;
-      }
-
-      .hero-image-wrapper {
-        width: 100%;
-
-        .hero-image {
-          width: 100%;
-          height: 300px;
-        }
-      }
-    }
+  .hero__card {
+    left: 16px;
+    bottom: 16px;
   }
 }
 </style>

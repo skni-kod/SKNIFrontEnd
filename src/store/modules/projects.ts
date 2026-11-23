@@ -4,6 +4,7 @@ import { SectionModel } from '@/models/SectionModel';
 import { ProjectModel } from '@/models/ProjectModel';
 import removeMarkdown from 'remove-markdown';
 import projectPlaceholder from '@/assets/project_placeholder.jpg';
+import { mediaUrl } from '@/utils/media';
 
 export interface ProjectInfo {
   id: number;
@@ -18,7 +19,7 @@ export interface ProjectInfo {
 
 const convertProject = (project: ProjectModel): ProjectInfo => {
   const image = project.gallery.length > 0
-    ? `${process.env.VUE_APP_MEDIA_URL}/${project.gallery[0].image}`
+    ? mediaUrl(project.gallery[0].image)
     : projectPlaceholder;
 
   return {

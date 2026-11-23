@@ -1,0 +1,11 @@
+<template>
+  <div class="prose" v-html="html"></div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+import { renderMarkdown } from '@/utils/markdown';
+
+const props = defineProps<{ content?: string | null }>();
+const html = computed(() => renderMarkdown(props.content));
+</script>

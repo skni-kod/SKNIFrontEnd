@@ -1,47 +1,86 @@
 <template>
-  <v-row align="center" style="height: 100%">
-    <v-col cols="12">
-      <v-img
-        width="1000px"
-        class="mx-auto"
-        :src="
+  <div class="error">
+    <div class="container error__inner">
+      <img :src="image" alt="" class="error__image" />
+      <span class="error__code">Błąd {{ errorNum }}</span>
+      <h1 class="error__title">{{ errorNum === 403 ? 'Brak dostępu' : 'Strona nie istnieje' }}</h1>
+      <p class="error__text">
+        {{
           errorNum === 403
-            ? require('../assets/lama_403.png')
-            : require('../assets/lama_404.png')
-        "
-      ></v-img>
-      <p class="text-h2 text-center font-weight-bold">
-        {{ errorNum === 403 ? 'Brak dostępu!' : 'Strona nie istnieje!' }}
+            ? 'Nie masz uprawnień do wyświetlenia tej strony. Zaloguj się na odpowiednie konto lub wróć na stronę główną.'
+            : 'Strona, której szukasz, została przeniesiona, usunięta lub nigdy nie istniała.'
+        }}
       </p>
-      <v-row align="center" justify="space-around" class="my-5">
-        <v-btn-cap class="primary my-2" router :to="{ name: 'home' }">
-          <v-icon left>mdi-home</v-icon>
-          <span>Powrót na stronę główną</span>
-        </v-btn-cap>
-        <v-btn-cap
-          v-if="$router.history.length > 0"
-          class="primary my-2"
-          @click="$router.go(-1)"
-        >
-          <v-icon left>mdi-keyboard-return</v-icon>
-          <span>Powrót na poprzednią stronę</span>
-        </v-btn-cap>
-      </v-row>
-    </v-col>
-  </v-row>
+      <div class="error__actions">
+        <router-link :to="{ name: 'home' }" class="btn">
+          <i class="mdi mdi-home-outline" aria-hidden="true"></i> Strona główna
+        </router-link>
+        <button v-if="canGoBack" type="button" class="btn btn--secondary" @click="router.back()">
+          <i class="mdi mdi-arrow-left" aria-hidden="true"></i> Wróć
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import lama403 from '@/assets/lama_403.png';
+import lama404 from '@/assets/lama_404.png';
 
-@Component
-export default class ErrorPage extends Vue {
-  get errorNum() {
-    if (this.$route.name === 'error403') {
-      return 403;
-    } else {
-      return 404;
-    }
-  }
-}
+const route = useRoute();
+const router = useRouter();
+const errorNum = computed(() => (route.name === 'error403' ? 403 : 404));
+const image = computed(() => (errorNum.value === 403 ? lama403 : lama404));
+const canGoBack = window.history.length > 1;
 </script>
+
+<style scoped>
+.error {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding-block: clamp(40px, 8vw, 96px);
+  background: var(--surface);
+}
+
+.error__inner {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.error__image {
+  width: min(420px, 80vw);
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.error__code {
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.error__title {
+  font-size: clamp(28px, 4vw, 40px);
+}
+
+.error__text {
+  max-width: 520px;
+  color: var(--text-muted);
+}
+
+.error__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+</style>

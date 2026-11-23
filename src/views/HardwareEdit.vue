@@ -1,154 +1,161 @@
 <template>
   <div>
-    <p
-      class="text-h4 text-center font-weight-bold justify-center ma-2"
-      style="word-break: break-word"
-    >
-      {{
-        add
-          ? 'Nowy sprzęt'
-          : 'Edycja sprzętu o numerze seryjnym ' + this.hardware.serial_number
-      }}
-    </p>
-    <hardware-editor
-      :hardware="hardware"
-      @hardwareEdited="hardware = $event"
-      :status="{ name: hardware.status }"
-      @statusEdited="change($event)"
-      @validation="inputValidated = $event"
-    ></hardware-editor>
-    <editor-menu
-      @saveChanges="addHardware"
-      @discardChanges="returnFromEditor"
-      text="Czy na pewno chcesz opuścić ekran dodawania nowego sprzętu bez zapisywania zmian?"
-      saveText="Dodaj sprzęt"
-      discardText="Odrzuć sprzęt"
-      v-if="add"
+    <PageHeader
+      eyebrow="Panel administratora"
+      :title="add ? 'Nowy sprzęt' : 'Edycja sprzętu'"
+      :description="add || !hardware.serial_number ? undefined : `Numer seryjny: ${hardware.serial_number}`"
+      :back="{ to: { name: 'hardwareList', params: { page: '1' } }, label: 'Cały sprzęt' }"
     />
-    <editor-menu
-      @saveChanges="editHardware"
-      @discardChanges="returnFromEditor"
-      text="Czy na pewno chcesz wyjść z edycji sprzętu bez zapisywania zmian?"
-      v-else
+
+    <LoadingState v-if="!loaded" class="page" />
+    <div v-else class="page page--editor">
+      <div class="container editor editor--single">
+        <div class="editor__main">
+          <FormCard title="Podstawowe informacje">
+            <TextField v-model="hardware.name" label="Nazwa sprzętu" required :error="errors.name" :show-error="submitted" />
+            <div class="form-row">
+              <SelectField
+                v-model="status"
+                label="Status"
+                required
+                :options="statusOptions"
+                placeholder="Wybierz status"
+                :error="errors.status"
+                :show-error="submitted"
+              />
+              <TextField v-model="hardware.serial_number" label="Numer seryjny" required :error="errors.serial" :show-error="submitted" />
+            </div>
+          </FormCard>
+          <FormCard title="Opis">
+            <MarkdownEditor
+              v-model="hardware.description"
+              label="Treść opisu sprzętu"
+              required
+              :with-images="false"
+              :error="errors.description"
+              :show-error="submitted"
+            />
+          </FormCard>
+        </div>
+      </div>
+    </div>
+
+    <EditorActions
+      v-if="loaded"
+      :text="add ? 'Czy na pewno chcesz opuścić ekran dodawania nowego sprzętu bez zapisywania zmian?' : 'Czy na pewno chcesz wyjść z edycji sprzętu bez zapisywania zmian?'"
+      :save-text="add ? 'Dodaj sprzęt' : 'Zapisz zmiany'"
+      :discard-text="add ? 'Odrzuć' : 'Odrzuć zmiany'"
+      @save-changes="add ? addHardware() : editHardware()"
+      @discard-changes="returnFromEditor"
     />
   </div>
 </template>
 
-<script lang='ts'>
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { HardwareService } from '@/services/HardwareService';
-import { HardwareModel } from '@/models/HardwareModel';
-import { SectionsService } from '@/services/SectionsService';
-import hardwareEditor from '@/components/HardwareEditor.vue';
+import PageHeader from '@/components/ui/PageHeader.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
+import TextField from '@/components/ui/TextField.vue';
+import SelectField from '@/components/ui/SelectField.vue';
+import FormCard from '@/components/editor/FormCard.vue';
+import MarkdownEditor from '@/components/editor/MarkdownEditor.vue';
+import EditorActions from '@/components/editor/EditorActions.vue';
+import { HARDWARE_STATUSES } from '@/utils/hardware';
+import { isValid, required, validate } from '@/utils/validation';
 
-@Component({
-  components: { hardwareEditor },
-})
-export default class HardwareEdit extends Vue {
-  private hardwareService!: HardwareService;
-  private hardwareModel!: HardwareModel;
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+const hardwareService = new HardwareService();
 
-  private created() {
-    this.hardwareService = new HardwareService();
-    this.$data.hardware = new HardwareModel();
+const add = route.path.includes('add');
+const hardware = ref<any>({ description: '' });
+const status = ref<string>();
+const loaded = ref(add);
+const submitted = ref(false);
+const statusOptions = HARDWARE_STATUSES.map((s) => ({ value: s.value, label: s.label }));
 
-    if (this.$route.path.includes('add')) {
-      this.$data.add = true;
-    } else {
-      this.hardwareService
-        .getHardware(this.$route.params.id)
-        .then((res) => {
-          this.$data.hardware = res;
-          this.$data.status = res.status;
-        })
-        .catch((err) => {
-          this.$router.replace({ name: 'error404' });
-        });
-    }
+const errors = computed(() => ({
+  name: validate(hardware.value.name, [required]),
+  status: validate(status.value, [required]),
+  serial: validate(hardware.value.serial_number, [required]),
+  description: validate(hardware.value.description, [required]),
+}));
+
+function warnInvalid() {
+  store.dispatch('warningMessage', 'Formularz nie został poprawnie wypełniony!');
+}
+
+function payload() {
+  return {
+    name: hardware.value.name,
+    description: hardware.value.description,
+    status: status.value,
+    serial_number: hardware.value.serial_number,
+  };
+}
+
+function addHardware() {
+  submitted.value = true;
+  if (!isValid(errors.value)) {
+    warnInvalid();
+    return;
   }
-  private addHardware() {
-    if (this.$data.inputValidated) {
-      this.hardwareService
-        .addHardware({
-          name: this.$data.hardware.name,
-          description: this.$data.hardware.description,
-          status: this.$data.status,
-          serial_number: this.$data.hardware.serial_number,
-        })
-        .then((res: any) => {
-          if (res.status === 201) {
-            this.$store.dispatch('successMessage', 'Sprzęt został dodany');
-            this.$router.replace({
-              name: 'hardware',
-              params: { id: res.data.id },
-            });
-          }
-        })
-        .catch(() => {
-          this.$store.dispatch(
-            'errorMessage',
-            'Błąd poczas zapisywania sprzętu!',
-          );
-        });
-    } else {
-      this.$store.dispatch(
-        'warningMessage',
-        'Formularz nie zostal poprawnie wypełniony!',
-      );
-    }
-  }
+  hardwareService
+    .addHardware(payload())
+    .then((res: any) => {
+      if (res.status === 201) {
+        store.dispatch('successMessage', 'Sprzęt został dodany');
+        router.replace({ name: 'hardware', params: { id: res.data.id } });
+      }
+    })
+    .catch(() => {
+      store.dispatch('errorMessage', 'Błąd poczas zapisywania sprzętu!');
+    });
+}
 
-  private editHardware() {
-    if (this.$data.inputValidated) {
-      this.hardwareService
-        .editHardware(this.$data.hardware.id, {
-          name: this.$data.hardware.name,
-          description: this.$data.hardware.description,
-          status: this.$data.status,
-          serial_number: this.$data.hardware.serial_number,
-        })
-        .then((res: any) => {
-          if (res.status === 200) {
-            this.$store.dispatch(
-              'successMessage',
-              'Sprzęt został zaktualizowany',
-            );
-            this.returnFromEditor();
-          }
-        })
-        .catch(() => {
-          this.$store.dispatch('errorMessage', 'Błąd poczas edycji sprzętu!');
-        });
-    } else {
-      this.$store.dispatch(
-        'warningMessage',
-        'Formularz nie został poprawnie wypełniony!',
-      );
-    }
+function editHardware() {
+  submitted.value = true;
+  if (!isValid(errors.value)) {
+    warnInvalid();
+    return;
   }
+  hardwareService
+    .editHardware(hardware.value.id, payload())
+    .then((res: any) => {
+      if (res.status === 200) {
+        store.dispatch('successMessage', 'Sprzęt został zaktualizowany');
+        returnFromEditor();
+      }
+    })
+    .catch(() => {
+      store.dispatch('errorMessage', 'Błąd poczas edycji sprzętu!');
+    });
+}
 
-  private returnFromEditor() {
-    if (this.$data.add) {
-      this.$router.replace({ name: 'hardwareList', params: { page: '1' } });
-    } else {
-      this.$router.replace({
-        name: 'hardware',
-        params: { id: this.$data.hardware.id },
-      });
-    }
-  }
-
-  private change(e: any) {
-    this.$data.status = e;
-  }
-
-  private data() {
-    return {
-      inputValidated: false,
-      hardware: { description: '' },
-      status: '',
-      add: false,
-    };
+function returnFromEditor() {
+  if (add) {
+    router.replace({ name: 'hardwareList', params: { page: '1' } });
+  } else {
+    router.replace({ name: 'hardware', params: { id: hardware.value.id } });
   }
 }
+
+onMounted(() => {
+  if (!add) {
+    hardwareService
+      .getHardware(String(route.params.id))
+      .then((res: any) => {
+        hardware.value = res;
+        status.value = res.status;
+        loaded.value = true;
+      })
+      .catch(() => {
+        router.replace({ name: 'error404' });
+      });
+  }
+});
 </script>

@@ -1,240 +1,222 @@
-import Vue from 'vue';
-import VueRouter, { RouteConfig, Route, NavigationGuardNext } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import store from './store';
 
-Vue.use(VueRouter);
+const adminGuard = () => (store.getters.isAdministrator ? true : { name: 'error403' });
 
-const adminGuard = (to: Route, from: Route, next: NavigationGuardNext) => {
-  if (!store.getters.isAdministrator) {
-    next({ name: 'error403' });
-  } else {
-    next();
-  }
-};
+const authGuard = () => (store.getters.isAuthenticated ? true : { name: 'error403' });
 
-const authGuard = (to: Route, from: Route, next: NavigationGuardNext) => {
-  if (!store.getters.isAuthenticated) {
-    next({ name: 'error403' });
-  } else {
-    next();
-  }
-};
-
-const routes: RouteConfig[] = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'home',
     component: () =>
-      import(/* webpackChunkName: "Home" */ './views/Home.vue'),
+      import('./views/Home.vue'),
   },
   {
     path: '/about',
     name: 'about',
     component: () =>
-      import(/* webpackChunkName: "About" */ './views/About.vue'),
+      import('./views/About.vue'),
   },
   {
     path: '/news/:page?',
     name: 'news',
     component: () =>
-      import(/* webpackChunkName: "Article" */ './views/NewsList.vue'),
+      import('./views/NewsList.vue'),
   },
   {
     path: '/articles/:page?',
     name: 'articles',
     component: () =>
-      import(/* webpackChunkName: "Article" */ './views/ArticleList.vue'),
+      import('./views/ArticleList.vue'),
   },
   {
-    path: '/article/:id-:alias',
+    path: '/article/:id(\\d+)-:alias',
     name: 'article',
     component: () =>
-      import(/* webpackChunkName: "ArticlePage" */ './views/Article.vue'),
+      import('./views/Article.vue'),
   },
   {
     path: '/article/edit/:id?',
     name: 'articleEdit',
     component: () =>
-      import(/* webpackChunkName: "ArticleEdit" */ './views/ArticleEdit.vue'),
+      import('./views/ArticleEdit.vue'),
     beforeEnter: adminGuard,
   },
   {
     path: '/article/add',
     name: 'articleAdd',
     component: () =>
-      import(/* webpackChunkName: "ArticleEdit" */ './views/ArticleEdit.vue'),
+      import('./views/ArticleEdit.vue'),
     beforeEnter: adminGuard,
   },
   {
     path: '/tag/:tag/:page?',
     name: 'tag',
     component: () =>
-      import(/* webpackChunkName: "Article" */ './views/Tag.vue'),
+      import('./views/Tag.vue'),
   },
   {
     path: '/sections',
     name: 'sections',
     component: () =>
-      import(/* webpackChunkName: "Sections" */ './views/SectionList.vue'),
+      import('./views/SectionList.vue'),
   },
   {
     path: '/section/:id',
     name: 'section',
     component: () =>
-      import(/* webpackChunkName: "Section" */ './views/Section.vue'),
+      import('./views/Section.vue'),
   },
   {
     path: '/section/edit/:id?',
     name: 'sectionEdit',
     component: () =>
-      import(/* webpackChunkName: "SectionEdit" */ './views/SectionEdit.vue'),
+      import('./views/SectionEdit.vue'),
     beforeEnter: adminGuard,
   },
   {
     path: '/section/add',
     name: 'sectionAdd',
     component: () =>
-      import(/* webpackChunkName: "SectionEdit" */ './views/SectionEdit.vue'),
+      import('./views/SectionEdit.vue'),
     beforeEnter: adminGuard,
   },
   {
     path: '/projects/:page?',
     name: 'projects',
     component: () =>
-      import(/* webpackChunkName: "Project" */ './views/ProjectList.vue'),
+      import('./views/ProjectList.vue'),
   },
   {
     path: '/project/edit/:id?',
     name: 'editProject',
     component: () =>
-      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
+      import('./views/ProjectEdit.vue'),
     beforeEnter: adminGuard,
   },
   {
     path: '/project/add',
     name: 'projectAdd',
     component: () =>
-      import(/* webpackChunkName: "ProjectEdit" */ './views/ProjectEdit.vue'),
+      import('./views/ProjectEdit.vue'),
     beforeEnter: adminGuard,
   },
   {
     path: '/project/:id',
     name: 'project',
     component: () =>
-      import(/* webpackChunkName: "ProjectPage" */ './views/Project.vue'),
+      import('./views/Project.vue'),
   },
   {
     path: '/hardware/edit/:id?',
     name: 'hardwareEdit',
     component: () =>
-      import(/* webpackChunkName: "HardwareEdit" */ './views/HardwareEdit.vue'),
+      import('./views/HardwareEdit.vue'),
     beforeEnter: adminGuard,
   },
   {
     path: '/hardware/add',
     name: 'hardwareAdd',
     component: () =>
-      import(/* webpackChunkName: "HardwareEdit" */ './views/HardwareEdit.vue'),
+      import('./views/HardwareEdit.vue'),
     beforeEnter: adminGuard,
   },
   {
-    path: '/hardware/:page?',
+    path: '/hardware/:page(\\d+)?',
     name: 'hardwareList',
     component: () =>
-      import(/* webpackChunkName: "Hardware" */ './views/HardwareList.vue'),
+      import('./views/HardwareList.vue'),
   },
   {
-    path: '/hardware/:id?',
+    path: '/hardware/item/:id',
     name: 'hardware',
     component: () =>
-      import(/* webpackChunkName: "Hardware" */ './views/Hardware.vue'),
+      import('./views/Hardware.vue'),
   },
   {
     path: '/sponsors/add',
     name: 'sponsorsAdd',
-    component: () => import(/* webpackChunkName: "Sponsor" */ './views/admin/EditSponsor.vue'),
+    component: () => import('./views/admin/EditSponsor.vue'),
     beforeEnter: adminGuard,
   },
   {
     path: '/sponsors/edit/:id?',
     name: 'sponsorsEdit',
-    component: () => import(/* webpackChunkName: "Sponsor" */ './views/admin/EditSponsor.vue'),
+    component: () => import('./views/admin/EditSponsor.vue'),
     beforeEnter: adminGuard,
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import(/* webpackChunkName: "User" */ './views/Login.vue'),
+    component: () => import('./views/Login.vue'),
   },
   {
     path: '/register',
     name: 'register',
     component: () =>
-      import(/* webpackChunkName: "UserRegister" */ './views/Register.vue'),
+      import('./views/Register.vue'),
   },
   {
     path: '/user/panel',
     name: 'userPanel',
     beforeEnter: authGuard,
     component: () =>
-      import(/* webpackChunkName: "UserPanel" */ './views/UserPanel.vue'),
+      import('./views/UserPanel.vue'),
   },
   {
     path: '/user/passchange',
     name: 'UserPassChange',
     beforeEnter: authGuard,
     component: () =>
-      import(/* webpackChunkName: "UserPassChange" */ './views/UserPassChange.vue'),
+      import('./views/UserPassChange.vue'),
   },
   {
     path: '/user/descriptionchange',
     name: 'UserEditChange',
     beforeEnter: authGuard,
     component: () =>
-      import(/* webpackChunkName: "UserEdit" */ './views/UserEdit.vue'),
+      import('./views/UserEdit.vue'),
   },
   {
     path: '/user/profile/:id',
     name: 'userProfile',
     component: () =>
-      import(/* webpackChunkName: "UserProfile" */ './views/UserProfile.vue'),
+      import('./views/UserProfile.vue'),
   },
   {
     path: '/admin/panel/:module?',
     name: 'adminPanel',
     component: () =>
-      import(/* webpackChunkName: "AdminPanel" */ './views/AdminPanel.vue'),
+      import('./views/AdminPanel.vue'),
     beforeEnter: adminGuard,
   },
   {
     path: '/403',
     name: 'error403',
     component: () =>
-      import(/* webpackChunkName: "ErrorPage" */ './views/ErrorPage.vue'),
+      import('./views/ErrorPage.vue'),
   },
   {
     path: '/404',
     name: 'error404',
     component: () =>
-      import(/* webpackChunkName: "ErrorPage" */ './views/ErrorPage.vue'),
+      import('./views/ErrorPage.vue'),
   },
-  { path: '*', redirect: '/404' },
+  { path: '/:pathMatch(.*)*', redirect: '/404' },
 ];
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(to, _from, savedPosition) {
     if (to.hash) {
-      return { selector: to.hash };
+      return { el: to.hash, behavior: 'smooth' };
     }
-
     if (savedPosition) {
       return savedPosition;
-    } else {
-      return { x: 0, y: 0 };
     }
+    return { top: 0 };
   },
 });
 

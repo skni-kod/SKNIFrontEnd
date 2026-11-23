@@ -1,68 +1,30 @@
 <template>
-  <div class="article-container">
-    <SectionHeader
+  <div>
+    <PageHeader
+      eyebrow="Co słychać w SKNI KOD?"
       title="Aktualności"
-      subtitle="Co słychać w SKNI KOD?"
-    ></SectionHeader>
-
-    <EntriesList group="News" />
-   
-    <v-btn-cap
-      fab
-      fixed
-      bottom
-      right
-      v-if="isAdmin"
-      :to="{ name: 'articleAdd' }"
-      class="primary btn-add"
+      description="Ogłoszenia, relacje z wydarzeń i bieżące informacje z życia koła."
     >
-      <v-icon class="white--text">mdi-plus</v-icon>
-    </v-btn-cap>
+      <template v-if="isAdmin" #actions>
+        <router-link :to="{ name: 'articleAdd' }" class="btn">
+          <i class="mdi mdi-plus" aria-hidden="true"></i> Dodaj wpis
+        </router-link>
+      </template>
+    </PageHeader>
+    <div class="page">
+      <div class="container">
+        <EntriesList group="News" />
+      </div>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import ArticleCard from '@/components/ArticleCard.vue';
-import SectionHeader from '../components/SectionHeader.vue';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import PageHeader from '@/components/ui/PageHeader.vue';
 import EntriesList from '@/components/EntriesList.vue';
 
-@Component({
-  components: {
-    ArticleCard,
-    SectionHeader,
-    EntriesList,
-  },
-})
-export default class ArticleList extends Vue {
-
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
-  }
-
-  get isAdmin(): boolean {
-    return this.$store.getters.isAdministrator;
-  }
-
-}
+const store = useStore();
+const isAdmin = computed<boolean>(() => !!store.getters.isAdministrator);
 </script>
-
-<style scoped lang="scss">
-@use '@/styles/helpers' as *;
-@use '@/styles/components/buttons';
-.article-container {
-  .section-header {
-    text-align: center;
-  }
-  margin-top: 50px;
-  @include responsiveLayout();
-  row-gap: 50px;
-  width: 100%;
-
-}
-
-.btn-add {
-  width: 50px;
-  height: 50px;
-}
-</style>

@@ -1,114 +1,85 @@
 <template>
-  <div class="ma-4 fill-height">
-    <div v-if="sections && sections.length > 0">
-      <v-row justify="center" v-for="section in sections" :key="section.id">
-        <v-col cols="12" sm="11" md="10" lg="9" xl="8">
-          <section-card
-            class="my-2"
+  <div>
+    <PageHeader
+      eyebrow="Struktura koła"
+      title="Sekcje"
+      description="Każda sekcja skupia się na innej dziedzinie. Wybierz tę, która najbardziej Cię interesuje."
+    >
+      <template v-if="isAdministrator" #actions>
+        <router-link :to="{ name: 'sectionAdd' }" class="btn">
+          <i class="mdi mdi-plus" aria-hidden="true"></i> Dodaj sekcję
+        </router-link>
+      </template>
+    </PageHeader>
+    <div class="page">
+      <div class="container container--narrow">
+        <LoadingState v-if="loading" />
+        <div v-else-if="sections.length" class="list">
+          <SectionCard
+            v-for="section in sections"
+            :key="section.id"
             :section="section"
             :projects="projects"
             @delete="deleteSection"
-          >
-          </section-card>
-        </v-col>
-      </v-row>
-    </div>
-    <v-row align="center" class="fill-height" v-else>
-      <v-col>
-        <div class="text-h3 font-weight-bold text-center">
-          {{ loading ? 'Ładowanie danych' : 'Brak sekcji' }}
-          <v-progress-circular
-            indeterminate
-            color="primary"
-            v-if="loading"
-          ></v-progress-circular>
+          />
         </div>
-      </v-col>
-    </v-row>
-    <v-btn-cap
-      fab
-      fixed
-      bottom
-      right
-      v-if="auth"
-      :to="{ name: 'sectionAdd' }"
-      class="success"
-    >
-      <v-icon class="white--text">mdi-plus</v-icon>
-    </v-btn-cap>
+        <EmptyState v-else icon="shape-outline" title="Brak sekcji" />
+      </div>
+    </div>
   </div>
 </template>
 
-<script lang='ts'>
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
 import { SectionsService } from '@/services/SectionsService';
-import { SectionModel } from '@/models/SectionModel';
-import SectionCard from '@/components/SectionCard.vue';
 import { ProjectsService } from '@/services/ProjectsService';
+import type { SectionModel } from '@/models/SectionModel';
+import PageHeader from '@/components/ui/PageHeader.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
+import EmptyState from '@/components/ui/EmptyState.vue';
+import SectionCard from '@/components/SectionCard.vue';
 
-@Component({
-  components: {
-    SectionCard,
-  },
-})
-export default class SectionList extends Vue {
-  private sectionsService!: SectionsService;
-  private sections!: SectionModel[];
-  private projectsService!: ProjectsService;
-  constructor() {
-    super();
-    this.sectionsService = new SectionsService();
-    this.projectsService = new ProjectsService();
-  }
+const store = useStore();
+const sectionsService = new SectionsService();
+const projectsService = new ProjectsService();
+const sections = ref<SectionModel[]>([]);
+const projects = ref<any[]>([]);
+const loading = ref(true);
+const isAdministrator = computed<boolean>(() => !!store.getters.isAdministrator);
 
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
-  }
-
-  public created() {
-    this.projectsService.getAllProjects().then((res) => {
-      this.$data.projects = res;
+function deleteSection(id: number) {
+  sectionsService
+    .deleteSection(id)
+    .then((res) => {
+      if (res.status === 204) {
+        store.dispatch('successMessage', 'Sekcja została usunięta');
+        sections.value = sections.value.filter((el) => el.id !== id);
+      }
+    })
+    .catch(() => {
+      store.dispatch('errorMessage', 'Błąd poczas usuwania secji!');
     });
-    this.sectionsService
-      .getAllSections()
-      .then((res) => {
-        this.sections = res.data;
-        for (let i = 0; i < this.sections.length; ) {
-          if (this.sections[i].isVisible === false) {
-            this.sections.splice(i, 1);
-          } else {
-            i++;
-          }
-        }
-        this.$data.loading = false;
-      })
-      .catch(() => {
-        this.$data.loading = false;
-      });
-  }
-
-  private deleteSection(id: number) {
-    this.sectionsService
-      .deleteSection(id)
-      .then((res) => {
-        if (res.status === 204) {
-          this.$store.dispatch('successMessage', 'Sekcja została usunięta');
-          this.$data.sections = this.$data.sections.filter((el: any) => {
-            return el.id !== id;
-          });
-        }
-      })
-      .catch(() => {
-        this.$store.dispatch('errorMessage', 'Błąd poczas usuwania secji!');
-      });
-  }
-
-  private data() {
-    return {
-      sections: this.sections,
-      projects: [],
-      loading: true,
-    };
-  }
 }
+
+onMounted(() => {
+  projectsService.getAllProjects().then((res) => {
+    projects.value = res;
+  });
+  sectionsService
+    .getAllSections()
+    .then((res) => {
+      sections.value = (res.data as SectionModel[]).filter((s) => s.isVisible !== false);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+});
 </script>
+
+<style scoped>
+.list {
+  display: grid;
+  gap: 20px;
+}
+</style>

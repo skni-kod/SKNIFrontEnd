@@ -1,96 +1,99 @@
 <template>
-  <div>
-    <p class="text-body-1 text-center font-weight-bold mb-0">
-      Wymagania dotyczące hasła
-    </p>
-    <v-alert
-      prominent
-      outlined
-      :type="isPasswordValid === true ? 'success' : 'error'"
-    >
-      <v-row class="ma-0 pa-0" align="center">
-        <v-icon left :color="passwdHas8Chars ? 'success' : 'error'">{{
-          passwdHas8Chars ? 'mdi-check-bold' : 'mdi-close-thick'
-        }}</v-icon>
-        <span class="my-0 black--text">8 znaków</span>
-      </v-row>
-      <v-row class="ma-0 pa-0" align="center">
-        <v-icon left :color="passwdHasLowercase ? 'success' : 'error'">{{
-          passwdHasLowercase ? 'mdi-check-bold' : 'mdi-close-thick'
-        }}</v-icon>
-        <span class="my-0 black--text">Jedna mała litera</span>
-      </v-row>
-      <v-row class="ma-0 pa-0" align="center">
-        <v-icon left :color="passwdHasUppercase ? 'success' : 'error'">{{
-          passwdHasUppercase ? 'mdi-check-bold' : 'mdi-close-thick'
-        }}</v-icon>
-        <span class="my-0 black--text">Jedna duża litera</span>
-      </v-row>
-      <v-row class="ma-0 pa-0" align="center">
-        <v-icon left :color="passwdHasNumber ? 'success' : 'error'">{{
-          passwdHasNumber ? 'mdi-check-bold' : 'mdi-close-thick'
-        }}</v-icon>
-        <span class="my-0 black--text">Jedna cyfra</span>
-      </v-row>
-      <v-row class="ma-0 pa-0" align="center">
-        <v-icon left :color="passwdHasSpecialChar ? 'success' : 'error'">{{
-          passwdHasSpecialChar ? 'mdi-check-bold' : 'mdi-close-thick'
-        }}</v-icon>
-        <span class="my-0 black--text">Jeden znak specjalny</span>
-      </v-row>
-    </v-alert>
+  <div class="pw">
+    <div class="pw__meter" aria-hidden="true">
+      <span v-for="n in 5" :key="n" :class="{ 'is-on': n <= score }" :data-score="score"></span>
+    </div>
+    <ul class="pw__list">
+      <li v-for="check in checks" :key="check.label" :class="{ 'is-ok': check.ok }">
+        <i class="mdi" :class="check.ok ? 'mdi-check-circle' : 'mdi-circle-outline'" aria-hidden="true"></i>
+        {{ check.label }}
+      </li>
+    </ul>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, watch } from 'vue';
 
-@Component
-export default class PasswordValidator extends Vue {
-  @Prop() private readonly password!: string;
+const props = defineProps<{ password: string }>();
+const emit = defineEmits<{ validation: [value: true | string] }>();
 
-  private data() {
-    return {
-      passwdHas8Chars: false,
-      passwdHasUppercase: false,
-      passwdHasLowercase: false,
-      passwdHasNumber: false,
-      passwdHasSpecialChar: false,
-    };
-  }
+const special = /[ !@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
 
-  @Watch('password')
-  private passwdChanged(newPass: string) {
-    const special = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+const checks = computed(() => {
+  const p = props.password || '';
+  return [
+    { label: 'Co najmniej 8 znaków', ok: p.length >= 8 },
+    { label: 'Mała litera', ok: /[a-z]/.test(p) },
+    { label: 'Duża litera', ok: /[A-Z]/.test(p) },
+    { label: 'Cyfra', ok: /\d/.test(p) },
+    { label: 'Znak specjalny', ok: special.test(p) },
+  ];
+});
 
-    newPass.length >= 8
-      ? (this.$data.passwdHas8Chars = true)
-      : (this.$data.passwdHas8Chars = false);
-    /[a-z]/.test(newPass)
-      ? (this.$data.passwdHasLowercase = true)
-      : (this.$data.passwdHasLowercase = false);
-    /[A-Z]/.test(newPass)
-      ? (this.$data.passwdHasUppercase = true)
-      : (this.$data.passwdHasUppercase = false);
-    /\d/.test(newPass)
-      ? (this.$data.passwdHasNumber = true)
-      : (this.$data.passwdHasNumber = false);
-    special.test(newPass)
-      ? (this.$data.passwdHasSpecialChar = true)
-      : (this.$data.passwdHasSpecialChar = false);
+const score = computed(() => checks.value.filter((c) => c.ok).length);
+const isPasswordValid = computed<true | string>(() =>
+  checks.value.every((c) => c.ok) ? true : 'Hasło nie spełnia wymagań',
+);
 
-    this.$emit('validation', this.isPasswordValid);
-  }
-
-  get isPasswordValid() {
-    return (
-      (this.$data.passwdHas8Chars &&
-        this.$data.passwdHasUppercase &&
-        this.$data.passwdHasLowercase &&
-        this.$data.passwdHasNumber &&
-        this.$data.passwdHasSpecialChar) ||
-      'Hasło nie spełnia wymagań'
-    );
-  }
-}
+watch(isPasswordValid, (value) => emit('validation', value), { immediate: true });
 </script>
+
+<style scoped>
+.pw {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.pw__meter {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.pw__meter span {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  transition: background-color var(--t);
+}
+
+.pw__meter span.is-on {
+  background: var(--warning);
+}
+
+.pw__meter span.is-on[data-score='5'] {
+  background: var(--success);
+}
+
+.pw__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 16px;
+  list-style: none;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.pw__list li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pw__list .mdi {
+  font-size: 16px;
+  color: var(--text-subtle);
+}
+
+.pw__list li.is-ok {
+  color: var(--text);
+}
+
+.pw__list li.is-ok .mdi {
+  color: var(--success);
+}
+</style>

@@ -1,128 +1,188 @@
 <template>
-  <div>
-    <v-card class="elevation-3">
-      <v-card-title class="primary white--text">
-        <h3 class="headline">{{ project.title }}</h3>
-      </v-card-title>
-      <v-card-text class="secondary py-0 pl-1">
-        <v-row class="mx-auto">
-          <v-col cols="auto" class="text-center py-1">
-            <v-row justify="center" class="flex-column ma-0 fill-height">
-              <v-icon left class="white--text">{{
-                'mdi-' + project.section.icon
-              }}</v-icon>
-            </v-row>
-          </v-col>
-          <v-col class="pa-0">
-            <v-row justify="center" class="flex-column ma-0 fill-height">
-              <p
-                class="
-                  text-body-1
-                  white--text
-                  text-left
-                  font-weight-black
-                  my-auto
-                "
-              >
-                {{ project.section.name }}
-              </p>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-card-text>
-      <v-card-text class="text-left">
-        <markdown-it-vue
-          class="md-body"
-          :content="project.text + '...'"
-          :options="markdownOptions"
-        />
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn-cap
-          depressed
-          color="warning"
-          :to="{ name: 'project', params: { id: project.id } }"
-          >Zobacz więcej</v-btn-cap
-        >
-        <v-speed-dial direction="top" v-if="role" v-model="fab" class="ml-2">
-          <template v-slot:activator>
-            <v-btn-cap
-              x-small
-              fab
-              v-model="fab"
-              class="text-body-1 font-weight-bold"
-              color="primary"
-            >
-              <v-icon>mdi-cog</v-icon>
-            </v-btn-cap>
-          </template>
-          <v-btn-cap
-            fab
-            x-small
-            color="orange"
+  <article class="project-card">
+    <div class="project-card__media">
+      <img :src="project.image" :alt="project.name" loading="lazy" />
+    </div>
+    <div class="project-card__body">
+      <span class="project-card__section">
+        <i class="mdi" :class="`mdi-${sectionIcon(project.section.id)}`" aria-hidden="true"></i>
+        {{ project.section.name }}
+      </span>
+      <h3 class="project-card__title">
+        <router-link :to="{ name: 'project', params: { id: project.id } }" class="project-card__link">
+          {{ project.name }}
+        </router-link>
+      </h3>
+      <p class="project-card__description">{{ project.description }}</p>
+      <footer class="project-card__footer">
+        <span class="project-card__more">Szczegóły projektu <i class="mdi mdi-arrow-right" aria-hidden="true"></i></span>
+        <div v-if="isAdministrator" class="project-card__admin">
+          <router-link
             :to="{ name: 'editProject', params: { id: project.id } }"
+            class="btn btn--ghost btn--icon btn--sm"
+            aria-label="Edytuj projekt"
+            title="Edytuj"
           >
-            <v-icon>mdi-pen</v-icon>
-          </v-btn-cap>
-          <v-btn-cap fab x-small color="error" @click="dialog = true">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn-cap>
-        </v-speed-dial>
-      </v-card-actions>
-    </v-card>
-    <confirmation-dialog
-      v-if="dialog"
+            <i class="mdi mdi-pencil-outline"></i>
+          </router-link>
+          <button type="button" class="btn btn--danger-ghost btn--icon btn--sm" aria-label="Usuń projekt" title="Usuń" @click="deleteDialogOpen = true">
+            <i class="mdi mdi-trash-can-outline"></i>
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <ConfirmationDialog
+      v-if="deleteDialogOpen"
+      :text="`Czy chcesz usunąć projekt ${project.name}?`"
       @yes="deleteProject"
-      @no="dialog = false"
-      :text="dialogText"
-    ></confirmation-dialog>
-  </div>
+      @no="deleteDialogOpen = false"
+    />
+  </article>
 </template>
 
-<script lang='ts'>
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { ProjectModel } from '@/models/ProjectModel';
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
+import type { ProjectInfo } from '@/store/modules/projects';
+import { ProjectsService } from '@/services/ProjectsService';
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
+import { sectionIcon } from '@/utils/sections';
 
-@Component
-export default class ProjectCard extends Vue {
-  @Prop() public project!: ProjectModel;
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
-  }
+const props = defineProps<{ project: ProjectInfo }>();
+const store = useStore();
+const deleteDialogOpen = ref(false);
+const isAdministrator = computed<boolean>(() => !!store.getters.isAdministrator);
 
-  get role(): boolean {
-    return this.$store.getters.isAdministrator;
-  }
-
-  private removeMarkdown(text: string) {
-    const removeMd = require('remove-markdown');
-    return removeMd(text);
-  }
-
-  get dialogText() {
-    return 'Czy na pewno chcesz usunąć projekt "' + this.project.title + '"?';
-  }
-
-  get text(): string {
-    return this.removeMarkdown(this.project.text);
-  }
-
-  private deleteProject() {
-    this.$data.dialog = false;
-    this.$emit('delete', this.project.id);
-  }
-
-  private data() {
-    return {
-      fab: false,
-      dialog: false,
-      markdownOptions: {
-        githubToc: {
-          anchorLink: false,
-        },
-      },
-    };
+async function deleteProject() {
+  try {
+    await new ProjectsService().deleteProject(props.project.id);
+    store.dispatch('successMessage', 'Projekt został usunięty');
+    store.dispatch('getPaginatedProjects', { page: 1, pageSize: 10 });
+  } catch (error) {
+    store.dispatch('errorMessage', 'Błąd poczas usuwania projektu!');
+  } finally {
+    deleteDialogOpen.value = false;
   }
 }
 </script>
+
+<style scoped>
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--t) var(--ease), transform var(--t) var(--ease), border-color var(--t);
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--border-strong);
+}
+
+.project-card__media {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.project-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease);
+}
+
+.project-card:hover .project-card__media img {
+  transform: scale(1.04);
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  padding: 22px 24px 18px;
+}
+
+.project-card__section {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.project-card__section .mdi {
+  font-size: 17px;
+}
+
+.project-card__title {
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.project-card__link {
+  color: var(--text);
+}
+
+.project-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.project-card__description {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.project-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  min-height: 50px;
+}
+
+.project-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.project-card__more .mdi {
+  transition: transform var(--t) var(--ease);
+}
+
+.project-card:hover .project-card__more .mdi {
+  transform: translateX(3px);
+}
+
+.project-card__admin {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 2px;
+}
+</style>

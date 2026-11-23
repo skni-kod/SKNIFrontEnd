@@ -1,35 +1,21 @@
 <template>
-  <v-dialog persistent :max-width="maxwidth" value="true">
-    <v-card>
-      <v-card-title class="text-h4 white--text primary px-4 py-3">{{
-        title
-      }}</v-card-title>
-      <v-divider />
-      <v-card-text class="text-h6 px-4 pt-2 pb-0">{{ text }}</v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn-cap color="error" @click="No">Nie</v-btn-cap>
-        <v-btn-cap color="success" @click="Yes">Tak</v-btn-cap>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <BaseDialog :title="title" :max-width="maxwidth" @close="$emit('no')">
+    <p>{{ text }}</p>
+    <template #actions>
+      <button type="button" class="btn btn--secondary" @click="$emit('no')">Anuluj</button>
+      <button type="button" class="btn" :class="danger ? 'btn--danger' : ''" @click="$emit('yes')">
+        {{ confirmText }}
+      </button>
+    </template>
+  </BaseDialog>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import BaseDialog from '@/components/ui/BaseDialog.vue';
 
-@Component
-export default class ConfirmationDialog extends Vue {
-  @Prop({ default: 'Potwierdzenie' }) public readonly title!: string;
-  @Prop({ required: true }) public readonly text!: string;
-  @Prop({ default: 400 }) public readonly maxwidth!: number;
-
-  private Yes() {
-    this.$emit('yes');
-  }
-
-  private No() {
-    this.$emit('no');
-  }
-}
+withDefaults(
+  defineProps<{ title?: string; text: string; maxwidth?: number; confirmText?: string; danger?: boolean }>(),
+  { title: 'Potwierdzenie', maxwidth: 440, confirmText: 'Tak, usuń', danger: true },
+);
+defineEmits<{ yes: []; no: [] }>();
 </script>

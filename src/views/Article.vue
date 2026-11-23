@@ -1,256 +1,206 @@
 <template>
-  <div class="article-section">
-    <div justify="center" v-if="article != undefined" class="mx-1">
-      <SectionHeader
-        :title="article.title"
-        subtitle="artykuły SKNI"
-      ></SectionHeader>
-      <div class="article-actions">
-        <div class="article-date">
-          <v-icon left color="primary">mdi-calendar-today</v-icon>
-          <p class="my-auto">
-            {{ article.creation_date | moment('DD-MM-YYYY') }}
-          </p>
-        </div>
+  <div>
+    <LoadingState v-if="!article" class="page" />
+    <template v-else>
+      <PageHeader narrow :back="backLink" :eyebrow="groupLabel" :title="article.title">
+        <template #meta>
+          <span class="meta-item">
+            <i class="mdi mdi-calendar-blank-outline" aria-hidden="true"></i>
+            <time :datetime="String(article.creation_date)">{{ formatDate(article.creation_date) }}</time>
+          </span>
+          <span v-if="readingTime" class="meta-item">
+            <i class="mdi mdi-clock-outline" aria-hidden="true"></i> {{ readingTime }} min czytania
+          </span>
+        </template>
+        <template v-if="role" #actions>
+          <AdminActions
+            :edit-to="{ name: 'articleEdit', params: { id: article.id } }"
+            :confirm-text="dialogText"
+            @delete="deleteArticle(article.id)"
+          />
+        </template>
+      </PageHeader>
 
-        <div cols="auto" class=" py-1">
-          {{ article.tags.length === 1 ? 'Tag:' : 'Tagi:' }}
-          <a
-            :href="'/tag/' + tag.name"
-            class="text-decoration-none"
-            v-for="(tag, i) in article.tags"
-            :key="i"
-          >
-            <v-hover v-slot:default="{ hover }">
-              <v-chip
-                class="tag"
-                small
-                label
-                style="cursor: pointer"
-                :color="hover ? 'grey' : 'primary'"
+      <div class="page">
+        <div class="container container--narrow article">
+          <div v-if="authors.length || tags.length" class="article__info">
+            <div v-if="authors.length" class="article__authors">
+              <router-link
+                v-for="author in authors"
+                :key="author.id"
+                :to="{ name: 'userProfile', params: { id: (author.profile && author.profile.id) || author.id } }"
+                class="author"
               >
-                <v-icon small left>mdi-tag-outline</v-icon>
-                {{ tag.name }}
-              </v-chip>
-            </v-hover>
-          </a>
-        </div>
-        <div cols="auto" class=" py-1">
-          {{ article.authors.length === 1 ? 'Autor:' : 'Autorzy:' }}
-          <a
-            :href="'/#/user/profile/' + author.id"
-            class="text-decoration-none"
-            v-for="(author, i) in article.authors"
-            :key="i"
-          >
-            <v-hover v-slot:default="{ hover }">
-              <v-chip
-                class="tag"
-                small
-                label
-                style="cursor: pointer"
-                :color="hover ? 'grey' : 'primary'"
+                <UserAvatar :first-name="author.first_name" :last-name="author.last_name" :username="author.username" :size="40" />
+                <span>
+                  <strong>{{ [author.first_name, author.last_name].filter(Boolean).join(' ') || author.username }}</strong>
+                  <small>{{ authors.length === 1 ? 'Autor' : 'Współautor' }}</small>
+                </span>
+              </router-link>
+            </div>
+            <div v-if="tags.length" class="article__tags">
+              <router-link
+                v-for="tag in tags"
+                :key="tag.id ?? tag.name"
+                :to="{ name: 'tag', params: { tag: tag.name } }"
+                class="chip"
               >
-                <div class="svg" v-html="user"></div>
+                <i class="mdi mdi-pound" aria-hidden="true"></i>{{ tag.name }}
+              </router-link>
+            </div>
+          </div>
 
-                {{ author.first_name }} {{ author.last_name }}
-              </v-chip>
-            </v-hover>
-          </a>
+          <MarkdownView class="article__body" :content="article.text" />
+
+          <Gallery class="article__gallery" :imgs="article.gallery" />
+
+          <hr class="divider" />
+
+          <CommentsList :comments="comments" />
         </div>
       </div>
-
-      <v-divider />
-      <div class="article-text">
-        <markdown-it-vue
-          class="md-body text-left"
-          :content="article.text"
-          :options="markdownOptions"
-        />
-      </div>
-      <gallery class="gallery" breakpoints="xs6" :imgs="article.gallery" />
-      <comments-list class="comments" :comments="comments" />
-    </div>
-    <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="role">
-      <template v-slot:activator>
-        <v-btn-cap
-          fab
-          v-model="fab"
-          class="text-body-1 font-weight-bold"
-          color="primary"
-        >
-          <v-icon>mdi-cog</v-icon>
-        </v-btn-cap>
-      </template>
-      <v-btn-cap
-        fab
-        color="orange"
-        :to="{ name: 'articleEdit', params: { id: $route.params.id } }"
-      >
-        <v-icon>mdi-pen</v-icon>
-      </v-btn-cap>
-      <v-btn-cap fab color="error" @click="dialog = true">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn-cap>
-    </v-speed-dial>
-    <confirmation-dialog
-      v-if="dialog"
-      @yes="deleteArticle($route.params.id)"
-      @no="dialog = false"
-      :text="dialogText"
-    ></confirmation-dialog>
+    </template>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { ArticlesService } from '@/services/ArticlesService';
-import { ArticleModel } from '@/models/ArticleModel';
-import SectionHeader from '../components/SectionHeader.vue';
-import Gallery from '../components/Gallery.vue';
-@Component({
-  components: {
-    SectionHeader,
-    Gallery,
-  },
-})
-export default class Article extends Vue {
-  private articlesService!: ArticlesService;
-  private article!: ArticleModel;
+import type { ArticleModel } from '@/models/ArticleModel';
+import PageHeader from '@/components/ui/PageHeader.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
+import UserAvatar from '@/components/ui/UserAvatar.vue';
+import MarkdownView from '@/components/MarkdownView.vue';
+import Gallery from '@/components/Gallery.vue';
+import CommentsList from '@/components/CommentsList.vue';
+import AdminActions from '@/components/AdminActions.vue';
+import { formatDate } from '@/utils/date';
 
-  private beforeCreate() {
-    this.articlesService = new ArticlesService();
-  }
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+const articlesService = new ArticlesService();
+const article = ref<ArticleModel>();
 
-  private mounted() {
-    this.articlesService
-      .getArticle(+this.$route.params.id)
-      .then((article) => {
-        this.article = article;
-      })
-      .catch(() => {
-        this.$router.replace({ name: 'error404' });
-      });
+const role = computed<boolean>(() => !!store.getters.isAdministrator);
+const comments = computed(() => store.getters.comments);
+const authors = computed<any[]>(() => ((article.value?.authors as any[]) || []).filter((a) => a && typeof a === 'object'));
+const tags = computed<any[]>(() => ((article.value?.tags as any[]) || []).filter((t) => t && typeof t === 'object'));
+const isNews = computed(() => article.value?.group === 'News');
+const groupLabel = computed(() => (isNews.value ? 'Aktualności' : 'Artykuły SKNI'));
+const backLink = computed(() =>
+  isNews.value
+    ? { to: { name: 'news' }, label: 'Wszystkie aktualności' }
+    : { to: { name: 'articles' }, label: 'Wszystkie artykuły' },
+);
+const readingTime = computed(() => {
+  const words = (article.value?.text || '').split(/\s+/).filter(Boolean).length;
+  return words > 120 ? Math.max(1, Math.round(words / 200)) : 0;
+});
+const dialogText = computed(() => `Czy na pewno chcesz usunąć artykuł "${article.value?.title}"?`);
 
-    this.$store.dispatch('getComments', this.$route.params.id);
-  }
-
-  private beforeDestroy() {
-    this.$store.dispatch('purgeComments');
-  }
-
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
-  }
-
-  get role(): boolean {
-    return this.$store.getters.isAdministrator;
-  }
-
-  get dialogText() {
-    return 'Czy na pewno chcesz usunąć artykuł "' + this.article.title + '"?';
-  }
-
-  private deleteArticle(id: number) {
-    this.articlesService
-      .deleteArticle(id)
-      .then((res) => {
-        if (res.status === 204) {
-          this.$store.dispatch('successMessage', 'Artykuł został usunięty');
-          this.$router.replace({ name: 'articles', params: { page: '1' } });
-        }
-      })
-      .catch(() => {
-        this.$store.dispatch('errorMessage', 'Błąd poczas usuwania artykułu!');
-      });
-  }
-
-  get comments() {
-    return this.$store.getters.comments;
-  }
-
-  private data() {
-    return {
-      article: this.article,
-      fab: false,
-      dialog: false,
-      user:
-        '<svg viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.21 21v-2a4 4 0 00-4-4h-8a4 4 0 00-4 4v2M12.21 11a4 4 0 100-8 4 4 0 000 8z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-      markdownOptions: {
-        markdownIt: {
-          html: true,
-          linkify: true,
-        },
-        githubToc: {
-          anchorLink: false,
-        },
-      },
-    };
-  }
+function deleteArticle(id: number) {
+  articlesService
+    .deleteArticle(id)
+    .then((res) => {
+      if (res.status === 204) {
+        store.dispatch('successMessage', 'Artykuł został usunięty');
+        router.replace({ name: 'articles', params: { page: '1' } });
+      }
+    })
+    .catch(() => {
+      store.dispatch('errorMessage', 'Błąd poczas usuwania artykułu!');
+    });
 }
+
+onMounted(() => {
+  articlesService
+    .getArticle(Number(route.params.id))
+    .then((result) => {
+      article.value = result;
+      document.title = `${result.title} | SKNI KOD`;
+    })
+    .catch(() => {
+      router.replace({ name: 'error404' });
+    });
+
+  store.dispatch('getComments', route.params.id);
+});
+
+onBeforeUnmount(() => {
+  store.dispatch('purgeComments');
+});
 </script>
 
-<style lang="scss" scoped>
-@use '@/styles/helpers' as *;
-@use '@/styles/components/buttons';
+<style scoped>
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
 
-.article-section {
-  margin-top: 50px;
-  @include responsiveLayout();
-  row-gap: 50px;
-  width: 100%;
+.meta-item .mdi {
+  font-size: 17px;
+  color: var(--text-subtle);
+}
 
-  .section-header {
-    margin-bottom: 100px;
-    text-align: center;
-  }
-  .article-actions {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.article {
+  display: grid;
+  gap: 40px;
+}
 
-    .article-date {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.article__info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
 
-    .tag {
-      transition: background-color 0.3s, border-color 0.3s;
-      color: #fff;
-      padding: 15px 20px;
-    }
-  }
+.article__authors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
 
-  .article-text {
-    margin: 50px 0;
-  }
-  .svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-  }
+.author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text);
+}
 
-  .gallery {
-    margin: 50px 0;
-  }
+.author span {
+  display: grid;
+  line-height: 1.3;
+}
 
-  .comments {
-    margin: 50px 0;
-  }
+.author strong {
+  font-size: 15px;
+  transition: color var(--t-fast);
+}
 
-  @media only screen and (max-width: 768px) {
-    .article-actions {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-direction: column;
-      & > div {
-        margin-bottom: 15px;
-      }
-    }
-  }
+.author:hover strong {
+  color: var(--primary);
+}
+
+.author small {
+  color: var(--text-subtle);
+  font-size: 13px;
+}
+
+.article__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.article__tags .mdi {
+  font-size: 14px;
+  margin-right: -2px;
 }
 </style>

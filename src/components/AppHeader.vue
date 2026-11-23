@@ -1,442 +1,561 @@
 <template>
-  <header
-    class="header"
-    :class="{ 'is-pinned': isPinned, 'menu-open': menuOpen }"
-  >
-    <div class="header-wrapper">
-      <router-link
-        class="header-nav-item-link"
-        :to="{ name: 'home' }"
-        @click="handleNavLinkClick"
-      >
-        <img :src="require('@/assets/logo_small.png')" class="header-logo" />
+  <header class="header" :class="{ 'is-scrolled': scrolled }">
+    <div class="container header__inner">
+      <router-link :to="{ name: 'home' }" class="header__brand" aria-label="SKNI KOD, strona główna">
+        <img src="@/assets/logo_small.png" alt="SKNI KOD" class="header__logo" width="125" height="46" />
       </router-link>
 
-      <nav class="header-nav">
-        <router-link
-          class="mobile-drawer-logo-link"
-          :to="{ name: 'home' }"
-          @click="handleNavLinkClick"
-        >
-          <img
-            :src="require('@/assets/logo_small.png')"
-            class="mobile-drawer-logo"
-          />
+      <nav class="nav" aria-label="Nawigacja główna">
+        <router-link v-for="link in links" :key="link.label" :to="link.to" class="nav__link">
+          {{ link.label }}
         </router-link>
-
-        <ul class="header-nav-wrapper">
-          <li class="header-nav-item" @click="handleNavLinkClick">
-            <router-link class="header-nav-item-link" :to="{ name: 'about' }"
-              >O nas</router-link
-            >
-          </li>
-
-          <li class="header-nav-item" @click="handleNavLinkClick">
-            <router-link class="header-nav-item-link" :to="{ name: 'news' }"
-              >Aktualności</router-link
-            >
-          </li>
-
-          <li class="header-nav-item" @click="handleNavLinkClick">
-            <router-link class="header-nav-item-link" :to="{ name: 'articles' }"
-              >Artykuły</router-link
-            >
-          </li>
-
-          <!-- <li class="header-nav-item" @click="handleNavLinkClick">
-            <router-link class="header-nav-item-link" :to="{ name: 'sections' }">Sekcje</router-link>
-          </li> -->
-
-          <li class="header-nav-item" @click="handleNavLinkClick">
-            <router-link class="header-nav-item-link" :to="{ name: 'projects' }"
-              >Projekty</router-link
-            >
-          </li>
-
-          <li
-            class="header-nav-item"
-            @click="handleNavLinkClick"
-            v-if="isLoggedIn"
-          >
-            <router-link class="header-nav-item-link" :to="{ name: 'hardware' }"
-              >Sprzęt</router-link
-            >
-          </li>
-
-          <li class="header-nav-item junior" @click="handleNavLinkClick">
-            <a
-              class="header-nav-item-link"
-              href="https://kod.prz.edu.pl/junior"
-              target="_blank"
-              >Junior</a
-            >
-          </li>
-
-          <li
-            class="header-nav-item"
-            @click="handleNavLinkClick"
-            v-if="!isLoggedIn"
-          >
-            <router-link class="header-nav-item-link" :to="{ name: 'login' }"
-              >Logowanie</router-link
-            >
-          </li>
-
-          <li
-            class="header-nav-item"
-            @click="handleNavLinkClick"
-            v-if="isLoggedIn"
-          >
-            <router-link class="header-nav-item-link" :to="{ name: 'userPanel' }"
-              >Panel</router-link
-            >
-          </li>
-
-          <li
-            class="header-nav-item"
-            @click="handleNavLinkClick"
-            v-if="isAdministrator"
-          >
-            <router-link class="header-nav-item-link" :to="{ name: 'adminPanel' }"
-              >Panel admina</router-link
-            >
-          </li>
-
-          <li
-            class="header-nav-item"
-            @click="handleLogoutClick"
-            v-if="isLoggedIn"
-          >
-            <button class="header-nav-item-link">Wyloguj</button>
-          </li>
-        </ul>
-
-        <div class="drawer-links">
-          <a
-            href="https://www.facebook.com/skni.kod"
-            class="drawer-link"
-            target="_blank"
-          >
-            <facebook-icon />
-          </a>
-
-          <a
-            href="https://www.instagram.com/skni.kod/"
-            class="drawer-link"
-            target="_blank"
-          >
-            <instagram-icon />
-          </a>
-
-          <a
-            href="https://www.linkedin.com/company/78064192"
-            class="drawer-link"
-            target="_blank"
-          >
-            <linkedin-icon />
-          </a>
-        </div>
+        <a :href="JUNIOR_URL" target="_blank" rel="noopener" class="nav__link nav__link--junior">
+          Junior <i class="mdi mdi-arrow-top-right" aria-hidden="true"></i>
+        </a>
       </nav>
 
-      <button
-        :class="{
-          hamburger: true,
-          'hamburger--squeeze': true,
-          'is-active': menuOpen,
-        }"
-        type="button"
-        @click="toggleMenu"
-      >
-        <span class="hamburger-box">
-          <span class="hamburger-inner"></span>
-        </span>
-      </button>
+      <div class="header__actions">
+        <router-link v-if="!isLoggedIn" :to="{ name: 'login' }" class="btn btn--sm header__login">
+          <i class="mdi mdi-login" aria-hidden="true"></i>
+          Zaloguj się
+        </router-link>
+
+        <div v-else ref="accountRoot" class="account">
+          <button
+            type="button"
+            class="account__trigger"
+            :aria-expanded="accountOpen"
+            aria-haspopup="menu"
+            @click="accountOpen = !accountOpen"
+          >
+            <span class="avatar" aria-hidden="true">{{ initials }}</span>
+            <span class="account__name">{{ displayName }}</span>
+            <i class="mdi mdi-chevron-down" aria-hidden="true"></i>
+          </button>
+          <Transition name="pop">
+            <div v-if="accountOpen" class="account__menu" role="menu">
+              <div class="account__head">
+                <strong>{{ fullName }}</strong>
+                <span v-if="user && user.username">@{{ user.username }}</span>
+              </div>
+              <router-link :to="{ name: 'userPanel' }" class="account__item" role="menuitem">
+                <i class="mdi mdi-view-dashboard-outline"></i> Mój panel
+              </router-link>
+              <router-link v-if="isAdministrator" :to="{ name: 'adminPanel' }" class="account__item" role="menuitem">
+                <i class="mdi mdi-shield-crown-outline"></i> Panel administratora
+              </router-link>
+              <button type="button" class="account__item account__item--danger" role="menuitem" @click="logout">
+                <i class="mdi mdi-logout"></i> Wyloguj
+              </button>
+            </div>
+          </Transition>
+        </div>
+
+        <button
+          type="button"
+          class="burger"
+          :class="{ 'is-open': menuOpen }"
+          :aria-expanded="menuOpen"
+          aria-controls="mobile-menu"
+          aria-label="Menu"
+          @click="menuOpen = !menuOpen"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
 
-    <div class="drawer-overlay" @click="toggleMenu"></div>
+    <Teleport to="body">
+    <Transition name="fade">
+      <div v-if="menuOpen" class="drawer-overlay" @click="menuOpen = false"></div>
+    </Transition>
+    <Transition name="slide">
+      <aside v-if="menuOpen" id="mobile-menu" class="drawer" aria-label="Menu mobilne">
+        <div class="drawer__head">
+          <img src="@/assets/logo_small.png" alt="SKNI KOD" class="header__logo" />
+          <button type="button" class="btn btn--ghost btn--icon" aria-label="Zamknij menu" @click="menuOpen = false">
+            <i class="mdi mdi-close"></i>
+          </button>
+        </div>
+        <nav class="drawer__nav">
+          <router-link v-for="link in links" :key="link.label" :to="link.to" class="drawer__link">
+            {{ link.label }}
+          </router-link>
+          <a :href="JUNIOR_URL" target="_blank" rel="noopener" class="drawer__link drawer__link--junior">
+            Junior <i class="mdi mdi-arrow-top-right"></i>
+          </a>
+        </nav>
+        <div class="drawer__account">
+          <template v-if="isLoggedIn">
+            <router-link :to="{ name: 'userPanel' }" class="btn btn--secondary btn--block">
+              <i class="mdi mdi-view-dashboard-outline"></i> Mój panel
+            </router-link>
+            <router-link v-if="isAdministrator" :to="{ name: 'adminPanel' }" class="btn btn--secondary btn--block">
+              <i class="mdi mdi-shield-crown-outline"></i> Panel administratora
+            </router-link>
+            <button type="button" class="btn btn--danger-ghost btn--block" @click="logout">
+              <i class="mdi mdi-logout"></i> Wyloguj
+            </button>
+          </template>
+          <template v-else>
+            <router-link :to="{ name: 'login' }" class="btn btn--block">Zaloguj się</router-link>
+            <router-link :to="{ name: 'register' }" class="btn btn--secondary btn--block">Załóż konto</router-link>
+          </template>
+        </div>
+        <div class="drawer__social">
+          <a
+            v-for="social in socialLinks"
+            :key="social.link"
+            :href="social.link"
+            target="_blank"
+            rel="noopener"
+            class="btn btn--ghost btn--icon"
+            :aria-label="social.title"
+          >
+            <i class="mdi" :class="`mdi-${social.icon}`"></i>
+          </a>
+        </div>
+      </aside>
+    </Transition>
+    </Teleport>
   </header>
 </template>
 
-<script lang="ts">
-import { FooterModel } from '@/models/FooterModel';
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
-import FacebookIcon from '@/assets/icons/facebook.svg?inline';
-import InstagramIcon from '@/assets/icons/instagram.svg?inline';
-import LinkedinIcon from '@/assets/icons/linkedin.svg?inline';
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import { useSocialLinks } from '@/composables/useSocialLinks';
 
-@Component({
-  components: {
-    FacebookIcon,
-    LinkedinIcon,
-    InstagramIcon,
-  },
-})
-export default class AppHeader extends Vue {
-  isPinned = false;
-  menuOpen = false;
-  links: FooterModel[] = [];
+const JUNIOR_URL = 'https://kod.prz.edu.pl/junior';
 
-  get isLoggedIn() {
-    return this.$store.getters.isAuthenticated;
+const store = useStore();
+const route = useRoute();
+const socialLinks = useSocialLinks();
+
+const scrolled = ref(false);
+const menuOpen = ref(false);
+const accountOpen = ref(false);
+const accountRoot = ref<HTMLElement>();
+
+const isLoggedIn = computed<boolean>(() => store.getters.isAuthenticated);
+const isAdministrator = computed<boolean>(() => !!store.getters.isAdministrator);
+const user = computed(() => store.getters.user);
+
+const fullName = computed(() => {
+  const u = user.value;
+  if (!u) {
+    return 'Użytkownik';
   }
-
-  get isAdministrator() {
-    return this.$store.getters.isAdministrator;
+  return [u.first_name, u.last_name].filter(Boolean).join(' ') || u.username;
+});
+const displayName = computed(() => (user.value && (user.value.first_name || user.value.username)) || 'Konto');
+const initials = computed(() => {
+  const u = user.value;
+  if (!u) {
+    return '?';
   }
+  const parts = [u.first_name, u.last_name].filter(Boolean);
+  const source = parts.length ? parts.map((p: string) => p[0]).join('') : (u.username || '?').slice(0, 2);
+  return source.toUpperCase();
+});
 
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
-  }
+const links = computed(() => [
+  { label: 'O nas', to: { name: 'about' } },
+  { label: 'Aktualności', to: { name: 'news' } },
+  { label: 'Artykuły', to: { name: 'articles' } },
+  { label: 'Projekty', to: { name: 'projects' } },
+  ...(isLoggedIn.value ? [{ label: 'Sprzęt', to: { name: 'hardwareList' } }] : []),
+]);
 
-  handleNavLinkClick() {
-    this.menuOpen = false;
-  }
+function logout() {
+  menuOpen.value = false;
+  accountOpen.value = false;
+  store.dispatch('logout');
+}
 
-  mounted() {
-    window.addEventListener('scroll', this.onScroll);
-  }
+function onScroll() {
+  scrolled.value = window.scrollY > 8;
+}
 
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll);
-  }
-
-  onScroll() {
-    if (window.scrollY > 5 && !this.isPinned) {
-      requestAnimationFrame(() => (this.isPinned = true));
-    } else if (window.scrollY <= 5 && this.isPinned) {
-      requestAnimationFrame(() => (this.isPinned = false));
-    }
-  }
-
-  handleLogoutClick() {
-    this.$store.dispatch('logout');
-    this.menuOpen = false;
+function onOutside(event: MouseEvent) {
+  if (accountOpen.value && accountRoot.value && !accountRoot.value.contains(event.target as Node)) {
+    accountOpen.value = false;
   }
 }
-</script>
 
-<style lang="scss" scoped>
-@use '@/styles/helpers' as *;
+function onKey(event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    menuOpen.value = false;
+    accountOpen.value = false;
+  }
+}
 
-@use '~hamburgers/_sass/hamburgers/hamburgers' with (
-  $hamburger-types: (squeeze),
-  $hamburger-layer-width: 30px,
-  $hamburger-layer-height: 3px,
-  $hamburger-layer-spacing: 4px,
-  $hamburger-active-layer-color: $primary
+watch(
+  () => route.fullPath,
+  () => {
+    menuOpen.value = false;
+    accountOpen.value = false;
+  },
 );
 
+watch(menuOpen, (open) => {
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+
+onMounted(() => {
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  document.addEventListener('mousedown', onOutside);
+  document.addEventListener('keydown', onKey);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', onScroll);
+  document.removeEventListener('mousedown', onOutside);
+  document.removeEventListener('keydown', onKey);
+});
+</script>
+
+<style scoped>
 .header {
-  @include responsiveLayout();
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-h);
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--t), box-shadow var(--t);
+}
+
+.header.is-scrolled {
+  border-bottom-color: var(--border);
+  box-shadow: 0 6px 24px -18px rgba(15, 23, 42, 0.4);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 100%;
+}
+
+.header__brand {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.header__logo {
+  height: 40px;
+  width: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: auto;
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 500;
+  transition: color var(--t-fast), background-color var(--t-fast);
+}
+
+.nav__link:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.nav__link.router-link-active {
+  color: var(--primary);
+}
+
+.nav__link.router-link-active::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -14px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--primary);
+}
+
+.nav__link--junior {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.nav__link--junior .mdi {
+  font-size: 15px;
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.account {
+  position: relative;
+}
+
+.account__trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px 4px 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.account__trigger:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-xs);
+}
+
+.account__trigger .mdi {
+  color: var(--text-subtle);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.account__name {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account__menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 250px;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.account__head {
+  display: grid;
+  padding: 10px 12px 12px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.account__head span {
+  color: var(--text-subtle);
+  font-size: 13px;
+}
+
+.account__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.account__item .mdi {
+  font-size: 18px;
+  color: var(--text-subtle);
+}
+
+.account__item:hover {
+  background: var(--surface);
+}
+
+.account__item--danger,
+.account__item--danger .mdi {
+  color: var(--danger);
+}
+
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+}
+
+.burger span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text);
+  transition: transform var(--t), opacity var(--t);
+}
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: rgba(7, 18, 38, 0.5);
+}
+
+.drawer {
   position: fixed;
   top: 0;
-  width: 100%;
-  z-index: 99;
+  right: 0;
+  bottom: 0;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: min(360px, 88vw);
+  padding: 16px 20px 24px;
+  overflow-y: auto;
+  background: #fff;
+  box-shadow: var(--shadow-lg);
+}
 
-  transition: height 0.3s, box-shadow 0.3s;
-  height: 150px;
+.drawer__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  &.is-pinned {
-    background-color: $body-bg;
-    box-shadow: 0 0px 40px 0 $shadow-color;
-    height: 100px;
+.drawer__nav {
+  display: grid;
+  gap: 2px;
+}
 
-    .header-logo {
-      height: 60px;
-      width: auto;
-    }
-  }
+.drawer__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 500;
+}
 
-  .header-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 0;
-    height: 100%;
-    position: relative;
-  }
+.drawer__link:hover {
+  background: var(--surface);
+}
 
-  .header-logo {
-    height: 80px;
-    width: auto;
-    transition: height 0.3s;
-  }
+.drawer__link.router-link-active {
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
 
-  .hamburger {
+.drawer__link--junior {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.drawer__account {
+  display: grid;
+  gap: 8px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.drawer__social {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.drawer__social .mdi {
+  font-size: 22px;
+}
+
+.pop-enter-active,
+.pop-leave-active {
+  transition: opacity var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+
+.pop-enter-from,
+.pop-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--t) var(--ease);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform var(--t) var(--ease);
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(100%);
+}
+
+@media (max-width: 1023px) {
+  .nav {
     display: none;
-
-    .hamburger-box {
-      margin-bottom: -3px;
-    }
   }
 
-  @include media-breakpoint-down('lg') {
-    .hamburger {
-      display: block;
+  .header__actions {
+    margin-left: auto;
+  }
 
-      &.is-active {
-        background-color: $body-bg;
-        border-radius: 10px;
-        box-shadow: 0 0 20px #ddd;
-      }
-    }
+  .burger {
+    display: flex;
+  }
 
-    .drawer-overlay {
-      position: fixed;
-      inset: 0;
-      background-color: #fff;
-      z-index: -1;
-      cursor: pointer;
-      transition: opacity 0.3s;
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    &.menu-open {
-      .drawer-overlay {
-        opacity: 0.8;
-        pointer-events: initial;
-      }
-
-      .header-wrapper .header-nav {
-        box-shadow: 0px 0px 50px $shadow-color;
-        transform: translateX(0);
-      }
-    }
+  .account__name {
+    display: none;
   }
 }
 
-.header-nav {
-  font-size: 18px;
-  font-weight: 400;
-  color: $text-color;
-  font-family: Montserrat;
-
-  .header-nav-wrapper {
-    list-style: none;
-    display: flex;
-    gap: 50px;
-    height: 55px;
-    align-items: center;
-
-    .header-nav-item {
-      .header-nav-item-link {
-        color: unset;
-        text-decoration: none;
-        transition: color 0.3s;
-        position: relative;
-
-        &:hover {
-          color: $primary;
-        }
-
-        &.router-link-active {
-          &::after {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 3px;
-            background-color: $primary;
-            border-radius: 20px;
-            position: absolute;
-            bottom: -15px;
-          }
-        }
-      }
-
-      &.junior {
-        color: $primary;
-        font-weight: 600;
-      }
-    }
-  }
-
-  .mobile-drawer-logo-link {
+@media (max-width: 479px) {
+  .header__login {
     display: none;
-  }
-
-  .drawer-links {
-    display: none;
-  }
-
-  @include media-breakpoint-down('lg') {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    background-color: $body-bg;
-    width: 80%;
-    max-width: 350px;
-    padding: 30px 0;
-    transform: translateX(-100%);
-    box-shadow: 0px 0px 0 $shadow-color;
-    transition: transform 0.3s, box-shadow 0.3s;
-    display: flex;
-    flex-direction: column;
-
-    .drawer-links {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      gap: 20px;
-      align-items: center;
-
-      .drawer-link {
-        transition: color 0.3s;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        color: $text-color;
-
-        svg {
-          width: 24px;
-          height: 24px;
-        }
-
-        &:hover {
-          color: $primary;
-        }
-      }
-    }
-
-    .header-nav-wrapper {
-      flex-direction: column;
-      height: auto;
-      gap: 0;
-      padding: 0;
-      margin-bottom: auto;
-
-      .header-nav-item {
-        width: 100%;
-
-        .header-nav-item-link {
-          display: block;
-          padding: 15px 30px;
-
-          &.router-link-active {
-            &::after {
-              width: 3px;
-              height: calc(100% - 20px);
-              bottom: 10px;
-              left: 12px;
-            }
-          }
-        }
-      }
-    }
-
-    .mobile-drawer-logo-link {
-      padding: 0 30px 30px;
-      display: flex;
-      justify-content: center;
-
-      .mobile-drawer-logo {
-        height: 70px;
-      }
-    }
   }
 }
 </style>

@@ -1,78 +1,59 @@
 <template>
-  <v-row class="fill-height mx-1" align="center" justify="center">
-    <v-col cols="12" sm="11" md="10" lg="8" xl="6">
-      <v-row class="fill-height ma-2" align="center" justify="center">
-        <v-card width="1200">
-          <v-card-title class="white--text primary"
-            >Zmień opis profilu</v-card-title
-          >
-          <v-card-text class="py-0">
-            <markdown-editor
-              v-model="text"
-              label="Opis profilu"
-            ></markdown-editor>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn-cap color="success" @click="editDescription">
-              <v-icon left>mdi-content-save</v-icon>
-              <span>Zapisz zmiany</span>
-            </v-btn-cap>
-            <v-btn-cap color="error" :to="{ name: 'userPanel' }">
-              <v-icon left>mdi-cancel</v-icon>
-              <span>Anuluj edycję</span>
-            </v-btn-cap>
-          </v-card-actions>
-        </v-card>
-      </v-row>
-    </v-col>
-  </v-row>
+  <div>
+    <PageHeader
+      eyebrow="Mój panel"
+      title="Opis profilu"
+      description="Opis jest widoczny publicznie na Twoim profilu."
+      :back="{ to: { name: 'userPanel' }, label: 'Mój panel' }"
+    />
+    <div class="page page--editor">
+      <div class="container editor editor--single">
+        <div class="editor__main">
+          <FormCard>
+            <MarkdownEditor v-model="text" label="Opis profilu" :with-images="false" />
+          </FormCard>
+        </div>
+      </div>
+    </div>
+    <EditorActions
+      text="Czy na pewno chcesz wyjść bez zapisywania zmian w opisie profilu?"
+      save-text="Zapisz zmiany"
+      discard-text="Anuluj"
+      @save-changes="editDescription"
+      @discard-changes="router.push({ name: 'userPanel' })"
+    />
+  </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import beAxios from '@/axios';
+import PageHeader from '@/components/ui/PageHeader.vue';
+import FormCard from '@/components/editor/FormCard.vue';
+import MarkdownEditor from '@/components/editor/MarkdownEditor.vue';
+import EditorActions from '@/components/editor/EditorActions.vue';
 
-@Component
-export default class UserEdit extends Vue {
-  private created() {
-    this.$data.text = this.profile.description;
-  }
+const store = useStore();
+const router = useRouter();
+const profile = computed(() => store.getters.profile);
+const text = ref<string>((profile.value && profile.value.description) || '');
 
-  private editDescription() {
-    beAxios
-      .patch(
-        'api/profiles/' + this.profile.id + '/',
-        {
-          description: this.$data.text,
-        },
-        {
-          headers: {
-            Authorization: 'Bearer ' + this.$store.getters.token,
-          },
-        },
-      )
-      .then(() => {
-        this.$store.dispatch('fetchUserProfile');
-        this.$store.dispatch(
-          'successMessage',
-          'Opis profilu został zaktualizowany',
-        );
-        this.$router.push({ name: 'userPanel' });
-      })
-      .catch(() => {
-        this.$store.dispatch('errorMessage', 'Błąd przy aktualizacji profilu!');
-      });
-  }
-
-  get profile() {
-    return this.$store.getters.profile;
-  }
-
-  private data() {
-    return {
-      text: '',
-    };
-  }
+function editDescription() {
+  beAxios
+    .patch(
+      'api/profiles/' + profile.value.id + '/',
+      { description: text.value },
+      { headers: { Authorization: 'Bearer ' + store.getters.token } },
+    )
+    .then(() => {
+      store.dispatch('fetchUserProfile');
+      store.dispatch('successMessage', 'Opis profilu został zaktualizowany');
+      router.push({ name: 'userPanel' });
+    })
+    .catch(() => {
+      store.dispatch('errorMessage', 'Błąd przy aktualizacji profilu!');
+    });
 }
 </script>

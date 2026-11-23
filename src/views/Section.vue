@@ -1,203 +1,178 @@
 <template>
-  <div class="mt-2 section">
-    <v-row justify="center" v-if="section != undefined">
-      <v-col cols="12" sm="11" md="10" lg="9" xl="8">
-        <v-card tile outlined class="rounded-lg">
-          <v-card-title
-            class="mb-2 primary elevation-5"
-            style="word-break: break-word"
-          >
-            <v-row class="mx-auto">
-              <v-col cols="auto" class="text-center py-0">
-                <v-row justify="center" class="flex-column ma-0 fill-height">
-                  <v-icon x-large left class="white--text">{{
-                    'mdi-' + section.icon
-                  }}</v-icon>
-                </v-row>
-              </v-col>
-              <v-col class="pa-0">
-                <v-row justify="center" class="flex-column ma-0 fill-height">
-                  <p
-                    class="
-                      white--text
-                      text-left text-h6
-                      font-weight-black
-                      my-auto
-                    "
-                  >
-                    {{ section.name }}
-                  </p>
-                </v-row>
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-subtitle class="text-left pb-0"> </v-card-subtitle>
-          <v-card-text class="pa-4">
-            <markdown-it-vue
-              class="md-body text-left"
-              :content="section.description"
-              :options="markdownOptions"
-            />
-          </v-card-text>
-          <div v-if="projects.length > 0">
-            <v-divider></v-divider>
-            <v-card-title class="justify-center">Nasze projekty</v-card-title>
-            <v-card-text>
-              <v-row justify="center">
-                <v-col
-                  cols="auto"
-                  v-for="project in projects"
-                  :key="project.title"
-                >
-                  <v-hover>
-                    <template v-slot:default="{ hover }">
-                      <v-chip
-                        large
-                        :color="hover ? 'grey lighten-1' : ''"
-                        style="cursor: pointer"
-                        :to="{ name: 'project', params: { id: project.id } }"
-                      >
-                        <v-icon left>mdi-file-cog</v-icon>
-                        <span>{{ project.title }}</span>
-                      </v-chip>
-                    </template>
-                  </v-hover>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </div>
-        </v-card>
-        <gallery breakpoints="xs6" :imgs="section.gallery" />
-      </v-col>
-    </v-row>
-    <v-speed-dial fixed right bottom direction="top" v-model="fab" v-if="role">
-      <template v-slot:activator>
-        <v-btn-cap
-          fab
-          v-model="fab"
-          class="text-body-1 font-weight-bold"
-          color="primary"
-        >
-          <v-icon>mdi-cog</v-icon>
-        </v-btn-cap>
-      </template>
-      <v-btn-cap
-        fab
-        color="orange"
-        :to="{ name: 'sectionEdit', params: { id: $route.params.id } }"
-      >
-        <v-icon>mdi-pen</v-icon>
-      </v-btn-cap>
-      <v-btn-cap fab color="error" @click="dialog = true">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn-cap>
-    </v-speed-dial>
-    <confirmation-dialog
-      v-if="dialog"
-      @yes="deletesection($route.params.id)"
-      @no="dialog = false"
-      :text="dialogText"
-    ></confirmation-dialog>
+  <div>
+    <LoadingState v-if="!section" class="page" />
+    <template v-else>
+      <PageHeader :back="{ to: { name: 'home', hash: '#sections' }, label: 'Wszystkie sekcje' }" eyebrow="Sekcja SKNI KOD">
+        <template #title>
+          <span class="title">
+            <span class="title__icon" aria-hidden="true"><i class="mdi" :class="`mdi-${section.icon || 'folder-outline'}`"></i></span>
+            {{ section.name }}
+          </span>
+        </template>
+        <template v-if="role" #actions>
+          <AdminActions
+            :edit-to="{ name: 'sectionEdit', params: { id: section.id } }"
+            :confirm-text="`Czy na pewno chcesz usunąć sekcję ${section.name}?`"
+            @delete="deleteSection(section.id)"
+          />
+        </template>
+      </PageHeader>
+
+      <div class="page">
+        <div class="container content">
+          <MarkdownView class="content__text" :content="section.description" />
+
+          <section v-if="projects.length" class="content__projects">
+            <h2 class="content__heading">Projekty sekcji</h2>
+            <div class="projects">
+              <router-link
+                v-for="project in projects"
+                :key="project.id"
+                :to="{ name: 'project', params: { id: project.id } }"
+                class="project-link card"
+              >
+                <i class="mdi mdi-folder-outline" aria-hidden="true"></i>
+                <span>{{ project.title }}</span>
+                <i class="mdi mdi-arrow-right project-link__arrow" aria-hidden="true"></i>
+              </router-link>
+            </div>
+          </section>
+
+          <Gallery :imgs="section.gallery" />
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { SectionsService } from '@/services/SectionsService';
 import { ProjectsService } from '@/services/ProjectsService';
-import { SectionModel } from '@/models/SectionModel';
-import { ProjectModel } from '@/models/ProjectModel';
+import type { SectionModel } from '@/models/SectionModel';
+import type { ProjectModel } from '@/models/ProjectModel';
+import PageHeader from '@/components/ui/PageHeader.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
+import MarkdownView from '@/components/MarkdownView.vue';
+import Gallery from '@/components/Gallery.vue';
+import AdminActions from '@/components/AdminActions.vue';
 
-@Component
-export default class Section extends Vue {
-  private projectsService!: ProjectsService;
-  private sectionsService!: SectionsService;
-  private section!: SectionModel;
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+const projectsService = new ProjectsService();
+const sectionsService = new SectionsService();
+const section = ref<SectionModel>();
+const projects = ref<ProjectModel[]>([]);
+const role = computed<boolean>(() => !!store.getters.isAdministrator);
 
-  private beforeCreate() {
-    this.projectsService = new ProjectsService();
-    this.sectionsService = new SectionsService();
-  }
-
-  private created() {
-    if (this.$route.params.id) {
-      this.sectionsService
-        .getSection(+this.$route.params.id)
-        .then((res) => {
-          this.projectsService.getAllProjects().then((proj) => {
-            const filtered = proj.filter((el: ProjectModel) => {
-              return (el.section as SectionModel).name === res.data.name;
-            });
-            this.$data.projects = filtered;
-          });
-          this.$data.section = res.data;
-        })
-        .catch(() => {
-          this.$router.replace({ name: 'error404' });
-        });
-    } else {
-      this.$router.replace({ name: 'sections' });
-    }
-  }
-
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
-  }
-  get role(): boolean {
-    return this.$store.getters.isAdministrator;
-  }
-  get dialogText() {
-    return (
-      'Czy na pewno chcesz usunąć artykuł "' + this.$data.section.title + '"?'
-    );
-  }
-
-  private deletesection(id: number) {
-    this.sectionsService
-      .deleteSection(id)
-      .then((res) => {
-        if (res.status === 204) {
-          this.$store.dispatch('successMessage', 'Sekcja została usunięta');
-          this.$router.replace({ name: 'sections', params: { page: '1' } });
-        }
-      })
-      .catch(() => {
-        this.$store.dispatch('errorMessage', 'Błąd poczas usuwania projektu!');
-      });
-  }
-
-  private data() {
-    return {
-      section: this.section,
-      projects: [],
-      fab: false,
-      dialog: false,
-      markdownOptions: {
-        markdownIt: {
-          html: true,
-          linkify: true,
-        },
-        githubToc: {
-          anchorLink: false,
-        },
-      },
-    };
-  }
+function deleteSection(id: number) {
+  sectionsService
+    .deleteSection(id)
+    .then((res) => {
+      if (res.status === 204) {
+        store.dispatch('successMessage', 'Sekcja została usunięta');
+        router.replace({ name: 'sections' });
+      }
+    })
+    .catch(() => {
+      store.dispatch('errorMessage', 'Błąd poczas usuwania projektu!');
+    });
 }
+
+onMounted(() => {
+  if (!route.params.id) {
+    router.replace({ name: 'sections' });
+    return;
+  }
+  sectionsService
+    .getSection(Number(route.params.id))
+    .then((res) => {
+      projectsService.getAllProjects().then((proj) => {
+        projects.value = proj.filter((el: ProjectModel) => (el.section as SectionModel).name === res.data.name);
+      });
+      section.value = res.data;
+      document.title = `${res.data.name} | SKNI KOD`;
+    })
+    .catch(() => {
+      router.replace({ name: 'error404' });
+    });
+});
 </script>
 
-<style scoped lang="scss">
-@use '@/styles/helpers' as *;
-@use '@/styles/components/buttons';
+<style scoped>
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
 
-.section {
-  margin-top: 50px;
-  @include responsiveLayout();
-  row-gap: 50px;
-  width: 100%;
+.title__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  font-size: 28px;
+}
 
-  .theme--light.v-sheet--outlined {
-    background: transparent;
-  }
+.content {
+  display: grid;
+  gap: 56px;
+}
+
+.content__text {
+  max-width: var(--container-narrow);
+}
+
+.content__projects {
+  display: grid;
+  gap: 20px;
+}
+
+.content__heading {
+  font-size: 24px;
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.project-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  color: var(--text);
+  font-weight: 600;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.project-link:hover {
+  border-color: var(--primary-soft-2);
+  box-shadow: var(--shadow-sm);
+}
+
+.project-link .mdi {
+  font-size: 20px;
+  color: var(--primary);
+}
+
+.project-link__arrow {
+  margin-left: auto;
+  color: var(--text-subtle) !important;
+  transition: transform var(--t) var(--ease);
+}
+
+.project-link:hover .project-link__arrow {
+  transform: translateX(3px);
+  color: var(--primary) !important;
 }
 </style>

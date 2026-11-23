@@ -1,141 +1,133 @@
 <template>
   <div>
-    <p
-      class="text-h4 text-center font-weight-bold justify-center ma-2"
-      style="word-break: break-word"
-    >
-      Sponsor
-    </p>
-
-    <v-card outlined>
-      <v-card-text>
-        <v-form v-if="sponsor" v-model="inputValidated">
-
-          <v-text-field
-            label="id"
-            v-if="modifing"
-            v-model="sponsor.id"
-            :readonly = true
-          ></v-text-field>
-
-
-          <v-text-field
-            clearable
-            label="Nazwa"
-            v-model="sponsor.name"
-            :rules="[required]"
-          ></v-text-field>
-
-          <v-text-field
-            clearable
-            label="Link"
-            v-model="sponsor.url"
-            :rules="[required]"
-          ></v-text-field>
-
-          <div v-if="sponsor.logo">
-            <p class="font-weight-regular">
-              Poprzednie logo
-            </p>
-
-            <v-img
-              contain
-              :src="mediaURL + sponsor.logo"
-            />
+    <PageHeader
+      eyebrow="Panel administratora"
+      :title="modifing ? 'Edycja sponsora' : 'Nowy sponsor'"
+      :back="{ to: { name: 'adminPanel', params: { module: 'sponsors' } }, label: 'Sponsorzy' }"
+    />
+    <LoadingState v-if="!sponsor" class="page" />
+    <div v-else class="page">
+      <div class="container container--narrow">
+        <form class="card card--pad form" novalidate @submit.prevent="add">
+          <TextField v-if="modifing" :model-value="String(sponsor.id)" label="ID" readonly />
+          <TextField v-model="sponsor.name" label="Nazwa" required :error="errors.name" :show-error="submitted" />
+          <TextField v-model="sponsor.url" label="Link" required icon="link-variant" :error="errors.url" :show-error="submitted" />
+          <div v-if="sponsor.logo" class="current-logo">
+            <span class="field__label">Obecne logo</span>
+            <img :src="mediaUrl(sponsor.logo)" :alt="sponsor.name" />
           </div>
-
-          <v-file-input
-            v-model="image"
-            label="Logo"
-            accept=".jpg, .jpeg, .png, .bmp"
-          />
-        </v-form>
-      </v-card-text>
-    </v-card>
-
-    <v-btn
-    :loading="loading"
-    :disabled="loading"
-     @click="add()">
-      {{modifing ? "Zaktualizuj" : "Dodaj"}}
-    </v-btn>
+          <FileField v-model="image" :label="sponsor.logo ? 'Nowe logo (opcjonalnie)' : 'Logo'" />
+          <div class="form-actions">
+            <router-link :to="{ name: 'adminPanel', params: { module: 'sponsors' } }" class="btn btn--secondary">Anuluj</router-link>
+            <button type="submit" class="btn" :disabled="loading">
+              <i class="mdi" :class="loading ? 'mdi-loading mdi-spin' : 'mdi-content-save-outline'" aria-hidden="true"></i>
+              {{ modifing ? 'Zaktualizuj' : 'Dodaj' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import type { AxiosResponse } from 'axios';
 import { SponsorModel } from '@/models/SponsorModel';
 import { SponsorsService } from '@/services/SponsorsService';
-import { AxiosPromise, AxiosResponse } from 'axios';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import PageHeader from '@/components/ui/PageHeader.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
+import TextField from '@/components/ui/TextField.vue';
+import FileField from '@/components/ui/FileField.vue';
+import { mediaUrl } from '@/utils/media';
+import { isValid, required, validate } from '@/utils/validation';
 
-@Component
-export default class EditSponsor extends Vue {
-  service!: SponsorsService;
-  sponsor!: SponsorModel;
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+const service = new SponsorsService();
 
-  created() {
-    this.service = new SponsorsService();
+const sponsor = ref<SponsorModel>();
+const image = ref<File>();
+const modifing = ref(false);
+const loading = ref(false);
+const submitted = ref(false);
 
-    if (this.$route.path.includes('add')) {
-      this.sponsor = new SponsorModel();
-    }
-    else {
-      const response = this.service.getSponsor(this.$route.params.id);
-      response.then((res) => {
-        if (res.status === 200) {
-          this.sponsor = res.data;
-          this.$data.modifing = true;
-        }
-      })
-      .catch((error) => {
-        this.$store.dispatch('errorMessage', 'Nie udało się pobrać danych!');
-      });
-    }
+const errors = computed(() => ({
+  name: validate(sponsor.value?.name, [required]),
+  url: validate(sponsor.value?.url, [required]),
+}));
+
+function add() {
+  submitted.value = true;
+  if (!sponsor.value || !isValid(errors.value)) {
+    return;
+  }
+  loading.value = true;
+
+  let response: Promise<AxiosResponse<any>>;
+  if (modifing.value) {
+    response = service.modifySponsor(sponsor.value, image.value);
+  } else {
+    response = service.addSponsor(sponsor.value.name, sponsor.value.url, image.value as File);
   }
 
-  add() {
-    this.$data.loading = true;
-
-    let response: Promise<AxiosResponse<any>>;
-    if (this.$data.modifing) {
-      response = this.service.modifySponsor(this.sponsor, this.$data.image);
-    }
-    else {
-      response = this.service.addSponsor(this.sponsor.name, this.sponsor.url, this.$data.image);
-    }
-
-    response.then((res) => {
+  response
+    .then((res) => {
       if (res.status === 201 || res.status === 200) {
-        this.$router.replace({name: 'adminPanel', params: {module: 'sponsors'}});
-        this.$data.loading = false;
+        router.replace({ name: 'adminPanel', params: { module: 'sponsors' } });
+        loading.value = false;
       }
     })
     .catch((error) => {
       if (error.response) {
-        this.$store.dispatch('errorMessage',
-            'Nie udało się dodać/zmodyfikować sponsora! Kod błędu: ' + error.response.status);
+        store.dispatch('errorMessage', 'Nie udało się dodać/zmodyfikować sponsora! Kod błędu: ' + error.response.status);
+      } else {
+        store.dispatch('errorMessage', 'Nie udało się dodać/zmodyfikować sponsora! ' + error.message);
       }
-      else {
-        this.$store.dispatch('errorMessage', 'Nie udało się dodać/zmodyfikować sponsora! ' + error.message);
-      }
-
-      this.$data.loading = false;
+      loading.value = false;
     });
-  }
-
-  get mediaURL() {
-    return process.env.VUE_APP_MEDIA_URL;
-  }
-
-  data() {
-    return {
-      inputValidated: false,
-      required: (value: string) => !!value || 'Pole wymagane',
-      sponsor: this.sponsor,
-      image: undefined,
-      modifing: false,
-      loading: false,
-    };
-  }
 }
+
+onMounted(() => {
+  if (route.path.includes('add')) {
+    sponsor.value = new SponsorModel();
+  } else {
+    service
+      .getSponsor(String(route.params.id))
+      .then((res) => {
+        if (res.status === 200) {
+          sponsor.value = res.data;
+          modifing.value = true;
+        }
+      })
+      .catch(() => {
+        store.dispatch('errorMessage', 'Nie udało się pobrać danych!');
+      });
+  }
+});
 </script>
+
+<style scoped>
+.current-logo {
+  display: grid;
+  gap: 8px;
+}
+
+.current-logo img {
+  max-width: 240px;
+  max-height: 120px;
+  object-fit: contain;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+</style>

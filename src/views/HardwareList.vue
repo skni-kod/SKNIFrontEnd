@@ -1,130 +1,113 @@
 <template>
-  <div class="mt-4 mb-2 mx-4 fill-height">
-    <div v-if="hardware && hardware.length > 0">
-      <v-row justify="center" v-for="item in hardware" :key="item.id">
-        <v-col cols="12" sm="11" md="10" lg="9" xl="8">
-          <hardware-card :hardware="item"></hardware-card>
-        </v-col>
-      </v-row>
-    </div>
-    <v-row align="center" class="fill-height" v-else>
-      <v-col>
-        <div class="text-h3 font-weight-bold text-center">
-          {{ loading ? 'Ładowanie danych' : 'Brak hardware' }}
-          <v-progress-circular
-            indeterminate
-            color="primary"
-            v-if="loading"
-          ></v-progress-circular>
-        </div>
-      </v-col>
-    </v-row>
-    <v-btn
-      fab
-      fixed
-      bottom
-      right
-      v-if="auth"
-      :to="{ name: 'hardwareAdd' }"
-      class="success"
+  <div>
+    <PageHeader
+      eyebrow="Zaplecze koła"
+      title="Sprzęt"
+      description="Sprzęt, z którego członkowie koła mogą korzystać przy swoich projektach."
     >
-      <v-icon class="white--text">mdi-plus</v-icon>
-    </v-btn>
-    <v-pagination
-      v-model="pagination.currentPage"
-      :length="pagination.pageCount"
-      @input="paginationClicked"
-      prev-icon="mdi-chevron-left"
-      next-icon="mdi-chevron-right"
-      class="mt-2"
-      v-if="hardware && hardware.length > 0"
-    ></v-pagination>
+      <template v-if="isAdministrator" #actions>
+        <router-link :to="{ name: 'hardwareAdd' }" class="btn">
+          <i class="mdi mdi-plus" aria-hidden="true"></i> Dodaj sprzęt
+        </router-link>
+      </template>
+    </PageHeader>
+    <div class="page">
+      <div class="container">
+        <LoadingState v-if="loading" />
+        <template v-else-if="hardware.length">
+          <div class="grid">
+            <HardwareCard v-for="item in hardware" :key="item.id" :hardware="item" @deleted="onDeleted" />
+          </div>
+          <Pagination
+            class="grid__pagination"
+            :model-value="pagination.currentPage"
+            :length="pagination.pageCount"
+            @update:model-value="paginationClicked"
+          />
+        </template>
+        <EmptyState v-else icon="chip" title="Brak sprzętu" text="Nie dodano jeszcze żadnego sprzętu." />
+      </div>
+    </div>
   </div>
 </template>
 
-<script lang='ts'>
-import { Component, Vue } from 'vue-property-decorator';
+<script setup lang="ts">
+import { computed, onMounted, reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { HardwareService } from '@/services/HardwareService';
-import { HardwareModel } from '@/models/HardwareModel';
+import type { HardwareModel } from '@/models/HardwareModel';
 import { PaginationModel } from '@/models/PaginationModel';
-import { PaginationContainer } from '@/models/PaginationContainer';
-
+import PageHeader from '@/components/ui/PageHeader.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
+import EmptyState from '@/components/ui/EmptyState.vue';
+import Pagination from '@/components/ui/Pagination.vue';
 import HardwareCard from '@/components/HardwareCard.vue';
 
-@Component({
-  components: {
-    HardwareCard,
-  },
-})
-export default class HardwareList extends Vue {
-  private hardwareService!: HardwareService;
-  private pagination!: PaginationModel;
-  private hardware!: HardwareModel[];
-  get auth(): boolean {
-    return this.$store.getters.isAuthenticated;
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
+const hardwareService = new HardwareService();
+const pagination = reactive(new PaginationModel(1, 3, 6));
+const hardware = ref<HardwareModel[]>([]);
+const loading = ref(true);
+const isAdministrator = computed<boolean>(() => !!store.getters.isAdministrator);
+
+function paginationClicked(pageNumber: number) {
+  router.replace({ name: 'hardwareList', params: { page: String(pageNumber) } });
+}
+
+function getHardware() {
+  const pageNumber = Number(route.params.page);
+  if (!pageNumber || Number.isNaN(pageNumber) || pageNumber < 1) {
+    paginationClicked(1);
+    return;
   }
 
-  private beforeCreate() {
-    this.hardwareService = new HardwareService();
-    this.pagination = new PaginationModel(1, 3, 6);
-  }
-
-  private mounted() {
-    this.getHardware();
-  }
-
-  private paginationClicked(pageNumber: number) {
-    this.$router.replace({
-      name: 'hardwareList',
-      params: { page: '' + pageNumber },
+  pagination.currentPage = pageNumber;
+  hardwareService
+    .getHardwareByPage(pageNumber, pagination.itemsPerPage, false)
+    .then((container) => {
+      hardware.value = container.results;
+      if (!hardware.value.length && pageNumber !== 1) {
+        paginationClicked(1);
+        return;
+      }
+      pagination.itemCount = container.count;
+      loading.value = false;
+    })
+    .catch(() => {
+      loading.value = false;
     });
+}
 
-    this.getHardware();
-  }
+function onDeleted(id: number) {
+  hardware.value = hardware.value.filter((item) => item.id !== id);
+}
 
-  private getHardware() {
-    const pageNumber = +this.$route.params.page;
-    if (pageNumber === undefined || isNaN(pageNumber) || pageNumber < 1) {
-      this.paginationClicked(1);
-      return;
-    }
+onMounted(getHardware);
+</script>
 
-    this.pagination.currentPage = pageNumber;
-    this.hardwareService
-      .getHardwareByPage(pageNumber, this.pagination.itemsPerPage, false)
-      .then((paginationContainer: PaginationContainer<HardwareModel>) => {
-        this.hardware = paginationContainer.results;
-        if (!this.hardware.length && pageNumber !== 1) {
-          this.paginationClicked(1);
-          return;
-        }
-        this.pagination.itemCount = paginationContainer.count;
-        this.$data.loading = false;
-      })
-      .catch(() => {
-        this.$data.loading = false;
-      });
-  }
+<style scoped>
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
 
-  private deleteHardware(id: number) {
-    this.hardwareService
-      .deleteHardware(id)
-      .then((res) => {
-        if (res.status === 204) {
-          this.$store.dispatch('successMessage', 'Sprzęt został usunięty');
-          this.$router.replace({ name: 'hardwareList', params: { page: '1' } });
-        }
-      })
-      .catch(() => {
-        this.$store.dispatch('errorMessage', 'Błąd poczas usuwania sprzętu!');
-      });
-  }
+.grid__pagination {
+  margin-top: 40px;
+}
 
-  private data() {
-    return {
-      hardware: this.hardware,
-      loading: true,
-    };
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
-</script>
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
