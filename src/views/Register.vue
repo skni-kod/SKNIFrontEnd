@@ -1,6 +1,15 @@
 <template>
   <AuthLayout title="Załóż konto" subtitle="Dołącz do społeczności SKNI KOD" icon="account-plus-outline">
-    <form class="form form-wide" novalidate @submit.prevent="registerUser">
+    <div v-if="!registrationOpen" class="closed">
+      <div class="alert">
+        <i class="mdi mdi-lock-outline" aria-hidden="true"></i>
+        <span>Rejestracja nowych kont jest obecnie wyłączona. Jeśli chcesz dołączyć do koła, napisz do nas na Facebooku.</span>
+      </div>
+      <a href="https://www.facebook.com/skni.kod" target="_blank" rel="noopener" class="btn btn--block">
+        <i class="mdi mdi-facebook" aria-hidden="true"></i> Napisz do nas
+      </a>
+    </div>
+    <form v-else class="form form-wide" novalidate @submit.prevent="registerUser">
       <TextField
         v-model="email"
         label="E-mail"
@@ -74,9 +83,12 @@ import { useStore } from 'vuex';
 import AuthLayout from '@/components/AuthLayout.vue';
 import TextField from '@/components/ui/TextField.vue';
 import PasswordValidator from '@/components/PasswordValidator.vue';
+import { useSiteSettings } from '@/composables/useSiteSettings';
 import { email as emailRule, isValid, minLength, required, sameAs, validate } from '@/utils/validation';
 
 const store = useStore();
+const { settings } = useSiteSettings();
+const registrationOpen = computed(() => !settings.value || settings.value.registration_open);
 const email = ref('');
 const login = ref('');
 const firstName = ref('');
@@ -110,3 +122,10 @@ function registerUser() {
   }
 }
 </script>
+
+<style scoped>
+.closed {
+  display: grid;
+  gap: 16px;
+}
+</style>

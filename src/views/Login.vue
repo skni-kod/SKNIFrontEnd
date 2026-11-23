@@ -21,7 +21,7 @@
       />
       <button type="submit" class="btn btn--lg btn--block">Zaloguj się</button>
     </form>
-    <template #footer>
+    <template v-if="registrationOpen" #footer>
       Nie masz konta? <router-link :to="{ name: 'register' }">Zarejestruj się</router-link>
     </template>
   </AuthLayout>
@@ -33,8 +33,11 @@ import { useStore } from 'vuex';
 import AuthLayout from '@/components/AuthLayout.vue';
 import TextField from '@/components/ui/TextField.vue';
 import { isValid, minLength, required, validate } from '@/utils/validation';
+import { useSiteSettings } from '@/composables/useSiteSettings';
 
 const store = useStore();
+const { settings } = useSiteSettings();
+const registrationOpen = computed(() => !settings.value || settings.value.registration_open);
 const login = ref('');
 const password = ref('');
 const submitted = ref(false);

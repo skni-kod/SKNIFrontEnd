@@ -1,5 +1,11 @@
 <template>
   <div class="home">
+    <div v-if="announcement" class="announcement">
+      <div class="container announcement__inner">
+        <i class="mdi mdi-bullhorn-outline" aria-hidden="true"></i>
+        <p>{{ announcement }}</p>
+      </div>
+    </div>
     <HeroSection />
 
     <section id="sections" class="section">
@@ -121,7 +127,7 @@
             <a href="https://www.facebook.com/skni.kod" target="_blank" rel="noopener" class="btn btn--lg btn--light">
               <i class="mdi mdi-facebook" aria-hidden="true"></i> Napisz do nas
             </a>
-            <router-link v-if="!isLoggedIn" :to="{ name: 'register' }" class="btn btn--lg btn--outline-light">
+            <router-link v-if="!isLoggedIn && registrationOpen" :to="{ name: 'register' }" class="btn btn--lg btn--outline-light">
               Załóż konto
             </router-link>
           </div>
@@ -145,9 +151,15 @@ import removeMarkdown from 'remove-markdown';
 import { SectionsService } from '@/services/SectionsService';
 import type { SectionModel } from '@/models/SectionModel';
 import { sectionIcon } from '@/utils/sections';
+import { useSiteSettings } from '@/composables/useSiteSettings';
 
 const store = useStore();
 const hasSponsors = ref(false);
+const { settings: siteSettings } = useSiteSettings();
+const announcement = computed(() =>
+  siteSettings.value && siteSettings.value.announcement_enabled ? siteSettings.value.announcement_text.trim() : '',
+);
+const registrationOpen = computed(() => !siteSettings.value || siteSettings.value.registration_open);
 
 const sections = ref<{ id: number; name: string; text: string; icon: string }[]>([]);
 
@@ -179,6 +191,28 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.announcement {
+  background: var(--primary);
+  color: #fff;
+}
+
+.announcement__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-block: 12px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.announcement__inner .mdi {
+  font-size: 20px;
+}
+
+.announcement__inner p {
+  white-space: pre-line;
+}
+
 .section-title {
   font-size: clamp(28px, 3.4vw, 40px);
   line-height: 1.15;

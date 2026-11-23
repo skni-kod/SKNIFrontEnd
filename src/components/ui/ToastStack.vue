@@ -46,7 +46,7 @@ function dismiss(ref: Snackbar) {
 
 const scheduled = new WeakSet<object>();
 watch(
-  snackbars,
+  () => snackbars.value.slice(),
   (list) => {
     for (const ref of list) {
       if (!scheduled.has(ref)) {

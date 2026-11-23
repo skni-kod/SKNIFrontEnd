@@ -41,13 +41,14 @@
           <span class="eyebrow">Historia</span>
           <h2 class="history-title">Ponad ćwierć wieku działalności</h2>
         </div>
-        <ol class="timeline">
-          <li v-for="item in timelineItems" :key="item.timestamp" class="timeline__item">
-            <span class="timeline__dot" aria-hidden="true"><i class="mdi" :class="item.icon"></i></span>
+        <LoadingState v-if="!timelineItems" />
+        <ol v-else class="timeline">
+          <li v-for="item in timelineItems" :key="`${item.year}-${item.title}`" class="timeline__item">
+            <span class="timeline__dot" aria-hidden="true"></span>
             <div class="timeline__card card">
-              <span class="timeline__year">{{ item.timestamp }}</span>
+              <span class="timeline__year">{{ item.year }}</span>
               <h3 class="timeline__title">{{ item.title }}</h3>
-              <p>{{ item.text }}</p>
+              <p v-if="item.text">{{ item.text }}</p>
             </div>
           </li>
         </ol>
@@ -57,28 +58,18 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import PageHeader from '@/components/ui/PageHeader.vue';
+import LoadingState from '@/components/ui/LoadingState.vue';
+import { useSiteSettings } from '@/composables/useSiteSettings';
 
-const timelineItems = [
-  {
-    timestamp: 1997,
-    icon: 'mdi-handshake-outline',
-    title: 'Założenie koła naukowego',
-    text: 'Studenckie Koło Naukowe Informatyków „KOD” działa od 1997 r. Założyli je studenci pierwszego roku uruchomionego wówczas kierunku Informatyka na Wydziale Elektrycznym Politechniki. Opiekunem naukowym koła został dr inż. Andrzej Kubaszek (Zakład Podstaw Elektrotechniki i Informatyki).',
-  },
-  {
-    timestamp: 2003,
-    icon: 'mdi-rename-outline',
-    title: 'Zmiana nazwy koła',
-    text: 'Wraz z rozwojem studenckiego ruchu naukowego nazwa koła zmieniała się: najpierw na Koło Naukowe Informatyków – Programowanie Komputerów, a w 2003 r. Walne Zebranie podjęło uchwałę o zmianie nazwy na Koło Naukowe Informatyków KOD. Ostatecznie nazwa została zmieniona na Studenckie Koło Naukowe Informatyków „KOD”.',
-  },
-  {
-    timestamp: 2008,
-    icon: 'mdi-account-tie-outline',
-    title: 'Zmiana opiekuna koła',
-    text: 'Od 2008 r. funkcję opiekuna koła pełni dr inż. Bartosz Trybus (Katedra Informatyki i Automatyki).',
-  },
-];
+const { settings, failed } = useSiteSettings();
+const timelineItems = computed(() => {
+  if (settings.value) {
+    return settings.value.history;
+  }
+  return failed.value ? [] : null;
+});
 </script>
 
 <style scoped>
@@ -151,15 +142,12 @@ const timelineItems = [
 .timeline__dot {
   position: relative;
   z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 16px;
+  height: 16px;
+  margin: 24px auto 0;
   border-radius: 50%;
   background: #fff;
-  border: 2px solid var(--primary);
-  color: var(--primary);
-  font-size: 20px;
+  border: 3px solid var(--primary);
 }
 
 .timeline__card {

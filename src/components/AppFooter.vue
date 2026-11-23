@@ -4,8 +4,8 @@
       <div class="footer__brand">
         <img src="@/assets/logo_small.png" alt="SKNI KOD" class="footer__logo" width="125" height="46" />
         <p>
-          Studenckie Koło Naukowe Informatyków KOD działa przy Politechnice Rzeszowskiej od 1997 roku. Tworzymy gry,
-          aplikacje i projekty elektroniczne.
+          Studenckie koło naukowe przy Politechnice Rzeszowskiej. Rozwijamy kompetencje, których szuka rynek IT: pracę
+          w zespole, code review i świadome korzystanie z narzędzi AI.
         </p>
         <div class="footer__social">
           <a
@@ -43,21 +43,18 @@
         </template>
         <template v-else>
           <router-link :to="{ name: 'login' }">Logowanie</router-link>
-          <router-link :to="{ name: 'register' }">Rejestracja</router-link>
+          <router-link v-if="registrationOpen" :to="{ name: 'register' }">Rejestracja</router-link>
         </template>
       </div>
     </div>
 
     <div class="container footer__partners">
-      <span class="footer__partners-label">Działamy przy</span>
-      <div class="footer__partners-logos">
-        <a href="https://prz.edu.pl" target="_blank" rel="noopener" aria-label="Politechnika Rzeszowska">
-          <img src="@/assets/partners/prz.png" alt="Politechnika Rzeszowska im. Ignacego Łukasiewicza" width="175" height="75" />
-        </a>
-        <a href="https://weii.prz.edu.pl" target="_blank" rel="noopener" aria-label="Wydział Elektrotechniki i Informatyki">
-          <img src="@/assets/partners/weii.png" alt="Wydział Elektrotechniki i Informatyki Politechniki Rzeszowskiej" width="203" height="61" />
-        </a>
-      </div>
+      <a href="https://prz.edu.pl" target="_blank" rel="noopener" aria-label="Politechnika Rzeszowska">
+        <img src="@/assets/partners/prz.png" alt="Politechnika Rzeszowska im. Ignacego Łukasiewicza" width="175" height="75" />
+      </a>
+      <a href="https://weii.prz.edu.pl" target="_blank" rel="noopener" aria-label="Wydział Elektrotechniki i Informatyki">
+        <img src="@/assets/partners/weii.png" alt="Wydział Elektrotechniki i Informatyki Politechniki Rzeszowskiej" width="203" height="61" />
+      </a>
     </div>
 
     <div class="container footer__bottom">
@@ -71,11 +68,14 @@ import { iconClass } from '@/utils/icons';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useSocialLinks } from '@/composables/useSocialLinks';
+import { useSiteSettings } from '@/composables/useSiteSettings';
 
 const store = useStore();
 const socialLinks = useSocialLinks();
 const year = new Date().getFullYear();
 const isLoggedIn = computed<boolean>(() => store.getters.isAuthenticated);
+const { settings } = useSiteSettings();
+const registrationOpen = computed(() => !settings.value || settings.value.registration_open);
 </script>
 
 <style scoped>
@@ -168,31 +168,16 @@ const isLoggedIn = computed<boolean>(() => store.getters.isAuthenticated);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.footer__partners-label {
-  color: #7385a1;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.footer__partners-logos {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 24px 48px;
-}
-
-.footer__partners-logos a {
+.footer__partners a {
   opacity: 0.8;
   transition: opacity var(--t-fast);
 }
 
-.footer__partners-logos a:hover {
+.footer__partners a:hover {
   opacity: 1;
 }
 
-.footer__partners-logos img {
+.footer__partners img {
   height: 52px;
   width: auto;
 }

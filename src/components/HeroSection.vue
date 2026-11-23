@@ -5,8 +5,8 @@
       <p class="hero__kicker">Politechnika Rzeszowska, Wydział Elektrotechniki i Informatyki</p>
       <h1 class="hero__title">Studenckie Koło Naukowe Informatyków KOD</h1>
       <p class="hero__text">
-        Od 1997 roku spotykamy się, żeby programować, tworzyć gry i aplikacje, budować elektronikę i uczyć się od
-        siebie nawzajem.
+        Pracujemy w zespołach nad prawdziwymi projektami, uczymy się narzędzi używanych w branży, także tych opartych
+        na AI, i razem przygotowujemy się do pracy w IT.
       </p>
       <div class="hero__actions">
         <router-link :to="{ hash: '#sections' }" class="btn btn--lg">Poznaj sekcje</router-link>
@@ -47,7 +47,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  min-height: min(78vh, 680px);
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
   padding-block: 88px;
 }
 
@@ -88,7 +89,6 @@
   }
 
   .hero__inner {
-    min-height: 0;
     padding-block: 64px 72px;
   }
 }

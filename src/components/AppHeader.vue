@@ -93,7 +93,9 @@
           </template>
           <template v-else>
             <router-link :to="{ name: 'login' }" class="btn btn--block">Zaloguj się</router-link>
-            <router-link :to="{ name: 'register' }" class="btn btn--secondary btn--block">Załóż konto</router-link>
+            <router-link v-if="registrationOpen" :to="{ name: 'register' }" class="btn btn--secondary btn--block">
+              Załóż konto
+            </router-link>
           </template>
         </div>
         <div class="drawer__social">
@@ -121,10 +123,13 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useSocialLinks } from '@/composables/useSocialLinks';
+import { useSiteSettings } from '@/composables/useSiteSettings';
 
 const store = useStore();
 const route = useRoute();
 const socialLinks = useSocialLinks();
+const { settings } = useSiteSettings();
+const registrationOpen = computed(() => !settings.value || settings.value.registration_open);
 
 const scrolled = ref(false);
 const menuOpen = ref(false);

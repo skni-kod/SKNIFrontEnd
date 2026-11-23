@@ -25,7 +25,6 @@
           >
             <i class="mdi" :class="item.icon" aria-hidden="true"></i>
             <span>{{ item.title }}</span>
-            <span v-if="item.soon" class="admin__soon">wkrótce</span>
           </router-link>
         </nav>
 
@@ -89,25 +88,22 @@ const modules = [
     icon: 'mdi-cog-outline',
     title: 'Ustawienia witryny',
     module: 'settings',
-    description: 'Moduł w przygotowaniu.',
-    soon: true,
-    component: defineAsyncComponent(() => import('@/components/admin/Placeholder.vue')),
+    description: 'Rejestracja kont i ogłoszenie na stronie głównej.',
+    component: defineAsyncComponent(() => import('@/components/admin/Settings.vue')),
   },
   {
     icon: 'mdi-account-group-outline',
     title: 'Użytkownicy',
     module: 'users',
-    description: 'Moduł w przygotowaniu.',
-    soon: true,
-    component: defineAsyncComponent(() => import('@/components/admin/Placeholder.vue')),
+    description: 'Konta członków, role administratorów i usuwanie kont.',
+    component: defineAsyncComponent(() => import('@/components/admin/Users.vue')),
   },
   {
     icon: 'mdi-book-open-page-variant-outline',
     title: 'Historia koła',
     module: 'history',
-    description: 'Moduł w przygotowaniu.',
-    soon: true,
-    component: defineAsyncComponent(() => import('@/components/admin/Placeholder.vue')),
+    description: 'Oś czasu wyświetlana na stronie „O nas”.',
+    component: defineAsyncComponent(() => import('@/components/admin/History.vue')),
   },
 ];
 
@@ -156,16 +152,6 @@ const current = computed(() => modules.find((m) => m.module === module.value));
   background: var(--primary-soft);
   color: var(--primary-strong);
   font-weight: 600;
-}
-
-.admin__soon {
-  margin-left: auto;
-  padding: 1px 7px;
-  border-radius: var(--radius-pill);
-  background: var(--surface-2);
-  color: var(--text-subtle);
-  font-size: 11px;
-  font-weight: 500;
 }
 
 .overview {
@@ -220,10 +206,6 @@ const current = computed(() => modules.find((m) => m.module === module.value));
 
   .admin__link {
     flex-shrink: 0;
-  }
-
-  .admin__soon {
-    display: none;
   }
 }
 </style>
