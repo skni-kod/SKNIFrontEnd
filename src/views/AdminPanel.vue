@@ -102,14 +102,6 @@ const modules = [
     component: defineAsyncComponent(() => import('@/components/admin/Placeholder.vue')),
   },
   {
-    icon: 'mdi-dolly',
-    title: 'Wypożyczenia',
-    module: 'rentals',
-    description: 'Moduł w przygotowaniu.',
-    soon: true,
-    component: defineAsyncComponent(() => import('@/components/admin/Placeholder.vue')),
-  },
-  {
     icon: 'mdi-book-open-page-variant-outline',
     title: 'Historia koła',
     module: 'history',

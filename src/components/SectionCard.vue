@@ -1,7 +1,7 @@
 <template>
   <article class="section-card card">
     <header class="section-card__head">
-      <span class="section-card__icon" aria-hidden="true"><i class="mdi" :class="`mdi-${section.icon || 'folder-outline'}`"></i></span>
+      <span class="section-card__icon" aria-hidden="true"><i class="mdi" :class="iconClass(section.icon)"></i></span>
       <h2 class="section-card__title">
         <router-link :to="{ name: 'section', params: { id: section.id } }">{{ section.name }}</router-link>
       </h2>
@@ -36,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+import { iconClass } from '@/utils/icons';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import type { SectionModel } from '@/models/SectionModel';
@@ -72,8 +73,8 @@ const sectionProjects = computed(() =>
   width: 48px;
   height: 48px;
   border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: #fff;
+  background: var(--primary-soft);
+  color: var(--primary);
   font-size: 24px;
 }
 

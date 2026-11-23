@@ -1,6 +1,6 @@
 <template>
   <article class="feature" :class="{ 'feature--horizontal': horizontal }">
-    <span class="feature__icon" aria-hidden="true"><i class="mdi" :class="`mdi-${icon}`"></i></span>
+    <span class="feature__icon" aria-hidden="true"><i class="mdi" :class="iconClass(icon)"></i></span>
     <div class="feature__body">
       <h3 class="feature__title">
         <router-link :to="link" class="feature__link">{{ title }}</router-link>
@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+import { iconClass } from '@/utils/icons';
 import type { RouteLocationRaw } from 'vue-router';
 
 defineProps<{ title: string; text: string; icon: string; link: RouteLocationRaw; horizontal?: boolean }>();
@@ -71,10 +72,9 @@ defineProps<{ title: string; text: string; icon: string; link: RouteLocationRaw;
   height: 52px;
   margin-bottom: 6px;
   border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-  color: #fff;
+  background: var(--primary-soft);
+  color: var(--primary);
   font-size: 26px;
-  box-shadow: 0 10px 20px -10px rgba(0, 114, 168, 0.7);
 }
 
 .feature__title {

@@ -9,9 +9,6 @@
         <router-link v-for="link in links" :key="link.label" :to="link.to" class="nav__link">
           {{ link.label }}
         </router-link>
-        <a :href="JUNIOR_URL" target="_blank" rel="noopener" class="nav__link nav__link--junior">
-          Junior <i class="mdi mdi-arrow-top-right" aria-hidden="true"></i>
-        </a>
       </nav>
 
       <div class="header__actions">
@@ -81,9 +78,6 @@
           <router-link v-for="link in links" :key="link.label" :to="link.to" class="drawer__link">
             {{ link.label }}
           </router-link>
-          <a :href="JUNIOR_URL" target="_blank" rel="noopener" class="drawer__link drawer__link--junior">
-            Junior <i class="mdi mdi-arrow-top-right"></i>
-          </a>
         </nav>
         <div class="drawer__account">
           <template v-if="isLoggedIn">
@@ -112,7 +106,7 @@
             class="btn btn--ghost btn--icon"
             :aria-label="social.title"
           >
-            <i class="mdi" :class="`mdi-${social.icon}`"></i>
+            <i class="mdi" :class="iconClass(social.icon)"></i>
           </a>
         </div>
       </aside>
@@ -122,12 +116,11 @@
 </template>
 
 <script setup lang="ts">
+import { iconClass } from '@/utils/icons';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useSocialLinks } from '@/composables/useSocialLinks';
-
-const JUNIOR_URL = 'https://kod.prz.edu.pl/junior';
 
 const store = useStore();
 const route = useRoute();
@@ -291,15 +284,6 @@ onBeforeUnmount(() => {
   background: var(--primary);
 }
 
-.nav__link--junior {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.nav__link--junior .mdi {
-  font-size: 15px;
-}
-
 .header__actions {
   display: flex;
   align-items: center;
@@ -338,7 +322,7 @@ onBeforeUnmount(() => {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
+  background: var(--primary);
   color: #fff;
   font-size: 12px;
   font-weight: 700;
@@ -479,11 +463,6 @@ onBeforeUnmount(() => {
 .drawer__link.router-link-active {
   background: var(--primary-soft);
   color: var(--primary-strong);
-}
-
-.drawer__link--junior {
-  color: var(--primary);
-  font-weight: 600;
 }
 
 .drawer__account {

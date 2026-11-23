@@ -3,16 +3,9 @@
     <header class="hw__head">
       <span class="hw__icon" aria-hidden="true"><i class="mdi mdi-chip"></i></span>
       <div class="hw__title-wrap">
-        <h2 class="hw__title">
-          <router-link :to="{ name: 'hardware', params: { id: hardware.id } }" class="hw__link">{{ hardware.name }}</router-link>
-        </h2>
+        <h2 class="hw__title">{{ hardware.name }}</h2>
         <span v-if="serial" class="hw__serial">S/N {{ serial }}</span>
       </div>
-      <span class="badge" :class="`badge--${status.tone}`" :title="status.hint">{{ status.label }}</span>
-    </header>
-    <p class="hw__desc">{{ excerpt }}</p>
-    <footer class="hw__footer">
-      <span class="hw__more">Szczegóły <i class="mdi mdi-arrow-right" aria-hidden="true"></i></span>
       <div v-if="isAdministrator" class="hw__admin">
         <router-link
           :to="{ name: 'hardwareEdit', params: { id: hardware.id } }"
@@ -25,7 +18,9 @@
           <i class="mdi mdi-trash-can-outline"></i>
         </button>
       </div>
-    </footer>
+    </header>
+    <MarkdownView v-if="hardware.description" class="hw__desc" :content="hardware.description" />
+    <p v-else class="hw__desc muted">Brak opisu.</p>
     <ConfirmationDialog v-if="dialog" :text="dialogText" @yes="deleteHardware(hardware.id)" @no="dialog = false" />
   </article>
 </template>
@@ -34,11 +29,10 @@
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import removeMarkdown from 'remove-markdown';
 import type { HardwareModel } from '@/models/HardwareModel';
 import { HardwareService } from '@/services/HardwareService';
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
-import { hardwareStatus } from '@/utils/hardware';
+import MarkdownView from '@/components/MarkdownView.vue';
 
 const props = defineProps<{ hardware: HardwareModel }>();
 const emit = defineEmits<{ deleted: [id: number] }>();
@@ -49,12 +43,7 @@ const hardwareService = new HardwareService();
 const dialog = ref(false);
 
 const isAdministrator = computed<boolean>(() => !!store.getters.isAdministrator);
-const status = computed(() => hardwareStatus(props.hardware.status));
 const serial = computed(() => (props.hardware as any).serial_number);
-const excerpt = computed(() => {
-  const text = removeMarkdown(props.hardware.description || '').replace(/\s+/g, ' ').trim();
-  return text.length > 200 ? `${text.slice(0, 200).trim()}…` : text || 'Brak opisu.';
-});
 const dialogText = computed(() => `Czy na pewno chcesz usunąć sprzęt "${props.hardware.name}"?`);
 
 function deleteHardware(id: number) {
@@ -76,19 +65,10 @@ function deleteHardware(id: number) {
 
 <style scoped>
 .hw {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  height: 100%;
-  padding: 22px 24px 18px;
-  transition: box-shadow var(--t) var(--ease), border-color var(--t), transform var(--t) var(--ease);
-}
-
-.hw:hover {
-  transform: translateY(-2px);
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow);
+  gap: 16px;
+  padding: 22px 24px;
 }
 
 .hw__head {
@@ -121,17 +101,6 @@ function deleteHardware(id: number) {
   line-height: 1.3;
 }
 
-.hw__link {
-  color: var(--text);
-}
-
-.hw__link::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-}
-
 .hw__serial {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -139,33 +108,11 @@ function deleteHardware(id: number) {
 }
 
 .hw__desc {
-  color: var(--text-muted);
   font-size: 15px;
-  line-height: 1.6;
-}
-
-.hw__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 40px;
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-}
-
-.hw__more {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--primary);
-  font-size: 14px;
-  font-weight: 600;
+  color: var(--text-muted);
 }
 
 .hw__admin {
-  position: relative;
-  z-index: 2;
   display: flex;
   gap: 2px;
 }

@@ -3,7 +3,7 @@
     <PageHeader
       eyebrow="Zaplecze koła"
       title="Sprzęt"
-      description="Sprzęt, z którego członkowie koła mogą korzystać przy swoich projektach."
+      description="Sprzęt, z którego członkowie koła mogą korzystać przy swoich projektach. Dostępny w Pokoju Koła (F803)."
     >
       <template v-if="isAdministrator" #actions>
         <router-link :to="{ name: 'hardwareAdd' }" class="btn">
@@ -91,21 +91,16 @@ onMounted(getHardware);
 <style scoped>
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  align-items: start;
 }
 
 .grid__pagination {
   margin-top: 40px;
 }
 
-@media (max-width: 1023px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .grid {
     grid-template-columns: 1fr;
   }

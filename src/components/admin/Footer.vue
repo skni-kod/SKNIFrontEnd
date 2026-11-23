@@ -19,7 +19,7 @@
           </thead>
           <tbody>
             <tr v-for="el in links" :key="el.id">
-              <td><i class="mdi link-icon" :class="`mdi-${el.icon}`" aria-hidden="true"></i></td>
+              <td><i class="mdi link-icon" :class="iconClass(el.icon)" aria-hidden="true"></i></td>
               <td><strong>{{ el.title }}</strong></td>
               <td><a :href="el.link" target="_blank" rel="noopener" class="url">{{ el.link }}</a></td>
               <td class="cell-actions">
@@ -80,6 +80,7 @@
 </template>
 
 <script setup lang="ts">
+import { iconClass } from '@/utils/icons';
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { FooterService } from '@/services/FooterService';

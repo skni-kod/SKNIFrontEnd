@@ -129,12 +129,6 @@ const routes: RouteRecordRaw[] = [
       import('./views/HardwareList.vue'),
   },
   {
-    path: '/hardware/item/:id',
-    name: 'hardware',
-    component: () =>
-      import('./views/Hardware.vue'),
-  },
-  {
     path: '/sponsors/add',
     name: 'sponsorsAdd',
     component: () => import('./views/admin/EditSponsor.vue'),

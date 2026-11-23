@@ -5,7 +5,7 @@
     </div>
     <div class="project-card__body">
       <span class="project-card__section">
-        <i class="mdi" :class="`mdi-${sectionIcon(project.section.id)}`" aria-hidden="true"></i>
+        <i class="mdi" :class="iconClass(project.section.icon || sectionIcon(project.section.id))" aria-hidden="true"></i>
         {{ project.section.name }}
       </span>
       <h3 class="project-card__title">
@@ -42,6 +42,7 @@
 </template>
 
 <script setup lang="ts">
+import { iconClass } from '@/utils/icons';
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import type { ProjectInfo } from '@/store/modules/projects';

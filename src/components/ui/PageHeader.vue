@@ -36,9 +36,7 @@ defineProps<{
 .page-header {
   position: relative;
   padding-block: clamp(36px, 5vw, 64px) clamp(28px, 4vw, 48px);
-  background:
-    radial-gradient(ellipse 60% 120% at 100% 0%, rgba(56, 189, 248, 0.12), transparent 60%),
-    linear-gradient(180deg, var(--surface) 0%, #fff 100%);
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
 

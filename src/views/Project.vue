@@ -5,7 +5,7 @@
       <PageHeader :back="{ to: { name: 'projects' }, label: 'Wszystkie projekty' }" :title="project.title">
         <template #meta>
           <span v-if="section" class="chip chip--primary">
-            <i class="mdi" :class="`mdi-${section.icon || sectionIcon(section.id)}`" aria-hidden="true"></i>
+            <i class="mdi" :class="iconClass(section.icon || sectionIcon(section.id))" aria-hidden="true"></i>
             {{ section.name }}
           </span>
           <span v-if="project.creation_date" class="meta-item">
@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import { iconClass } from '@/utils/icons';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';

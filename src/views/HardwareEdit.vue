@@ -13,18 +13,7 @@
         <div class="editor__main">
           <FormCard title="Podstawowe informacje">
             <TextField v-model="hardware.name" label="Nazwa sprzętu" required :error="errors.name" :show-error="submitted" />
-            <div class="form-row">
-              <SelectField
-                v-model="status"
-                label="Status"
-                required
-                :options="statusOptions"
-                placeholder="Wybierz status"
-                :error="errors.status"
-                :show-error="submitted"
-              />
-              <TextField v-model="hardware.serial_number" label="Numer seryjny" required :error="errors.serial" :show-error="submitted" />
-            </div>
+            <TextField v-model="hardware.serial_number" label="Numer seryjny" required :error="errors.serial" :show-error="submitted" />
           </FormCard>
           <FormCard title="Opis">
             <MarkdownEditor
@@ -59,11 +48,9 @@ import { HardwareService } from '@/services/HardwareService';
 import PageHeader from '@/components/ui/PageHeader.vue';
 import LoadingState from '@/components/ui/LoadingState.vue';
 import TextField from '@/components/ui/TextField.vue';
-import SelectField from '@/components/ui/SelectField.vue';
 import FormCard from '@/components/editor/FormCard.vue';
 import MarkdownEditor from '@/components/editor/MarkdownEditor.vue';
 import EditorActions from '@/components/editor/EditorActions.vue';
-import { HARDWARE_STATUSES } from '@/utils/hardware';
 import { isValid, required, validate } from '@/utils/validation';
 
 const route = useRoute();
@@ -73,14 +60,12 @@ const hardwareService = new HardwareService();
 
 const add = route.path.includes('add');
 const hardware = ref<any>({ description: '' });
-const status = ref<string>();
+const status = ref<string>('Available');
 const loaded = ref(add);
 const submitted = ref(false);
-const statusOptions = HARDWARE_STATUSES.map((s) => ({ value: s.value, label: s.label }));
 
 const errors = computed(() => ({
   name: validate(hardware.value.name, [required]),
-  status: validate(status.value, [required]),
   serial: validate(hardware.value.serial_number, [required]),
   description: validate(hardware.value.description, [required]),
 }));
@@ -109,7 +94,7 @@ function addHardware() {
     .then((res: any) => {
       if (res.status === 201) {
         store.dispatch('successMessage', 'Sprzęt został dodany');
-        router.replace({ name: 'hardware', params: { id: res.data.id } });
+        router.replace({ name: 'hardwareList', params: { page: '1' } });
       }
     })
     .catch(() => {
@@ -137,11 +122,7 @@ function editHardware() {
 }
 
 function returnFromEditor() {
-  if (add) {
-    router.replace({ name: 'hardwareList', params: { page: '1' } });
-  } else {
-    router.replace({ name: 'hardware', params: { id: hardware.value.id } });
-  }
+  router.replace({ name: 'hardwareList', params: { page: '1' } });
 }
 
 onMounted(() => {
@@ -150,7 +131,7 @@ onMounted(() => {
       .getHardware(String(route.params.id))
       .then((res: any) => {
         hardware.value = res;
-        status.value = res.status;
+        status.value = res.status || 'Available';
         loaded.value = true;
       })
       .catch(() => {

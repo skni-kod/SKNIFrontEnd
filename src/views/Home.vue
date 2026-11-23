@@ -1,35 +1,34 @@
 <template>
   <div class="home">
-    <HeroSection :projects-count="projectsCount" />
+    <HeroSection />
 
     <section id="sections" class="section">
       <div class="container">
-        <div class="intro">
-          <div class="intro__text">
+        <div class="section-head">
+          <div>
             <span class="eyebrow">Sekcje w SKNI KOD</span>
             <h2 class="section-title">Dołącz do naszego koła i zaangażuj się!</h2>
             <p class="lead">
-              Jest wiele powodów, aby dołączyć do SKNI KOD. Jednym z nich są sekcje: w każdej realizowane są przeróżne
-              projekty, a to Ty wybierasz, do którego chcesz dołączyć.
+              W każdej sekcji realizowane są przeróżne projekty, a to Ty wybierasz, do którego chcesz dołączyć.
+              Skontaktuj się z nami przez fanpage na Facebooku lub przyjdź na spotkanie.
             </p>
-            <p class="muted">
-              Dołącz już dziś: skontaktuj się z nami przez fanpage na Facebooku lub przyjdź na spotkanie.
-            </p>
-            <router-link :to="{ name: 'about' }" class="btn btn--secondary">
-              Więcej o kole <i class="mdi mdi-arrow-right" aria-hidden="true"></i>
-            </router-link>
           </div>
-          <div class="features">
-            <SectionFeature
-              v-for="section in sections"
-              :key="section.title"
-              :title="section.title"
-              :text="section.text"
-              :icon="section.icon"
-              :link="section.link"
-              horizontal
-            />
-          </div>
+          <router-link :to="{ name: 'about' }" class="btn btn--secondary">
+            Więcej o kole <i class="mdi mdi-arrow-right" aria-hidden="true"></i>
+          </router-link>
+        </div>
+        <div v-if="sections.length" class="features" :class="{ 'features--odd': sections.length % 2 === 1 }" :style="{ '--cols': Math.min(sections.length, 4) }">
+          <SectionFeature
+            v-for="section in sections"
+            :key="section.id"
+            :title="section.name"
+            :text="section.text"
+            :icon="section.icon"
+            :link="{ name: 'section', params: { id: section.id } }"
+          />
+        </div>
+        <div v-else class="features" style="--cols: 4" aria-hidden="true">
+          <div v-for="n in 4" :key="n" class="skeleton feature-skeleton"></div>
         </div>
       </div>
     </section>
@@ -142,39 +141,40 @@ import SectionFeature from '@/components/SectionFeature.vue';
 import ArticleCard from '@/components/ArticleCard.vue';
 import ProjectCard from '@/components/ProjectCard.vue';
 import SponsorsStrip from '@/components/SponsorsStrip.vue';
+import removeMarkdown from 'remove-markdown';
+import { SectionsService } from '@/services/SectionsService';
+import type { SectionModel } from '@/models/SectionModel';
+import { sectionIcon } from '@/utils/sections';
 
 const store = useStore();
 const hasSponsors = ref(false);
 
-const sections = [
-  {
-    title: 'Sekcja Game-Dev',
-    text: 'Tworzymy gry komputerowe, głównie w oparciu o silnik Unity. W pracy wykorzystujemy również technologię wirtualnej rzeczywistości.',
-    icon: 'gamepad-variant-outline',
-    link: '/section/2',
-  },
-  {
-    title: 'Sekcja Aplikacji Desktopowych, Mobilnych i Webowych',
-    text: 'Budujemy aplikacje na różnego rodzaju urządzenia, wykorzystując szeroką gamę technologii.',
-    icon: 'monitor-cellphone',
-    link: '/section/1',
-  },
-  {
-    title: 'Sekcja Elektroniki i Retro',
-    text: 'Odrestaurowujemy stary sprzęt, łączymy przeszłość z teraźniejszością i prowadzimy działalność edukacyjną. Realizujemy też projekty elektroniczne.',
-    icon: 'chip',
-    link: '/section/3',
-  },
-];
+const sections = ref<{ id: number; name: string; text: string; icon: string }[]>([]);
 
 const isLoggedIn = computed<boolean>(() => store.getters.isAuthenticated);
 const latestArticles = computed<ArticleModel[]>(() => (store.getters.articles && store.getters.articles.results) || []);
 const featuredProjects = computed<ProjectInfo[]>(() => store.getters.featuredProjects);
 const projectsCount = computed<number>(() => store.getters.projectsCount);
 
+function excerpt(markdown: string) {
+  const text = removeMarkdown(markdown || '').replace(/\s+/g, ' ').trim();
+  return text.length > 190 ? `${text.slice(0, 190).trim()}…` : text;
+}
+
 onMounted(() => {
   store.dispatch('getArticles');
   store.dispatch('getProjects');
+  new SectionsService().getAllSections().then((res) => {
+    sections.value = (res.data as SectionModel[])
+      .filter((section) => section.isVisible !== false)
+      .sort((a, b) => a.id - b.id)
+      .map((section) => ({
+        id: section.id,
+        name: section.name,
+        text: excerpt(section.description),
+        icon: section.icon || sectionIcon(section.id),
+      }));
+  });
 });
 </script>
 
@@ -189,25 +189,18 @@ onMounted(() => {
 }
 
 .eyebrow--light {
-  color: var(--sky);
-}
-
-.intro {
-  display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: clamp(40px, 6vw, 80px);
-  align-items: center;
-}
-
-.intro__text {
-  display: grid;
-  gap: 20px;
-  justify-items: start;
+  color: #7dc4ea;
 }
 
 .features {
   display: grid;
-  gap: 16px;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+  gap: 20px;
+}
+
+.feature-skeleton {
+  height: 300px;
+  border-radius: var(--radius-lg);
 }
 
 .equipment {
@@ -344,12 +337,9 @@ onMounted(() => {
   flex-wrap: wrap;
   gap: 28px;
   padding: clamp(32px, 5vw, 56px);
-  border-radius: 24px;
-  background:
-    radial-gradient(ellipse 60% 120% at 100% 0%, rgba(56, 189, 248, 0.35), transparent 60%),
-    linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-  color: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 30px 60px -30px rgba(46, 49, 117, 0.7);
+  border-radius: var(--radius-lg);
+  background: var(--navy-900);
+  color: var(--text-inverse-muted);
 }
 
 .cta > div:first-child {
@@ -375,11 +365,17 @@ onMounted(() => {
   }
 }
 
-@media (max-width: 960px) {
-  .intro {
-    grid-template-columns: 1fr;
+@media (max-width: 1100px) {
+  .features {
+    grid-template-columns: repeat(2, 1fr);
   }
 
+  .features--odd > :last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 960px) {
   .cards--3 {
     grid-template-columns: 1fr 1fr;
   }
@@ -390,9 +386,14 @@ onMounted(() => {
 }
 
 @media (max-width: 640px) {
+  .features,
   .cards--3,
   .cards--4 {
     grid-template-columns: 1fr;
+  }
+
+  .features--odd > :last-child {
+    grid-column: auto;
   }
 }
 </style>

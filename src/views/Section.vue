@@ -5,7 +5,7 @@
       <PageHeader :back="{ to: { name: 'home', hash: '#sections' }, label: 'Wszystkie sekcje' }" eyebrow="Sekcja SKNI KOD">
         <template #title>
           <span class="title">
-            <span class="title__icon" aria-hidden="true"><i class="mdi" :class="`mdi-${section.icon || 'folder-outline'}`"></i></span>
+            <span class="title__icon" aria-hidden="true"><i class="mdi" :class="iconClass(section.icon)"></i></span>
             {{ section.name }}
           </span>
         </template>
@@ -46,6 +46,7 @@
 </template>
 
 <script setup lang="ts">
+import { iconClass } from '@/utils/icons';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -116,8 +117,8 @@ onMounted(() => {
   width: 56px;
   height: 56px;
   border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: #fff;
+  background: var(--primary-soft);
+  color: var(--primary);
   font-size: 28px;
 }
 

@@ -109,9 +109,7 @@ const groupLabel = computed(() => ({ News: 'Aktualność', Article: 'Artykuł' }
   place-items: center;
   width: 100%;
   height: 100%;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.18), transparent 50%),
-    linear-gradient(135deg, var(--primary-soft) 0%, var(--surface-2) 100%);
+  background: var(--surface-2);
 }
 
 .article-card__placeholder img {

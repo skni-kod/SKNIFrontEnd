@@ -27,7 +27,7 @@ const initials = computed(() => {
   place-items: center;
   flex-shrink: 0;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
+  background: var(--primary);
   color: #fff;
   font-weight: 700;
   letter-spacing: 0.02em;

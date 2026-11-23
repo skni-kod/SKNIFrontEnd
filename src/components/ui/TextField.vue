@@ -4,7 +4,7 @@
       {{ label }}<span v-if="required" class="req" aria-hidden="true">*</span>
     </label>
     <div class="field__control">
-      <i v-if="icon" class="mdi" :class="`mdi-${icon}`" aria-hidden="true"></i>
+      <i v-if="icon" class="mdi" :class="iconClass(icon)" aria-hidden="true"></i>
       <textarea
         v-if="multiline"
         :id="id"
@@ -47,6 +47,7 @@
 </template>
 
 <script setup lang="ts">
+import { iconClass } from '@/utils/icons';
 import { computed, ref, useId } from 'vue';
 
 const props = withDefaults(

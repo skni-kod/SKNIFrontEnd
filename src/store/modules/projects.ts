@@ -12,6 +12,7 @@ export interface ProjectInfo {
   section: {
     id: number;
     name: string;
+    icon?: string;
   };
   description: string;
   image: string;
@@ -31,6 +32,7 @@ const convertProject = (project: ProjectModel): ProjectInfo => {
     section: {
       id: (project.section as SectionModel).id,
       name: (project.section as SectionModel).name,
+      icon: (project.section as SectionModel).icon,
     },
     image,
   };

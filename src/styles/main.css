@@ -198,14 +198,6 @@ ol {
   color: var(--primary);
 }
 
-.eyebrow::before {
-  content: '';
-  width: 20px;
-  height: 2px;
-  border-radius: 2px;
-  background: currentColor;
-}
-
 .lead {
   font-size: clamp(17px, 1.4vw, 19px);
   line-height: 1.7;

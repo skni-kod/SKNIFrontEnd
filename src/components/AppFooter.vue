@@ -17,7 +17,7 @@
             class="footer__social-link"
             :aria-label="social.title"
           >
-            <i class="mdi" :class="`mdi-${social.icon}`"></i>
+            <i class="mdi" :class="iconClass(social.icon)"></i>
           </a>
         </div>
       </div>
@@ -27,7 +27,6 @@
         <router-link :to="{ name: 'about' }">O nas</router-link>
         <router-link :to="{ name: 'home', hash: '#sections' }">Sekcje</router-link>
         <router-link :to="{ name: 'projects' }">Projekty</router-link>
-        <a href="https://kod.prz.edu.pl/junior" target="_blank" rel="noopener">SKNI KOD Junior</a>
       </div>
 
       <div class="footer__col">
@@ -49,14 +48,26 @@
       </div>
     </div>
 
+    <div class="container footer__partners">
+      <span class="footer__partners-label">Działamy przy</span>
+      <div class="footer__partners-logos">
+        <a href="https://prz.edu.pl" target="_blank" rel="noopener" aria-label="Politechnika Rzeszowska">
+          <img src="@/assets/partners/prz.png" alt="Politechnika Rzeszowska im. Ignacego Łukasiewicza" width="175" height="75" />
+        </a>
+        <a href="https://weii.prz.edu.pl" target="_blank" rel="noopener" aria-label="Wydział Elektrotechniki i Informatyki">
+          <img src="@/assets/partners/weii.png" alt="Wydział Elektrotechniki i Informatyki Politechniki Rzeszowskiej" width="203" height="61" />
+        </a>
+      </div>
+    </div>
+
     <div class="container footer__bottom">
       <span>© {{ year }} SKNI KOD. Wszystkie prawa zastrzeżone.</span>
-      <span>Politechnika Rzeszowska, Wydział Elektrotechniki i Informatyki</span>
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
+import { iconClass } from '@/utils/icons';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useSocialLinks } from '@/composables/useSocialLinks';
@@ -145,6 +156,45 @@ const isLoggedIn = computed<boolean>(() => store.getters.isAuthenticated);
 
 .footer__col a:hover {
   color: #fff;
+}
+
+.footer__partners {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px 40px;
+  padding-block: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer__partners-label {
+  color: #7385a1;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer__partners-logos {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px 48px;
+}
+
+.footer__partners-logos a {
+  opacity: 0.8;
+  transition: opacity var(--t-fast);
+}
+
+.footer__partners-logos a:hover {
+  opacity: 1;
+}
+
+.footer__partners-logos img {
+  height: 52px;
+  width: auto;
 }
 
 .footer__bottom {
