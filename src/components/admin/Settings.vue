@@ -31,6 +31,31 @@
           :error="errors.announcement"
           :show-error="submitted"
         />
+        <TextField
+          v-model="form.announcement_expires_at"
+          class="expiry"
+          label="Ukryj automatycznie"
+          type="datetime-local"
+          icon="clock-outline"
+          hint="Opcjonalnie: dzień i godzina, o której pasek zniknie ze strony."
+          :error="errors.expiry"
+          :show-error="submitted"
+        >
+          <template #suffix>
+            <button
+              v-if="form.announcement_expires_at"
+              type="button"
+              class="btn btn--ghost btn--sm"
+              @click="form.announcement_expires_at = ''"
+            >
+              Bez terminu
+            </button>
+          </template>
+        </TextField>
+        <p v-if="expiredNotice" class="alert alert--warning">
+          <i class="mdi mdi-clock-alert-outline" aria-hidden="true"></i>
+          <span>Termin ogłoszenia minął, więc pasek nie jest już wyświetlany.</span>
+        </p>
       </div>
     </section>
 
@@ -51,10 +76,16 @@ import { useSiteSettings } from '@/composables/useSiteSettings';
 import LoadingState from '@/components/ui/LoadingState.vue';
 import TextField from '@/components/ui/TextField.vue';
 import ToggleSwitch from '@/components/ui/ToggleSwitch.vue';
+import { isoToLocalInput, localInputToIso } from '@/utils/datetime-local';
 
 const store = useStore();
 const { settings, set, reload } = useSiteSettings();
-const form = ref<{ registration_open: boolean; announcement_enabled: boolean; announcement_text: string } | null>(null);
+const form = ref<{
+  registration_open: boolean;
+  announcement_enabled: boolean;
+  announcement_text: string;
+  announcement_expires_at: string;
+} | null>(null);
 const saving = ref(false);
 const submitted = ref(false);
 
@@ -68,27 +99,48 @@ watch(
         registration_open: value.registration_open,
         announcement_enabled: value.announcement_enabled,
         announcement_text: value.announcement_text,
+        announcement_expires_at: isoToLocalInput(value.announcement_expires_at),
       };
     }
   },
   { immediate: true },
 );
 
-const errors = computed(() => ({
-  announcement:
-    form.value && form.value.announcement_enabled && !form.value.announcement_text.trim()
-      ? 'Podaj treść ogłoszenia albo wyłącz jego wyświetlanie'
-      : undefined,
-}));
+const errors = computed(() => {
+  const expiresIso = localInputToIso(form.value?.announcement_expires_at);
+  return {
+    announcement:
+      form.value && form.value.announcement_enabled && !form.value.announcement_text.trim()
+        ? 'Podaj treść ogłoszenia albo wyłącz jego wyświetlanie'
+        : undefined,
+    expiry:
+      form.value && form.value.announcement_expires_at && expiresIso && new Date(expiresIso) <= new Date()
+        ? 'Ta data już minęła'
+        : undefined,
+  };
+});
+
+const expiredNotice = computed(
+  () =>
+    !!settings.value &&
+    settings.value.announcement_enabled &&
+    !!settings.value.announcement_expires_at &&
+    new Date(settings.value.announcement_expires_at) <= new Date(),
+);
 
 async function save() {
   submitted.value = true;
-  if (!form.value || errors.value.announcement) {
+  if (!form.value || errors.value.announcement || errors.value.expiry) {
     return;
   }
   saving.value = true;
   try {
-    set(await new SiteSettingsService().update(form.value));
+    set(
+      await new SiteSettingsService().update({
+        ...form.value,
+        announcement_expires_at: localInputToIso(form.value.announcement_expires_at),
+      }),
+    );
     store.dispatch('successMessage', 'Ustawienia zostały zapisane');
   } catch {
     store.dispatch('errorMessage', 'Nie udało się zapisać ustawień!');
@@ -107,5 +159,9 @@ async function save() {
 .actions {
   display: flex;
   justify-content: flex-end;
+}
+
+.expiry {
+  max-width: 460px;
 }
 </style>

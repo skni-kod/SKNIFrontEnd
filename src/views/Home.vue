@@ -1,12 +1,14 @@
 <template>
   <div class="home">
-    <div v-if="announcement" class="announcement">
-      <div class="container announcement__inner">
-        <i class="mdi mdi-bullhorn-outline" aria-hidden="true"></i>
-        <p>{{ announcement }}</p>
+    <div class="top">
+      <div v-if="announcement" class="announcement">
+        <div class="container announcement__inner">
+          <i class="mdi mdi-bullhorn-outline" aria-hidden="true"></i>
+          <p>{{ announcement }}</p>
+        </div>
       </div>
+      <HeroSection />
     </div>
-    <HeroSection />
 
     <section id="sections" class="section">
       <div class="container">
@@ -138,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import type { ArticleModel } from '@/models/ArticleModel';
 import type { ProjectInfo } from '@/store/modules/projects';
@@ -156,9 +158,36 @@ import { useSiteSettings } from '@/composables/useSiteSettings';
 const store = useStore();
 const hasSponsors = ref(false);
 const { settings: siteSettings } = useSiteSettings();
-const announcement = computed(() =>
-  siteSettings.value && siteSettings.value.announcement_enabled ? siteSettings.value.announcement_text.trim() : '',
+const now = ref(Date.now());
+let expiryTimer: ReturnType<typeof setTimeout> | undefined;
+
+const announcement = computed(() => {
+  const s = siteSettings.value;
+  if (!s || !s.announcement_enabled) {
+    return '';
+  }
+  if (s.announcement_expires_at && new Date(s.announcement_expires_at).getTime() <= now.value) {
+    return '';
+  }
+  return s.announcement_text.trim();
+});
+
+watch(
+  () => siteSettings.value?.announcement_expires_at,
+  (expiresAt) => {
+    clearTimeout(expiryTimer);
+    if (!expiresAt) {
+      return;
+    }
+    const delay = new Date(expiresAt).getTime() - Date.now();
+    if (delay > 0 && delay < 2 ** 31 - 1) {
+      expiryTimer = setTimeout(() => (now.value = Date.now()), delay + 500);
+    }
+  },
+  { immediate: true },
 );
+
+onBeforeUnmount(() => clearTimeout(expiryTimer));
 const registrationOpen = computed(() => !siteSettings.value || siteSettings.value.registration_open);
 
 const sections = ref<{ id: number; name: string; text: string; icon: string }[]>([]);
@@ -191,6 +220,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.top {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+}
+
 .announcement {
   background: var(--primary);
   color: #fff;

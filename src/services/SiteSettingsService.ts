@@ -11,6 +11,8 @@ export interface SiteSettings {
   registration_open: boolean;
   announcement_enabled: boolean;
   announcement_text: string;
+  announcement_expires_at: string | null;
+  announcement_visible?: boolean;
   history: HistoryEntry[];
 }
 

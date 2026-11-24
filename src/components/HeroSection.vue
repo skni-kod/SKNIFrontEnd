@@ -19,6 +19,9 @@
 <style scoped>
 .hero {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   overflow: hidden;
   background: var(--navy-950);
   color: #fff;
@@ -47,8 +50,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  min-height: calc(100vh - var(--header-h));
-  min-height: calc(100svh - var(--header-h));
+  flex: 1;
   padding-block: 88px;
 }
 

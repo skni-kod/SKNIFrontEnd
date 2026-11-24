@@ -582,6 +582,7 @@ select.input {
 }
 
 .prose {
+  min-width: 0;
   color: var(--text);
   font-size: 17px;
   line-height: 1.75;
@@ -679,6 +680,7 @@ select.input {
 }
 
 .prose pre {
+  contain: inline-size;
   margin-inline: 0;
   padding: 18px 20px;
   overflow-x: auto;
@@ -690,6 +692,7 @@ select.input {
 }
 
 .prose table {
+  contain: inline-size;
   width: 100%;
   border-collapse: collapse;
   font-size: 15px;
